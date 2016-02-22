@@ -1,31 +1,42 @@
 # Wireframes
 
 ## Homepage
-./wireframe_images/home_page.png
-
+![home-page]
 ## Sign-in and Sign-up forms
-./wireframe_images/auth_forms.png
+![auth-forms]
 
 ## Main Page (when logged in)
-./wireframe_images/main_page.png
+![main-page]
 
 ## Profile page
-./wireframe_images/profile_page.png
+![profile-page]
 
 ## Song page
-./wireframe_images/song_page.png
+![song-page]
 
 ## Artist page
-./wireframe_images/artist_page.png
+![artist-page]
 
 ## Album page
-./wireframe_images/album_page.png
+![album-page]
 
 ## Search results page
-./wireframe_images/search_results_page.png
+![search-results-page]
 
 ## Edit profile form
-./wireframe_images/edit_profile_form.png
+![edit-profile-page]
 
 ## Upload music form
-./wireframe_images/upload_song_form.png
+![upload-song-page]
+
+
+[home-page]: ./wireframe_images/home_page.png
+[auth-forms]: ./wireframe_images/auth_forms.png
+[main-page]: ./wireframe_images/main_page.png
+[profile-page]: ./wireframe_images/profile_page.png
+[song-page]: ./wireframe_images/song_page.png
+[artist-page]: ./wireframe_images/artist_page.png
+[album-page]: ./wireframe_images/album_page.png
+[search-results-page]: ./wireframe_images/search_results_page.png
+[edit-profile-page]: ./wireframe_images/edit_profile_page.png
+[upload-song-page]: ./wireframe_images/upload_song_page.png

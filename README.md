@@ -16,6 +16,7 @@ Features:
 - [ ] Comment on songs
 - [ ] Favorite/like songs, which are remembered in their account
 - [ ] Upload their own songs
+
 Bonus features
 - [ ] Create a queue of songs
 - [ ] Songs continue to play as they navigate the site
