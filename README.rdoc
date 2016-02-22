@@ -26,3 +26,61 @@ Things you may want to cover:
 
 Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
+
+Heroku
+
+
+Minimum Viable Product
+  Description: A music sharing and exploration web browser app.
+  Features:
+  	Create and manage account
+    Log In / Log out
+    Listen to and explore songs that are in the database
+    Comment on songs
+    Favorite/like songs, which are remembered in their account
+    Upload their own songs
+  Bonus features
+  	Create a queue of songs
+  	Songs continue to play as they navigate the site
+  	Follow artists
+  	Recommended songs based on interests (by genre)
+
+
+Wireframes
+
+
+Database Schema
+
+users	column name	data type	details
+	id	integer	not null, primary key
+	username	string	not null, indexed, unique
+	image_file_name	string
+	description	text
+	password_digest	string	not null
+	session_token	string	not null, indexed, unique
+
+songs	column name	data type	details
+	id	integer	not null, primary key
+	title	string	not null
+	description	text
+	file_name	string	not null
+	artist_id	integer	not null, foreign key, indexed
+	album_id	integer	not null, foreign key, indexed
+
+artists	column name	data type	details
+	id	integer	not null, primary key
+	image_file_name	string
+	description	text
+	name	string	not null, indexed, unique
+
+albums	column name	data type	details
+	id	integer	not null, primary key
+	title	string	not null
+	description	text
+	image_file_name	string
+	artist_id	integer	not null, foreign key, indexed
+	genre_id	integer	not null, foreign key, indexed
+
+genres	column name	data type	details
+	id	integer	not null, primary key
+	type	string	not null
