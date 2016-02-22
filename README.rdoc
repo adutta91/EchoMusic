@@ -48,6 +48,8 @@ Bonus features
 
 
 Wireframes
-[Wireframes]./docs/Wireframes
+[Wireframes][wireframes]
+
+[wireframes]: ./docs/Wireframes
 
 Database Schema
