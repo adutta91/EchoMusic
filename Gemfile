@@ -19,6 +19,7 @@ gem 'newrelic_rpm'
 # Faker gem for generating seed data
 gem 'faker'
 gem 'annotate'
+gem 'bcrypt'
 
 # pry for rails console
 gem 'pry-rails'

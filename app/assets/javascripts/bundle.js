@@ -48,18 +48,22 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	
-	// find the root of the static_page
+	var UserForm = __webpack_require__(159);
 	
 	var App = React.createClass({
 	  displayName: 'App',
+	
+	
+	  componentDidMount: function () {},
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Huzzah!!!!!'
+	      React.createElement(UserForm, null)
 	    );
 	  }
+	
 	});
 	
 	// Load onto document
@@ -19668,6 +19672,67 @@
 	
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var UserForm = React.createClass({
+	  displayName: "UserForm",
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleUsernameChange: function (event) {
+	    this.setState({ username: event.target.value });
+	  },
+	
+	  handlePasswordChange: function (event) {
+	    this.setState({ password: event.target.value });
+	  },
+	
+	  handleSubmit: function (event) {},
+	
+	  render: function () {
+	    return React.createElement(
+	      "form",
+	      { className: "userForm", onSubmit: this.handleSubmit },
+	      React.createElement(
+	        "label",
+	        { htmlFor: "username" },
+	        "Username: "
+	      ),
+	      React.createElement("input", {
+	        className: "userInputForm",
+	        type: "text",
+	        value: this.state.value,
+	        onChange: this.handleUsernameChange,
+	        id: "username" }),
+	      React.createElement("br", null),
+	      React.createElement(
+	        "label",
+	        { htmlFor: "password" },
+	        "Password: "
+	      ),
+	      React.createElement("input", {
+	        className: "userInputForm",
+	        type: "password",
+	        value: this.state.value,
+	        onChange: this.handlePasswordChange,
+	        id: "password" }),
+	      React.createElement("br", null),
+	      React.createElement("input", { className: "submitButton", type: "submit", value: "Log In" })
+	    );
+	  }
+	});
+	
+	module.exports = UserForm;
 
 /***/ }
 /******/ ]);

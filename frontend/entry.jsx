@@ -2,16 +2,22 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-// find the root of the static_page
+var UserForm = require('./components/users/user_form');
 
 var App = React.createClass({
+
+  componentDidMount: function() {
+
+  },
+
   render: function() {
     return (
       <div>
-        Huzzah!!!!!
+        <UserForm />
       </div>
     );
   }
+
 });
 
 // Load onto document
