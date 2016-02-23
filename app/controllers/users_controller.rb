@@ -5,14 +5,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
-
-    if @user.save
-      log_in(@user)
-      redirect_to user_url(@user)
-    else
-      render :new
-    end
+    @user = User.create(user_params)
+    @user.save!
+    log_out
+    log_in(@user)
+    debugger;
+    redirect_to root_url
   end
 
   def show

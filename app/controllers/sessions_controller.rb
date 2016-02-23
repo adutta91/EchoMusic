@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
       params[:user][:password]
     )
     if @user
+      log_out
       log_in(@user)
     else
       # TODO flash[:errors]

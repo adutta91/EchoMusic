@@ -1,27 +1,13 @@
 var React = require('react');
-var SignInForm;
-var SignUpForm;
 
+var Tab = require('./tab');
+var SignInForm = require('./signInForm');
+var SignUpForm = require('./signUpForm');
 
-var testOne = React.createClass({
-  render: function() {
-    return (
-      <div>Hallo</div>
-    )
-  }
-});
-
-var testTwo = React.createClass({
-  render: function() {
-    return (
-      <div>Hallo Der</div>
-    )
-  }
-});
 
 var tabs = [
-  {type: "Sign In", form: testOne},
-  {type: "Sign Up", form: testTwo}
+  {type: "Sign In", form: <SignInForm />},
+  {type: "Sign Up", form: <SignUpForm />}
 ]
 
 var UserForms = React.createClass({
@@ -37,34 +23,35 @@ var UserForms = React.createClass({
   },
 
   render: function() {
-    var form = findForm.bind(this);
+
+    if (this.state.selectedTabIdx !== null) {
+      var form = this.state.tabs[this.state.selectedTabIdx].form;
+    } else {
+      form = this.state.tabs[0].form
+    }
 
     var tabListItems = this.state.tabs.map(function(tab, index) {
       // TODO: make a tab component
-      return (<div className="tab">{tab.type}</div>);
-    });
+      return (<Tab
+                type={tab.type}
+                key={index}
+                className={index === this.state.selectedTabIdx ? 'selected' : 'notSelected'}
+                tabCallback={this.tabClicked.bind(this, index)}
+              />
+             );
+    }.bind(this));
 
     return (
       <div>
         <ul className="group">
           {tabListItems}
         </ul>
-        <div>
-          {form}
-        </div>
+        {form}
       </div>
     );
   }
 });
 
-var findForm = function(selectedTabIdx) {
-  if (this.state.selectedTabIdx !== null) {
-    var form = this.state.tabs[this.state.selectedTabIdx].form;
-  } else {
-    form = this.state.tabs[0].form
-  }
-  return form
-};
 
 
 module.exports = UserForms;
