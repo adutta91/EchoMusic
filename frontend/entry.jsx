@@ -4,6 +4,8 @@ var ReactDOM = require('react-dom');
 
 var UserForms = require('./components/users/userForms');
 
+
+
 var App = React.createClass({
 
   componentDidMount: function() {
@@ -23,5 +25,10 @@ var App = React.createClass({
 // Load onto document
 document.addEventListener("DOMContentLoaded", function(){
   var root = document.querySelector("#root");
-  ReactDOM.render(<App />, root);
+  var welcome = document.querySelector("#welcome");
+  if (root !== null) {
+    ReactDOM.render(<App />, root);
+  } else {
+    ReactDOM.render(<App />, welcome);
+  }
 });

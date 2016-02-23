@@ -69,7 +69,12 @@
 	// Load onto document
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.querySelector("#root");
-	  ReactDOM.render(React.createElement(App, null), root);
+	  var welcome = document.querySelector("#welcome");
+	  if (root !== null) {
+	    ReactDOM.render(React.createElement(App, null), root);
+	  } else {
+	    ReactDOM.render(React.createElement(App, null), welcome);
+	  }
 	});
 
 /***/ },
