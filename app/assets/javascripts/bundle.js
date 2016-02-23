@@ -48,7 +48,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	
-	var UserForm = __webpack_require__(159);
+	var UserForms = __webpack_require__(160);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -60,7 +60,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'Huzzah!'
+	      React.createElement(UserForms, null)
 	    );
 	  }
 	
@@ -19674,65 +19674,93 @@
 
 
 /***/ },
-/* 159 */
+/* 159 */,
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var SignInForm;
+	var SignUpForm;
 	
-	var UserForm = React.createClass({
-	  displayName: "UserForm",
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
-	  },
-	
-	  handleSubmit: function (event) {},
+	var testOne = React.createClass({
+	  displayName: "testOne",
 	
 	  render: function () {
 	    return React.createElement(
-	      "form",
-	      { className: "userForm", onSubmit: this.handleSubmit },
-	      React.createElement(
-	        "label",
-	        { htmlFor: "username" },
-	        "Username: "
-	      ),
-	      React.createElement("input", {
-	        className: "userInputForm",
-	        type: "text",
-	        value: this.state.value,
-	        onChange: this.handleUsernameChange,
-	        id: "username" }),
-	      React.createElement("br", null),
-	      React.createElement(
-	        "label",
-	        { htmlFor: "password" },
-	        "Password: "
-	      ),
-	      React.createElement("input", {
-	        className: "userInputForm",
-	        type: "password",
-	        value: this.state.value,
-	        onChange: this.handlePasswordChange,
-	        id: "password" }),
-	      React.createElement("br", null),
-	      React.createElement("input", { className: "submitButton", type: "submit", value: "Log In" })
+	      "div",
+	      null,
+	      "Hallo"
 	    );
 	  }
 	});
 	
-	module.exports = UserForm;
+	var testTwo = React.createClass({
+	  displayName: "testTwo",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      "Hallo Der"
+	    );
+	  }
+	});
+	
+	var tabs = [{ type: "Sign In", form: testOne }, { type: "Sign Up", form: testTwo }];
+	
+	var UserForms = React.createClass({
+	  displayName: "UserForms",
+	
+	  getInitialState: function () {
+	    return {
+	      tabs: tabs,
+	      selectedTabIdx: null
+	    };
+	  },
+	
+	  tabClicked: function (index, event) {
+	    this.setState({ selectedTabIdx: index });
+	  },
+	
+	  render: function () {
+	    var form = findForm.bind(this);
+	
+	    var tabListItems = this.state.tabs.map(function (tab, index) {
+	      // TODO: make a tab component
+	      return React.createElement(
+	        "div",
+	        { className: "tab" },
+	        tab.type
+	      );
+	    });
+	
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "ul",
+	        { className: "group" },
+	        tabListItems
+	      ),
+	      React.createElement(
+	        "div",
+	        null,
+	        form
+	      )
+	    );
+	  }
+	});
+	
+	var findForm = function (selectedTabIdx) {
+	  if (this.state.selectedTabIdx !== null) {
+	    var form = this.state.tabs[this.state.selectedTabIdx].form;
+	  } else {
+	    form = this.state.tabs[0].form;
+	  }
+	  return form;
+	};
+	
+	module.exports = UserForms;
 
 /***/ }
 /******/ ]);

@@ -2,7 +2,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var UserForm = require('./components/users/user_form');
+var UserForms = require('./components/users/userForms');
 
 var App = React.createClass({
 
@@ -13,7 +13,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        Huzzah!
+        <UserForms />
       </div>
     );
   }
