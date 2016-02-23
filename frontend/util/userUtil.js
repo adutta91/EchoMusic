@@ -6,10 +6,11 @@ UserUtil = {
       alert("user created!");
     });
   },
-
+// TODO: error callbacks
   createSession: function(user) {
     $.post('/session', user, function(user) {
-      alert("session created!");
+      console.log('session created');
+      window.location = '/';
     });
   }
 };

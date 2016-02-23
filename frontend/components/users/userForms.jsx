@@ -24,6 +24,7 @@ var UserForms = React.createClass({
 
   render: function() {
 
+    // finds correct form to display; defaults to 'sign in' form
     if (this.state.selectedTabIdx !== null) {
       var form = this.state.tabs[this.state.selectedTabIdx].form;
     } else {
@@ -31,11 +32,17 @@ var UserForms = React.createClass({
     }
 
     var tabListItems = this.state.tabs.map(function(tab, index) {
-      // TODO: make a tab component
+      // finds appropriate css class to assign to the tab
+      var tabClass = 'notSelected';
+      if ((this.state.selectedTabIdx === null && index === 0) ||
+            (this.state.selectedTabIdx === index)) {
+        tabClass = 'selected';
+      }
+      // creates tab component
       return (<Tab
                 type={tab.type}
                 key={index}
-                className={index === this.state.selectedTabIdx ? 'selected' : 'notSelected'}
+                className={tabClass}
                 tabCallback={this.tabClicked.bind(this, index)}
               />
              );

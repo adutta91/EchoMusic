@@ -54,13 +54,21 @@
 	  displayName: 'App',
 	
 	
-	  componentDidMount: function () {},
+	  getInitialState: function () {
+	    return {
+	      display: React.createElement(UserForms, null)
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    // check if logged in, if so, change 'display'
+	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(UserForms, null)
+	      this.state.display
 	    );
 	  }
 	
@@ -70,6 +78,7 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.querySelector("#root");
 	  var welcome = document.querySelector("#welcome");
+	
 	  if (root !== null) {
 	    ReactDOM.render(React.createElement(App, null), root);
 	  } else {
@@ -19706,6 +19715,7 @@
 	
 	  render: function () {
 	
+	    // finds correct form to display; defaults to 'sign in' form
 	    if (this.state.selectedTabIdx !== null) {
 	      var form = this.state.tabs[this.state.selectedTabIdx].form;
 	    } else {
@@ -19713,11 +19723,16 @@
 	    }
 	
 	    var tabListItems = this.state.tabs.map(function (tab, index) {
-	      // TODO: make a tab component
+	      // finds appropriate css class to assign to the tab
+	      var tabClass = 'notSelected';
+	      if (this.state.selectedTabIdx === null && index === 0 || this.state.selectedTabIdx === index) {
+	        tabClass = 'selected';
+	      }
+	      // creates tab component
 	      return React.createElement(Tab, {
 	        type: tab.type,
 	        key: index,
-	        className: index === this.state.selectedTabIdx ? 'selected' : 'notSelected',
+	        className: tabClass,
 	        tabCallback: this.tabClicked.bind(this, index)
 	      });
 	    }.bind(this));
@@ -19917,10 +19932,11 @@
 	      alert("user created!");
 	    });
 	  },
-	
+	  // TODO: error callbacks
 	  createSession: function (user) {
 	    $.post('/session', user, function (user) {
-	      alert("session created!");
+	      console.log('session created');
+	      window.location = '/';
 	    });
 	  }
 	};

@@ -8,14 +8,20 @@ var UserForms = require('./components/users/userForms');
 
 var App = React.createClass({
 
-  componentDidMount: function() {
+  getInitialState: function() {
+    return ({
+      display: <UserForms />
+    })
+  },
 
+  componentDidMount: function() {
+    // check if logged in, if so, change 'display'
   },
 
   render: function() {
     return (
       <div>
-        <UserForms />
+        {this.state.display}
       </div>
     );
   }
@@ -26,6 +32,7 @@ var App = React.createClass({
 document.addEventListener("DOMContentLoaded", function(){
   var root = document.querySelector("#root");
   var welcome = document.querySelector("#welcome");
+
   if (root !== null) {
     ReactDOM.render(<App />, root);
   } else {
