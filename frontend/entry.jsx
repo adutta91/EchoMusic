@@ -13,7 +13,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <UserForm />
+        Huzzah!
       </div>
     );
   }

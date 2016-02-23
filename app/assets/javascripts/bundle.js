@@ -60,7 +60,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(UserForm, null)
+	      'Huzzah!'
 	    );
 	  }
 	

@@ -10,8 +10,10 @@ class SessionsController < ApplicationController
     )
     if @user
       log_in(@user)
+      redirect_to root_url
     else
-
+      # TODO flash[:errors]
+      render :new
     end
   end
 

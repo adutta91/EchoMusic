@@ -14,10 +14,11 @@ class ApplicationController < ActionController::Base
   def log_out
     current_user.reset_session_token!
     session[:session_token] = nil
+    redirect_to root_url
   end
 
   def current_user
     @current_user ||= User.find_by_session_token(session[:session_token])
   end
-  
+
 end
