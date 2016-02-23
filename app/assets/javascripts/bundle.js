@@ -48,7 +48,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	
-	var UserForms = __webpack_require__(160);
+	var UserForms = __webpack_require__(159);
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -19679,15 +19679,14 @@
 
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Tab = __webpack_require__(161);
-	var SignInForm = __webpack_require__(162);
-	var SignUpForm = __webpack_require__(163);
+	var Tab = __webpack_require__(160);
+	var SignInForm = __webpack_require__(161);
+	var SignUpForm = __webpack_require__(162);
 	
 	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
 	
@@ -19739,7 +19738,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 161 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -19764,7 +19763,7 @@
 	module.exports = Tab;
 
 /***/ },
-/* 162 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -19834,12 +19833,12 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 163 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var UserUtil = __webpack_require__(170);
+	var UserUtil = __webpack_require__(163);
 	
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
@@ -19907,16 +19906,46 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 164 */,
-/* 165 */,
-/* 166 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(167).Dispatcher;
+	var UserActions = __webpack_require__(164);
+	
+	UserUtil = {
+	  createUser: function (user) {
+	    $.post('/users', user, function (user) {
+	      alert("user created!");
+	    });
+	  },
+	
+	  createSession: function (user) {
+	    $.post('/session', user, function (user) {
+	      alert("session created!");
+	    });
+	  }
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(165);
+	
+	UserActions = {};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(166).Dispatcher;
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 167 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19928,11 +19957,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(168);
+	module.exports.Dispatcher = __webpack_require__(167);
 
 
 /***/ },
-/* 168 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -19954,7 +19983,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(169);
+	var invariant = __webpack_require__(168);
 	
 	var _prefix = 'ID_';
 	
@@ -20169,7 +20198,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 169 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -20222,38 +20251,6 @@
 	
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
-
-/***/ },
-/* 170 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var UserActions = __webpack_require__(171);
-	
-	UserUtil = {
-	  createUser: function (user) {
-	    $.post('/users', user, function (user) {
-	      alert("user created!");
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.post('/session', user, function (user) {
-	      alert("session created!");
-	    });
-	  }
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(166);
-	
-	UserActions = {};
-	
-	module.exports = UserActions;
 
 /***/ }
 /******/ ]);
