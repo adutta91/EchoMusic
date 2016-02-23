@@ -11,10 +11,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223170030) do
+ActiveRecord::Schema.define(version: 20160223221216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "albums", force: :cascade do |t|
+    t.string   "title",          null: false
+    t.text     "description"
+    t.string   "image_filename"
+    t.integer  "artist_id",      null: false
+    t.integer  "genre_id",       null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "albums", ["artist_id"], name: "index_albums_on_artist_id", using: :btree
+  add_index "albums", ["genre_id"], name: "index_albums_on_genre_id", using: :btree
+
+  create_table "artists", force: :cascade do |t|
+    t.string   "name",           null: false
+    t.string   "image_filename", null: false
+    t.text     "description"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "artists", ["name"], name: "index_artists_on_name", using: :btree
+
+  create_table "genres", force: :cascade do |t|
+    t.string   "type",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.string   "title",       null: false
+    t.text     "description"
+    t.string   "filename",    null: false
+    t.integer  "artist_id",   null: false
+    t.integer  "album_id",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "songs", ["album_id"], name: "index_songs_on_album_id", using: :btree
+  add_index "songs", ["artist_id"], name: "index_songs_on_artist_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
