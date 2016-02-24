@@ -13,3 +13,22 @@
  *= require_tree .
  *= require_self
  */
+
+.header {
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  background-color: #FF5B00;
+}
+
+.logoutButton {
+  float: right;
+  margin: 15px;
+}
+
+.imageBanner {
+  width: 900px;
+  background-color: #c9c9c9;
+  height: 500px;
+  margin: 0 auto;
+}
