@@ -12,6 +12,7 @@ var UserForms = require('./components/users/userForms');
 var Logout = require('./components/users/logout');
 var Header = require('./components/header/header');
 var SongIndex = require('./components/songs/songIndex');
+var UserProfile = require('./components/users/userProfile');
 
 var SongForm = require('./components/songs/songForm');
 
@@ -41,15 +42,15 @@ var App = React.createClass({
   }
 });
 
-var appRoutes = (
-  <Route path="/" component={App}>
-    <Route path="/api/songs/new" component={SongForm}>
-    </Route>
+var welcomeRoutes = (
+  <Route path="/" component={LogIn}>
   </Route>
 );
 
-var welcomeRoutes = (
-  <Route path="/" component={LogIn}>
+var appRoutes = (
+  <Route path="/" component={App}>
+    <Route path="/api/songs/new" component={SongForm}/>
+    <Route path="/api/users/:id" component={UserProfile}/>
   </Route>
 );
 

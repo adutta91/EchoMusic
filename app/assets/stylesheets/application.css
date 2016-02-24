@@ -43,10 +43,8 @@ input[type=submit] {
   font-family: Quattrocento Sans;
   font-weight: bold;
   padding:10px 15px;
-  background:#ccc;
   border:0 none;
   cursor:pointer;
-  border
   -webkit-border-radius: 5px;
   border-radius: 5px;
   border: 1px solid black;
@@ -55,10 +53,15 @@ input[type=submit] {
 
 .logoutButton {
   margin: 0px 15px;
+  background-color: #993600
 }
 
 .uploadButton {
   margin: 0px 15px;
+}
+
+.profileButton {
+
 }
 
 .logo {

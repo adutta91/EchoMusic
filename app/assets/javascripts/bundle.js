@@ -58,6 +58,7 @@
 	var Logout = __webpack_require__(226);
 	var Header = __webpack_require__(227);
 	var SongIndex = __webpack_require__(229);
+	var UserProfile = __webpack_require__(254);
 	
 	var SongForm = __webpack_require__(230);
 	
@@ -97,13 +98,14 @@
 	  }
 	});
 	
+	var welcomeRoutes = React.createElement(Route, { path: '/', component: LogIn });
+	
 	var appRoutes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(Route, { path: '/api/songs/new', component: SongForm })
+	  React.createElement(Route, { path: '/api/songs/new', component: SongForm }),
+	  React.createElement(Route, { path: '/api/users/:id', component: UserProfile })
 	);
-	
-	var welcomeRoutes = React.createElement(Route, { path: '/', component: LogIn });
 	
 	// Load onto document
 	document.addEventListener("DOMContentLoaded", function () {
@@ -25420,6 +25422,7 @@
 	
 	var Logout = __webpack_require__(226);
 	var UploadSongButton = __webpack_require__(228);
+	var ProfileButton = __webpack_require__(255);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -25434,6 +25437,7 @@
 	        'div',
 	        { className: 'headerButtons' },
 	        this.props.showButtons ? React.createElement(UploadSongButton, null) : React.createElement('div', null),
+	        this.props.showButtons ? React.createElement(ProfileButton, null) : React.createElement('div', null),
 	        this.props.showButtons ? React.createElement(Logout, null) : React.createElement('div', null)
 	      )
 	    );
@@ -25456,7 +25460,6 @@
 	  mixins: [History],
 	
 	  handleSubmit: function () {
-	
 	    this.history.push('/api/songs/new');
 	  },
 	
@@ -32326,6 +32329,55 @@
 	});
 	
 	module.exports = SongIndexItem;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'This is a User'
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var ProfileButton = React.createClass({
+	  displayName: 'ProfileButton',
+	
+	
+	  mixins: [History],
+	
+	  handleSubmit: function () {
+	    debugger;
+	    this.history.push('/api/users/:id');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      React.createElement('button', { className: 'profileButton', type: 'submit', value: 'Profile' })
+	    );
+	  }
+	});
+	
+	module.exports = ProfileButton;
 
 /***/ }
 /******/ ]);

@@ -1,22 +1,22 @@
 var React = require('react');
 var History = require('react-router').History;
 
-
-var UploadSongButton = React.createClass({
+var ProfileButton = React.createClass({
 
   mixins: [History],
 
   handleSubmit: function() {
-    this.history.push('/api/songs/new');
+    debugger;
+    this.history.push('/api/users/:id');
   },
 
   render: function() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input className="uploadButton" type="submit" value="Upload!" />
+        <button className="profileButton" type="submit" value="Profile" />
       </form>
     );
   }
 });
 
-module.exports = UploadSongButton;
+module.exports = ProfileButton;
