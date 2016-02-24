@@ -7,19 +7,22 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 
-// stores
-var SessionStore = require('./stores/sessionStore');
-
 // React components
 var UserForms = require('./components/users/userForms');
 var Logout = require('./components/users/logout');
 var Header = require('./components/header/header');
+var SongIndex = require('./components/songs/songIndex');
+
+var SongForm = require('./components/songs/songForm');
 
 var LogIn = React.createClass({
   render: function() {
     return (
-      <div className="userForms">
-        <UserForms />
+      <div>
+        <Header showButtons={false} />
+        <div className="userForms">
+          <UserForms />
+        </div>
       </div>
     );
   }
@@ -29,8 +32,10 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <Header />
-        <div className="imageBanner"/>
+        <Header showButtons={true} />
+        <div className="imageBanner">Welcome to SongStorm!</div>
+        <SongIndex />
+        {this.props.children}
       </div>
     );
   }
@@ -38,13 +43,15 @@ var App = React.createClass({
 
 var appRoutes = (
   <Route path="/" component={App}>
+    <Route path="/api/songs/new" component={SongForm}>
+    </Route>
   </Route>
-)
+);
 
 var welcomeRoutes = (
-  <Route path="/" component={UserForms}>
+  <Route path="/" component={LogIn}>
   </Route>
-)
+);
 
 // Load onto document
 document.addEventListener("DOMContentLoaded", function() {

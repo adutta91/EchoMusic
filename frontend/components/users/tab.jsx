@@ -6,6 +6,7 @@ var Tab = React.createClass({
       type: this.props.type
     });
   },
+  
   render: function() {
     return (
       <div className={this.props.className} onClick={this.props.tabCallback}>
