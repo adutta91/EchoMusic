@@ -1,41 +1,39 @@
 // React requires
 var React = require('react');
 var ReactDOM = require('react-dom');
+var SessionStore = require('./stores/sessionStore');
 
 var UserForms = require('./components/users/userForms');
+var Logout = require('./components/users/logout')
 
-
-
-var App = React.createClass({
-
-  getInitialState: function() {
-    return ({
-      display: <UserForms />
-    })
-  },
-
-  componentDidMount: function() {
-    // check if logged in, if so, change 'display'
-  },
+var LogInApp = React.createClass({
 
   render: function() {
     return (
-      <div>
-        {this.state.display}
-      </div>
+      <UserForms />
+    );
+  }
+
+});
+
+var App = React.createClass({
+
+  render: function() {
+    return (
+      <Logout />
     );
   }
 
 });
 
 // Load onto document
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function() {
   var root = document.querySelector("#root");
   var welcome = document.querySelector("#welcome");
 
   if (root !== null) {
     ReactDOM.render(<App />, root);
   } else {
-    ReactDOM.render(<App />, welcome);
+    ReactDOM.render(<LogInApp />, welcome);
   }
 });

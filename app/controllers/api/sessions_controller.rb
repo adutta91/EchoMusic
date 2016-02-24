@@ -1,4 +1,4 @@
-class SessionsController < ApplicationController
+class Api::SessionsController < ApplicationController
   def new
     @user = User.new
   end
@@ -13,7 +13,8 @@ class SessionsController < ApplicationController
     else
       # TODO flash[:errors]
     end
-    render json: @user
+    # render json: @user
+    render :show
   end
 
   def destroy

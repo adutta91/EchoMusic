@@ -12,7 +12,7 @@
 #  updated_at      :datetime         not null
 #
 
-class UsersController < ApplicationController
+class Api::UsersController < ApplicationController
 
   def new
     @user = User.new
@@ -22,9 +22,9 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     @user.save!
     log_in(@user)
-    # redirect_to root_url
-    # TODO: render show.json.jbuilder (remove sensitive info)
-    render json: @user
+
+    render :show
+    # render json: @user
   end
 
   def show

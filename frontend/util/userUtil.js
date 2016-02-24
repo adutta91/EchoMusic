@@ -2,17 +2,46 @@ var UserActions = require('../actions/userActions');
 
 UserUtil = {
   createUser: function(user) {
-    $.post('/users', user, function(user) {
-      alert("user created!");
+    $.ajax({
+      url: 'api/users',
+      method: 'POST',
+      data: user,
+      success: function(user) {
+        UserActions.logInUser(user);
+        window.location = '/';
+      },
+      error: function(user) {
+        alert('ya done goofed');
+      }
+    })
+  },
+
+  createSession: function(user) {
+    $.ajax({
+      url: 'api/session',
+      method: 'POST',
+      data: user,
+      success: function(user) {
+        UserActions.logInUser(user);
+        window.location = '/';
+      },
+      error: function(user) {
+        alert('ya done goofed');
+      }
     });
   },
-// TODO: error callbacks
-  createSession: function(user) {
-    $.post('/session', user, function(user) {
-      console.log('session created');
-      window.location = '/';
+
+  resetSession: function() {
+    $.ajax({
+      url: 'api/session',
+      method: 'DELETE',
+      success: function() {
+        UserActions.logOutUser();
+        window.location = '/'
+      }
     });
   }
+
 };
 
 module.exports = UserUtil;
