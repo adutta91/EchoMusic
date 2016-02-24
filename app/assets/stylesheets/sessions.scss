@@ -1,3 +1,49 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#welcome {
+  top: 25%;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.tab {
+  display: inline-block;
+  border: 1px solid black;
+  padding: 5px;
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+.tab:hover {
+  cursor: pointer;
+  background-color: #eee
+}
+
+.tab.selected {
+  font-weight: bold;
+}
+
+.input {
+  border-radius: 2px;
+}
+
+.formLabel {
+
+}
+
+.submitButton {
+  background-color: white;
+}
+
+.submitButton:hover {
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.group:after {
+  content: "";
+  display: block;
+  clear: both;
+}

@@ -13,22 +13,32 @@
 #
 
 class Api::SongsController < ApplicationController
+
   def create
+    @song = Song.create(song_params)
+    @song.save!
+    render json: @song
   end
 
   def new
   end
 
   def show
+    @song = find_song
   end
 
   def index
+    @songs = Song.all
   end
 
   def update
   end
 
   def destroy
+    @song = find_song
+    if @song
+      @song.destroy
+    end
   end
 
   private

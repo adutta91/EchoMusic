@@ -19730,7 +19730,7 @@
 	      return React.createElement(Tab, {
 	        type: tab.type,
 	        key: index,
-	        className: tabClass,
+	        className: "tab " + tabClass,
 	        tabCallback: this.tabClicked.bind(this, index)
 	      });
 	    }.bind(this));
@@ -19815,10 +19815,12 @@
 	      { className: "signInForm", onSubmit: this.handleSubmit },
 	      React.createElement(
 	        "label",
-	        { htmlFor: "username" },
+	        { htmlFor: "username", className: "formLabel" },
 	        "Username: "
 	      ),
+	      React.createElement("br", null),
 	      React.createElement("input", {
+	        className: "input",
 	        type: "text",
 	        value: this.state.username,
 	        onChange: this.handleUsernameChange,
@@ -19826,10 +19828,12 @@
 	      React.createElement("br", null),
 	      React.createElement(
 	        "label",
-	        { htmlFor: "password" },
+	        { htmlFor: "password", className: "formLabel" },
 	        "Password: "
 	      ),
+	      React.createElement("br", null),
 	      React.createElement("input", {
+	        className: "input",
 	        type: "password",
 	        value: this.state.password,
 	        onChange: this.handlePasswordChange,
@@ -19888,10 +19892,12 @@
 	      { className: 'signUpForm', onSubmit: this.handleSubmit },
 	      React.createElement(
 	        'label',
-	        { htmlFor: 'username' },
+	        { className: 'formLabel', htmlFor: 'username' },
 	        'Username: '
 	      ),
+	      React.createElement('br', null),
 	      React.createElement('input', {
+	        className: 'input',
 	        type: 'text',
 	        value: this.state.username,
 	        onChange: this.handleUsernameChange,
@@ -19899,10 +19905,12 @@
 	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
-	        { htmlFor: 'password' },
+	        { className: 'formLabel', htmlFor: 'password' },
 	        'Password: '
 	      ),
+	      React.createElement('br', null),
 	      React.createElement('input', {
+	        className: 'input',
 	        type: 'password',
 	        value: this.state.password,
 	        onChange: this.handlePasswordChange,

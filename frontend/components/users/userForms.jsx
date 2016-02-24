@@ -42,7 +42,7 @@ var UserForms = React.createClass({
       return (<Tab
                 type={tab.type}
                 key={index}
-                className={tabClass}
+                className={"tab " + tabClass}
                 tabCallback={this.tabClicked.bind(this, index)}
               />
              );
