@@ -31,7 +31,7 @@ var SignUpForm = React.createClass({
 
   render: function() {
     return (
-      <form className="signUpForm" onSubmit={this.handleSubmit}>
+      <form className="signForm" onSubmit={this.handleSubmit}>
         <label className="formLabel" htmlFor="username">Username: </label>
         <br/>
         <input

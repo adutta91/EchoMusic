@@ -52,12 +52,16 @@
 	var UserForms = __webpack_require__(159);
 	var Logout = __webpack_require__(185);
 	
-	var LogInApp = React.createClass({
-	  displayName: 'LogInApp',
+	var LogIn = React.createClass({
+	  displayName: 'LogIn',
 	
 	
 	  render: function () {
-	    return React.createElement(UserForms, null);
+	    return React.createElement(
+	      'div',
+	      { className: 'userForms' },
+	      React.createElement(UserForms, null)
+	    );
 	  }
 	
 	});
@@ -80,7 +84,7 @@
 	  if (root !== null) {
 	    ReactDOM.render(React.createElement(App, null), root);
 	  } else {
-	    ReactDOM.render(React.createElement(LogInApp, null), welcome);
+	    ReactDOM.render(React.createElement(LogIn, null), welcome);
 	  }
 	});
 
@@ -19739,11 +19743,15 @@
 	      'div',
 	      null,
 	      React.createElement(
-	        'ul',
-	        { className: 'group' },
+	        'div',
+	        { className: 'tabs group' },
 	        tabListItems
 	      ),
-	      form
+	      React.createElement(
+	        'div',
+	        { className: 'forms' },
+	        form
+	      )
 	    );
 	  }
 	});
@@ -19812,7 +19820,7 @@
 	  render: function () {
 	    return React.createElement(
 	      "form",
-	      { className: "signInForm", onSubmit: this.handleSubmit },
+	      { className: "signForm", onSubmit: this.handleSubmit },
 	      React.createElement(
 	        "label",
 	        { htmlFor: "username", className: "formLabel" },
@@ -19889,7 +19897,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'form',
-	      { className: 'signUpForm', onSubmit: this.handleSubmit },
+	      { className: 'signForm', onSubmit: this.handleSubmit },
 	      React.createElement(
 	        'label',
 	        { className: 'formLabel', htmlFor: 'username' },

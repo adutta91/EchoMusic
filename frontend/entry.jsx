@@ -6,11 +6,13 @@ var SessionStore = require('./stores/sessionStore');
 var UserForms = require('./components/users/userForms');
 var Logout = require('./components/users/logout')
 
-var LogInApp = React.createClass({
+var LogIn = React.createClass({
 
   render: function() {
     return (
-      <UserForms />
+      <div className="userForms">
+        <UserForms />
+      </div>
     );
   }
 
@@ -34,6 +36,6 @@ document.addEventListener("DOMContentLoaded", function() {
   if (root !== null) {
     ReactDOM.render(<App />, root);
   } else {
-    ReactDOM.render(<LogInApp />, welcome);
+    ReactDOM.render(<LogIn />, welcome);
   }
 });

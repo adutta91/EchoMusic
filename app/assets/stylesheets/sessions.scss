@@ -1,18 +1,39 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+html {
+  font-family: sans-serif;
+}
+
+body {
+  width: 500px;
+  margin: 0 auto;
+  border: 1px solid gray;
+  background-color: #eeeeee;
+  border-radius: 15px;
+}
 
 #welcome {
   top: 25%;
-  width: 75%;
+  width: 500px;
+  height: 100%;
   margin: 0 auto;
+  background-color: white;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  border-radius: 15px;
 }
 
 .tab {
-  display: inline-block;
+  margin: 10px 10px 20px 10px;
+  text-align: center;
+  width: 80px;
   border: 1px solid black;
   padding: 5px;
-  margin-right: 5px;
   border-radius: 2px;
 }
 
@@ -21,20 +42,45 @@
   background-color: #eee
 }
 
+.userForms {
+  width: 500px;
+  margin: 0 auto;
+}
+
 .tab.selected {
   font-weight: bold;
 }
 
+.forms {
+  display: flex;
+  justify-content: center;
+  width: 500px;
+  margin: 0 auto;
+}
+
+.signForm {
+  display: flex;
+  flex-direction: column;
+
+}
+
 .input {
   border-radius: 2px;
+  width: 250px;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }
 
 .formLabel {
-
+  width: 250px;
 }
+
 
 .submitButton {
   background-color: white;
+  width: 80px;
+  margin: 0 auto;
+  border-radius: 2px;
 }
 
 .submitButton:hover {

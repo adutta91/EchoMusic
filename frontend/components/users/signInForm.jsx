@@ -28,7 +28,7 @@ var SignInForm = React.createClass({
 
   render: function() {
     return (
-      <form className="signInForm" onSubmit={this.handleSubmit}>
+      <form className="signForm" onSubmit={this.handleSubmit}>
         <label htmlFor="username" className="formLabel">Username: </label>
         <br/>
         <input

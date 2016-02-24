@@ -50,10 +50,12 @@ var UserForms = React.createClass({
 
     return (
       <div>
-        <ul className="group">
+        <div className="tabs group">
           {tabListItems}
-        </ul>
-        {form}
+        </div>
+        <div className="forms">
+          {form}
+        </div>
       </div>
     );
   }
