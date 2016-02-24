@@ -3,22 +3,36 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 html {
   font-family: sans-serif;
+  background-color: #c9c9c9;
+  color: #FFFFFF;
+  // text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  background: url(images/bg.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1447774105426-9d78ea5204cd?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=77876bba6df8037cf7bf9396e53bd95f");
+}
+
+header {
+  width: 100%;
+  height: 50px;
 }
 
 body {
-  width: 500px;
   margin: 0 auto;
-  border: 1px solid gray;
-  background-color: #eeeeee;
+  height: 100%;
   border-radius: 15px;
 }
 
 #welcome {
-  top: 25%;
-  width: 500px;
-  height: 100%;
   margin: 0 auto;
-  background-color: white;
+  height: 100%;
+  width: 100%;
+}
+
+#welcome::before {
+  opacity: 0.5;
 }
 
 .tabs {
@@ -29,32 +43,40 @@ body {
 }
 
 .tab {
-  margin: 10px 10px 20px 10px;
+  font-size: 24px;
+  margin: 30px 30px 60px 30px;
   text-align: center;
-  width: 80px;
+  width: 100px;
   border: 1px solid black;
-  padding: 5px;
+  padding: 8px;
   border-radius: 2px;
+  background-color: #FF5B00
 }
 
 .tab:hover {
   cursor: pointer;
-  background-color: #eee
+  background-color: #993600
+}
+
+.tab.selected {
+  font-weight: bold;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.tab.notSelected {
+  opacity: 0.4;
 }
 
 .userForms {
   width: 500px;
   margin: 0 auto;
-}
-
-.tab.selected {
-  font-weight: bold;
+  padding: 100px 0px 180px 0px;
 }
 
 .forms {
   display: flex;
   justify-content: center;
-  width: 500px;
+  width: 200px;
   margin: 0 auto;
 }
 
@@ -75,17 +97,20 @@ body {
   width: 250px;
 }
 
-
 .submitButton {
-  background-color: white;
+  background-color: #FF5B00;
+  font-size: 16px;
+  color: #FFFFFF;
   width: 80px;
   margin: 0 auto;
   border-radius: 2px;
+  border: 1px solid black;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .submitButton:hover {
   cursor: pointer;
-  background-color: #eee;
+  background-color: #993600;
 }
 
 .group:after {
