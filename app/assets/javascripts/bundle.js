@@ -51,6 +51,7 @@
 	
 	var UserForms = __webpack_require__(179);
 	var Logout = __webpack_require__(185);
+	var Header = __webpack_require__(186);
 	
 	var LogIn = React.createClass({
 	  displayName: 'LogIn',
@@ -26737,6 +26738,23 @@
 	});
 	
 	module.exports = Logout;
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Header = React.createClass({
+	  displayName: "Header",
+	
+	
+	  render: function () {
+	    return React.createElement("div", { className: "header" });
+	  }
+	});
+	
+	module.exports = Header;
 
 /***/ }
 /******/ ]);

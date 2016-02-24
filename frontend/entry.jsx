@@ -4,7 +4,8 @@ var ReactDOM = require('react-dom');
 var SessionStore = require('./stores/sessionStore');
 
 var UserForms = require('./components/users/userForms');
-var Logout = require('./components/users/logout')
+var Logout = require('./components/users/logout');
+var Header = require('./components/header/header');
 
 var LogIn = React.createClass({
 

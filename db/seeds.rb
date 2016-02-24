@@ -12,3 +12,16 @@ user.username = "adutta"
 user.password = "password"
 
 user.save!
+
+
+5.times do
+  song = Song.new
+
+  song.title = Faker::Book.title
+  song.description = Faker::Hacker.say_something_smart
+  song.artist_id = 1
+  song.album_id = 1
+  song.filename = "audio.m4a"
+
+  song.save!
+end
