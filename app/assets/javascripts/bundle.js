@@ -84,7 +84,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'app' },
 	      React.createElement(Header, { showButtons: true }),
 	      React.createElement(
 	        'div',
@@ -25038,8 +25038,7 @@
 	    $.ajax({
 	      url: 'api/session',
 	      method: 'DELETE',
-	      success: function () {
-	        UserActions.logOutUser();
+	      success: function (user) {
 	        window.location = '/';
 	      }
 	    });
@@ -25507,7 +25506,6 @@
 	  },
 	
 	  render: function () {
-	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -25900,7 +25898,7 @@
 	  uploadSong: function (song) {
 	    Dispatcher.dispatch({
 	      actionType: 'ADD_SONG',
-	      user: song
+	      song: song
 	    });
 	  },
 	

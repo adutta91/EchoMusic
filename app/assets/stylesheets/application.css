@@ -18,6 +18,10 @@
    background-color: #C9C9C9;
  }
 
+.app {
+
+}
+
 .header {
   display: flex;
   flex-direction: row;

@@ -4,7 +4,7 @@ SongActions = {
   uploadSong: function(song) {
     Dispatcher.dispatch({
       actionType: 'ADD_SONG',
-      user: song
+      song: song
     });
   },
 

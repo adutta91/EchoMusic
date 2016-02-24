@@ -27,7 +27,6 @@ var SongIndex = React.createClass({
   },
 
   render: function() {
-
     return (
       <div>
         <div className="indexTitle">Explore:</div>

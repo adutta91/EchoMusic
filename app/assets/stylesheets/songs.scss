@@ -3,9 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .songForm {
-  margin: 0 auto;
-  top: 50%;
-  position: absolute;
+  align-self: center;
 }
 
 .songIndex {
@@ -14,6 +12,7 @@
   width: 900px;
   background-color: #c9c9c9;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .songIndexItem {
@@ -29,7 +28,9 @@
 }
 
 .indexTitle {
-  width: 900px;
+  width: 80%;
+  padding-top: 10px;
+  border-top: 1px solid black;
   margin: 0 auto;
   margin-top: 15px;
   text-align: center;

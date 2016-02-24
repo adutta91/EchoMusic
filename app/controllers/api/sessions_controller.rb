@@ -13,12 +13,13 @@ class Api::SessionsController < ApplicationController
     else
       # TODO flash[:errors]
     end
-    # render json: @user
     render :show
   end
 
   def destroy
     @user = User.find_by_id(params[:id])
     log_out
+    @user = User.new
+    render :show
   end
 end

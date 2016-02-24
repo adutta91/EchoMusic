@@ -31,7 +31,7 @@ var LogIn = React.createClass({
 var App = React.createClass({
   render: function() {
     return (
-      <div>
+      <div className="app">
         <Header showButtons={true} />
         <div className="imageBanner">Welcome to SongStorm!</div>
         <SongIndex />

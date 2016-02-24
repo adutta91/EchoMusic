@@ -35,9 +35,8 @@ UserUtil = {
     $.ajax({
       url: 'api/session',
       method: 'DELETE',
-      success: function() {
-        UserActions.logOutUser();
-        window.location = '/'
+      success: function(user) {
+        window.location = '/';
       }
     });
   }
