@@ -30,7 +30,7 @@ var SignUpForm = React.createClass({
       }
     };
     UserUtil.createUser(user);
-    this.props.history.push('/');
+    this.history.push('/');
   },
 
   render: function() {

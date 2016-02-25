@@ -18,18 +18,25 @@
    background-color: #C9C9C9;
  }
 
-.app {
-
+.appName {
+  align-self: center;
+  text-align: center;
+  font-family: Courgette;
+  font-size: 36px;
+  color: white;
+  margin-top: 5px;
 }
 
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   width: 100%;
   top: 0px;
   background-color: #FF5B00;
+  z-index: 1;
 }
 
 .headerButtons {

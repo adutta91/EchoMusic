@@ -31910,6 +31910,8 @@
 	var UploadSongButton = __webpack_require__(249);
 	var ProfileButton = __webpack_require__(250);
 	
+	var UserStore = __webpack_require__(216);
+	
 	var Header = React.createClass({
 	  displayName: 'Header',
 	
@@ -31919,6 +31921,11 @@
 	      'div',
 	      { className: 'header' },
 	      React.createElement('div', { className: 'logo' }),
+	      React.createElement(
+	        'div',
+	        { className: 'appName' },
+	        'SongStorm'
+	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'headerButtons' },
@@ -32311,7 +32318,7 @@
 	      }
 	    };
 	    UserUtil.createUser(user);
-	    this.props.history.push('/');
+	    this.history.push('/');
 	  },
 	
 	  render: function () {
@@ -32371,11 +32378,7 @@
 	      'div',
 	      { className: 'welcome' },
 	      React.createElement(Header, { showButtons: true }),
-	      React.createElement(
-	        'div',
-	        { className: 'imageBanner' },
-	        'Welcome to SongStorm!'
-	      ),
+	      React.createElement('div', { className: 'imageBanner' }),
 	      React.createElement(SongIndex, null),
 	      this.props.children
 	    );

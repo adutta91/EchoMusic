@@ -8,7 +8,7 @@ var FullApp = React.createClass({
     return (
       <div className="welcome">
         <Header showButtons={true} />
-        <div className="imageBanner">Welcome to SongStorm!</div>
+        <div className="imageBanner"></div>
         <SongIndex />
         {this.props.children}
       </div>
