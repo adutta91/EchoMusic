@@ -35,7 +35,7 @@
   position: fixed;
   width: 100%;
   top: 0px;
-  background-color: #FF5B00;
+  background: linear-gradient(to bottom right, #592000, #FF5B00);
   z-index: 1;
 }
 
@@ -60,11 +60,12 @@ input[type=submit] {
 
 .logoutButton {
   margin: 0px 15px;
-  background-color: #993600
+  background-color: #952000;
 }
 
 .uploadButton {
   margin: 0px 15px;
+  background-color: #14CC60;
 }
 
 .profileButton {

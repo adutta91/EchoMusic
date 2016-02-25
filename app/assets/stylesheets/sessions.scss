@@ -3,7 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 html {
   font-family: Quattrocento Sans;
-  font-style: italic;
   background-color: #FFFFFF;
 }
 
@@ -36,6 +35,7 @@ body {
 }
 
 .tab {
+  background: linear-gradient(to bottom right, #592000, #FF5B00);
   font-size: 24px;
   color: white;
   margin: 30px 30px 60px 30px;
@@ -94,7 +94,6 @@ body {
 
 .submitButton {
   font-family: Quattrocento Sans;
-  font-style: italic;
   background-color: #FF5B00;
   font-size: 16px;
   color: #FFFFFF;
