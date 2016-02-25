@@ -65,11 +65,10 @@ var App = React.createClass({
 
 var appRoutes = (
   <Route path="/" component={App}>
-    <IndexRoute component={FullApp} >
-      <Route path="api/songs/new" component={SongForm}/>
-    </IndexRoute>
-    <Route path='api/session/new' component={LogIn} />
-    <Route path="api/users/:id" component={UserProfile}/>
+    <IndexRoute component={FullApp} />
+    <Route path="/api/songs/new" component={SongForm}/>
+    <Route path='/api/session/new' component={LogIn} />
+    <Route path="/api/users/:id" component={UserProfile}/>
   </Route>
 );
 

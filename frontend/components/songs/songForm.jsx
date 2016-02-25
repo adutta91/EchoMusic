@@ -20,7 +20,8 @@ var SongForm = React.createClass({
     return (this.blankAttrs);
   },
 
-  handleSubmit: function() {
+  handleSubmit: function(event) {
+    event.preventDefault();
     var song = { song: {
       title: this.state.title,
       description: this.state.desc,

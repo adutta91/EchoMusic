@@ -6,7 +6,8 @@ var UserStore = require('../../stores/userStore');
 var Logout = React.createClass({
   mixins: [History],
 
-  handleSubmit: function() {
+  handleLogout: function(event) {
+    event.preventDefault();
     var user = UserStore.currentUser();
     UserUtil.resetSession(user);
     this.history.push('/api/session/new');
@@ -14,7 +15,7 @@ var Logout = React.createClass({
 
   render: function() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleLogout}>
         <input className="logoutButton" type="submit" value="Logout"/>
       </form>
     )

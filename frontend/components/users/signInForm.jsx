@@ -21,6 +21,7 @@ var SignInForm = React.createClass({
   },
 
   handleSubmit: function(event) {
+    event.preventDefault();
     var user = {
       user: {
         username: this.state.username,

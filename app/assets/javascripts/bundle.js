@@ -113,13 +113,10 @@
 	var appRoutes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(
-	    IndexRoute,
-	    { component: FullApp },
-	    React.createElement(Route, { path: 'api/songs/new', component: SongForm })
-	  ),
-	  React.createElement(Route, { path: 'api/session/new', component: LogIn }),
-	  React.createElement(Route, { path: 'api/users/:id', component: UserProfile })
+	  React.createElement(IndexRoute, { component: FullApp }),
+	  React.createElement(Route, { path: '/api/songs/new', component: SongForm }),
+	  React.createElement(Route, { path: '/api/session/new', component: LogIn }),
+	  React.createElement(Route, { path: '/api/users/:id', component: UserProfile })
 	);
 	
 	// Load onto document
@@ -31515,7 +31512,8 @@
 	    return this.blankAttrs;
 	  },
 	
-	  handleSubmit: function () {
+	  handleSubmit: function (event) {
+	    event.preventDefault();
 	    var song = { song: {
 	        title: this.state.title,
 	        description: this.state.desc,
@@ -31948,7 +31946,8 @@
 	
 	  mixins: [History],
 	
-	  handleSubmit: function () {
+	  handleLogout: function (event) {
+	    event.preventDefault();
 	    var user = UserStore.currentUser();
 	    UserUtil.resetSession(user);
 	    this.history.push('/api/session/new');
@@ -31957,7 +31956,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'form',
-	      { onSubmit: this.handleSubmit },
+	      { onSubmit: this.handleLogout },
 	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
 	    );
 	  }
@@ -32055,14 +32054,15 @@
 	
 	  mixins: [History],
 	
-	  handleSubmit: function () {
-	    this.history.push('/api/songs/new');
+	  handleUploadClicked: function (event) {
+	    event.preventDefault();
+	    this.history.push('api/songs/new');
 	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'form',
-	      { onSubmit: this.handleSubmit },
+	      { onSubmit: this.handleUploadClicked },
 	      React.createElement('input', { className: 'uploadButton', type: 'submit', value: 'Upload!' })
 	    );
 	  }
@@ -32222,6 +32222,7 @@
 	  },
 	
 	  handleSubmit: function (event) {
+	    event.preventDefault();
 	    var user = {
 	      user: {
 	        username: this.state.username,
@@ -32302,6 +32303,7 @@
 	  },
 	
 	  handleSubmit: function (event) {
+	    event.preventDefault();
 	    var user = {
 	      user: {
 	        username: this.state.username,
