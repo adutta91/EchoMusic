@@ -18,7 +18,8 @@ var SongForm = React.createClass({
     return ({
       blankAttrs: this.blankAttrs,
       audioUploaded: false,
-      audioUrl: ''
+      audioUrl: '',
+      public_id: ''
     });
   },
 
@@ -33,8 +34,8 @@ var SongForm = React.createClass({
   },
 
   uploadResult: function(error, results) {
-    var url = results[0].url;
-    this.state.audioUrl = url;
+    this.state.audioUrl = results[0].url;
+    this.state.public_id = results[0].public_id
   },
 
   handleSubmit: function(event) {
@@ -44,7 +45,8 @@ var SongForm = React.createClass({
       artist_name: this.state.artist,
       audio_url: this.state.audioUrl,
       album_id: Number(this.state.album),
-      user_id: UserStore.currentUser().id
+      user_id: UserStore.currentUser().id,
+      public_id: this.state.public_id
     }}
     SongUtil.createSong(song);
     this.props.history.push('/');

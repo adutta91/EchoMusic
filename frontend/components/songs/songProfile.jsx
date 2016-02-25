@@ -6,7 +6,10 @@ var SongProfile = React.createClass({
 
   getInitialState: function() {
     return ({
-      song: {title: ""}
+      song: {
+        title: "",
+        audio_url: ""
+      }
     });
   },
 
@@ -25,7 +28,8 @@ var SongProfile = React.createClass({
     return (
       <div className="songTitleDisplay">
         {this.state.song.title}
-        <source src="http://res.cloudinary.com/dzyfczxnr/video/upload/v1456429585/z0nuupfcvb95pbgzzoom.m4a" type="audio/mp4"/>
+        <audio src={this.state.song.audio_url}
+               controls/>
       </div>
     );
   }

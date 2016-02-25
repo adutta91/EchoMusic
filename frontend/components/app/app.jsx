@@ -4,6 +4,11 @@ var Header = require('../header/header');
 var SongIndex = require('../songs/songIndex');
 
 var FullApp = React.createClass({
+
+  componentDidMount: function() {
+
+  },
+
   render: function() {
     return (
       <div className="welcome">

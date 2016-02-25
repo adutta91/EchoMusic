@@ -14,7 +14,7 @@
 #
 
 class Song < ActiveRecord::Base
-  validates :title, :audio_url, :user_id, :album_id, presence: true
+  validates :title, :audio_url, :user_id, :album_id, :public_id, presence: true
 
   belongs_to :user
   belongs_to :album

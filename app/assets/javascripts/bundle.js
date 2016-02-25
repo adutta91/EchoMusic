@@ -32033,6 +32033,9 @@
 	var FullApp = React.createClass({
 	  displayName: 'FullApp',
 	
+	
+	  componentDidMount: function () {},
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -32262,7 +32265,10 @@
 	
 	  getInitialState: function () {
 	    return {
-	      song: { title: "" }
+	      song: {
+	        title: "",
+	        audio_url: ""
+	      }
 	    };
 	  },
 	
@@ -32282,7 +32288,8 @@
 	      'div',
 	      { className: 'songTitleDisplay' },
 	      this.state.song.title,
-	      React.createElement('source', { src: 'http://res.cloudinary.com/dzyfczxnr/video/upload/v1456429585/z0nuupfcvb95pbgzzoom.m4a', type: 'audio/mp4' })
+	      React.createElement('audio', { src: this.state.song.audio_url,
+	        controls: true })
 	    );
 	  }
 	});
@@ -32315,7 +32322,8 @@
 	    return {
 	      blankAttrs: this.blankAttrs,
 	      audioUploaded: false,
-	      audioUrl: ''
+	      audioUrl: '',
+	      public_id: ''
 	    };
 	  },
 	
@@ -32330,8 +32338,8 @@
 	  },
 	
 	  uploadResult: function (error, results) {
-	    var url = results[0].url;
-	    this.state.audioUrl = url;
+	    this.state.audioUrl = results[0].url;
+	    this.state.public_id = results[0].public_id;
 	  },
 	
 	  handleSubmit: function (event) {
@@ -32341,7 +32349,8 @@
 	        artist_name: this.state.artist,
 	        audio_url: this.state.audioUrl,
 	        album_id: Number(this.state.album),
-	        user_id: UserStore.currentUser().id
+	        user_id: UserStore.currentUser().id,
+	        public_id: this.state.public_id
 	      } };
 	    SongUtil.createSong(song);
 	    this.props.history.push('/');
