@@ -14,6 +14,35 @@
  *= require_self
  */
 
+ html {
+   font-family: Quattrocento Sans;
+   background-color: #FFFFFF;
+   color: white;
+ }
+
+ input[type=submit] {
+   font-family: Quattrocento Sans;
+   font-weight: bold;
+   padding:10px 15px;
+   border:0 none;
+   cursor:pointer;
+   -webkit-border-radius: 5px;
+   border-radius: 5px;
+   border: 1px solid black;
+   margin-bottom: 0px;
+ }
+
+ input[type=text] {
+   font-family: Quattrocento Sans;
+   font-size: 16px;
+   padding: 10px;
+ }
+
+ input[type=password] {
+   font-size: 16px;
+   padding: 10px;
+ }
+
  #root {
    background-color: #C9C9C9;
  }
@@ -44,18 +73,6 @@
   display: flex;
   align-self: flex-end;
   margin: 15px;
-}
-
-input[type=submit] {
-  font-family: Quattrocento Sans;
-  font-weight: bold;
-  padding:10px 15px;
-  border:0 none;
-  cursor:pointer;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid black;
-  margin-bottom: 0px;
 }
 
 .logoutButton {

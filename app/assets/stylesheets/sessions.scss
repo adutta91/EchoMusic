@@ -1,10 +1,6 @@
 // Place all the styles related to the Sessions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-html {
-  font-family: Quattrocento Sans;
-  background-color: #FFFFFF;
-}
 
 header {
   width: 100%;
@@ -78,7 +74,6 @@ body {
 .signForm {
   display: flex;
   flex-direction: column;
-
 }
 
 .input {
@@ -97,8 +92,8 @@ body {
   background-color: #FF5B00;
   font-size: 16px;
   color: #FFFFFF;
-  width: 80px;
-  margin: 0 auto;
+  width: 100%;
+  margin-top: 15px;
   border-radius: 2px;
   border: 1px solid black;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
