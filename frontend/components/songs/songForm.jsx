@@ -3,6 +3,7 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SongUtil = require('../../util/songUtil');
 var UserStore = require('../../stores/userStore');
 var History = require('react-router').History;
+var SongStore = require('../../stores/songStore');
 
 
 var SongForm = React.createClass({
@@ -24,6 +25,7 @@ var SongForm = React.createClass({
   },
 
   audioUpload: function() {
+    // TODO: figaro?? ERB escapes were not happy...
     var options = {
       cloud_name: "dzyfczxnr",
       upload_preset: "paygr4uo"
@@ -48,6 +50,7 @@ var SongForm = React.createClass({
       user_id: UserStore.currentUser().id,
       public_id: this.state.public_id
     }}
+    // TODO: how to get songId without searching store via URL?
     SongUtil.createSong(song);
     this.props.history.push('/');
   },

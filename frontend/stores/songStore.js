@@ -16,6 +16,7 @@ SongStore.find = function(songId) {
   return _songs[songId];
 };
 
+
 SongStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case 'ADD_SONG':

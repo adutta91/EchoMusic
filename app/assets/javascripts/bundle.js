@@ -32306,6 +32306,7 @@
 	var SongUtil = __webpack_require__(252);
 	var UserStore = __webpack_require__(216);
 	var History = __webpack_require__(159).History;
+	var SongStore = __webpack_require__(251);
 	
 	var SongForm = React.createClass({
 	  displayName: 'SongForm',
@@ -32328,6 +32329,7 @@
 	  },
 	
 	  audioUpload: function () {
+	    // TODO: figaro?? ERB escapes were not happy...
 	    var options = {
 	      cloud_name: "dzyfczxnr",
 	      upload_preset: "paygr4uo"
@@ -32352,6 +32354,7 @@
 	        user_id: UserStore.currentUser().id,
 	        public_id: this.state.public_id
 	      } };
+	    // TODO: how to get songId without searching store via URL?
 	    SongUtil.createSong(song);
 	    this.props.history.push('/');
 	  },
