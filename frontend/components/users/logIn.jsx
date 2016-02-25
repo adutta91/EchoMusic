@@ -6,7 +6,6 @@ var LogIn = React.createClass({
   render: function() {
     return (
       <div className="logInPage">
-        <Header showButtons={false} />
         <div className="userForms">
         <UserForms />
         </div>

@@ -7,6 +7,23 @@ var ProfileButton = require('./profileButton');
 var UserStore = require('../../stores/userStore')
 
 var Header = React.createClass({
+  getInitialState: function() {
+    return ({
+      showButtons: UserStore.loggedIn()
+    });
+  },
+
+  toggleButtons: function() {
+    this.setState( { showButtons: !this.state.showButtons } )
+  },
+
+  componentDidMount: function() {
+    this.listener = UserStore.addListener(this.toggleButtons);
+  },
+
+  componentWillUnmount: function() {
+    this.listener.remove();
+  },
 
   render: function() {
     return (
@@ -14,9 +31,9 @@ var Header = React.createClass({
         <div className="logo"></div>
         <div className="appName">SongStorm</div>
         <div className="headerButtons">
-          {this.props.showButtons ? <UploadSongButton /> : <div/> }
-          {this.props.showButtons ? <ProfileButton /> : <div/> }
-          {this.props.showButtons ? <Logout /> : <div/> }
+          {this.state.showButtons ? <UploadSongButton /> : <div/> }
+          {this.state.showButtons ? <ProfileButton /> : <div/> }
+          {this.state.showButtons ? <Logout /> : <div/> }
         </div>
       </div>
     )

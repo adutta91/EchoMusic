@@ -62,6 +62,7 @@
 	var SongForm = __webpack_require__(237);
 	var LogIn = __webpack_require__(244);
 	var FullApp = __webpack_require__(255);
+	var Header = __webpack_require__(245);
 	
 	var History = __webpack_require__(159).History;
 	
@@ -105,6 +106,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(Header, null),
 	      this.props.children
 	    );
 	  }
@@ -31888,7 +31890,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'logInPage' },
-	      React.createElement(Header, { showButtons: false }),
 	      React.createElement(
 	        'div',
 	        { className: 'userForms' },
@@ -31915,6 +31916,23 @@
 	var Header = React.createClass({
 	  displayName: 'Header',
 	
+	  getInitialState: function () {
+	    return {
+	      showButtons: UserStore.loggedIn()
+	    };
+	  },
+	
+	  toggleButtons: function () {
+	    this.setState({ showButtons: !this.state.showButtons });
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = UserStore.addListener(this.toggleButtons);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
 	
 	  render: function () {
 	    return React.createElement(
@@ -31929,9 +31947,9 @@
 	      React.createElement(
 	        'div',
 	        { className: 'headerButtons' },
-	        this.props.showButtons ? React.createElement(UploadSongButton, null) : React.createElement('div', null),
-	        this.props.showButtons ? React.createElement(ProfileButton, null) : React.createElement('div', null),
-	        this.props.showButtons ? React.createElement(Logout, null) : React.createElement('div', null)
+	        this.state.showButtons ? React.createElement(UploadSongButton, null) : React.createElement('div', null),
+	        this.state.showButtons ? React.createElement(ProfileButton, null) : React.createElement('div', null),
+	        this.state.showButtons ? React.createElement(Logout, null) : React.createElement('div', null)
 	      )
 	    );
 	  }
@@ -32377,7 +32395,6 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome' },
-	      React.createElement(Header, { showButtons: true }),
 	      React.createElement('div', { className: 'imageBanner' }),
 	      React.createElement(SongIndex, null),
 	      this.props.children

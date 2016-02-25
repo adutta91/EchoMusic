@@ -16,6 +16,7 @@ var UserProfile = require('./components/users/userProfile');
 var SongForm = require('./components/songs/songForm');
 var LogIn = require('./components/users/logIn');
 var FullApp = require('./components/app/app');
+var Header = require('./components/header/header');
 
 var History = require('react-router').History;
 
@@ -57,6 +58,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
+        <Header />
         {this.props.children}
       </div>
     );
