@@ -4,6 +4,9 @@
 
 .songForm {
   align-self: center;
+  margin-top: 100px;
+  width: 300px;
+  margin: 100px auto;
 }
 
 .songIndex {
@@ -37,4 +40,11 @@
   margin: 0 auto;
   margin-top: 15px;
   text-align: center;
+}
+
+
+.uploadFormButton {
+  background-color: #14CC60;
+  margin-top: 10px;
+  width: 100%;
 }

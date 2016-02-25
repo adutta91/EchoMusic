@@ -19,9 +19,10 @@ user.save!
 
   song.title = Faker::Book.title
   song.description = Faker::Hacker.say_something_smart
-  song.artist_id = 1
+  song.user_id = 1
+  song.artist_name = "dudeGuy"
   song.album_id = 1
-  song.filename = "audio.m4a"
+  song.audio_url = "audio/url"
 
   song.save!
 end

@@ -31,7 +31,7 @@ body {
 }
 
 .tab {
-  background: linear-gradient(to bottom right, #592000, #FF5B00);
+  background-color: #FF5B00;
   font-size: 24px;
   color: white;
   margin: 30px 30px 60px 30px;
@@ -45,7 +45,7 @@ body {
 
 .tab:hover {
   cursor: pointer;
-  background-color: #993600
+  background: linear-gradient(to bottom right, #FF5B00, #592000);
 }
 
 .tab.selected {

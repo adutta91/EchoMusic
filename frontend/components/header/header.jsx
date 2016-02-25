@@ -1,8 +1,9 @@
 var React = require('react');
 
-var Logout = require('../users/logout');
+var Logout = require('./logout');
 var UploadSongButton = require('./uploadSongButton');
 var ProfileButton = require('./profileButton');
+var Logo = require('./logo');
 
 var UserStore = require('../../stores/userStore')
 
@@ -28,7 +29,7 @@ var Header = React.createClass({
   render: function() {
     return (
       <div className="header">
-        <div className="logo"></div>
+        <Logo />
         <div className="appName">SongStorm</div>
         <div className="headerButtons">
           {this.state.showButtons ? <UploadSongButton /> : <div/> }

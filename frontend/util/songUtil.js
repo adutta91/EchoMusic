@@ -8,6 +8,12 @@ SongUtil = {
     });
   },
 
+  fetchSingleSong: function() {
+    $.ajax({
+
+    });
+  },
+
   createSong: function(song) {
     $.ajax({
       url: 'api/songs',
@@ -20,7 +26,7 @@ SongUtil = {
         // TODO: errors
         alert('ya done goofed');
       }
-    })
+    });
   }
 }
 

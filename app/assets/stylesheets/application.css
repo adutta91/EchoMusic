@@ -33,14 +33,16 @@
  }
 
  input[type=text] {
+   width: 100%;
    font-family: Quattrocento Sans;
    font-size: 16px;
-   padding: 10px;
+   padding: 10px 0px;
  }
 
  input[type=password] {
+   width: 100%;
    font-size: 16px;
-   padding: 10px;
+   padding: 10px 0px;
  }
 
  #root {
@@ -106,6 +108,8 @@
 
 .logo:hover {
   cursor: pointer;
+  background-color: #993600;
+  border-radius: 10px;
 }
 
 .imageBanner {

@@ -20,6 +20,7 @@ gem 'newrelic_rpm'
 gem 'faker'
 gem 'annotate'
 gem 'bcrypt'
+gem 'figaro'
 
 # pry for rails console
 gem 'pry-rails'

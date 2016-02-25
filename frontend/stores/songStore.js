@@ -1,12 +1,20 @@
 var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher');
 
-var _songs = [];
+var _songs = {};
 var SongStore = new Store(Dispatcher);
 
 SongStore.all = function() {
-  return _songs.slice();
+  var songs = []
+  Object.keys(_songs).forEach(function(songId){
+    songs.push(_songs[songId]);
+  });
+  return songs;
 };
+
+SongStore.find = function(song) {
+  
+},
 
 SongStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
@@ -22,11 +30,14 @@ SongStore.__onDispatch = function(payload) {
 };
 
 var resetSongs = function(songs) {
-  _songs = songs
+  _songs = {};
+  songs.forEach(function(song) {
+    _songs[song.id] = song;
+  });
 };
 
 var addSong = function(song) {
-  _songs.push(song);
+  _songs[song.id] = song;
 };
 
 module.exports = SongStore;

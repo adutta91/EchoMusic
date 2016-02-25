@@ -1,6 +1,9 @@
 var React = require('react');
+var History = require('react-router').History;
+
 
 var SongIndexItem = React.createClass({
+  mixins: [History],
 
   getInitialState: function() {
     return ({
@@ -8,9 +11,14 @@ var SongIndexItem = React.createClass({
     });
   },
 
+  _onClick: function(event) {
+    alert('songClicked!');
+    this.history.push('/api/songs/' + this.state.song.id);
+  },
+
   render: function() {
     return (
-      <div className="songIndexItem">
+      <div onClick={this._onClick} className="songIndexItem">
         {this.state.song.title}
       </div>
     );

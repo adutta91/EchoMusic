@@ -17,8 +17,8 @@ var SongForm = require('./components/songs/songForm');
 var LogIn = require('./components/users/logIn');
 var FullApp = require('./components/app/app');
 var Header = require('./components/header/header');
+var SongProfile = require('./components/songs/songProfile');
 
-var History = require('react-router').History;
 
 window.UserStore = UserStore;
 
@@ -66,11 +66,12 @@ var App = React.createClass({
 });
 
 var appRoutes = (
-  <Route path="/" component={App}>
+  <Route path='/' component={App}>
     <IndexRoute component={FullApp} />
-    <Route path="/api/songs/new" component={SongForm}/>
+    <Route path='/api/songs/new' component={SongForm} />
     <Route path='/api/session/new' component={LogIn} />
-    <Route path="/api/users/:id" component={UserProfile}/>
+    <Route path='/api/users/:id' component={UserProfile} />
+    <Route path='/api/songs/:id' component={SongProfile} />
   </Route>
 );
 

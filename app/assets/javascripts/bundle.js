@@ -63,8 +63,7 @@
 	var LogIn = __webpack_require__(244);
 	var FullApp = __webpack_require__(255);
 	var Header = __webpack_require__(245);
-	
-	var History = __webpack_require__(159).History;
+	var SongProfile = __webpack_require__(259);
 	
 	window.UserStore = UserStore;
 	
@@ -118,7 +117,8 @@
 	  React.createElement(IndexRoute, { component: FullApp }),
 	  React.createElement(Route, { path: '/api/songs/new', component: SongForm }),
 	  React.createElement(Route, { path: '/api/session/new', component: LogIn }),
-	  React.createElement(Route, { path: '/api/users/:id', component: UserProfile })
+	  React.createElement(Route, { path: '/api/users/:id', component: UserProfile }),
+	  React.createElement(Route, { path: '/api/songs/:id', component: SongProfile })
 	);
 	
 	// Load onto document
@@ -31520,8 +31520,9 @@
 	        title: this.state.title,
 	        description: this.state.desc,
 	        filename: this.state.filename,
-	        artist_id: Number(this.state.artist),
-	        album_id: Number(this.state.album)
+	        artist_name: this.state.artist,
+	        album_id: Number(this.state.album),
+	        user_id: UserStore.currentUser().id
 	      } };
 	    SongUtil.createSong(song);
 	    this.props.history.push('/');
@@ -31563,7 +31564,7 @@
 	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
-	        { htmlFor: 'artist_id', className: 'songArtistForm' },
+	        { htmlFor: 'artist_name', className: 'songArtistForm' },
 	        'Artist: '
 	      ),
 	      React.createElement('br', null),
@@ -31581,7 +31582,7 @@
 	        id: 'album',
 	        valueLink: this.linkState("album") }),
 	      React.createElement('br', null),
-	      React.createElement('input', { className: 'uploadButton', type: 'submit', value: 'Upload!' })
+	      React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
 	    );
 	  }
 	});
@@ -31832,6 +31833,10 @@
 	    });
 	  },
 	
+	  fetchSingleSong: function () {
+	    $.ajax({});
+	  },
+	
 	  createSong: function (song) {
 	    $.ajax({
 	      url: 'api/songs',
@@ -31907,9 +31912,10 @@
 
 	var React = __webpack_require__(1);
 	
-	var Logout = __webpack_require__(246);
+	var Logout = __webpack_require__(261);
 	var UploadSongButton = __webpack_require__(249);
 	var ProfileButton = __webpack_require__(250);
+	var Logo = __webpack_require__(260);
 	
 	var UserStore = __webpack_require__(216);
 	
@@ -31938,7 +31944,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'header' },
-	      React.createElement('div', { className: 'logo' }),
+	      React.createElement(Logo, null),
 	      React.createElement(
 	        'div',
 	        { className: 'appName' },
@@ -31958,38 +31964,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserUtil = __webpack_require__(247);
-	var History = __webpack_require__(159).History;
-	var UserStore = __webpack_require__(216);
-	
-	var Logout = React.createClass({
-	  displayName: 'Logout',
-	
-	  mixins: [History],
-	
-	  handleLogout: function (event) {
-	    event.preventDefault();
-	    var user = UserStore.currentUser();
-	    UserUtil.resetSession(user);
-	    this.history.push('/api/session/new');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleLogout },
-	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
-	    );
-	  }
-	});
-	
-	module.exports = Logout;
-
-/***/ },
+/* 246 */,
 /* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32470,14 +32445,18 @@
 	var Store = __webpack_require__(217).Store;
 	var Dispatcher = __webpack_require__(233);
 	
-	var _songs = [];
+	var _songs = {};
 	var SongStore = new Store(Dispatcher);
 	
 	SongStore.all = function () {
-	  return _songs.slice();
+	  var songs = [];
+	  Object.keys(_songs).forEach(function (songId) {
+	    songs.push(_songs[songId]);
+	  });
+	  return songs;
 	};
 	
-	SongStore.__onDispatch = function (payload) {
+	SongStore.find = function (song) {}, SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case 'ADD_SONG':
 	      addSong(payload.song);
@@ -32491,11 +32470,14 @@
 	};
 	
 	var resetSongs = function (songs) {
-	  _songs = songs;
+	  _songs = {};
+	  songs.forEach(function (song) {
+	    _songs[song.id] = song;
+	  });
 	};
 	
 	var addSong = function (song) {
-	  _songs.push(song);
+	  _songs[song.id] = song;
 	};
 	
 	module.exports = SongStore;
@@ -32505,10 +32487,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
 	
 	var SongIndexItem = React.createClass({
-	  displayName: "SongIndexItem",
+	  displayName: 'SongIndexItem',
 	
+	  mixins: [History],
 	
 	  getInitialState: function () {
 	    return {
@@ -32516,10 +32500,15 @@
 	    };
 	  },
 	
+	  _onClick: function (event) {
+	    alert('songClicked!');
+	    this.history.push('/api/songs/' + this.state.song.id);
+	  },
+	
 	  render: function () {
 	    return React.createElement(
-	      "div",
-	      { className: "songIndexItem" },
+	      'div',
+	      { onClick: this._onClick, className: 'songIndexItem' },
 	      this.state.song.title
 	    );
 	  }
@@ -32527,6 +32516,87 @@
 	});
 	
 	module.exports = SongIndexItem;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongProfile = React.createClass({
+	  displayName: 'SongProfile',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'I am a song'
+	    );
+	  }
+	});
+	
+	module.exports = SongProfile;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	var UserStore = __webpack_require__(216);
+	
+	var Logo = React.createClass({
+	  displayName: 'Logo',
+	
+	  mixins: [History],
+	
+	  _onClick: function (event) {
+	    if (UserStore.loggedIn()) {
+	      this.history.push('/');
+	    } else {
+	      this.history.push('/api/session/new');
+	    }
+	  },
+	
+	  render: function () {
+	    return React.createElement('div', { className: 'logo', onClick: this._onClick });
+	  }
+	
+	});
+	
+	module.exports = Logo;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserUtil = __webpack_require__(247);
+	var History = __webpack_require__(159).History;
+	var UserStore = __webpack_require__(216);
+	
+	var Logout = React.createClass({
+	  displayName: 'Logout',
+	
+	  mixins: [History],
+	
+	  handleLogout: function (event) {
+	    event.preventDefault();
+	    var user = UserStore.currentUser();
+	    UserUtil.resetSession(user);
+	    this.history.push('/api/session/new');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleLogout },
+	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
+	    );
+	  }
+	});
+	
+	module.exports = Logout;
 
 /***/ }
 /******/ ]);

@@ -26,8 +26,9 @@ var SongForm = React.createClass({
       title: this.state.title,
       description: this.state.desc,
       filename: this.state.filename,
-      artist_id: Number(this.state.artist),
-      album_id: Number(this.state.album)
+      artist_name: this.state.artist,
+      album_id: Number(this.state.album),
+      user_id: UserStore.currentUser().id
     }}
     SongUtil.createSong(song);
     this.props.history.push('/');
@@ -57,7 +58,7 @@ var SongForm = React.createClass({
                valueLink={this.linkState("filename")}/>
         <br/>
 
-        <label htmlFor="artist_id" className="songArtistForm">Artist: </label>
+        <label htmlFor="artist_name" className="songArtistForm">Artist: </label>
         <br/>
         <input type="text"
                id="artist"
@@ -71,7 +72,7 @@ var SongForm = React.createClass({
                valueLink={this.linkState("album")}/>
         <br/>
 
-        <input className="uploadButton" type="submit" value="Upload!"/>
+        <input className="uploadFormButton" type="submit" value="Upload!"/>
 
       </form>
     );
