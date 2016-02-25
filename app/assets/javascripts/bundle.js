@@ -52,17 +52,20 @@
 	var ReactRouter = __webpack_require__(159);
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
-	
+	var IndexRoute = ReactRouter.IndexRoute;
+	// import { IndexRoute } from 'react-router'
 	// stores
 	var UserStore = __webpack_require__(216);
 	
 	// React components
-	var UserProfile = __webpack_require__(251);
-	var SongForm = __webpack_require__(252);
-	var LogIn = __webpack_require__(257);
-	var FullApp = __webpack_require__(258);
+	var UserProfile = __webpack_require__(236);
+	var SongForm = __webpack_require__(237);
+	var LogIn = __webpack_require__(244);
+	var FullApp = __webpack_require__(255);
 	
 	var History = __webpack_require__(159).History;
+	
+	window.UserStore = UserStore;
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -75,18 +78,23 @@
 	  },
 	
 	  checkForLogIn: function () {
-	    var thing = UserStore.loggedIn();
-	    debugger;
+	    var user = this.state.user;
+	    if (user === null) {
+	      this.props.history.push('/api/session/new');
+	    }
+	  },
+	
+	  _onChange: function () {
 	    if (!UserStore.loggedIn()) {
 	      this.props.history.push('/api/session/new');
 	    } else {
 	      this.setState({ user: UserStore.currentUser() });
-	      this.props.history.push('/api/songs');
 	    }
 	  },
 	
 	  componentDidMount: function () {
-	    this.listener = UserStore.addListener(this.checkForLogIn);
+	    this.checkForLogIn();
+	    this.listener = UserStore.addListener(this._onChange);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -105,12 +113,9 @@
 	var appRoutes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
+	  React.createElement(IndexRoute, { component: FullApp }),
 	  React.createElement(Route, { path: 'api/session/new', component: LogIn }),
-	  React.createElement(
-	    Route,
-	    { path: 'api/songs', component: FullApp },
-	    React.createElement(Route, { path: '/api/songs/new', component: SongForm })
-	  ),
+	  React.createElement(Route, { path: '/api/songs/new', component: SongForm }),
 	  React.createElement(Route, { path: 'api/users/:id', component: UserProfile })
 	);
 	
@@ -31466,635 +31471,6 @@
 
 	var React = __webpack_require__(1);
 	
-	var Tab = __webpack_require__(237);
-	var SignInForm = __webpack_require__(238);
-	var SignUpForm = __webpack_require__(239);
-	
-	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
-	
-	var UserForms = React.createClass({
-	  displayName: 'UserForms',
-	
-	  getInitialState: function () {
-	    return {
-	      tabs: tabs,
-	      selectedTabIdx: null
-	    };
-	  },
-	
-	  tabClicked: function (index, event) {
-	    this.setState({ selectedTabIdx: index });
-	  },
-	
-	  render: function () {
-	
-	    // finds correct form to display; defaults to 'sign in' form
-	    if (this.state.selectedTabIdx !== null) {
-	      var form = this.state.tabs[this.state.selectedTabIdx].form;
-	    } else {
-	      form = this.state.tabs[0].form;
-	    }
-	
-	    var tabListItems = this.state.tabs.map(function (tab, index) {
-	      // finds appropriate css class to assign to the tab
-	      var tabClass = 'notSelected';
-	      if (this.state.selectedTabIdx === null && index === 0 || this.state.selectedTabIdx === index) {
-	        tabClass = 'selected';
-	      }
-	      // creates tab component
-	      return React.createElement(Tab, {
-	        type: tab.type,
-	        key: index,
-	        className: "tab " + tabClass,
-	        tabCallback: this.tabClicked.bind(this, index)
-	      });
-	    }.bind(this));
-	
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'tabs group' },
-	        tabListItems
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'forms' },
-	        form
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserForms;
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Tab = React.createClass({
-	  displayName: 'Tab',
-	
-	  getInitialState: function () {
-	    return {
-	      type: this.props.type
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: this.props.className, onClick: this.props.tabCallback },
-	      this.state.type
-	    );
-	  }
-	});
-	
-	module.exports = Tab;
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	var SignInForm = React.createClass({
-	  displayName: 'SignInForm',
-	
-	  mixins: [History],
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
-	  },
-	
-	  handleSubmit: function (event) {
-	    var user = {
-	      user: {
-	        username: this.state.username,
-	        password: this.state.password
-	      }
-	    };
-	    UserUtil.createSession(user);
-	    this.props.history.push('/api/songs');
-	    debugger;
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { className: 'signForm', onSubmit: this.handleSubmit },
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'username', className: 'formLabel' },
-	        'Username: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
-	        id: 'username' }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'password', className: 'formLabel' },
-	        'Password: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
-	        id: 'password' }),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'submitButton',
-	        type: 'submit',
-	        value: 'Sign In!' })
-	    );
-	  }
-	});
-	
-	module.exports = SignInForm;
-
-/***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var UserUtil = __webpack_require__(240);
-	var History = __webpack_require__(159).History;
-	
-	var SignUpForm = React.createClass({
-	  displayName: 'SignUpForm',
-	
-	  mixins: [History],
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
-	  },
-	
-	  handleSubmit: function (event) {
-	    var user = {
-	      user: {
-	        username: this.state.username,
-	        password: this.state.password
-	      }
-	    };
-	    UserUtil.createUser(user);
-	    this.props.history.push('/api/songs');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { className: 'signForm', onSubmit: this.handleSubmit },
-	      React.createElement(
-	        'label',
-	        { className: 'formLabel', htmlFor: 'username' },
-	        'Username: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
-	        id: 'username' }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { className: 'formLabel', htmlFor: 'password' },
-	        'Password: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
-	        id: 'password' }),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'submitButton',
-	        type: 'submit',
-	        value: 'Sign Up!' })
-	    );
-	  }
-	});
-	
-	module.exports = SignUpForm;
-
-/***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var UserActions = __webpack_require__(241);
-	
-	UserUtil = {
-	  createUser: function (user) {
-	    $.ajax({
-	      url: 'api/users',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        UserActions.logInUser(user);
-	        // window.location = '/api/songs';
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('ya done goofed');
-	      }
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        UserActions.logInUser(user);
-	        // window.location = '/api/songs';
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('ya done goofed');
-	      }
-	    });
-	  },
-	
-	  resetSession: function () {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'DELETE',
-	      success: function (user) {
-	        UserActions.logOutUser();
-	        window.location = '/';
-	      }
-	    });
-	  }
-	
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 241 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(233);
-	
-	UserActions = {
-	  logInUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGIN_USER',
-	      user: user
-	    });
-	  },
-	
-	  logOutUser: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGOUT_USER'
-	    });
-	  }
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserUtil = __webpack_require__(240);
-	
-	var Logout = React.createClass({
-	  displayName: 'Logout',
-	
-	
-	  handleSubmit: function () {
-	    UserUtil.resetSession();
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit },
-	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
-	    );
-	  }
-	});
-	
-	module.exports = Logout;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Logout = __webpack_require__(242);
-	var UploadSongButton = __webpack_require__(244);
-	var ProfileButton = __webpack_require__(245);
-	
-	var Header = React.createClass({
-	  displayName: 'Header',
-	
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'header' },
-	      React.createElement('div', { className: 'logo' }),
-	      React.createElement(
-	        'div',
-	        { className: 'headerButtons' },
-	        this.props.showButtons ? React.createElement(UploadSongButton, null) : React.createElement('div', null),
-	        this.props.showButtons ? React.createElement(ProfileButton, null) : React.createElement('div', null),
-	        this.props.showButtons ? React.createElement(Logout, null) : React.createElement('div', null)
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = Header;
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	var UploadSongButton = React.createClass({
-	  displayName: 'UploadSongButton',
-	
-	
-	  mixins: [History],
-	
-	  handleSubmit: function () {
-	    this.history.push('/api/songs/new');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit },
-	      React.createElement('input', { className: 'uploadButton', type: 'submit', value: 'Upload!' })
-	    );
-	  }
-	});
-	
-	module.exports = UploadSongButton;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	var ProfileButton = React.createClass({
-	  displayName: 'ProfileButton',
-	
-	
-	  mixins: [History],
-	
-	  handleSubmit: function () {
-	    debugger;
-	    this.history.push('/api/users/:id');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit },
-	      React.createElement('button', { className: 'profileButton', type: 'submit', value: 'Profile' })
-	    );
-	  }
-	});
-	
-	module.exports = ProfileButton;
-
-/***/ },
-/* 246 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(216);
-	var SongStore = __webpack_require__(247);
-	var SongUtil = __webpack_require__(248);
-	
-	var SongIndexItem = __webpack_require__(250);
-	
-	var SongIndex = React.createClass({
-	  displayName: 'SongIndex',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      songs: SongStore.all()
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = SongStore.addListener(this._songsChanged);
-	    SongUtil.fetchSongs();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  _songsChanged: function () {
-	    this.setState({ songs: SongStore.all() });
-	  },
-	
-	  render: function () {
-	    var user = UserStore.currentUser();
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'indexTitle' },
-	        'Explore:'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'songIndex' },
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        this.state.songs.map(function (song, index) {
-	          return React.createElement(SongIndexItem, { key: index, song: song });
-	        })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SongIndex;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(217).Store;
-	var Dispatcher = __webpack_require__(233);
-	
-	var _songs = [];
-	var SongStore = new Store(Dispatcher);
-	
-	SongStore.all = function () {
-	  return _songs.slice();
-	};
-	
-	SongStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'ADD_SONG':
-	      addSong(payload.song);
-	      SongStore.__emitChange();
-	      break;
-	    case 'RECEIVE_SONGS':
-	      resetSongs(payload.songs);
-	      SongStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	var resetSongs = function (songs) {
-	  _songs = songs;
-	};
-	
-	var addSong = function (song) {
-	  _songs.push(song);
-	};
-	
-	module.exports = SongStore;
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SongActions = __webpack_require__(249);
-	
-	SongUtil = {
-	
-	  fetchSongs: function () {
-	    $.get('api/songs', {}, function (songs) {
-	      SongActions.receiveAll(songs);
-	    });
-	  },
-	
-	  createSong: function (song) {
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'POST',
-	      data: song,
-	      success: function (song) {
-	        SongActions.uploadSong(song);
-	      },
-	      error: function (song) {
-	        // TODO: errors
-	        alert('ya done goofed');
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = SongUtil;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(233);
-	
-	SongActions = {
-	  uploadSong: function (song) {
-	    Dispatcher.dispatch({
-	      actionType: 'ADD_SONG',
-	      song: song
-	    });
-	  },
-	
-	  receiveAll: function (songs) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_SONGS',
-	      songs: songs
-	    });
-	  }
-	
-	};
-	
-	module.exports = SongActions;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SongIndexItem = React.createClass({
-	  displayName: "SongIndexItem",
-	
-	
-	  getInitialState: function () {
-	    return {
-	      song: this.props.song
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "songIndexItem" },
-	      this.state.song.title
-	    );
-	  }
-	
-	});
-	
-	module.exports = SongIndexItem;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
@@ -32110,12 +31486,12 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 252 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(253);
-	var SongUtil = __webpack_require__(248);
+	var LinkedStateMixin = __webpack_require__(238);
+	var SongUtil = __webpack_require__(242);
 	var UserStore = __webpack_require__(216);
 	var History = __webpack_require__(159).History;
 	
@@ -32145,7 +31521,7 @@
 	        album_id: Number(this.state.album)
 	      } };
 	    SongUtil.createSong(song);
-	    this.props.history.push('/api/songs');
+	    this.props.history.push('/');
 	  },
 	
 	  render: function () {
@@ -32210,13 +31586,13 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 253 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(254);
+	module.exports = __webpack_require__(239);
 
 /***/ },
-/* 254 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32233,8 +31609,8 @@
 	
 	'use strict';
 	
-	var ReactLink = __webpack_require__(255);
-	var ReactStateSetters = __webpack_require__(256);
+	var ReactLink = __webpack_require__(240);
+	var ReactStateSetters = __webpack_require__(241);
 	
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -32257,7 +31633,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 255 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32331,7 +31707,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 256 */
+/* 241 */
 /***/ function(module, exports) {
 
 	/**
@@ -32440,12 +31816,69 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 257 */
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SongActions = __webpack_require__(243);
+	
+	SongUtil = {
+	
+	  fetchSongs: function () {
+	    $.get('api/songs', {}, function (songs) {
+	      SongActions.receiveAll(songs);
+	    });
+	  },
+	
+	  createSong: function (song) {
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'POST',
+	      data: song,
+	      success: function (song) {
+	        SongActions.uploadSong(song);
+	      },
+	      error: function (song) {
+	        // TODO: errors
+	        alert('ya done goofed');
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = SongUtil;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(233);
+	
+	SongActions = {
+	  uploadSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'ADD_SONG',
+	      song: song
+	    });
+	  },
+	
+	  receiveAll: function (songs) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONGS',
+	      songs: songs
+	    });
+	  }
+	
+	};
+	
+	module.exports = SongActions;
+
+/***/ },
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(243);
-	var UserForms = __webpack_require__(236);
+	var Header = __webpack_require__(245);
+	var UserForms = __webpack_require__(251);
 	
 	var LogIn = React.createClass({
 	  displayName: 'LogIn',
@@ -32467,13 +31900,464 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 258 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Header = __webpack_require__(243);
-	var SongIndex = __webpack_require__(246);
+	var Logout = __webpack_require__(246);
+	var UploadSongButton = __webpack_require__(249);
+	var ProfileButton = __webpack_require__(250);
+	
+	var Header = React.createClass({
+	  displayName: 'Header',
+	
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'header' },
+	      React.createElement('div', { className: 'logo' }),
+	      React.createElement(
+	        'div',
+	        { className: 'headerButtons' },
+	        this.props.showButtons ? React.createElement(UploadSongButton, null) : React.createElement('div', null),
+	        this.props.showButtons ? React.createElement(ProfileButton, null) : React.createElement('div', null),
+	        this.props.showButtons ? React.createElement(Logout, null) : React.createElement('div', null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Header;
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserUtil = __webpack_require__(247);
+	var History = __webpack_require__(159).History;
+	var UserStore = __webpack_require__(216);
+	
+	var Logout = React.createClass({
+	  displayName: 'Logout',
+	
+	  mixins: [History],
+	
+	  handleSubmit: function () {
+	    var user = UserStore.currentUser();
+	    UserUtil.resetSession(user);
+	    this.history.push('/api/session/new');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
+	    );
+	  }
+	});
+	
+	module.exports = Logout;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var UserActions = __webpack_require__(248);
+	
+	UserUtil = {
+	  createUser: function (user) {
+	    $.ajax({
+	      url: 'api/users',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        UserActions.logInUser(user);
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('ya done goofed');
+	      }
+	    });
+	  },
+	
+	  createSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        UserActions.logInUser(user);
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('ya done goofed');
+	      }
+	    });
+	  },
+	
+	  resetSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'DELETE',
+	      data: { id: user.id },
+	      success: function (user) {
+	        debugger;
+	        UserActions.logOutUser();
+	      }
+	    });
+	  }
+	
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(233);
+	
+	UserActions = {
+	  logInUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGIN_USER',
+	      user: user
+	    });
+	  },
+	
+	  logOutUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGOUT_USER'
+	    });
+	  }
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var UploadSongButton = React.createClass({
+	  displayName: 'UploadSongButton',
+	
+	
+	  mixins: [History],
+	
+	  handleSubmit: function () {
+	    this.history.push('/api/songs/new');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      React.createElement('input', { className: 'uploadButton', type: 'submit', value: 'Upload!' })
+	    );
+	  }
+	});
+	
+	module.exports = UploadSongButton;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var ProfileButton = React.createClass({
+	  displayName: 'ProfileButton',
+	
+	
+	  mixins: [History],
+	
+	  handleSubmit: function () {
+	    debugger;
+	    this.history.push('/api/users/:id');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { onSubmit: this.handleSubmit },
+	      React.createElement('button', { className: 'profileButton', type: 'submit', value: 'Profile' })
+	    );
+	  }
+	});
+	
+	module.exports = ProfileButton;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tab = __webpack_require__(252);
+	var SignInForm = __webpack_require__(253);
+	var SignUpForm = __webpack_require__(254);
+	
+	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
+	
+	var UserForms = React.createClass({
+	  displayName: 'UserForms',
+	
+	  getInitialState: function () {
+	    return {
+	      tabs: tabs,
+	      selectedTabIdx: null
+	    };
+	  },
+	
+	  tabClicked: function (index, event) {
+	    this.setState({ selectedTabIdx: index });
+	  },
+	
+	  render: function () {
+	
+	    // finds correct form to display; defaults to 'sign in' form
+	    if (this.state.selectedTabIdx !== null) {
+	      var form = this.state.tabs[this.state.selectedTabIdx].form;
+	    } else {
+	      form = this.state.tabs[0].form;
+	    }
+	
+	    var tabListItems = this.state.tabs.map(function (tab, index) {
+	      // finds appropriate css class to assign to the tab
+	      var tabClass = 'notSelected';
+	      if (this.state.selectedTabIdx === null && index === 0 || this.state.selectedTabIdx === index) {
+	        tabClass = 'selected';
+	      }
+	      // creates tab component
+	      return React.createElement(Tab, {
+	        type: tab.type,
+	        key: index,
+	        className: "tab " + tabClass,
+	        tabCallback: this.tabClicked.bind(this, index)
+	      });
+	    }.bind(this));
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'tabs group' },
+	        tabListItems
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'forms' },
+	        form
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserForms;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tab = React.createClass({
+	  displayName: 'Tab',
+	
+	  getInitialState: function () {
+	    return {
+	      type: this.props.type
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: this.props.className, onClick: this.props.tabCallback },
+	      this.state.type
+	    );
+	  }
+	});
+	
+	module.exports = Tab;
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var SignInForm = React.createClass({
+	  displayName: 'SignInForm',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleUsernameChange: function (event) {
+	    this.setState({ username: event.target.value });
+	  },
+	
+	  handlePasswordChange: function (event) {
+	    this.setState({ password: event.target.value });
+	  },
+	
+	  handleSubmit: function (event) {
+	    var user = {
+	      user: {
+	        username: this.state.username,
+	        password: this.state.password
+	      }
+	    };
+	    UserUtil.createSession(user);
+	    this.history.push('/');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'signForm', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'username', className: 'formLabel' },
+	        'Username: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'text',
+	        value: this.state.username,
+	        onChange: this.handleUsernameChange,
+	        id: 'username' }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'password', className: 'formLabel' },
+	        'Password: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange,
+	        id: 'password' }),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'submitButton',
+	        type: 'submit',
+	        value: 'Sign In!' })
+	    );
+	  }
+	});
+	
+	module.exports = SignInForm;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var UserUtil = __webpack_require__(247);
+	var History = __webpack_require__(159).History;
+	
+	var SignUpForm = React.createClass({
+	  displayName: 'SignUpForm',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleUsernameChange: function (event) {
+	    this.setState({ username: event.target.value });
+	  },
+	
+	  handlePasswordChange: function (event) {
+	    this.setState({ password: event.target.value });
+	  },
+	
+	  handleSubmit: function (event) {
+	    var user = {
+	      user: {
+	        username: this.state.username,
+	        password: this.state.password
+	      }
+	    };
+	    UserUtil.createUser(user);
+	    this.props.history.push('/');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'signForm', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'label',
+	        { className: 'formLabel', htmlFor: 'username' },
+	        'Username: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'text',
+	        value: this.state.username,
+	        onChange: this.handleUsernameChange,
+	        id: 'username' }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { className: 'formLabel', htmlFor: 'password' },
+	        'Password: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange,
+	        id: 'password' }),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'submitButton',
+	        type: 'submit',
+	        value: 'Sign Up!' })
+	    );
+	  }
+	});
+	
+	module.exports = SignUpForm;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Header = __webpack_require__(245);
+	var SongIndex = __webpack_require__(256);
 	
 	var FullApp = React.createClass({
 	  displayName: 'FullApp',
@@ -32495,6 +32379,130 @@
 	});
 	
 	module.exports = FullApp;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(216);
+	var SongStore = __webpack_require__(257);
+	var SongUtil = __webpack_require__(242);
+	
+	var SongIndexItem = __webpack_require__(258);
+	
+	var SongIndex = React.createClass({
+	  displayName: 'SongIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      songs: SongStore.all()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = SongStore.addListener(this._songsChanged);
+	    SongUtil.fetchSongs();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  _songsChanged: function () {
+	    this.setState({ songs: SongStore.all() });
+	  },
+	
+	  render: function () {
+	    var user = UserStore.currentUser();
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'indexTitle' },
+	        'Explore:'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'songIndex' },
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        this.state.songs.map(function (song, index) {
+	          return React.createElement(SongIndexItem, { key: index, song: song });
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SongIndex;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(217).Store;
+	var Dispatcher = __webpack_require__(233);
+	
+	var _songs = [];
+	var SongStore = new Store(Dispatcher);
+	
+	SongStore.all = function () {
+	  return _songs.slice();
+	};
+	
+	SongStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'ADD_SONG':
+	      addSong(payload.song);
+	      SongStore.__emitChange();
+	      break;
+	    case 'RECEIVE_SONGS':
+	      resetSongs(payload.songs);
+	      SongStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var resetSongs = function (songs) {
+	  _songs = songs;
+	};
+	
+	var addSong = function (song) {
+	  _songs.push(song);
+	};
+	
+	module.exports = SongStore;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongIndexItem = React.createClass({
+	  displayName: "SongIndexItem",
+	
+	
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "songIndexItem" },
+	      this.state.song.title
+	    );
+	  }
+	
+	});
+	
+	module.exports = SongIndexItem;
 
 /***/ }
 /******/ ]);

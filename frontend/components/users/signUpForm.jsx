@@ -29,7 +29,7 @@ var SignUpForm = React.createClass({
       }
     };
     UserUtil.createUser(user);
-    this.props.history.push('/api/songs');
+    this.props.history.push('/');
   },
 
   render: function() {

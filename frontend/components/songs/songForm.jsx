@@ -29,7 +29,7 @@ var SongForm = React.createClass({
       album_id: Number(this.state.album)
     }}
     SongUtil.createSong(song);
-    this.props.history.push('/api/songs');
+    this.props.history.push('/');
   },
 
   render: function() {

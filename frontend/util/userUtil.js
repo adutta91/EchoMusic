@@ -9,7 +9,6 @@ UserUtil = {
       data: user,
       success: function(user) {
         UserActions.logInUser(user);
-        // window.location = '/api/songs';
       },
       error: function(user) {
         window.location = '/';
@@ -26,7 +25,6 @@ UserUtil = {
       data: user,
       success: function(user) {
         UserActions.logInUser(user);
-        // window.location = '/api/songs';
       },
       error: function(user) {
         window.location = '/';
@@ -36,13 +34,14 @@ UserUtil = {
     });
   },
 
-  resetSession: function() {
+  resetSession: function(user) {
     $.ajax({
       url: 'api/session',
       method: 'DELETE',
+      data: {id: user.id},
       success: function(user) {
+        debugger
         UserActions.logOutUser();
-        window.location = '/';
       }
     });
   }

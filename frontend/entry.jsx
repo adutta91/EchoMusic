@@ -6,7 +6,8 @@ var ReactDOM = require('react-dom');
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
-
+var IndexRoute = ReactRouter.IndexRoute;
+// import { IndexRoute } from 'react-router'
 // stores
 var UserStore = require('./stores/userStore');
 
@@ -18,6 +19,7 @@ var FullApp = require('./components/app/app');
 
 var History = require('react-router').History;
 
+window.UserStore = UserStore;
 
 var App = React.createClass({
 
@@ -28,18 +30,23 @@ var App = React.createClass({
   },
 
   checkForLogIn: function() {
-    var thing = UserStore.loggedIn();
-    debugger;
+    var user = this.state.user;
+    if (user === null) {
+      this.props.history.push('/api/session/new');
+    }
+  },
+
+  _onChange: function() {
     if (!UserStore.loggedIn()) {
       this.props.history.push('/api/session/new');
     } else {
       this.setState({ user: UserStore.currentUser() });
-      this.props.history.push('/api/songs');
     }
   },
 
   componentDidMount: function() {
-    this.listener = UserStore.addListener(this.checkForLogIn);
+    this.checkForLogIn();
+    this.listener = UserStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function() {
@@ -57,10 +64,9 @@ var App = React.createClass({
 
 var appRoutes = (
   <Route path="/" component={App}>
+    <IndexRoute component={FullApp} />
     <Route path='api/session/new' component={LogIn} />
-    <Route path='api/songs' component={FullApp}>
-      <Route path="/api/songs/new" component={SongForm}/>
-    </Route>
+    <Route path="/api/songs/new" component={SongForm}/>
     <Route path="api/users/:id" component={UserProfile}/>
   </Route>
 );

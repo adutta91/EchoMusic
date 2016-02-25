@@ -28,8 +28,7 @@ var SignInForm = React.createClass({
       }
     };
     UserUtil.createSession(user);
-    this.props.history.push('/api/songs');
-    debugger;
+    this.history.push('/');
   },
 
   render: function() {
