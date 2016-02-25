@@ -40,7 +40,6 @@ UserUtil = {
       method: 'DELETE',
       data: {id: user.id},
       success: function(user) {
-        debugger
         UserActions.logOutUser();
       }
     });

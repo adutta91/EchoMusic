@@ -33,6 +33,8 @@ var App = React.createClass({
     var user = this.state.user;
     if (user === null) {
       this.props.history.push('/api/session/new');
+    } else {
+      this.setState({ user: UserStore.currentUser() });
     }
   },
 
@@ -40,7 +42,6 @@ var App = React.createClass({
     if (!UserStore.loggedIn()) {
       this.props.history.push('/api/session/new');
     } else {
-      this.setState({ user: UserStore.currentUser() });
     }
   },
 
@@ -64,9 +65,10 @@ var App = React.createClass({
 
 var appRoutes = (
   <Route path="/" component={App}>
-    <IndexRoute component={FullApp} />
+    <IndexRoute component={FullApp} >
+      <Route path="api/songs/new" component={SongForm}/>
+    </IndexRoute>
     <Route path='api/session/new' component={LogIn} />
-    <Route path="/api/songs/new" component={SongForm}/>
     <Route path="api/users/:id" component={UserProfile}/>
   </Route>
 );
