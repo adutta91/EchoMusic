@@ -25,7 +25,8 @@
   background-color: #00A4FF;
   margin: 10px;
   border-radius: 5px;
-  line-height: 100%;
+  line-height: 100px;
+  text-align: center;
 }
 
 .songIndexItem:hover {
@@ -40,6 +41,10 @@
   margin: 0 auto;
   margin-top: 15px;
   text-align: center;
+}
+
+.songTitleDisplay {
+  margin-top: 100px;
 }
 
 .audioUploadButton {

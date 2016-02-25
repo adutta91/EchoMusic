@@ -12,9 +12,9 @@ SongStore.all = function() {
   return songs;
 };
 
-SongStore.find = function(song) {
-  
-},
+SongStore.find = function(songId) {
+  return _songs[songId];
+};
 
 SongStore.__onDispatch = function(payload) {
   switch(payload.actionType) {

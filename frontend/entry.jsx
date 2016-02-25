@@ -15,7 +15,7 @@ var UserStore = require('./stores/userStore');
 var UserProfile = require('./components/users/userProfile');
 var SongForm = require('./components/songs/songForm');
 var LogIn = require('./components/users/logIn');
-var FullApp = require('./components/app/app');
+var LoggedInApp = require('./components/app/app');
 var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
 
@@ -67,7 +67,7 @@ var App = React.createClass({
 
 var appRoutes = (
   <Route path='/' component={App}>
-    <IndexRoute component={FullApp} />
+    <IndexRoute component={LoggedInApp} />
     <Route path='/api/songs/new' component={SongForm} />
     <Route path='/api/session/new' component={LogIn} />
     <Route path='/api/users/:id' component={UserProfile} />

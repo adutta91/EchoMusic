@@ -61,7 +61,7 @@
 	var UserProfile = __webpack_require__(236);
 	var SongForm = __webpack_require__(257);
 	var LogIn = __webpack_require__(237);
-	var FullApp = __webpack_require__(249);
+	var LoggedInApp = __webpack_require__(249);
 	var Header = __webpack_require__(238);
 	var SongProfile = __webpack_require__(255);
 	
@@ -114,7 +114,7 @@
 	var appRoutes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
-	  React.createElement(IndexRoute, { component: FullApp }),
+	  React.createElement(IndexRoute, { component: LoggedInApp }),
 	  React.createElement(Route, { path: '/api/songs/new', component: SongForm }),
 	  React.createElement(Route, { path: '/api/session/new', component: LogIn }),
 	  React.createElement(Route, { path: '/api/users/:id', component: UserProfile }),
@@ -32123,7 +32123,11 @@
 	  return songs;
 	};
 	
-	SongStore.find = function (song) {}, SongStore.__onDispatch = function (payload) {
+	SongStore.find = function (songId) {
+	  return _songs[songId];
+	};
+	
+	SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case 'ADD_SONG':
 	      addSong(payload.song);
@@ -32250,14 +32254,35 @@
 
 	var React = __webpack_require__(1);
 	
+	var SongStore = __webpack_require__(251);
+	
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      song: { title: "" }
+	    };
+	  },
+	
+	  getStateFromStore: function () {
+	    var song = SongStore.find(this.props.params.id);
+	    if (song) {
+	      this.setState({ song: SongStore.find(this.props.params.id) });
+	    }
+	  },
+	
+	  componentDidMount: function () {
+	    this.getStateFromStore();
+	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
-	      'I am a song'
+	      { className: 'songTitleDisplay' },
+	      this.state.song.title,
+	      React.createElement('source', { src: 'http://res.cloudinary.com/dzyfczxnr/video/upload/v1456429585/z0nuupfcvb95pbgzzoom.m4a', type: 'audio/mp4' })
 	    );
 	  }
 	});
