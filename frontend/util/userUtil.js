@@ -1,5 +1,6 @@
 var UserActions = require('../actions/userActions');
 
+
 UserUtil = {
   createUser: function(user) {
     $.ajax({
@@ -8,9 +9,11 @@ UserUtil = {
       data: user,
       success: function(user) {
         UserActions.logInUser(user);
-        window.location = '/';
+        // window.location = '/api/songs';
       },
       error: function(user) {
+        window.location = '/';
+        // TODO: errors
         alert('ya done goofed');
       }
     })
@@ -23,9 +26,11 @@ UserUtil = {
       data: user,
       success: function(user) {
         UserActions.logInUser(user);
-        window.location = '/';
+        // window.location = '/api/songs';
       },
       error: function(user) {
+        window.location = '/';
+        // TODO: errors
         alert('ya done goofed');
       }
     });
@@ -36,6 +41,7 @@ UserUtil = {
       url: 'api/session',
       method: 'DELETE',
       success: function(user) {
+        UserActions.logOutUser();
         window.location = '/';
       }
     });

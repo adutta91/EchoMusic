@@ -1,6 +1,10 @@
 var React = require('react');
+var History = require('react-router').History;
+
 
 var SignInForm = React.createClass({
+  mixins: [History],
+
   getInitialState: function() {
     return ({
       username: "",
@@ -24,6 +28,8 @@ var SignInForm = React.createClass({
       }
     };
     UserUtil.createSession(user);
+    this.props.history.push('/api/songs');
+    debugger;
   },
 
   render: function() {

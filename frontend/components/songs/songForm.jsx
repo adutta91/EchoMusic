@@ -1,10 +1,12 @@
 var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SongUtil = require('../../util/songUtil');
+var UserStore = require('../../stores/userStore');
+var History = require('react-router').History;
 
 
 var SongForm = React.createClass({
-  mixins: [LinkedStateMixin],
+  mixins: [LinkedStateMixin, History],
 
   blankAttrs: {
     title: '',
@@ -27,6 +29,7 @@ var SongForm = React.createClass({
       album_id: Number(this.state.album)
     }}
     SongUtil.createSong(song);
+    this.props.history.push('/api/songs');
   },
 
   render: function() {

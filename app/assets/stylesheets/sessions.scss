@@ -5,7 +5,6 @@ html {
   font-family: Quattrocento Sans;
   font-style: italic;
   background-color: #FFFFFF;
-  // text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 header {
@@ -19,20 +18,14 @@ body {
   border-radius: 15px;
 }
 
-#welcome {
-  // width: 900px;
+.logInPage {
   background: url("https://images.unsplash.com/photo-1447774105426-9d78ea5204cd?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=77876bba6df8037cf7bf9396e53bd95f") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  // background-image: url("https://images.unsplash.com/photo-1447774105426-9d78ea5204cd?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=77876bba6df8037cf7bf9396e53bd95f");
   margin: 0 auto;
   height: 100%;
-}
-
-#welcome::before {
-  opacity: 0.5;
 }
 
 .tabs {

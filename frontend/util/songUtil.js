@@ -15,9 +15,9 @@ SongUtil = {
       data: song,
       success: function(song) {
         SongActions.uploadSong(song);
-        window.location = '/';
       },
       error: function(song) {
+        // TODO: errors
         alert('ya done goofed');
       }
     })
