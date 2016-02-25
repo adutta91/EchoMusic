@@ -12,7 +12,6 @@ var SongIndexItem = React.createClass({
   },
 
   _onClick: function(event) {
-    alert('songClicked!');
     this.history.push('/api/songs/' + this.state.song.id);
   },
 

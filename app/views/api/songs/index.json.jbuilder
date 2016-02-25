@@ -1,5 +1,5 @@
 json.array! (@songs) do |song|
   json.title song.title
-  json.description song.description
+  json.artise_name song.artist_name
   json.id song.id
 end

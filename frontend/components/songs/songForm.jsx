@@ -10,23 +10,39 @@ var SongForm = React.createClass({
 
   blankAttrs: {
     title: '',
-    desc: '',
-    filename: '',
     artist: '',
     album: ''
   },
 
   getInitialState: function() {
-    return (this.blankAttrs);
+    return ({
+      blankAttrs: this.blankAttrs,
+      audioUploaded: false,
+      audioUrl: ''
+    });
+  },
+
+  audioUpload: function() {
+    var options = {
+      cloud_name: "dzyfczxnr",
+      upload_preset: "paygr4uo"
+    };
+    var callback = this.uploadResult;
+    cloudinary.openUploadWidget(options, callback);
+    this.setState({audioUploaded: true});
+  },
+
+  uploadResult: function(error, results) {
+    var url = results[0].url;
+    this.state.audioUrl = url;
   },
 
   handleSubmit: function(event) {
     event.preventDefault();
     var song = { song: {
       title: this.state.title,
-      description: this.state.desc,
-      filename: this.state.filename,
       artist_name: this.state.artist,
+      audio_url: this.state.audioUrl,
       album_id: Number(this.state.album),
       user_id: UserStore.currentUser().id
     }}
@@ -44,20 +60,6 @@ var SongForm = React.createClass({
                valueLink={this.linkState("title")}/>
         <br/>
 
-        <label htmlFor="desc" className="songDescForm">Description: </label>
-        <br/>
-        <input type="text"
-               id="desc"
-               valueLink={this.linkState("desc")}/>
-        <br/>
-
-        <label htmlFor="filename" className="songFileForm">Filename: </label>
-        <br/>
-        <input type="text"
-               id="filename"
-               valueLink={this.linkState("filename")}/>
-        <br/>
-
         <label htmlFor="artist_name" className="songArtistForm">Artist: </label>
         <br/>
         <input type="text"
@@ -71,6 +73,8 @@ var SongForm = React.createClass({
                id="album"
                valueLink={this.linkState("album")}/>
         <br/>
+
+        {this.state.audioUploaded ? <div className="audioChecked">Uploaded!</div> : <button className="audioUploadButton" onClick={this.audioUpload}>Choose a File!</button>}
 
         <input className="uploadFormButton" type="submit" value="Upload!"/>
 

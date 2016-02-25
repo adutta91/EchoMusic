@@ -13,16 +13,12 @@ user.password = "password"
 
 user.save!
 
+song = Song.new
 
-5.times do
-  song = Song.new
+song.title = "Oviedo"
+song.user_id = 1
+song.artist_name = "Blind Pilot"
+song.album_id = 1
+song.audio_url = "http://res.cloudinary.com/dzyfczxnr/video/upload/v1456429236/bzivyltyvhbor8fin9tv.m4a"
 
-  song.title = Faker::Book.title
-  song.description = Faker::Hacker.say_something_smart
-  song.user_id = 1
-  song.artist_name = "dudeGuy"
-  song.album_id = 1
-  song.audio_url = "audio/url"
-
-  song.save!
-end
+song.save!
