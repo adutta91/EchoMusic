@@ -35,7 +35,7 @@ var App = React.createClass({
   },
 
   checkForLogIn: function() {
-
+    alert('this is a branch test');
     var user = this.state.user;
     if (user === null) {
       this.props.history.push('/session/new');
