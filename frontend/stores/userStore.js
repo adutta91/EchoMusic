@@ -24,15 +24,28 @@ UserStore.__onDispatch = function(payload) {
       logout();
       UserStore.__emitChange();
       break;
+    case 'REFRESH_SESSION':
+      refresh(payload.user);
+      UserStore.__emitChange();
+      break;
   }
 };
 
 var login = function(user) {
   _user = user;
   _loggedIn = true;
+  var storedUser = JSON.stringify(user);
+  localStorage.setItem('user', storedUser);
+};
+
+var refresh = function(user) {
+  var user = localStorage.getItem('user');
+  _user = JSON.parse(user);
+  _loggedIn = true;
 };
 
 var logout = function() {
+  localStorage.clear();
   _user = null;
   _loggedIn = false;
 };

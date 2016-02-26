@@ -11,7 +11,14 @@ UserActions = {
   logOutUser: function() {
     Dispatcher.dispatch({
       actionType: 'LOGOUT_USER'
-    })
+    });
+  },
+
+  refreshSession: function(user) {
+    Dispatcher.dispatch({
+      actionType: 'REFRESH_SESSION',
+      user: user
+    });
   }
 };
 

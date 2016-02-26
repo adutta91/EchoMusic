@@ -53,7 +53,7 @@
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
-	// import { IndexRoute } from 'react-router'
+	
 	// stores
 	var UserStore = __webpack_require__(216);
 	var SongStore = __webpack_require__(244);
@@ -75,26 +75,26 @@
 	
 	
 	  getInitialState: function () {
-	    debugger;
 	    return {
 	      user: UserStore.currentUser()
 	    };
 	  },
 	
 	  checkForLogIn: function () {
-	    alert('this is a branch test');
-	    var user = this.state.user;
+	    var user = localStorage.getItem('user');
 	    if (user === null) {
 	      this.props.history.push('/session/new');
 	    } else {
-	      this.setState({ user: UserStore.currentUser() });
+	      user = JSON.parse(user);
+	      UserUtil.refreshSession(user);
 	    }
 	  },
 	
 	  _onChange: function () {
-	    if (!UserStore.loggedIn()) {
-	      this.props.history.push('/session/new');
-	    } else {}
+	    // if (!UserStore.loggedIn()) {
+	    //   this.props.history.push('/session/new');
+	    // } else {
+	    // }
 	  },
 	
 	  componentDidMount: function () {
@@ -24794,15 +24794,28 @@
 	      logout();
 	      UserStore.__emitChange();
 	      break;
+	    case 'REFRESH_SESSION':
+	      refresh(payload.user);
+	      UserStore.__emitChange();
+	      break;
 	  }
 	};
 	
 	var login = function (user) {
 	  _user = user;
 	  _loggedIn = true;
+	  var storedUser = JSON.stringify(user);
+	  localStorage.setItem('user', storedUser);
+	};
+	
+	var refresh = function (user) {
+	  var user = localStorage.getItem('user');
+	  _user = JSON.parse(user);
+	  _loggedIn = true;
 	};
 	
 	var logout = function () {
+	  localStorage.clear();
 	  _user = null;
 	  _loggedIn = false;
 	};
@@ -32197,6 +32210,10 @@
 	    });
 	  },
 	
+	  refreshSession: function (user) {
+	    UserActions.refreshSession(user);
+	  },
+	
 	  resetSession: function (user) {
 	    $.ajax({
 	      url: 'api/session',
@@ -32229,6 +32246,13 @@
 	  logOutUser: function () {
 	    Dispatcher.dispatch({
 	      actionType: 'LOGOUT_USER'
+	    });
+	  },
+	
+	  refreshSession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'REFRESH_SESSION',
+	      user: user
 	    });
 	  }
 	};

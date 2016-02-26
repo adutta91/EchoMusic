@@ -7,7 +7,7 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
-// import { IndexRoute } from 'react-router'
+
 // stores
 var UserStore = require('./stores/userStore');
 var SongStore = require('./stores/songStore');
@@ -28,27 +28,26 @@ var Footer = require('./components/footer/footer');
 var App = React.createClass({
 
   getInitialState: function() {
-    debugger;
     return ({
       user: UserStore.currentUser()
     });
   },
 
   checkForLogIn: function() {
-    alert('this is a branch test');
-    var user = this.state.user;
+    var user = localStorage.getItem('user')
     if (user === null) {
       this.props.history.push('/session/new');
     } else {
-      this.setState({ user: UserStore.currentUser() });
+      user = JSON.parse(user);
+      UserUtil.refreshSession(user);
     }
   },
 
   _onChange: function() {
-    if (!UserStore.loggedIn()) {
-      this.props.history.push('/session/new');
-    } else {
-    }
+    // if (!UserStore.loggedIn()) {
+    //   this.props.history.push('/session/new');
+    // } else {
+    // }
   },
 
   componentDidMount: function() {

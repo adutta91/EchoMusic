@@ -34,6 +34,10 @@ UserUtil = {
     });
   },
 
+  refreshSession: function(user) {
+    UserActions.refreshSession(user);
+  },
+
   resetSession: function(user) {
     $.ajax({
       url: 'api/session',
