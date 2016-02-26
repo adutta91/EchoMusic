@@ -3,7 +3,25 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 audio {
-  background-color: #FF5B00
+  width: 500px;
+  margin-top: 75px;
+}
+
+audio:hover {
+  cursor: pointer;
+}
+
+.songDisplay {
+  top: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.songArtist {
+  margin-top: 75px;
+  margin-left: 15px;
 }
 
 .songForm {
@@ -17,25 +35,27 @@ audio {
   display: flex;
   margin: 0 auto;
   width: 900px;
-  background-color: #c9c9c9;
   text-align: center;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 .songIndexItem {
+  opacity: 0.4;
   width: 100px;
   height: 100px;
   background-color: #00A4FF;
   margin: 10px;
   border-radius: 5px;
-  line-height: 100px;
-  text-align: center;
+  text-align: bottom;
+  -moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  box-shadow: 1px 2px 3px rgba(0,0,0,.5);
 }
 
 .songIndexItem:hover {
+  opacity: 1;
   cursor: pointer;
-  background-color: #006299;
 }
 
 .indexTitle {
@@ -48,7 +68,8 @@ audio {
 }
 
 .songTitleDisplay {
-  margin-top: 100px;
+  font-size: 30px;
+  margin: 100px 20px 20px;
 }
 
 .audioUploadButton {
@@ -60,4 +81,8 @@ audio {
   background-color: #14CC60;
   margin-top: 10px;
   width: 100%;
+}
+
+.uploadFormButton:hover {
+  background-color: #12B756;
 }

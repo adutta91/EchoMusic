@@ -18,6 +18,7 @@ var LogIn = require('./components/users/logIn');
 var LoggedInApp = require('./components/app/app');
 var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
+var Footer = require('./components/footer/footer');
 
 
 window.UserStore = UserStore;
@@ -33,7 +34,7 @@ var App = React.createClass({
   checkForLogIn: function() {
     var user = this.state.user;
     if (user === null) {
-      this.props.history.push('/api/session/new');
+      this.props.history.push('/session/new');
     } else {
       this.setState({ user: UserStore.currentUser() });
     }
@@ -41,7 +42,7 @@ var App = React.createClass({
 
   _onChange: function() {
     if (!UserStore.loggedIn()) {
-      this.props.history.push('/api/session/new');
+      this.props.history.push('/session/new');
     } else {
     }
   },
@@ -60,6 +61,7 @@ var App = React.createClass({
       <div>
         <Header />
         {this.props.children}
+        <Footer />
       </div>
     );
   }
@@ -68,10 +70,10 @@ var App = React.createClass({
 var appRoutes = (
   <Route path='/' component={App}>
     <IndexRoute component={LoggedInApp} />
-    <Route path='/api/songs/new' component={SongForm} />
-    <Route path='/api/session/new' component={LogIn} />
-    <Route path='/api/users/:id' component={UserProfile} />
-    <Route path='/api/songs/:id' component={SongProfile} />
+    <Route path='/songs/new' component={SongForm} />
+    <Route path='/session/new' component={LogIn} />
+    <Route path='/users/:id' component={UserProfile} />
+    <Route path='/songs/:id' component={SongProfile} />
   </Route>
 );
 

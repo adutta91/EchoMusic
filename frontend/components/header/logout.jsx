@@ -10,7 +10,7 @@ var Logout = React.createClass({
     event.preventDefault();
     var user = UserStore.currentUser();
     UserUtil.resetSession(user);
-    this.history.push('/api/session/new');
+    this.history.push('/session/new');
   },
 
   render: function() {

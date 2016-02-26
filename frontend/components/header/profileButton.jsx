@@ -7,7 +7,7 @@ var ProfileButton = React.createClass({
 
   handleSubmit: function() {
     debugger;
-    this.history.push('/api/users/:id');
+    this.history.push('/users/:id');
   },
 
   render: function() {

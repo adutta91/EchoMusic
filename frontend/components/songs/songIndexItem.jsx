@@ -12,7 +12,7 @@ var SongIndexItem = React.createClass({
   },
 
   _onClick: function(event) {
-    this.history.push('/api/songs/' + this.state.song.id);
+    this.history.push('/songs/' + this.state.song.id);
   },
 
   render: function() {

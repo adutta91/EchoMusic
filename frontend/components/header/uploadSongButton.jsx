@@ -8,7 +8,7 @@ var UploadSongButton = React.createClass({
 
   handleUploadClicked: function(event) {
     event.preventDefault();
-    this.history.push('api/songs/new');
+    this.history.push('/songs/new');
   },
 
   render: function() {

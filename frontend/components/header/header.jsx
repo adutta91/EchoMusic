@@ -27,14 +27,24 @@ var Header = React.createClass({
   },
 
   render: function() {
-    return (
-      <div className="header">
-        <Logo />
-        <div className="appName">SongStorm</div>
+    var headerButtons = <div/>;
+
+    if (this.state.showButtons) {
+      headerButtons = (
         <div className="headerButtons">
-          {this.state.showButtons ? <UploadSongButton /> : <div/> }
-          {this.state.showButtons ? <ProfileButton /> : <div/> }
-          {this.state.showButtons ? <Logout /> : <div/> }
+          <UploadSongButton />
+          <ProfileButton />
+          <Logout />
+        </div>
+      );
+    }
+
+    return (
+      <div>
+        <div className="appName">SongStorm</div>
+        <div className="header">
+          <Logo />
+          {headerButtons}
         </div>
       </div>
     )

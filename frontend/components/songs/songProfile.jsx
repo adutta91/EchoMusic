@@ -8,7 +8,8 @@ var SongProfile = React.createClass({
     return ({
       song: {
         title: "",
-        audio_url: ""
+        audio_url: "",
+        artist_name: ""
       }
     });
   },
@@ -26,10 +27,15 @@ var SongProfile = React.createClass({
 
   render: function() {
     return (
-      <div className="songTitleDisplay">
-        {this.state.song.title}
+      <div className="songDisplay">
+        <div className="songTitleDisplay">
+          {this.state.song.title}
+        </div>
         <audio src={this.state.song.audio_url}
                controls/>
+        <div className="songArtist">
+          by {this.state.song.artist_name}
+        </div>
       </div>
     );
   }

@@ -25,13 +25,9 @@ var SongForm = React.createClass({
   },
 
   audioUpload: function() {
-    // TODO: figaro?? ERB escapes were not happy...
-    var options = {
-      cloud_name: "dzyfczxnr",
-      upload_preset: "paygr4uo"
-    };
     var callback = this.uploadResult;
-    cloudinary.openUploadWidget(options, callback);
+    
+    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
     this.setState({audioUploaded: true});
   },
 
