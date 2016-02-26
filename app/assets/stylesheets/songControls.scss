@@ -8,7 +8,7 @@
   margin: 5px;
 }
 
-.playButton {
+.songButton {
   width: 60px;
   height: 30px;
   margin-top: 70px;
@@ -18,12 +18,6 @@
   font-size: 12px;
 }
 
-.pauseButton {
-  width: 60px;
-  height: 30px;
-  margin-top: 70px;
-  margin-left: 15px;
-  text-align: center;
-  line-height: 100%;
-  font-size: 12px;
+.songButton:hover {
+  cursor: pointer;
 }

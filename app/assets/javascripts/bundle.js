@@ -56,6 +56,7 @@
 	// import { IndexRoute } from 'react-router'
 	// stores
 	var UserStore = __webpack_require__(216);
+	var SongStore = __webpack_require__(244);
 	
 	// React components
 	var UserProfile = __webpack_require__(236);
@@ -67,6 +68,7 @@
 	var Footer = __webpack_require__(261);
 	
 	window.UserStore = UserStore;
+	window.SongStore = SongStore;
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -31475,14 +31477,16 @@
 
 	var React = __webpack_require__(1);
 	
+	var UserStore = __webpack_require__(216);
+	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
-	      'This is a User'
+	      { id: 'userProfile' },
+	      UserStore.currentUser().username
 	    );
 	  }
 	});
@@ -31849,9 +31853,9 @@
 	      success: function (song) {
 	        SongActions.uploadSong(song);
 	      },
-	      error: function (song) {
-	        // TODO: errors
-	        alert('ya done goofed');
+	      error: function (song, error) {
+	        debugger;
+	        alert(error);
 	      }
 	    });
 	  },
@@ -32142,11 +32146,7 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleLogout },
-	      React.createElement('input', { className: 'logoutButton', type: 'submit', value: 'Logout' })
-	    );
+	    return React.createElement('input', { onClick: this.handleLogout, className: 'logoutButton', type: 'submit', value: 'Logout' });
 	  }
 	});
 	
@@ -32248,11 +32248,7 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleUploadClicked },
-	      React.createElement('input', { className: 'uploadButton', type: 'submit', value: 'Upload!' })
-	    );
+	    return React.createElement('input', { onClick: this.handleUploadClicked, className: 'uploadButton', type: 'submit', value: 'Upload!' });
 	  }
 	});
 	
@@ -32272,15 +32268,16 @@
 	
 	  mixins: [History],
 	
-	  handleSubmit: function () {
-	    this.history.push('/users/' + UserStore.currentUser.id);
+	  _onClick: function (event) {
+	    event.preventDefault();
+	    this.history.push('/users/' + UserStore.currentUser().id);
 	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      'form',
-	      { onSubmit: this.handleSubmit },
-	      React.createElement('button', { className: 'profileButton', type: 'submit', value: 'Profile' })
+	      'input',
+	      { className: 'profileButton', type: 'submit', value: 'Profile', onClick: this._onClick },
+	      'Profile'
 	    );
 	  }
 	});
@@ -32368,7 +32365,7 @@
 	
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'welcomeForms' },
 	      React.createElement(
 	        'div',
 	        { className: 'tabs group' },
@@ -32857,7 +32854,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'button',
-	      { className: 'playButton', onClick: this.playSong },
+	      { className: 'songButton', onClick: this.playSong },
 	      'Play'
 	    );
 	  }
@@ -32911,7 +32908,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'button',
-	      { className: 'pauseButton', onClick: this.pauseSong },
+	      { className: 'songButton', onClick: this.pauseSong },
 	      'Pause'
 	    );
 	  }

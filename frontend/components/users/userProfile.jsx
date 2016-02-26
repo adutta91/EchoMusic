@@ -1,9 +1,11 @@
 var React = require('react');
 
+var UserStore = require('../../stores/userStore');
+
 var UserProfile = React.createClass({
   render: function() {
     return (
-      <div>This is a User</div>
+      <div id="userProfile">{UserStore.currentUser().username}</div>
     )
   }
 });

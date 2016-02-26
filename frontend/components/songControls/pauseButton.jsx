@@ -15,7 +15,7 @@ var PauseButton = React.createClass({
 
   render: function() {
     return (
-      <button className="pauseButton" onClick={this.pauseSong}>Pause</button>
+      <button className="songButton" onClick={this.pauseSong}>Pause</button>
     );
   }
 });

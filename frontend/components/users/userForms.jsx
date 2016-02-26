@@ -49,7 +49,7 @@ var UserForms = React.createClass({
     }.bind(this));
 
     return (
-      <div>
+      <div className="welcomeForms">
         <div className="tabs group">
           {tabListItems}
         </div>

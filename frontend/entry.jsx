@@ -10,6 +10,7 @@ var IndexRoute = ReactRouter.IndexRoute;
 // import { IndexRoute } from 'react-router'
 // stores
 var UserStore = require('./stores/userStore');
+var SongStore = require('./stores/songStore');
 
 // React components
 var UserProfile = require('./components/users/userProfile');
@@ -22,6 +23,7 @@ var Footer = require('./components/footer/footer');
 
 
 window.UserStore = UserStore;
+window.SongStore = SongStore;
 
 var App = React.createClass({
 

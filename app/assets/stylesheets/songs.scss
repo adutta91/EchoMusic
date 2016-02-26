@@ -17,6 +17,7 @@ audio:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: linear-gradient(to bottom left, #592000, #3D7899);
 }
 
 .songArtist {
@@ -25,6 +26,8 @@ audio:hover {
 }
 
 .songForm {
+  display: flex;
+  flex-direction: column;
   align-self: center;
   margin-top: 100px;
   width: 300px;
@@ -44,7 +47,7 @@ audio:hover {
   opacity: 0.4;
   width: 100px;
   height: 100px;
-  background-color: #00A4FF;
+  background: linear-gradient(to bottom right, #592000, #3D7899);
   margin: 10px;
   border-radius: 5px;
   text-align: bottom;
@@ -54,6 +57,7 @@ audio:hover {
 }
 
 .songIndexItem:hover {
+  // background: linear-gradient(to bottom right, #3D7899, #592000);
   opacity: 1;
   cursor: pointer;
 }
@@ -74,12 +78,13 @@ audio:hover {
 
 .audioUploadButton {
   margin: 10px auto;
-  width: 100%;
+  width: 100px;
+  height: 30px;
 }
 
 .uploadFormButton {
   background-color: #14CC60;
-  margin-top: 10px;
+  margin-top: 15px;
   width: 100%;
 }
 

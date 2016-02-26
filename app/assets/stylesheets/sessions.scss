@@ -21,6 +21,7 @@ body {
    background-size: cover;
    margin: 0 auto;
    height: 100%;
+   padding: 100px 0px 200px 0px;
  }
 
 .logInPage {
@@ -31,6 +32,12 @@ body {
   background-size: cover;
   margin: 0 auto;
   height: 100%;
+}
+
+.welcomeForms {
+  display: flex;
+  flex-direction: column;
+
 }
 
 .tabs {
@@ -71,7 +78,7 @@ body {
 .userForms {
   width: 500px;
   margin: 0 auto;
-  padding: 100px 0px 500px 0px;
+  padding: 100px 0px 200px 0px;
 }
 
 .forms {

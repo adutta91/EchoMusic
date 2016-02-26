@@ -17,7 +17,7 @@ var PlayButton = React.createClass({
 
   render: function() {
     return (
-      <button className="playButton" onClick={this.playSong}>Play</button>
+      <button className="songButton" onClick={this.playSong}>Play</button>
     );
   }
 });

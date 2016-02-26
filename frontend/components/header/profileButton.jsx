@@ -6,15 +6,14 @@ var ProfileButton = React.createClass({
 
   mixins: [History],
 
-  handleSubmit: function() {
-    this.history.push('/users/' + UserStore.currentUser.id);
+  _onClick: function(event) {
+    event.preventDefault();
+    this.history.push('/users/' + UserStore.currentUser().id);
   },
 
   render: function() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <button className="profileButton" type="submit" value="Profile" />
-      </form>
+      <input className="profileButton" type="submit" value="Profile" onClick={this._onClick}>Profile</input>
     );
   }
 });

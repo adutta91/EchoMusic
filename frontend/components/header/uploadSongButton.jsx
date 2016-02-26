@@ -13,9 +13,7 @@ var UploadSongButton = React.createClass({
 
   render: function() {
     return (
-      <form onSubmit={this.handleUploadClicked}>
-        <input className="uploadButton" type="submit" value="Upload!" />
-      </form>
+      <input onClick={this.handleUploadClicked} className="uploadButton" type="submit" value="Upload!" />
     );
   }
 });

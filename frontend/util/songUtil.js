@@ -16,9 +16,9 @@ SongUtil = {
       success: function(song) {
         SongActions.uploadSong(song);
       },
-      error: function(song) {
-        // TODO: errors
-        alert('ya done goofed');
+      error: function(song, error) {
+        debugger;
+        alert(error);
       }
     });
   },
