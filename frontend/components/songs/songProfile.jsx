@@ -1,6 +1,7 @@
 var React = require('react');
 
 var SongStore = require('../../stores/songStore');
+var PlayButton = require('../songControls/playButton');
 
 var SongProfile = React.createClass({
 
@@ -31,11 +32,10 @@ var SongProfile = React.createClass({
         <div className="songTitleDisplay">
           {this.state.song.title}
         </div>
-        <audio src={this.state.song.audio_url}
-               controls/>
         <div className="songArtist">
           by {this.state.song.artist_name}
         </div>
+        <PlayButton songId={this.props.params.id}/>
       </div>
     );
   }

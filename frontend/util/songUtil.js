@@ -27,6 +27,14 @@ SongUtil = {
         alert('ya done goofed');
       }
     });
+  },
+
+  playSong: function(songId) {
+    SongActions.playSong(songId);
+  },
+
+  endSong: function() {
+    SongActions.endSong();
   }
 }
 

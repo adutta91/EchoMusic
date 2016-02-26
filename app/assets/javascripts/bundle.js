@@ -105,7 +105,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'content' },
 	      React.createElement(Header, null),
 	      this.props.children,
 	      React.createElement(Footer, null)
@@ -31858,6 +31858,14 @@
 	        alert('ya done goofed');
 	      }
 	    });
+	  },
+	
+	  playSong: function (songId) {
+	    SongActions.playSong(songId);
+	  },
+	
+	  endSong: function () {
+	    SongActions.endSong();
 	  }
 	};
 	
@@ -31882,6 +31890,19 @@
 	      actionType: 'RECEIVE_SONGS',
 	      songs: songs
 	    });
+	  },
+	
+	  playSong: function (songId) {
+	    Dispatcher.dispatch({
+	      actionType: 'PLAY_SONG',
+	      songId: songId
+	    });
+	  },
+	
+	  endSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'END_SONG'
+	    });
 	  }
 	
 	};
@@ -31896,7 +31917,7 @@
 	var Dispatcher = __webpack_require__(233);
 	
 	var _songs = {};
-	var _currentSong;
+	var _currentSong = null;
 	var SongStore = new Store(Dispatcher);
 	
 	SongStore.all = function () {
@@ -31912,10 +31933,26 @@
 	};
 	
 	SongStore.currentSong = function () {
-	  if (currentSong) {
+	  if (_currentSong) {
 	    return _currentSong;
 	  } else {
 	    return null;
+	  }
+	};
+	
+	SongStore.setCurrentSong = function (songId) {
+	  _currentSong = _songs[songId];
+	};
+	
+	SongStore.endCurrentSong = function () {
+	  _currentSong = null;
+	};
+	
+	SongStore.playing = function () {
+	  if (_currentSong === null) {
+	    return false;
+	  } else {
+	    return true;
 	  }
 	};
 	
@@ -31930,14 +31967,17 @@
 	      SongStore.__emitChange();
 	      break;
 	    case 'PLAY_SONG':
-	      alert('songPlaying');
+	      SongStore.setCurrentSong(payload.songId);
+	      SongStore.__emitChange();
+	      break;
+	    case 'END_SONG':
+	      SongStore.endCurrentSong();
 	      SongStore.__emitChange();
 	      break;
 	  }
 	};
 	
 	var resetSongs = function (songs) {
-	
 	  _songs = {};
 	  songs.forEach(function (song) {
 	    _songs[song.id] = song;
@@ -32622,6 +32662,7 @@
 	var React = __webpack_require__(1);
 	
 	var SongStore = __webpack_require__(244);
+	var PlayButton = __webpack_require__(265);
 	
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
@@ -32657,14 +32698,13 @@
 	        { className: 'songTitleDisplay' },
 	        this.state.song.title
 	      ),
-	      React.createElement('audio', { src: this.state.song.audio_url,
-	        controls: true }),
 	      React.createElement(
 	        'div',
 	        { className: 'songArtist' },
 	        'by ',
 	        this.state.song.artist_name
-	      )
+	      ),
+	      React.createElement(PlayButton, { songId: this.props.params.id })
 	    );
 	  }
 	});
@@ -32677,17 +32717,46 @@
 
 	var React = __webpack_require__(1);
 	
-	var SongControls = __webpack_require__(262);
+	var SongControls = __webpack_require__(266);
+	var SongStore = __webpack_require__(244);
 	
 	var Footer = React.createClass({
 	  displayName: 'Footer',
 	
 	
+	  getInitialState: function () {
+	    return {
+	      showSong: false
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = SongStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  _onChange: function () {
+	    if (SongStore.playing()) {
+	      this.setState({ showSong: true });
+	    } else {
+	      this.setState({ showSong: false });
+	    }
+	  },
+	
 	  render: function () {
+	    var song = React.createElement('div', null);
+	    if (this.state.showSong) {
+	      song = SongStore.currentSong().title;
+	    }
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'footer' },
-	      React.createElement(SongControls, null)
+	      'Playing - ',
+	      song
 	    );
 	  }
 	
@@ -32696,12 +32765,61 @@
 	module.exports = Footer;
 
 /***/ },
-/* 262 */
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var SongStore = __webpack_require__(244);
+	
+	var PlayButton = React.createClass({
+	  displayName: 'PlayButton',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      songId: this.props.songId
+	    };
+	  },
+	
+	  playSong: function () {
+	    SongUtil.playSong(this.state.songId);
+	
+	    var audio = new Audio();
+	    audio.src = SongStore.currentSong().audio_url;
+	
+	    audio.addEventListener('canplay', function () {
+	      audio.play();
+	    });
+	
+	    audio.addEventListener('ended', function () {
+	      SongUtil.endSong();
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'button',
+	      { className: 'playButton', onClick: this.playSong },
+	      'Play'
+	    );
+	  }
+	});
+	
+	module.exports = PlayButton;
+
+/***/ },
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var PlayButton = __webpack_require__(263);
+	var PlayButton = __webpack_require__(265);
 	
 	var SongControls = React.createClass({
 	  displayName: 'SongControls',
@@ -32716,22 +32834,6 @@
 	});
 	
 	module.exports = SongControls;
-
-/***/ },
-/* 263 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var PlayButton = React.createClass({
-	  displayName: "PlayButton",
-	
-	  render: function () {
-	    return React.createElement("div", { className: "playButton" });
-	  }
-	});
-	
-	module.exports = PlayButton;
 
 /***/ }
 /******/ ]);
