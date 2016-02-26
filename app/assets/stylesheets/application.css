@@ -16,7 +16,7 @@
 
  html {
    font-family: Quattrocento Sans;
-   background-color: #FFFFFF;
+   background-color: #989898;
    color: white;
    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
@@ -48,7 +48,7 @@
  }
 
  #root {
-   background-color: #C9C9C9;
+   background-color: #989898;
    width: 100%;
    height: 100%;
  }
@@ -100,16 +100,24 @@
   background-color: #952000;
 }
 
+.logoutButton:hover {
+  background-color: #952000;
+}
+
 .uploadButton {
   background-color: #14CC60;
+}
+
+.uploadButton:hover {
+  background-color: #12B756;
 }
 
 .profileButton {
   background-color: #908E8B
 }
 
-.uploadButton:hover {
-  background-color: #12B756;
+.profileButton:hover {
+  background-color: #757472
 }
 
 .logo {
@@ -137,7 +145,7 @@
   color: #FF5B00;
   text-align: center;
   line-height: 100%;
-  width: 900px;
+  width: 100%;
   background-color: #c9c9c9;
   height: 500px;
   background: url("https://images.unsplash.com/photo-1431069767777-c37892aa0a07?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=0f9206053a31ff2b647db8ae1ea91bc3") no-repeat center center fixed;
@@ -146,7 +154,6 @@
   -o-background-size: cover;
   background-size: cover;
   margin: 0 auto;
-  border-radius: 10px;
   -moz-box-shadow: 3px 3px 3px 3px rgba(0,0,0,.5);
   -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,.5);
   box-shadow: 1px 2px 3px 3px rgba(0,0,0,.5);

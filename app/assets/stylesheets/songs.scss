@@ -12,12 +12,11 @@ audio:hover {
 }
 
 .songDisplay {
-  top: 100px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: linear-gradient(to bottom left, #592000, #3D7899);
+  background: linear-gradient(to bottom left, #592000, #3D7899);
 }
 
 .songArtist {
@@ -32,6 +31,15 @@ audio:hover {
   margin-top: 100px;
   width: 300px;
   margin: 100px auto;
+}
+
+.songFormBanner {
+  width: 100%;
+  background: url("https://images.unsplash.com/photo-1453906971074-ce568cccbc63?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=381fb31fe6b888aed685b1a5ece3da3f") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .songIndex {
@@ -74,6 +82,10 @@ audio:hover {
 .songTitleDisplay {
   font-size: 30px;
   margin: 100px 20px 20px;
+}
+
+.songTitleForm {
+  margin-top: 20px;
 }
 
 .audioUploadButton {

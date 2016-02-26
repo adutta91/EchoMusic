@@ -67,20 +67,22 @@
 	var SongProfile = __webpack_require__(260);
 	var Footer = __webpack_require__(261);
 	
-	window.UserStore = UserStore;
-	window.SongStore = SongStore;
+	// window.UserStore = UserStore;
+	// window.SongStore = SongStore;
 	
 	var App = React.createClass({
 	  displayName: 'App',
 	
 	
 	  getInitialState: function () {
+	    debugger;
 	    return {
 	      user: UserStore.currentUser()
 	    };
 	  },
 	
 	  checkForLogIn: function () {
+	
 	    var user = this.state.user;
 	    if (user === null) {
 	      this.props.history.push('/session/new');
@@ -31553,48 +31555,52 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'form',
-	      { className: 'songForm', onSubmit: this.handleSubmit },
+	      'div',
+	      { className: 'songFormBanner' },
 	      React.createElement(
-	        'label',
-	        { htmlFor: 'title', className: 'songTitleForm' },
-	        'Title: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', { type: 'text',
-	        id: 'title',
-	        valueLink: this.linkState("title") }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'artist_name', className: 'songArtistForm' },
-	        'Artist: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', { type: 'text',
-	        id: 'artist',
-	        valueLink: this.linkState("artist") }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'album_id', className: 'songAlbumForm' },
-	        'Album: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', { type: 'text',
-	        id: 'album',
-	        valueLink: this.linkState("album") }),
-	      React.createElement('br', null),
-	      this.state.audioUploaded ? React.createElement(
-	        'div',
-	        { className: 'audioChecked' },
-	        'Uploaded!'
-	      ) : React.createElement(
-	        'button',
-	        { className: 'audioUploadButton', onClick: this.audioUpload },
-	        'Choose a File!'
-	      ),
-	      React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
+	        'form',
+	        { className: 'songForm', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'title', className: 'songTitleForm' },
+	          'Title: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'title',
+	          valueLink: this.linkState("title") }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'artist_name', className: 'songArtistForm' },
+	          'Artist: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'artist',
+	          valueLink: this.linkState("artist") }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'album_id', className: 'songAlbumForm' },
+	          'Album: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'album',
+	          valueLink: this.linkState("album") }),
+	        React.createElement('br', null),
+	        this.state.audioUploaded ? React.createElement(
+	          'div',
+	          { className: 'audioChecked' },
+	          'Uploaded!'
+	        ) : React.createElement(
+	          'button',
+	          { className: 'audioUploadButton', onClick: this.audioUpload },
+	          'Choose a File!'
+	        ),
+	        React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
+	      )
 	    );
 	  }
 	});

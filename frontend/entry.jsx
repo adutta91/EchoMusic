@@ -22,18 +22,20 @@ var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
 
-window.UserStore = UserStore;
-window.SongStore = SongStore;
+// window.UserStore = UserStore;
+// window.SongStore = SongStore;
 
 var App = React.createClass({
 
   getInitialState: function() {
+    debugger;
     return ({
       user: UserStore.currentUser()
     });
   },
 
   checkForLogIn: function() {
+
     var user = this.state.user;
     if (user === null) {
       this.props.history.push('/session/new');
