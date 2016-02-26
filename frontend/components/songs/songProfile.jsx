@@ -2,6 +2,7 @@ var React = require('react');
 
 var SongStore = require('../../stores/songStore');
 var PlayButton = require('../songControls/playButton');
+var PauseButton = require('../songControls/pauseButton');
 
 var SongProfile = React.createClass({
 
@@ -11,7 +12,8 @@ var SongProfile = React.createClass({
         title: "",
         audio_url: "",
         artist_name: ""
-      }
+      },
+      playing: false
     });
   },
 
@@ -24,9 +26,32 @@ var SongProfile = React.createClass({
 
   componentDidMount: function() {
     this.getStateFromStore();
+    this.listener = SongStore.addListener(this.toggleButton);
+  },
+
+  componentWillUnmount: function() {
+    this.listener.remove();
+  },
+
+  toggleButton: function() {
+    this.setState( { playing: !this.state.playing } );
+  },
+
+  button: function() {
+    var button;
+
+    if (this.state.playing) {
+      button = <PauseButton songId={this.props.params.id}
+                            toggle={this.toggleButton}/>
+    } else {
+      button = <PlayButton songId={this.props.params.id}
+                           toggle={this.toggleButton}/>
+    }
+    return button;
   },
 
   render: function() {
+    var button = this.button();
     return (
       <div className="songDisplay">
         <div className="songTitleDisplay">
@@ -35,7 +60,7 @@ var SongProfile = React.createClass({
         <div className="songArtist">
           by {this.state.song.artist_name}
         </div>
-        <PlayButton songId={this.props.params.id}/>
+        {this.button()}
       </div>
     );
   }

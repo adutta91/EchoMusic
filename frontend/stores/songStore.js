@@ -3,6 +3,8 @@ var Dispatcher = require('../dispatcher');
 
 var _songs = {};
 var _currentSong = null;
+var _playing = false;
+var _audio = new Audio();
 var SongStore = new Store(Dispatcher);
 
 SongStore.all = function() {
@@ -31,15 +33,6 @@ SongStore.setCurrentSong = function(songId) {
 
 SongStore.endCurrentSong = function() {
   _currentSong = null;
-
-};
-
-SongStore.playing = function() {
-  if (_currentSong === null) {
-    return false;
-  } else {
-    return true;
-  }
 };
 
 SongStore.__onDispatch = function(payload) {
@@ -53,7 +46,20 @@ SongStore.__onDispatch = function(payload) {
       SongStore.__emitChange();
       break;
     case 'PLAY_SONG':
-      SongStore.setCurrentSong(payload.songId);
+      if (_currentSong === null) {
+        SongStore.setCurrentSong(payload.songId);
+        playSong();
+      } else if (Number(payload.songId) !== _currentSong.id) {
+        SongStore.endCurrentSong();
+        SongStore.setCurrentSong(payload.songId);
+        playSong();
+      } else {
+        resumeSong();
+      }
+      SongStore.__emitChange();
+      break;
+    case 'PAUSE_SONG':
+      pauseSong();
       SongStore.__emitChange();
       break;
     case 'END_SONG':
@@ -61,6 +67,30 @@ SongStore.__onDispatch = function(payload) {
       SongStore.__emitChange();
       break;
   }
+};
+
+var playSong = function() {
+  _audio.src = _currentSong.audio_url;
+
+  _audio.addEventListener('canplay', function() {
+    _audio.play();
+    _playing = true;
+  });
+
+  _audio.addEventListener('ended', function() {
+    SongUtil.endSong();
+    _playing = false;
+  });
+};
+
+var pauseSong = function() {
+  _audio.pause();
+  _playing = false;
+};
+
+var resumeSong = function() {
+  _audio.play();
+  _playing = true;
 };
 
 var resetSongs = function(songs) {

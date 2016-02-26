@@ -8,12 +8,6 @@ SongUtil = {
     });
   },
 
-  fetchSingleSong: function() {
-    $.ajax({
-
-    });
-  },
-
   createSong: function(song) {
     $.ajax({
       url: 'api/songs',
@@ -31,6 +25,10 @@ SongUtil = {
 
   playSong: function(songId) {
     SongActions.playSong(songId);
+  },
+
+  pauseSong: function() {
+    SongActions.pauseSong();
   },
 
   endSong: function() {

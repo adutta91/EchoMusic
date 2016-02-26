@@ -1,16 +1,21 @@
 var React = require('react');
 
-var PauseButton = React.createClass({
+var SongStore = require('../../stores/songStore');
 
+var PauseButton = React.createClass({
   getInitialState: function() {
     return ({
-      clickCallback: this.props.clickCallback
-    })
+      songId: this.props.songId
+    });
+  },
+
+  pauseSong: function() {
+    SongUtil.pauseSong();
   },
 
   render: function() {
     return (
-      <div id="pauseButton" />
+      <button className="pauseButton" onClick={this.pauseSong}>Pause</button>
     );
   }
 });

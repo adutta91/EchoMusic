@@ -22,6 +22,12 @@ SongActions = {
     });
   },
 
+  pauseSong: function() {
+    Dispatcher.dispatch({
+      actionType: 'PAUSE_SONG'
+    });
+  },
+
   endSong: function() {
     Dispatcher.dispatch({
       actionType: 'END_SONG'

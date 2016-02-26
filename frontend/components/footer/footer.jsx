@@ -20,22 +20,26 @@ var Footer = React.createClass({
   },
 
   _onChange: function() {
-    if (SongStore.playing()) {
+    if (SongStore.currentSong() !== null) {
       this.setState({showSong: true});
     } else {
       this.setState({showSong: false});
     }
   },
 
-  render: function() {
-    var song = <div/>
+  showPlaying: function() {
+    var display = "";
     if (this.state.showSong) {
-      song = SongStore.currentSong().title
+      display = "Now playing: " + SongStore.currentSong().title
     }
+    return display;
+  },
+
+  render: function() {
 
     return (
       <div className="footer">
-        Playing - {song}
+        {this.showPlaying()}
       </div>
     );
   }

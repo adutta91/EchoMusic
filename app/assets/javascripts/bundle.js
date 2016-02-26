@@ -31841,10 +31841,6 @@
 	    });
 	  },
 	
-	  fetchSingleSong: function () {
-	    $.ajax({});
-	  },
-	
 	  createSong: function (song) {
 	    $.ajax({
 	      url: 'api/songs',
@@ -31862,6 +31858,10 @@
 	
 	  playSong: function (songId) {
 	    SongActions.playSong(songId);
+	  },
+	
+	  pauseSong: function () {
+	    SongActions.pauseSong();
 	  },
 	
 	  endSong: function () {
@@ -31899,6 +31899,12 @@
 	    });
 	  },
 	
+	  pauseSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'PAUSE_SONG'
+	    });
+	  },
+	
 	  endSong: function () {
 	    Dispatcher.dispatch({
 	      actionType: 'END_SONG'
@@ -31918,6 +31924,8 @@
 	
 	var _songs = {};
 	var _currentSong = null;
+	var _playing = false;
+	var _audio = new Audio();
 	var SongStore = new Store(Dispatcher);
 	
 	SongStore.all = function () {
@@ -31948,14 +31956,6 @@
 	  _currentSong = null;
 	};
 	
-	SongStore.playing = function () {
-	  if (_currentSong === null) {
-	    return false;
-	  } else {
-	    return true;
-	  }
-	};
-	
 	SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case 'ADD_SONG':
@@ -31967,7 +31967,20 @@
 	      SongStore.__emitChange();
 	      break;
 	    case 'PLAY_SONG':
-	      SongStore.setCurrentSong(payload.songId);
+	      if (_currentSong === null) {
+	        SongStore.setCurrentSong(payload.songId);
+	        playSong();
+	      } else if (Number(payload.songId) !== _currentSong.id) {
+	        SongStore.endCurrentSong();
+	        SongStore.setCurrentSong(payload.songId);
+	        playSong();
+	      } else {
+	        resumeSong();
+	      }
+	      SongStore.__emitChange();
+	      break;
+	    case 'PAUSE_SONG':
+	      pauseSong();
 	      SongStore.__emitChange();
 	      break;
 	    case 'END_SONG':
@@ -31975,6 +31988,30 @@
 	      SongStore.__emitChange();
 	      break;
 	  }
+	};
+	
+	var playSong = function () {
+	  _audio.src = _currentSong.audio_url;
+	
+	  _audio.addEventListener('canplay', function () {
+	    _audio.play();
+	    _playing = true;
+	  });
+	
+	  _audio.addEventListener('ended', function () {
+	    SongUtil.endSong();
+	    _playing = false;
+	  });
+	};
+	
+	var pauseSong = function () {
+	  _audio.pause();
+	  _playing = false;
+	};
+	
+	var resumeSong = function () {
+	  _audio.play();
+	  _playing = true;
 	};
 	
 	var resetSongs = function (songs) {
@@ -32227,6 +32264,7 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
+	var UserStore = __webpack_require__(216);
 	
 	var ProfileButton = React.createClass({
 	  displayName: 'ProfileButton',
@@ -32235,8 +32273,7 @@
 	  mixins: [History],
 	
 	  handleSubmit: function () {
-	    debugger;
-	    this.history.push('/users/:id');
+	    this.history.push('/users/' + UserStore.currentUser.id);
 	  },
 	
 	  render: function () {
@@ -32663,6 +32700,7 @@
 	
 	var SongStore = __webpack_require__(244);
 	var PlayButton = __webpack_require__(265);
+	var PauseButton = __webpack_require__(267);
 	
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
@@ -32674,7 +32712,8 @@
 	        title: "",
 	        audio_url: "",
 	        artist_name: ""
-	      }
+	      },
+	      playing: false
 	    };
 	  },
 	
@@ -32687,9 +32726,32 @@
 	
 	  componentDidMount: function () {
 	    this.getStateFromStore();
+	    this.listener = SongStore.addListener(this.toggleButton);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  toggleButton: function () {
+	    this.setState({ playing: !this.state.playing });
+	  },
+	
+	  button: function () {
+	    var button;
+	
+	    if (this.state.playing) {
+	      button = React.createElement(PauseButton, { songId: this.props.params.id,
+	        toggle: this.toggleButton });
+	    } else {
+	      button = React.createElement(PlayButton, { songId: this.props.params.id,
+	        toggle: this.toggleButton });
+	    }
+	    return button;
 	  },
 	
 	  render: function () {
+	    var button = this.button();
 	    return React.createElement(
 	      'div',
 	      { className: 'songDisplay' },
@@ -32704,7 +32766,7 @@
 	        'by ',
 	        this.state.song.artist_name
 	      ),
-	      React.createElement(PlayButton, { songId: this.props.params.id })
+	      this.button()
 	    );
 	  }
 	});
@@ -32739,24 +32801,27 @@
 	  },
 	
 	  _onChange: function () {
-	    if (SongStore.playing()) {
+	    if (SongStore.currentSong() !== null) {
 	      this.setState({ showSong: true });
 	    } else {
 	      this.setState({ showSong: false });
 	    }
 	  },
 	
-	  render: function () {
-	    var song = React.createElement('div', null);
+	  showPlaying: function () {
+	    var display = "";
 	    if (this.state.showSong) {
-	      song = SongStore.currentSong().title;
+	      display = "Now playing: " + SongStore.currentSong().title;
 	    }
+	    return display;
+	  },
+	
+	  render: function () {
 	
 	    return React.createElement(
 	      'div',
 	      { className: 'footer' },
-	      'Playing - ',
-	      song
+	      this.showPlaying()
 	    );
 	  }
 	
@@ -32772,14 +32837,12 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
 	
 	var SongStore = __webpack_require__(244);
 	
 	var PlayButton = React.createClass({
 	  displayName: 'PlayButton',
 	
-	  mixins: [History],
 	
 	  getInitialState: function () {
 	    return {
@@ -32789,17 +32852,6 @@
 	
 	  playSong: function () {
 	    SongUtil.playSong(this.state.songId);
-	
-	    var audio = new Audio();
-	    audio.src = SongStore.currentSong().audio_url;
-	
-	    audio.addEventListener('canplay', function () {
-	      audio.play();
-	    });
-	
-	    audio.addEventListener('ended', function () {
-	      SongUtil.endSong();
-	    });
 	  },
 	
 	  render: function () {
@@ -32834,6 +32886,38 @@
 	});
 	
 	module.exports = SongControls;
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongStore = __webpack_require__(244);
+	
+	var PauseButton = React.createClass({
+	  displayName: 'PauseButton',
+	
+	  getInitialState: function () {
+	    return {
+	      songId: this.props.songId
+	    };
+	  },
+	
+	  pauseSong: function () {
+	    SongUtil.pauseSong();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'button',
+	      { className: 'pauseButton', onClick: this.pauseSong },
+	      'Pause'
+	    );
+	  }
+	});
+	
+	module.exports = PauseButton;
 
 /***/ }
 /******/ ]);
