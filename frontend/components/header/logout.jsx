@@ -1,7 +1,7 @@
 var React = require('react');
-var UserUtil = require('../../util/userUtil');
 var History = require('react-router').History;
 var UserStore = require('../../stores/userStore');
+var ApiUtil = require('../../util/apiUtil');
 
 var Logout = React.createClass({
   mixins: [History],
@@ -9,7 +9,7 @@ var Logout = React.createClass({
   handleLogout: function(event) {
     event.preventDefault();
     var user = UserStore.currentUser();
-    UserUtil.resetSession(user);
+    ApiUtil.resetSession(user);
     this.history.push('/session/new');
   },
 

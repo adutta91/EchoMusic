@@ -7,7 +7,8 @@ var Footer = React.createClass({
 
   getInitialState: function() {
     return ({
-      showSong: false
+      showSong: false,
+      playing: false
     });
   },
 
@@ -30,7 +31,7 @@ var Footer = React.createClass({
   showPlaying: function() {
     var display = "";
     if (this.state.showSong) {
-      display = "Now playing: " + SongStore.currentSong().title
+      display = "Now playing: " + SongStore.currentSong().title;
     }
     return display;
   },

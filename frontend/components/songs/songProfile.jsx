@@ -4,6 +4,8 @@ var SongStore = require('../../stores/songStore');
 var PlayButton = require('../songControls/playButton');
 var PauseButton = require('../songControls/pauseButton');
 
+var ApiUtil = require('../../util/apiUtil');
+
 var SongProfile = React.createClass({
 
   getInitialState: function() {
@@ -25,16 +27,24 @@ var SongProfile = React.createClass({
   },
 
   componentDidMount: function() {
-    this.getStateFromStore();
-    this.listener = SongStore.addListener(this.toggleButton);
+    this.stateListener = SongStore.addListener(this.getStateFromStore);
+    ApiUtil.fetchSingleSong(this.props.params.id);
+    // this.buttonListener = SongStore.addListener(this.toggleButton);
   },
 
   componentWillUnmount: function() {
-    this.listener.remove();
+    // this.buttonListener.remove();
+    this.stateListener.remove();
   },
 
   toggleButton: function() {
-    this.setState( { playing: !this.state.playing } );
+    // if (SongStore.playing() &&
+    //     SongStore.currentSong().id === this.state.song.id) {
+    //   this.setState( { playing: true } );
+    // } else {
+    //   this.setState( { playing: false } );
+    // }
+    this.setState({ playing: !this.state.playing });
   },
 
   button: function() {
@@ -52,6 +62,7 @@ var SongProfile = React.createClass({
 
   render: function() {
     var button = this.button();
+
     return (
       <div className="songDisplay">
         <div className="songTitleDisplay">

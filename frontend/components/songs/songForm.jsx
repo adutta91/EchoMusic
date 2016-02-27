@@ -4,6 +4,7 @@ var SongUtil = require('../../util/songUtil');
 var UserStore = require('../../stores/userStore');
 var History = require('react-router').History;
 var SongStore = require('../../stores/songStore');
+var ApiUtil = require('../../util/songUtil');
 
 
 var SongForm = React.createClass({
@@ -47,7 +48,7 @@ var SongForm = React.createClass({
       public_id: this.state.public_id
     }}
     // TODO: how to get songId without searching store via URL?
-    SongUtil.createSong(song);
+    ApiUtil.createSong(song);
     this.props.history.push('/');
   },
 

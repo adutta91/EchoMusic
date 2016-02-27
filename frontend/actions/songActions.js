@@ -15,6 +15,13 @@ SongActions = {
     });
   },
 
+  receiveSingleSong: function(song) {
+    Dispatcher.dispatch({
+      actionType: 'RECEIVE_SONG',
+      song: song
+    });
+  },
+
   playSong: function(songId) {
     Dispatcher.dispatch({
       actionType: 'PLAY_SONG',

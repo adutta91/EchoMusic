@@ -22,8 +22,6 @@ var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
 
-// window.UserStore = UserStore;
-// window.SongStore = SongStore;
 
 var App = React.createClass({
 
@@ -43,20 +41,8 @@ var App = React.createClass({
     }
   },
 
-  _onChange: function() {
-    // if (!UserStore.loggedIn()) {
-    //   this.props.history.push('/session/new');
-    // } else {
-    // }
-  },
-
   componentDidMount: function() {
     this.checkForLogIn();
-    this.listener = UserStore.addListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    this.listener.remove();
   },
 
   render: function() {

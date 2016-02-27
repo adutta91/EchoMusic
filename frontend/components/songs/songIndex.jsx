@@ -2,6 +2,7 @@ var React = require('react');
 var UserStore = require('../../stores/userStore');
 var SongStore = require('../../stores/songStore');
 var SongUtil = require('../../util/songUtil');
+var ApiUtil = require('../../util/apiUtil');
 
 var SongIndexItem = require('./songIndexItem');
 
@@ -15,7 +16,7 @@ var SongIndex = React.createClass({
 
   componentDidMount: function() {
     this.listener = SongStore.addListener(this._songsChanged);
-    SongUtil.fetchSongs();
+    ApiUtil.fetchSongs();
   },
 
   componentWillUnmount: function() {

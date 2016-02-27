@@ -1,5 +1,6 @@
 var React = require('react');
 var History = require('react-router').History;
+var ApiUtil = require('../../util/apiUtil');
 
 
 var SignInForm = React.createClass({
@@ -28,7 +29,7 @@ var SignInForm = React.createClass({
         password: this.state.password
       }
     };
-    UserUtil.createSession(user);
+    ApiUtil.createSession(user);
     this.history.push('/');
   },
 

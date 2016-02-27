@@ -1,7 +1,10 @@
+// React dependencies
 var React = require('react');
-
-var UserUtil = require('../../util/userUtil');
 var History = require('react-router').History;
+
+// Local dependencies
+var UserUtil = require('../../util/userUtil');
+var ApiUtil = require('../../util/apiUtil');
 
 var SignUpForm = React.createClass({
   mixins: [History],
@@ -29,7 +32,7 @@ var SignUpForm = React.createClass({
         password: this.state.password
       }
     };
-    UserUtil.createUser(user);
+    ApiUtil.createUser(user);
     this.history.push('/');
   },
 

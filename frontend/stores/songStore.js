@@ -27,6 +27,10 @@ SongStore.currentSong = function() {
   }
 };
 
+SongStore.playing = function() {
+  return _playing;
+};
+
 SongStore.setCurrentSong = function(songId) {
   _currentSong = _songs[songId];
 };
@@ -43,6 +47,10 @@ SongStore.__onDispatch = function(payload) {
       break;
     case 'RECEIVE_SONGS':
       resetSongs(payload.songs);
+      SongStore.__emitChange();
+      break;
+    case 'RECEIVE_SONG':
+      resetSong(payload.song);
       SongStore.__emitChange();
       break;
     case 'PLAY_SONG':
@@ -98,8 +106,11 @@ var resetSongs = function(songs) {
   songs.forEach(function(song) {
     _songs[song.id] = song;
   });
-
 };
+
+var resetSong = function(song) {
+  _songs[song.id] = song;
+}
 
 var addSong = function(song) {
   _songs[song.id] = song;

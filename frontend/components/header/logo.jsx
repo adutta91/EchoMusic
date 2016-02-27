@@ -9,7 +9,7 @@ var Logo = React.createClass({
     if(UserStore.loggedIn()) {
       this.history.push('/');
     } else {
-      this.history.push('/session/new');      
+      this.history.push('/session/new');
     }
   },
 

@@ -13,6 +13,7 @@ var PlayButton = React.createClass({
 
   playSong: function() {
     SongUtil.playSong(this.state.songId);
+    this.props.toggle();
   },
 
   render: function() {

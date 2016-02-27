@@ -67,9 +67,6 @@
 	var SongProfile = __webpack_require__(260);
 	var Footer = __webpack_require__(261);
 	
-	// window.UserStore = UserStore;
-	// window.SongStore = SongStore;
-	
 	var App = React.createClass({
 	  displayName: 'App',
 	
@@ -90,20 +87,8 @@
 	    }
 	  },
 	
-	  _onChange: function () {
-	    // if (!UserStore.loggedIn()) {
-	    //   this.props.history.push('/session/new');
-	    // } else {
-	    // }
-	  },
-	
 	  componentDidMount: function () {
 	    this.checkForLogIn();
-	    this.listener = UserStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
 	  },
 	
 	  render: function () {
@@ -31497,6 +31482,14 @@
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
+	  getInitialState: function () {
+	    return {
+	      userId: this.props.params.id
+	    };
+	  },
+	
+	  componentWillMount: function () {},
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -31518,6 +31511,7 @@
 	var UserStore = __webpack_require__(216);
 	var History = __webpack_require__(159).History;
 	var SongStore = __webpack_require__(244);
+	var ApiUtil = __webpack_require__(242);
 	
 	var SongForm = React.createClass({
 	  displayName: 'SongForm',
@@ -31562,7 +31556,7 @@
 	        public_id: this.state.public_id
 	      } };
 	    // TODO: how to get songId without searching store via URL?
-	    SongUtil.createSong(song);
+	    ApiUtil.createSong(song);
 	    this.props.history.push('/');
 	  },
 	
@@ -31858,27 +31852,6 @@
 	
 	SongUtil = {
 	
-	  fetchSongs: function () {
-	    $.get('api/songs', {}, function (songs) {
-	      SongActions.receiveAll(songs);
-	    });
-	  },
-	
-	  createSong: function (song) {
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'POST',
-	      data: song,
-	      success: function (song) {
-	        SongActions.uploadSong(song);
-	      },
-	      error: function (song, error) {
-	        debugger;
-	        alert(error);
-	      }
-	    });
-	  },
-	
 	  playSong: function (songId) {
 	    SongActions.playSong(songId);
 	  },
@@ -31912,6 +31885,13 @@
 	    Dispatcher.dispatch({
 	      actionType: 'RECEIVE_SONGS',
 	      songs: songs
+	    });
+	  },
+	
+	  receiveSingleSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONG',
+	      song: song
 	    });
 	  },
 	
@@ -31971,6 +31951,10 @@
 	  }
 	};
 	
+	SongStore.playing = function () {
+	  return _playing;
+	};
+	
 	SongStore.setCurrentSong = function (songId) {
 	  _currentSong = _songs[songId];
 	};
@@ -31987,6 +31971,10 @@
 	      break;
 	    case 'RECEIVE_SONGS':
 	      resetSongs(payload.songs);
+	      SongStore.__emitChange();
+	      break;
+	    case 'RECEIVE_SONG':
+	      resetSong(payload.song);
 	      SongStore.__emitChange();
 	      break;
 	    case 'PLAY_SONG':
@@ -32042,6 +32030,10 @@
 	  songs.forEach(function (song) {
 	    _songs[song.id] = song;
 	  });
+	};
+	
+	var resetSong = function (song) {
+	  _songs[song.id] = song;
 	};
 	
 	var addSong = function (song) {
@@ -32148,9 +32140,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserUtil = __webpack_require__(248);
 	var History = __webpack_require__(159).History;
 	var UserStore = __webpack_require__(216);
+	var ApiUtil = __webpack_require__(268);
 	
 	var Logout = React.createClass({
 	  displayName: 'Logout',
@@ -32160,7 +32152,7 @@
 	  handleLogout: function (event) {
 	    event.preventDefault();
 	    var user = UserStore.currentUser();
-	    UserUtil.resetSession(user);
+	    ApiUtil.resetSession(user);
 	    this.history.push('/session/new');
 	  },
 	
@@ -32178,51 +32170,9 @@
 	var UserActions = __webpack_require__(249);
 	
 	UserUtil = {
-	  createUser: function (user) {
-	    $.ajax({
-	      url: 'api/users',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        UserActions.logInUser(user);
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('ya done goofed');
-	      }
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        UserActions.logInUser(user);
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('ya done goofed');
-	      }
-	    });
-	  },
 	
 	  refreshSession: function (user) {
 	    UserActions.refreshSession(user);
-	  },
-	
-	  resetSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'DELETE',
-	      data: { id: user.id },
-	      success: function (user) {
-	        UserActions.logOutUser();
-	      }
-	    });
 	  }
 	
 	};
@@ -32444,6 +32394,7 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
+	var ApiUtil = __webpack_require__(268);
 	
 	var SignInForm = React.createClass({
 	  displayName: 'SignInForm',
@@ -32473,7 +32424,7 @@
 	        password: this.state.password
 	      }
 	    };
-	    UserUtil.createSession(user);
+	    ApiUtil.createSession(user);
 	    this.history.push('/');
 	  },
 	
@@ -32521,10 +32472,13 @@
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// React dependencies
 	var React = __webpack_require__(1);
-	
-	var UserUtil = __webpack_require__(248);
 	var History = __webpack_require__(159).History;
+	
+	// Local dependencies
+	var UserUtil = __webpack_require__(248);
+	var ApiUtil = __webpack_require__(268);
 	
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
@@ -32554,7 +32508,7 @@
 	        password: this.state.password
 	      }
 	    };
-	    UserUtil.createUser(user);
+	    ApiUtil.createUser(user);
 	    this.history.push('/');
 	  },
 	
@@ -32634,6 +32588,7 @@
 	var UserStore = __webpack_require__(216);
 	var SongStore = __webpack_require__(244);
 	var SongUtil = __webpack_require__(242);
+	var ApiUtil = __webpack_require__(268);
 	
 	var SongIndexItem = __webpack_require__(259);
 	
@@ -32649,7 +32604,7 @@
 	
 	  componentDidMount: function () {
 	    this.listener = SongStore.addListener(this._songsChanged);
-	    SongUtil.fetchSongs();
+	    ApiUtil.fetchSongs();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -32729,6 +32684,8 @@
 	var PlayButton = __webpack_require__(265);
 	var PauseButton = __webpack_require__(267);
 	
+	var ApiUtil = __webpack_require__(268);
+	
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
 	
@@ -32752,15 +32709,23 @@
 	  },
 	
 	  componentDidMount: function () {
-	    this.getStateFromStore();
-	    this.listener = SongStore.addListener(this.toggleButton);
+	    this.stateListener = SongStore.addListener(this.getStateFromStore);
+	    ApiUtil.fetchSingleSong(this.props.params.id);
+	    // this.buttonListener = SongStore.addListener(this.toggleButton);
 	  },
 	
 	  componentWillUnmount: function () {
-	    this.listener.remove();
+	    // this.buttonListener.remove();
+	    this.stateListener.remove();
 	  },
 	
 	  toggleButton: function () {
+	    // if (SongStore.playing() &&
+	    //     SongStore.currentSong().id === this.state.song.id) {
+	    //   this.setState( { playing: true } );
+	    // } else {
+	    //   this.setState( { playing: false } );
+	    // }
 	    this.setState({ playing: !this.state.playing });
 	  },
 	
@@ -32779,6 +32744,7 @@
 	
 	  render: function () {
 	    var button = this.button();
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'songDisplay' },
@@ -32815,7 +32781,8 @@
 	
 	  getInitialState: function () {
 	    return {
-	      showSong: false
+	      showSong: false,
+	      playing: false
 	    };
 	  },
 	
@@ -32879,6 +32846,7 @@
 	
 	  playSong: function () {
 	    SongUtil.playSong(this.state.songId);
+	    this.props.toggle();
 	  },
 	
 	  render: function () {
@@ -32933,6 +32901,7 @@
 	
 	  pauseSong: function () {
 	    SongUtil.pauseSong();
+	    this.props.toggle();
 	  },
 	
 	  render: function () {
@@ -32945,6 +32914,90 @@
 	});
 	
 	module.exports = PauseButton;
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SongActions = __webpack_require__(243);
+	
+	var ApiUtil = {
+	
+	  // USER QUERIES ---------------------------------------------*****
+	  createUser: function (user) {
+	    $.ajax({
+	      url: 'api/users',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        UserActions.logInUser(user);
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('ya done goofed');
+	      }
+	    });
+	  },
+	
+	  createSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        UserActions.logInUser(user);
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('ya done goofed');
+	      }
+	    });
+	  },
+	
+	  resetSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'DELETE',
+	      data: { id: user.id },
+	      success: function (user) {
+	        UserActions.logOutUser();
+	      }
+	    });
+	  },
+	
+	  // SONG QUERIES ---------------------------------------------*****
+	  createSong: function (song) {
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'POST',
+	      data: song,
+	      success: function (song) {
+	        SongActions.uploadSong(song);
+	      },
+	      error: function (song, error) {
+	        debugger;
+	        alert(error);
+	      }
+	    });
+	  },
+	
+	  fetchSongs: function () {
+	    $.get('api/songs', {}, function (songs) {
+	      SongActions.receiveAll(songs);
+	    });
+	  },
+	
+	  fetchSingleSong: function (id) {
+	    $.get('api/songs/' + id, {}, function (song) {
+	      SongActions.receiveSingleSong(song);
+	    });
+	  }
+	
+	};
+	
+	module.exports = ApiUtil;
 
 /***/ }
 /******/ ]);
