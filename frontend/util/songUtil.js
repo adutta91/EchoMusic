@@ -11,7 +11,6 @@ SongUtil = {
   },
 
   endSong: function() {
-    debugger;
     SongActions.endSong();
   }
 }

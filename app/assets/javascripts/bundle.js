@@ -61,7 +61,7 @@
 	// React components
 	var UserProfile = __webpack_require__(236);
 	var SongForm = __webpack_require__(237);
-	var LogIn = __webpack_require__(245);
+	var LogIn = __webpack_require__(271);
 	var LoggedInApp = __webpack_require__(257);
 	var Header = __webpack_require__(246);
 	var SongProfile = __webpack_require__(260);
@@ -31810,7 +31810,6 @@
 	  },
 	
 	  endSong: function () {
-	    debugger;
 	    SongActions.endSong();
 	  }
 	};
@@ -31995,32 +31994,7 @@
 	module.exports = SongStore;
 
 /***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var Header = __webpack_require__(246);
-	var UserForms = __webpack_require__(253);
-	
-	var LogIn = React.createClass({
-	  displayName: 'LogIn',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'logInPage' },
-	      React.createElement(
-	        'div',
-	        { className: 'userForms' },
-	        React.createElement(UserForms, null)
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = LogIn;
-
-/***/ },
+/* 245 */,
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32248,265 +32222,10 @@
 	module.exports = Logo;
 
 /***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Tab = __webpack_require__(254);
-	var SignInForm = __webpack_require__(255);
-	var SignUpForm = __webpack_require__(256);
-	
-	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
-	
-	var UserForms = React.createClass({
-	  displayName: 'UserForms',
-	
-	  getInitialState: function () {
-	    return {
-	      tabs: tabs,
-	      selectedTabIdx: null
-	    };
-	  },
-	
-	  tabClicked: function (index, event) {
-	    this.setState({ selectedTabIdx: index });
-	  },
-	
-	  render: function () {
-	
-	    // finds correct form to display; defaults to 'sign in' form
-	    if (this.state.selectedTabIdx !== null) {
-	      var form = this.state.tabs[this.state.selectedTabIdx].form;
-	    } else {
-	      form = this.state.tabs[0].form;
-	    }
-	
-	    var tabListItems = this.state.tabs.map(function (tab, index) {
-	      // finds appropriate css class to assign to the tab
-	      var tabClass = 'notSelected';
-	      if (this.state.selectedTabIdx === null && index === 0 || this.state.selectedTabIdx === index) {
-	        tabClass = 'selected';
-	      }
-	      // creates tab component
-	      return React.createElement(Tab, {
-	        type: tab.type,
-	        key: index,
-	        className: "tab " + tabClass,
-	        tabCallback: this.tabClicked.bind(this, index)
-	      });
-	    }.bind(this));
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'welcomeForms' },
-	      React.createElement(
-	        'div',
-	        { className: 'tabs group' },
-	        tabListItems
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'forms' },
-	        form
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserForms;
-
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Tab = React.createClass({
-	  displayName: 'Tab',
-	
-	  getInitialState: function () {
-	    return {
-	      type: this.props.type
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: this.props.className, onClick: this.props.tabCallback },
-	      this.state.type
-	    );
-	  }
-	});
-	
-	module.exports = Tab;
-
-/***/ },
-/* 255 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	var ApiUtil = __webpack_require__(268);
-	
-	var SignInForm = React.createClass({
-	  displayName: 'SignInForm',
-	
-	  mixins: [History],
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
-	  },
-	
-	  handleSubmit: function (event) {
-	    event.preventDefault();
-	    var user = {
-	      user: {
-	        username: this.state.username,
-	        password: this.state.password
-	      }
-	    };
-	    ApiUtil.createSession(user);
-	    this.history.push('/');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { className: 'signForm', onSubmit: this.handleSubmit },
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'username', className: 'formLabel' },
-	        'Username: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
-	        id: 'username' }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'password', className: 'formLabel' },
-	        'Password: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
-	        id: 'password' }),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'submitButton',
-	        type: 'submit',
-	        value: 'Sign In!' })
-	    );
-	  }
-	});
-	
-	module.exports = SignInForm;
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// React dependencies
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	// Local dependencies
-	var UserUtil = __webpack_require__(248);
-	var ApiUtil = __webpack_require__(268);
-	
-	var SignUpForm = React.createClass({
-	  displayName: 'SignUpForm',
-	
-	  mixins: [History],
-	
-	  getInitialState: function () {
-	    return {
-	      username: "",
-	      password: ""
-	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
-	  },
-	
-	  handleSubmit: function (event) {
-	    event.preventDefault();
-	    var user = {
-	      user: {
-	        username: this.state.username,
-	        password: this.state.password
-	      }
-	    };
-	    ApiUtil.createUser(user);
-	    this.history.push('/');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { className: 'signForm', onSubmit: this.handleSubmit },
-	      React.createElement(
-	        'label',
-	        { className: 'formLabel', htmlFor: 'username' },
-	        'Username: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
-	        id: 'username' }),
-	      React.createElement('br', null),
-	      React.createElement(
-	        'label',
-	        { className: 'formLabel', htmlFor: 'password' },
-	        'Password: '
-	      ),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'input',
-	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
-	        id: 'password' }),
-	      React.createElement('br', null),
-	      React.createElement('input', {
-	        className: 'submitButton',
-	        type: 'submit',
-	        value: 'Sign Up!' })
-	    );
-	  }
-	});
-	
-	module.exports = SignUpForm;
-
-/***/ },
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -32558,7 +32277,11 @@
 	
 	  componentDidMount: function () {
 	    this.listener = SongStore.addListener(this._songsChanged);
-	    ApiUtil.fetchSongs();
+	    var userId;
+	    if (SessionStore.currentUser()) {
+	      userId = SessionStore.currentUser().id;
+	    }
+	    ApiUtil.fetchExploreSongs(userId);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -32937,9 +32660,14 @@
 	    });
 	  },
 	
-	  fetchSongs: function () {
-	    $.get('api/songs', {}, function (songs) {
-	      SongActions.receiveAll(songs);
+	  fetchExploreSongs: function (userId) {
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: userId,
+	      success: function (songs) {
+	        SongActions.receiveAll(songs);
+	      }
 	    });
 	  },
 	
@@ -33010,6 +32738,292 @@
 	};
 	
 	module.exports = SessionStore;
+
+/***/ },
+/* 270 */,
+/* 271 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Header = __webpack_require__(246);
+	var UserForms = __webpack_require__(272);
+	
+	var LogIn = React.createClass({
+	  displayName: 'LogIn',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'logInPage' },
+	      React.createElement(
+	        'div',
+	        { className: 'userForms' },
+	        React.createElement(UserForms, null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LogIn;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tab = __webpack_require__(273);
+	var SignInForm = __webpack_require__(274);
+	var SignUpForm = __webpack_require__(275);
+	
+	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
+	
+	var UserForms = React.createClass({
+	  displayName: 'UserForms',
+	
+	  getInitialState: function () {
+	    return {
+	      tabs: tabs,
+	      selectedTabIdx: null
+	    };
+	  },
+	
+	  tabClicked: function (index, event) {
+	    this.setState({ selectedTabIdx: index });
+	  },
+	
+	  render: function () {
+	
+	    // finds correct form to display; defaults to 'sign in' form
+	    if (this.state.selectedTabIdx !== null) {
+	      var form = this.state.tabs[this.state.selectedTabIdx].form;
+	    } else {
+	      form = this.state.tabs[0].form;
+	    }
+	
+	    var tabListItems = this.state.tabs.map(function (tab, index) {
+	      // finds appropriate css class to assign to the tab
+	      var tabClass = 'notSelected';
+	      if (this.state.selectedTabIdx === null && index === 0 || this.state.selectedTabIdx === index) {
+	        tabClass = 'selected';
+	      }
+	      // creates tab component
+	      return React.createElement(Tab, {
+	        type: tab.type,
+	        key: index,
+	        className: "tab " + tabClass,
+	        tabCallback: this.tabClicked.bind(this, index)
+	      });
+	    }.bind(this));
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'welcomeForms' },
+	      React.createElement(
+	        'div',
+	        { className: 'tabs group' },
+	        tabListItems
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'forms' },
+	        form
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserForms;
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tab = React.createClass({
+	  displayName: 'Tab',
+	
+	  getInitialState: function () {
+	    return {
+	      type: this.props.type
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: this.props.className, onClick: this.props.tabCallback },
+	      this.state.type
+	    );
+	  }
+	});
+	
+	module.exports = Tab;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	var ApiUtil = __webpack_require__(268);
+	
+	var SignInForm = React.createClass({
+	  displayName: 'SignInForm',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleUsernameChange: function (event) {
+	    this.setState({ username: event.target.value });
+	  },
+	
+	  handlePasswordChange: function (event) {
+	    this.setState({ password: event.target.value });
+	  },
+	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var user = {
+	      user: {
+	        username: this.state.username,
+	        password: this.state.password
+	      }
+	    };
+	    ApiUtil.createSession(user);
+	    this.history.push('/');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'signForm', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'username', className: 'formLabel' },
+	        'Username: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'text',
+	        value: this.state.username,
+	        onChange: this.handleUsernameChange,
+	        id: 'username' }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'password', className: 'formLabel' },
+	        'Password: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange,
+	        id: 'password' }),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'submitButton',
+	        type: 'submit',
+	        value: 'Sign In!' })
+	    );
+	  }
+	});
+	
+	module.exports = SignInForm;
+
+/***/ },
+/* 275 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// React dependencies
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	// Local dependencies
+	var UserUtil = __webpack_require__(248);
+	var ApiUtil = __webpack_require__(268);
+	
+	var SignUpForm = React.createClass({
+	  displayName: 'SignUpForm',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+	
+	  handleUsernameChange: function (event) {
+	    this.setState({ username: event.target.value });
+	  },
+	
+	  handlePasswordChange: function (event) {
+	    this.setState({ password: event.target.value });
+	  },
+	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var user = {
+	      user: {
+	        username: this.state.username,
+	        password: this.state.password
+	      }
+	    };
+	    ApiUtil.createUser(user);
+	    this.history.push('/');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'signForm', onSubmit: this.handleSubmit },
+	      React.createElement(
+	        'label',
+	        { className: 'formLabel', htmlFor: 'username' },
+	        'Username: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'text',
+	        value: this.state.username,
+	        onChange: this.handleUsernameChange,
+	        id: 'username' }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { className: 'formLabel', htmlFor: 'password' },
+	        'Password: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'input',
+	        type: 'password',
+	        value: this.state.password,
+	        onChange: this.handlePasswordChange,
+	        id: 'password' }),
+	      React.createElement('br', null),
+	      React.createElement('input', {
+	        className: 'submitButton',
+	        type: 'submit',
+	        value: 'Sign Up!' })
+	    );
+	  }
+	});
+	
+	module.exports = SignUpForm;
 
 /***/ }
 /******/ ]);

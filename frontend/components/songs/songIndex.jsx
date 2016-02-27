@@ -16,7 +16,11 @@ var SongIndex = React.createClass({
 
   componentDidMount: function() {
     this.listener = SongStore.addListener(this._songsChanged);
-    ApiUtil.fetchSongs();
+    var userId;
+    if (SessionStore.currentUser()) {
+      userId = SessionStore.currentUser().id;
+    }
+    ApiUtil.fetchExploreSongs(userId);
   },
 
   componentWillUnmount: function() {

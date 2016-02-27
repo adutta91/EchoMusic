@@ -62,9 +62,14 @@ var ApiUtil = {
     });
   },
 
-  fetchSongs: function() {
-    $.get('api/songs', {}, function(songs) {
-      SongActions.receiveAll(songs);
+  fetchExploreSongs: function(userId) {
+    $.ajax({
+      url: 'api/songs',
+      method: 'GET',
+      data: userId,
+      success: function(songs) {
+        SongActions.receiveAll(songs);
+      }
     });
   },
 

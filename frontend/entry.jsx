@@ -15,7 +15,7 @@ var SongStore = require('./stores/songStore');
 // React components
 var UserProfile = require('./components/users/userProfile');
 var SongForm = require('./components/songs/songForm');
-var LogIn = require('./components/users/logIn');
+var LogIn = require('./components/session/logIn');
 var LoggedInApp = require('./components/app/app');
 var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
