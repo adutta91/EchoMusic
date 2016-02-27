@@ -1,6 +1,6 @@
 var React = require('react');
 var History = require('react-router').History;
-var UserStore = require('../../stores/userStore');
+var SessionStore = require('../../stores/SessionStore');
 
 var ProfileButton = React.createClass({
 
@@ -8,7 +8,7 @@ var ProfileButton = React.createClass({
 
   _onClick: function(event) {
     event.preventDefault();
-    this.history.push('/users/' + UserStore.currentUser().id);
+    this.history.push('/users/' + SessionStore.currentUser().id);
   },
 
   render: function() {

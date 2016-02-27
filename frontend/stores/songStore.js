@@ -37,6 +37,8 @@ SongStore.setCurrentSong = function(songId) {
 
 SongStore.endCurrentSong = function() {
   _currentSong = null;
+  _audio.pause();
+  _audio = new Audio;
 };
 
 SongStore.__onDispatch = function(payload) {

@@ -1,7 +1,7 @@
 var SongActions = require('../actions/songActions');
 
 SongUtil = {
-  
+
   playSong: function(songId) {
     SongActions.playSong(songId);
   },
@@ -11,6 +11,7 @@ SongUtil = {
   },
 
   endSong: function() {
+    debugger;
     SongActions.endSong();
   }
 }

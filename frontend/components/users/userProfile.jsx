@@ -1,21 +1,24 @@
 var React = require('react');
 
-var UserStore = require('../../stores/userStore');
+var SessionStore = require('../../stores/SessionStore');
 
 var UserProfile = React.createClass({
   getInitialState: function() {
     return ({
-      userId: this.props.params.id
+      user: {
+        username: "",
+        id: ""
+      }
     })
   },
 
-  componentWillMount: function() {
-    
+  componentDidMount: function() {
+    this.setState({ user: SessionStore.currentUser() })
   },
 
   render: function() {
     return (
-      <div id="userProfile">{UserStore.currentUser().username}</div>
+      <div id="userProfile">Hello, &nbsp; {this.state.user.username}</div>
     )
   }
 });

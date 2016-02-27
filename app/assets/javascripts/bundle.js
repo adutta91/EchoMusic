@@ -55,7 +55,7 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	
 	// stores
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	var SongStore = __webpack_require__(244);
 	
 	// React components
@@ -73,7 +73,7 @@
 	
 	  getInitialState: function () {
 	    return {
-	      user: UserStore.currentUser()
+	      user: SessionStore.currentUser()
 	    };
 	  },
 	
@@ -24750,64 +24750,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(217).Store;
-	var Dispatcher = __webpack_require__(233);
-	
-	var _user = null;
-	var _loggedIn = false;
-	
-	var UserStore = new Store(Dispatcher);
-	
-	UserStore.loggedIn = function () {
-	  return _loggedIn;
-	};
-	
-	UserStore.currentUser = function () {
-	  return _user;
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'LOGIN_USER':
-	      login(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	    case 'LOGOUT_USER':
-	      logout();
-	      UserStore.__emitChange();
-	      break;
-	    case 'REFRESH_SESSION':
-	      refresh(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	var login = function (user) {
-	  _user = user;
-	  _loggedIn = true;
-	  var storedUser = JSON.stringify(user);
-	  localStorage.setItem('user', storedUser);
-	};
-	
-	var refresh = function (user) {
-	  var user = localStorage.getItem('user');
-	  _user = JSON.parse(user);
-	  _loggedIn = true;
-	};
-	
-	var logout = function () {
-	  localStorage.clear();
-	  _user = null;
-	  _loggedIn = false;
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
+/* 216 */,
 /* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31477,24 +31420,30 @@
 
 	var React = __webpack_require__(1);
 	
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
 	  getInitialState: function () {
 	    return {
-	      userId: this.props.params.id
+	      user: {
+	        username: "",
+	        id: ""
+	      }
 	    };
 	  },
 	
-	  componentWillMount: function () {},
+	  componentDidMount: function () {
+	    this.setState({ user: SessionStore.currentUser() });
+	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { id: 'userProfile' },
-	      UserStore.currentUser().username
+	      'Hello,   ',
+	      this.state.user.username
 	    );
 	  }
 	});
@@ -31508,7 +31457,7 @@
 	var React = __webpack_require__(1);
 	var LinkedStateMixin = __webpack_require__(238);
 	var SongUtil = __webpack_require__(242);
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	var History = __webpack_require__(159).History;
 	var SongStore = __webpack_require__(244);
 	var ApiUtil = __webpack_require__(242);
@@ -31552,7 +31501,7 @@
 	        artist_name: this.state.artist,
 	        audio_url: this.state.audioUrl,
 	        album_id: Number(this.state.album),
-	        user_id: UserStore.currentUser().id,
+	        user_id: SessionStore.currentUser().id,
 	        public_id: this.state.public_id
 	      } };
 	    // TODO: how to get songId without searching store via URL?
@@ -31861,6 +31810,7 @@
 	  },
 	
 	  endSong: function () {
+	    debugger;
 	    SongActions.endSong();
 	  }
 	};
@@ -31961,6 +31911,8 @@
 	
 	SongStore.endCurrentSong = function () {
 	  _currentSong = null;
+	  _audio.pause();
+	  _audio = new Audio();
 	};
 	
 	SongStore.__onDispatch = function (payload) {
@@ -32079,14 +32031,14 @@
 	var ProfileButton = __webpack_require__(251);
 	var Logo = __webpack_require__(252);
 	
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
 	
 	  getInitialState: function () {
 	    return {
-	      showButtons: UserStore.loggedIn()
+	      showButtons: SessionStore.loggedIn()
 	    };
 	  },
 	
@@ -32095,7 +32047,7 @@
 	  },
 	
 	  componentDidMount: function () {
-	    this.listener = UserStore.addListener(this.toggleButtons);
+	    this.listener = SessionStore.addListener(this.toggleButtons);
 	  },
 	
 	  componentWillUnmount: function () {
@@ -32141,8 +32093,9 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	var ApiUtil = __webpack_require__(268);
+	var SongUtil = __webpack_require__(242);
 	
 	var Logout = React.createClass({
 	  displayName: 'Logout',
@@ -32151,8 +32104,9 @@
 	
 	  handleLogout: function (event) {
 	    event.preventDefault();
-	    var user = UserStore.currentUser();
+	    var user = SessionStore.currentUser();
 	    ApiUtil.resetSession(user);
+	    SongUtil.endSong();
 	    this.history.push('/session/new');
 	  },
 	
@@ -32240,7 +32194,7 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	
 	var ProfileButton = React.createClass({
 	  displayName: 'ProfileButton',
@@ -32250,7 +32204,7 @@
 	
 	  _onClick: function (event) {
 	    event.preventDefault();
-	    this.history.push('/users/' + UserStore.currentUser().id);
+	    this.history.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  render: function () {
@@ -32270,7 +32224,7 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	
 	var Logo = React.createClass({
 	  displayName: 'Logo',
@@ -32278,7 +32232,7 @@
 	  mixins: [History],
 	
 	  _onClick: function (event) {
-	    if (UserStore.loggedIn()) {
+	    if (SessionStore.loggedIn()) {
 	      this.history.push('/');
 	    } else {
 	      this.history.push('/session/new');
@@ -32585,7 +32539,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var UserStore = __webpack_require__(216);
+	var SessionStore = __webpack_require__(269);
 	var SongStore = __webpack_require__(244);
 	var SongUtil = __webpack_require__(242);
 	var ApiUtil = __webpack_require__(268);
@@ -32616,7 +32570,7 @@
 	  },
 	
 	  render: function () {
-	    var user = UserStore.currentUser();
+	    var user = SessionStore.currentUser();
 	    return React.createElement(
 	      'div',
 	      null,
@@ -32805,7 +32759,7 @@
 	  showPlaying: function () {
 	    var display = "";
 	    if (this.state.showSong) {
-	      display = "Now playing: " + SongStore.currentSong().title;
+	      display = "Now playing:     " + SongStore.currentSong().title + " - (" + SongStore.currentSong().artist_name + ")";
 	    }
 	    return display;
 	  },
@@ -32998,6 +32952,64 @@
 	};
 	
 	module.exports = ApiUtil;
+
+/***/ },
+/* 269 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(217).Store;
+	var Dispatcher = __webpack_require__(233);
+	
+	var _user = null;
+	var _loggedIn = false;
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	SessionStore.loggedIn = function () {
+	  return _loggedIn;
+	};
+	
+	SessionStore.currentUser = function () {
+	  return _user;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'LOGIN_USER':
+	      login(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	    case 'LOGOUT_USER':
+	      logout();
+	      SessionStore.__emitChange();
+	      break;
+	    case 'REFRESH_SESSION':
+	      refresh(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var login = function (user) {
+	  _user = user;
+	  _loggedIn = true;
+	  var storedUser = JSON.stringify(user);
+	  localStorage.setItem('user', storedUser);
+	};
+	
+	var refresh = function (user) {
+	  var user = localStorage.getItem('user');
+	  _user = JSON.parse(user);
+	  _loggedIn = true;
+	};
+	
+	var logout = function () {
+	  localStorage.clear();
+	  _user = null;
+	  _loggedIn = false;
+	};
+	
+	module.exports = SessionStore;
 
 /***/ }
 /******/ ]);

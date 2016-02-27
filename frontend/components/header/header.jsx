@@ -5,12 +5,12 @@ var UploadSongButton = require('./uploadSongButton');
 var ProfileButton = require('./profileButton');
 var Logo = require('./logo');
 
-var UserStore = require('../../stores/userStore')
+var SessionStore = require('../../stores/SessionStore')
 
 var Header = React.createClass({
   getInitialState: function() {
     return ({
-      showButtons: UserStore.loggedIn()
+      showButtons: SessionStore.loggedIn()
     });
   },
 
@@ -19,7 +19,7 @@ var Header = React.createClass({
   },
 
   componentDidMount: function() {
-    this.listener = UserStore.addListener(this.toggleButtons);
+    this.listener = SessionStore.addListener(this.toggleButtons);
   },
 
   componentWillUnmount: function() {

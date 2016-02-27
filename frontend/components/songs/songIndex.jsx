@@ -1,5 +1,5 @@
 var React = require('react');
-var UserStore = require('../../stores/userStore');
+var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
 var SongUtil = require('../../util/songUtil');
 var ApiUtil = require('../../util/apiUtil');
@@ -28,7 +28,7 @@ var SongIndex = React.createClass({
   },
 
   render: function() {
-    var user = UserStore.currentUser();
+    var user = SessionStore.currentUser();
     return (
       <div>
         <div className="indexTitle">Explore:</div>

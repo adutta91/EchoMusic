@@ -9,7 +9,7 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
 // stores
-var UserStore = require('./stores/userStore');
+var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');
 
 // React components
@@ -27,7 +27,7 @@ var App = React.createClass({
 
   getInitialState: function() {
     return ({
-      user: UserStore.currentUser()
+      user: SessionStore.currentUser()
     });
   },
 

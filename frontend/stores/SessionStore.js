@@ -4,29 +4,29 @@ var Dispatcher = require('../dispatcher');
 var _user = null;
 var _loggedIn = false;
 
-var UserStore = new Store(Dispatcher);
+var SessionStore = new Store(Dispatcher);
 
-UserStore.loggedIn = function() {
+SessionStore.loggedIn = function() {
   return _loggedIn;
 };
 
-UserStore.currentUser = function() {
+SessionStore.currentUser = function() {
   return _user;
 };
 
-UserStore.__onDispatch = function(payload) {
+SessionStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case 'LOGIN_USER':
       login(payload.user);
-      UserStore.__emitChange();
+      SessionStore.__emitChange();
       break;
     case 'LOGOUT_USER':
       logout();
-      UserStore.__emitChange();
+      SessionStore.__emitChange();
       break;
     case 'REFRESH_SESSION':
       refresh(payload.user);
-      UserStore.__emitChange();
+      SessionStore.__emitChange();
       break;
   }
 };
@@ -50,4 +50,4 @@ var logout = function() {
   _loggedIn = false;
 };
 
-module.exports = UserStore;
+module.exports = SessionStore;

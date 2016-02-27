@@ -1,12 +1,12 @@
 var React = require('react');
 var History = require('react-router').History;
-var UserStore = require('../../stores/userStore');
+var SessionStore = require('../../stores/SessionStore');
 
 var Logo = React.createClass({
   mixins: [History],
 
   _onClick: function(event) {
-    if(UserStore.loggedIn()) {
+    if(SessionStore.loggedIn()) {
       this.history.push('/');
     } else {
       this.history.push('/session/new');
