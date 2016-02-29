@@ -15,6 +15,7 @@ SessionStore.currentUser = function() {
 };
 
 SessionStore.__onDispatch = function(payload) {
+
   switch(payload.actionType) {
     case 'LOGIN_USER':
       login(payload.user);
@@ -25,7 +26,7 @@ SessionStore.__onDispatch = function(payload) {
       SessionStore.__emitChange();
       break;
     case 'REFRESH_SESSION':
-      refresh(payload.user);
+      login(payload.user);
       SessionStore.__emitChange();
       break;
   }
@@ -35,13 +36,7 @@ var login = function(user) {
   _user = user;
   _loggedIn = true;
   var storedUser = JSON.stringify(user);
-  localStorage.setItem('user', storedUser);
-};
-
-var refresh = function(user) {
-  var user = localStorage.getItem('user');
-  _user = JSON.parse(user);
-  _loggedIn = true;
+  localStorage.setItem('loggedInUser', storedUser);
 };
 
 var logout = function() {

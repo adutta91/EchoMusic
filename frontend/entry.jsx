@@ -9,7 +9,7 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
 // stores
-var SessionStore = require('./stores/SessionStore');
+var SessionStore = require('./stores/sessionStore');
 var SongStore = require('./stores/songStore');
 
 // React components
@@ -22,6 +22,7 @@ var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
 window.SessionStore = SessionStore;
+window.SongStore = SongStore;
 
 var App = React.createClass({
 
@@ -32,7 +33,7 @@ var App = React.createClass({
   },
 
   checkForLogIn: function() {
-    var user = localStorage.getItem('user')
+    var user = localStorage.getItem('loggedInUser')
     if (user === null) {
       this.props.history.push('/session/new');
     } else {

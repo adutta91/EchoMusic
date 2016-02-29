@@ -5,7 +5,7 @@ var UploadSongButton = require('./uploadSongButton');
 var ProfileButton = require('./profileButton');
 var Logo = require('./logo');
 
-var SessionStore = require('../../stores/SessionStore')
+var SessionStore = require('../../stores/sessionStore')
 
 var Header = React.createClass({
   getInitialState: function() {

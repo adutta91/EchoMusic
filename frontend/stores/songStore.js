@@ -104,10 +104,11 @@ var resumeSong = function() {
 };
 
 var resetSongs = function(songs) {
-  _songs = {};
+  newSongs = {};
   songs.forEach(function(song) {
-    _songs[song.id] = song;
+    newSongs[song.id] = song;
   });
+  _songs = newSongs
 };
 
 var resetSong = function(song) {

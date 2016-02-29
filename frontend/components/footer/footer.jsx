@@ -2,6 +2,7 @@ var React = require('react');
 
 var SongControls = require('../songControls/songControls');
 var SongStore = require('../../stores/songStore');
+var FooterPlayButton = require('../songControls/footerPlayButton');
 
 var Footer = React.createClass({
 
@@ -33,17 +34,21 @@ var Footer = React.createClass({
     if (this.state.showSong) {
       display = (
         "Now playing:     " + SongStore.currentSong().title + " - (" +
-        SongStore.currentSong().artist_name + ")"
+          SongStore.currentSong().artist_name + ")"
       );
     }
     return display;
   },
 
   render: function() {
-
+    var button = <div/>
+    if (this.state.showSong) {
+      button =  <FooterPlayButton />
+    }
     return (
       <div className="footer">
         {this.showPlaying()}
+        {button}
       </div>
     );
   }

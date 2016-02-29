@@ -1,5 +1,5 @@
 var React = require('react');
-var SessionStore = require('../../stores/SessionStore');
+var SessionStore = require('../../stores/sessionStore');
 var SongStore = require('../../stores/songStore');
 var SongUtil = require('../../util/songUtil');
 var ApiUtil = require('../../util/apiUtil');
@@ -25,7 +25,6 @@ var SongIndex = React.createClass({
 
   _songsChanged: function() {
     this.setState( { songs: SongStore.all() } );
-    debugger;
   },
 
   render: function() {

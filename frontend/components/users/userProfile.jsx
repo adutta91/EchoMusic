@@ -1,6 +1,6 @@
 var React = require('react');
 
-var SessionStore = require('../../stores/SessionStore');
+var SessionStore = require('../../stores/sessionStore');
 var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 var PlayButton = require('../songControls/playButton');
@@ -37,6 +37,7 @@ var UserProfile = React.createClass({
       <div className="userPage">
         <div id="userProfile">Hello, &nbsp; {this.state.user.username}</div>
         <div className= "userSongList">
+          Uploaded Songs:
           {this.state.songs.map(function(song) {
             return (<div className="userSongListItem">
                           {song.title} by {song.artist_name}
