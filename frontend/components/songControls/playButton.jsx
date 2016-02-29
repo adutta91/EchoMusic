@@ -44,12 +44,7 @@ var PlayButton = React.createClass({
   },
 
   playSong: function() {
-    if (SongStore.playing() &&
-          SongStore.currentSong().id !== this.state.songId) {
-      SongStore.endCurrentSong();
-    }
     SongUtil.playSong(this.state.songId);
-    this.setState({songId: SongStore.currentSong().id})
     this.setState({playing: true})
   },
 

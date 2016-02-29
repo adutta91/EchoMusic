@@ -13,8 +13,10 @@ var FooterPlayButton = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({currentSong: SongStore.currentSong()});
-    this.setState({playing: SongStore.playing()});
+    this.setState( {
+      currentSong: SongStore.currentSong(),
+      playing: SongStore.playing()
+    });
   },
 
   componentDidMount: function() {

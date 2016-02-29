@@ -31502,18 +31502,19 @@
 	  }
 	};
 	
+	SongStore.endCurrentSong = function () {
+	  _currentSong = null;
+	  _audio.pause();
+	  _playing = false;
+	  _audio = new Audio();
+	};
+	
 	SongStore.playing = function () {
 	  return _playing;
 	};
 	
 	SongStore.setCurrentSong = function (songId) {
 	  _currentSong = _songs[songId];
-	};
-	
-	SongStore.endCurrentSong = function () {
-	  _currentSong = null;
-	  _audio.pause();
-	  _audio = new Audio();
 	};
 	
 	SongStore.__onDispatch = function (payload) {
@@ -31548,7 +31549,7 @@
 	      SongStore.__emitChange();
 	      break;
 	    case 'END_SONG':
-	      SongStore.endCurrentSong();
+	      endSong();
 	      SongStore.__emitChange();
 	      break;
 	  }
@@ -31576,6 +31577,10 @@
 	var resumeSong = function () {
 	  _audio.play();
 	  _playing = true;
+	};
+	
+	var endSong = function () {
+	  SongStore.endCurrentSong();
 	};
 	
 	var resetSongs = function (songs) {
@@ -31869,11 +31874,7 @@
 	  },
 	
 	  playSong: function () {
-	    if (SongStore.playing() && SongStore.currentSong().id !== this.state.songId) {
-	      SongStore.endCurrentSong();
-	    }
 	    SongUtil.playSong(this.state.songId);
-	    this.setState({ songId: SongStore.currentSong().id });
 	    this.setState({ playing: true });
 	  },
 	
@@ -33075,8 +33076,10 @@
 	  },
 	
 	  _onChange: function () {
-	    this.setState({ currentSong: SongStore.currentSong() });
-	    this.setState({ playing: SongStore.playing() });
+	    this.setState({
+	      currentSong: SongStore.currentSong(),
+	      playing: SongStore.playing()
+	    });
 	  },
 	
 	  componentDidMount: function () {

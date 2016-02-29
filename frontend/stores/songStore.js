@@ -27,18 +27,19 @@ SongStore.currentSong = function() {
   }
 };
 
+SongStore.endCurrentSong = function() {
+  _currentSong = null;
+  _audio.pause();
+  _playing = false;
+  _audio = new Audio;
+};
+
 SongStore.playing = function() {
   return _playing;
 };
 
 SongStore.setCurrentSong = function(songId) {
   _currentSong = _songs[songId];
-};
-
-SongStore.endCurrentSong = function() {
-  _currentSong = null;
-  _audio.pause();
-  _audio = new Audio;
 };
 
 SongStore.__onDispatch = function(payload) {
@@ -73,7 +74,7 @@ SongStore.__onDispatch = function(payload) {
       SongStore.__emitChange();
       break;
     case 'END_SONG':
-      SongStore.endCurrentSong();
+      endSong();
       SongStore.__emitChange();
       break;
   }
@@ -101,6 +102,10 @@ var pauseSong = function() {
 var resumeSong = function() {
   _audio.play();
   _playing = true;
+};
+
+var endSong = function() {
+  SongStore.endCurrentSong();
 };
 
 var resetSongs = function(songs) {
