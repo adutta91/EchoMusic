@@ -21,7 +21,7 @@ var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
-
+window.SessionStore = SessionStore;
 
 var App = React.createClass({
 

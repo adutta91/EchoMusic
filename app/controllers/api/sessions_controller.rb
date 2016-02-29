@@ -10,10 +10,11 @@ class Api::SessionsController < ApplicationController
     )
     if @user
       log_in(@user)
+      render :show
     else
-      # TODO flash[:errors]
+      flash.now[:errors] = ["Invalid credentials"]
+      redirect_to root_url
     end
-    render :show
   end
 
   def destroy

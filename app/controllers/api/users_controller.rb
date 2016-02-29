@@ -20,11 +20,13 @@ class Api::UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
-    @user.save!
-    log_in(@user)
-
-    render :show
-    # render json: @user
+    if @user.save!
+      log_in(@user)
+      render :show
+    else
+      flash.now[:errors] = @user.errors.full_messages
+      redirect_to root_url
+    end
   end
 
   def show

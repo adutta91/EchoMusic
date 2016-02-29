@@ -55,17 +55,19 @@
 	var IndexRoute = ReactRouter.IndexRoute;
 	
 	// stores
-	var SessionStore = __webpack_require__(269);
-	var SongStore = __webpack_require__(244);
+	var SessionStore = __webpack_require__(216);
+	var SongStore = __webpack_require__(236);
 	
 	// React components
-	var UserProfile = __webpack_require__(236);
-	var SongForm = __webpack_require__(237);
-	var LogIn = __webpack_require__(271);
-	var LoggedInApp = __webpack_require__(257);
+	var UserProfile = __webpack_require__(237);
+	var SongForm = __webpack_require__(238);
+	var LogIn = __webpack_require__(245);
+	var LoggedInApp = __webpack_require__(258);
 	var Header = __webpack_require__(246);
-	var SongProfile = __webpack_require__(260);
-	var Footer = __webpack_require__(261);
+	var SongProfile = __webpack_require__(261);
+	var Footer = __webpack_require__(264);
+	
+	window.SessionStore = SessionStore;
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -24750,7 +24752,64 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 216 */,
+/* 216 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Store = __webpack_require__(217).Store;
+	var Dispatcher = __webpack_require__(233);
+	
+	var _user = null;
+	var _loggedIn = false;
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	SessionStore.loggedIn = function () {
+	  return _loggedIn;
+	};
+	
+	SessionStore.currentUser = function () {
+	  return _user;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'LOGIN_USER':
+	      login(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	    case 'LOGOUT_USER':
+	      logout();
+	      SessionStore.__emitChange();
+	      break;
+	    case 'REFRESH_SESSION':
+	      refresh(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var login = function (user) {
+	  _user = user;
+	  _loggedIn = true;
+	  var storedUser = JSON.stringify(user);
+	  localStorage.setItem('user', storedUser);
+	};
+	
+	var refresh = function (user) {
+	  var user = localStorage.getItem('user');
+	  _user = JSON.parse(user);
+	  _loggedIn = true;
+	};
+	
+	var logout = function () {
+	  localStorage.clear();
+	  _user = null;
+	  _loggedIn = false;
+	};
+	
+	module.exports = SessionStore;
+
+/***/ },
 /* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31418,459 +31477,6 @@
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	
-	var SessionStore = __webpack_require__(269);
-	
-	var UserProfile = React.createClass({
-	  displayName: 'UserProfile',
-	
-	  getInitialState: function () {
-	    return {
-	      user: {
-	        username: "",
-	        id: ""
-	      }
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.setState({ user: SessionStore.currentUser() });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { id: 'userProfile' },
-	      'Hello,   ',
-	      this.state.user.username
-	    );
-	  }
-	});
-	
-	module.exports = UserProfile;
-
-/***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(238);
-	var SongUtil = __webpack_require__(242);
-	var SessionStore = __webpack_require__(269);
-	var History = __webpack_require__(159).History;
-	var SongStore = __webpack_require__(244);
-	var ApiUtil = __webpack_require__(242);
-	
-	var SongForm = React.createClass({
-	  displayName: 'SongForm',
-	
-	  mixins: [LinkedStateMixin, History],
-	
-	  blankAttrs: {
-	    title: '',
-	    artist: '',
-	    album: ''
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      blankAttrs: this.blankAttrs,
-	      audioUploaded: false,
-	      audioUrl: '',
-	      public_id: ''
-	    };
-	  },
-	
-	  audioUpload: function () {
-	    var callback = this.uploadResult;
-	
-	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
-	    this.setState({ audioUploaded: true });
-	  },
-	
-	  uploadResult: function (error, results) {
-	    this.state.audioUrl = results[0].url;
-	    this.state.public_id = results[0].public_id;
-	  },
-	
-	  handleSubmit: function (event) {
-	    event.preventDefault();
-	    var song = { song: {
-	        title: this.state.title,
-	        artist_name: this.state.artist,
-	        audio_url: this.state.audioUrl,
-	        album_id: Number(this.state.album),
-	        user_id: SessionStore.currentUser().id,
-	        public_id: this.state.public_id
-	      } };
-	    // TODO: how to get songId without searching store via URL?
-	    ApiUtil.createSong(song);
-	    this.props.history.push('/');
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'songFormBanner' },
-	      React.createElement(
-	        'form',
-	        { className: 'songForm', onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'title', className: 'songTitleForm' },
-	          'Title: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'title',
-	          valueLink: this.linkState("title") }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'artist_name', className: 'songArtistForm' },
-	          'Artist: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'artist',
-	          valueLink: this.linkState("artist") }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'album_id', className: 'songAlbumForm' },
-	          'Album: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'album',
-	          valueLink: this.linkState("album") }),
-	        React.createElement('br', null),
-	        this.state.audioUploaded ? React.createElement(
-	          'div',
-	          { className: 'audioChecked' },
-	          'Uploaded!'
-	        ) : React.createElement(
-	          'button',
-	          { className: 'audioUploadButton', onClick: this.audioUpload },
-	          'Choose a File!'
-	        ),
-	        React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SongForm;
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(239);
-
-/***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule LinkedStateMixin
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var ReactLink = __webpack_require__(240);
-	var ReactStateSetters = __webpack_require__(241);
-	
-	/**
-	 * A simple mixin around ReactLink.forState().
-	 */
-	var LinkedStateMixin = {
-	  /**
-	   * Create a ReactLink that's linked to part of this component's state. The
-	   * ReactLink will have the current value of this.state[key] and will call
-	   * setState() when a change is requested.
-	   *
-	   * @param {string} key state key to update. Note: you may want to use keyOf()
-	   * if you're using Google Closure Compiler advanced mode.
-	   * @return {ReactLink} ReactLink instance linking to the state.
-	   */
-	  linkState: function (key) {
-	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
-	  }
-	};
-	
-	module.exports = LinkedStateMixin;
-
-/***/ },
-/* 240 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactLink
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	/**
-	 * ReactLink encapsulates a common pattern in which a component wants to modify
-	 * a prop received from its parent. ReactLink allows the parent to pass down a
-	 * value coupled with a callback that, when invoked, expresses an intent to
-	 * modify that value. For example:
-	 *
-	 * React.createClass({
-	 *   getInitialState: function() {
-	 *     return {value: ''};
-	 *   },
-	 *   render: function() {
-	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
-	 *     return <input valueLink={valueLink} />;
-	 *   },
-	 *   _handleValueChange: function(newValue) {
-	 *     this.setState({value: newValue});
-	 *   }
-	 * });
-	 *
-	 * We have provided some sugary mixins to make the creation and
-	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
-	 */
-	
-	var React = __webpack_require__(2);
-	
-	/**
-	 * @param {*} value current value of the link
-	 * @param {function} requestChange callback to request a change
-	 */
-	function ReactLink(value, requestChange) {
-	  this.value = value;
-	  this.requestChange = requestChange;
-	}
-	
-	/**
-	 * Creates a PropType that enforces the ReactLink API and optionally checks the
-	 * type of the value being passed inside the link. Example:
-	 *
-	 * MyComponent.propTypes = {
-	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
-	 * }
-	 */
-	function createLinkTypeChecker(linkType) {
-	  var shapes = {
-	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
-	    requestChange: React.PropTypes.func.isRequired
-	  };
-	  return React.PropTypes.shape(shapes);
-	}
-	
-	ReactLink.PropTypes = {
-	  link: createLinkTypeChecker
-	};
-	
-	module.exports = ReactLink;
-
-/***/ },
-/* 241 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactStateSetters
-	 */
-	
-	'use strict';
-	
-	var ReactStateSetters = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (component, funcReturningState) {
-	    return function (a, b, c, d, e, f) {
-	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-	      if (partialState) {
-	        component.setState(partialState);
-	      }
-	    };
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (component, key) {
-	    // Memoize the setters.
-	    var cache = component.__keySetters || (component.__keySetters = {});
-	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-	  }
-	};
-	
-	function createStateKeySetter(component, key) {
-	  // Partial state is allocated outside of the function closure so it can be
-	  // reused with every call, avoiding memory allocation when this function
-	  // is called.
-	  var partialState = {};
-	  return function stateKeySetter(value) {
-	    partialState[key] = value;
-	    component.setState(partialState);
-	  };
-	}
-	
-	ReactStateSetters.Mixin = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateSetter(function(xValue) {
-	   *     return {x: xValue};
-	   *   })(1);
-	   *
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (funcReturningState) {
-	    return ReactStateSetters.createStateSetter(this, funcReturningState);
-	  },
-	
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateKeySetter('x')(1);
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (key) {
-	    return ReactStateSetters.createStateKeySetter(this, key);
-	  }
-	};
-	
-	module.exports = ReactStateSetters;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SongActions = __webpack_require__(243);
-	
-	SongUtil = {
-	
-	  playSong: function (songId) {
-	    SongActions.playSong(songId);
-	  },
-	
-	  pauseSong: function () {
-	    SongActions.pauseSong();
-	  },
-	
-	  endSong: function () {
-	    SongActions.endSong();
-	  }
-	};
-	
-	module.exports = SongUtil;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(233);
-	
-	SongActions = {
-	  uploadSong: function (song) {
-	    Dispatcher.dispatch({
-	      actionType: 'ADD_SONG',
-	      song: song
-	    });
-	  },
-	
-	  receiveAll: function (songs) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_SONGS',
-	      songs: songs
-	    });
-	  },
-	
-	  receiveSingleSong: function (song) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_SONG',
-	      song: song
-	    });
-	  },
-	
-	  playSong: function (songId) {
-	    Dispatcher.dispatch({
-	      actionType: 'PLAY_SONG',
-	      songId: songId
-	    });
-	  },
-	
-	  pauseSong: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'PAUSE_SONG'
-	    });
-	  },
-	
-	  endSong: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'END_SONG'
-	    });
-	  }
-	
-	};
-	
-	module.exports = SongActions;
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var Store = __webpack_require__(217).Store;
 	var Dispatcher = __webpack_require__(233);
 	
@@ -31994,18 +31600,530 @@
 	module.exports = SongStore;
 
 /***/ },
-/* 245 */,
+/* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SessionStore = __webpack_require__(216);
+	var SongStore = __webpack_require__(236);
+	var ApiUtil = __webpack_require__(248);
+	var PlayButton = __webpack_require__(262);
+	
+	var UserProfile = React.createClass({
+	  displayName: 'UserProfile',
+	
+	  getInitialState: function () {
+	    return {
+	      user: {
+	        username: "",
+	        id: ""
+	      },
+	      songs: []
+	    };
+	  },
+	
+	  _onChange: function () {
+	    var songs = SongStore.all();
+	    this.setState({ songs: songs });
+	  },
+	
+	  componentDidMount: function () {
+	    var user = SessionStore.currentUser();
+	    this.setState({ user: user });
+	    this.listener = SongStore.addListener(this._onChange);
+	    ApiUtil.fetchUserSongs(user.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'userPage' },
+	      React.createElement(
+	        'div',
+	        { id: 'userProfile' },
+	        'Hello,   ',
+	        this.state.user.username
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'userSongList' },
+	        this.state.songs.map(function (song) {
+	          return React.createElement(
+	            'div',
+	            { className: 'userSongListItem' },
+	            song.title,
+	            ' by ',
+	            song.artist_name,
+	            React.createElement(PlayButton, { songId: song.id })
+	          );
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = UserProfile;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var LinkedStateMixin = __webpack_require__(239);
+	var SongUtil = __webpack_require__(243);
+	var SessionStore = __webpack_require__(216);
+	var History = __webpack_require__(159).History;
+	var SongStore = __webpack_require__(236);
+	var ApiUtil = __webpack_require__(248);
+	
+	var SongForm = React.createClass({
+	  displayName: 'SongForm',
+	
+	  mixins: [LinkedStateMixin, History],
+	
+	  blankAttrs: {
+	    title: '',
+	    artist: '',
+	    album: ''
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      blankAttrs: this.blankAttrs,
+	      audioUploaded: false,
+	      audioUrl: '',
+	      public_id: ''
+	    };
+	  },
+	
+	  audioUpload: function () {
+	    var callback = this.uploadResult;
+	
+	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
+	    this.setState({ audioUploaded: true });
+	  },
+	
+	  uploadResult: function (error, results) {
+	    this.state.audioUrl = results[0].url;
+	    this.state.public_id = results[0].public_id;
+	  },
+	
+	  handleSubmit: function (event) {
+	    event.preventDefault();
+	    var song = { song: {
+	        title: this.state.title,
+	        artist_name: this.state.artist,
+	        audio_url: this.state.audioUrl,
+	        album_id: Number(this.state.album),
+	        user_id: SessionStore.currentUser().id,
+	        public_id: this.state.public_id
+	      } };
+	    // TODO: how to get songId without searching store via URL?
+	    ApiUtil.createSong(song);
+	    this.props.history.push('/');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'songFormBanner' },
+	      React.createElement(
+	        'form',
+	        { className: 'songForm', onSubmit: this.handleSubmit },
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'title', className: 'songTitleForm' },
+	          'Title: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'title',
+	          valueLink: this.linkState("title") }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'artist_name', className: 'songArtistForm' },
+	          'Artist: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'artist',
+	          valueLink: this.linkState("artist") }),
+	        React.createElement('br', null),
+	        React.createElement(
+	          'label',
+	          { htmlFor: 'album_id', className: 'songAlbumForm' },
+	          'Album: '
+	        ),
+	        React.createElement('br', null),
+	        React.createElement('input', { type: 'text',
+	          id: 'album',
+	          valueLink: this.linkState("album") }),
+	        React.createElement('br', null),
+	        this.state.audioUploaded ? React.createElement(
+	          'div',
+	          { className: 'audioChecked' },
+	          'Uploaded!'
+	        ) : React.createElement(
+	          'button',
+	          { className: 'audioUploadButton', onClick: this.audioUpload },
+	          'Choose a File!'
+	        ),
+	        React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SongForm;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(240);
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule LinkedStateMixin
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var ReactLink = __webpack_require__(241);
+	var ReactStateSetters = __webpack_require__(242);
+	
+	/**
+	 * A simple mixin around ReactLink.forState().
+	 */
+	var LinkedStateMixin = {
+	  /**
+	   * Create a ReactLink that's linked to part of this component's state. The
+	   * ReactLink will have the current value of this.state[key] and will call
+	   * setState() when a change is requested.
+	   *
+	   * @param {string} key state key to update. Note: you may want to use keyOf()
+	   * if you're using Google Closure Compiler advanced mode.
+	   * @return {ReactLink} ReactLink instance linking to the state.
+	   */
+	  linkState: function (key) {
+	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+	  }
+	};
+	
+	module.exports = LinkedStateMixin;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactLink
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	/**
+	 * ReactLink encapsulates a common pattern in which a component wants to modify
+	 * a prop received from its parent. ReactLink allows the parent to pass down a
+	 * value coupled with a callback that, when invoked, expresses an intent to
+	 * modify that value. For example:
+	 *
+	 * React.createClass({
+	 *   getInitialState: function() {
+	 *     return {value: ''};
+	 *   },
+	 *   render: function() {
+	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+	 *     return <input valueLink={valueLink} />;
+	 *   },
+	 *   _handleValueChange: function(newValue) {
+	 *     this.setState({value: newValue});
+	 *   }
+	 * });
+	 *
+	 * We have provided some sugary mixins to make the creation and
+	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+	 */
+	
+	var React = __webpack_require__(2);
+	
+	/**
+	 * @param {*} value current value of the link
+	 * @param {function} requestChange callback to request a change
+	 */
+	function ReactLink(value, requestChange) {
+	  this.value = value;
+	  this.requestChange = requestChange;
+	}
+	
+	/**
+	 * Creates a PropType that enforces the ReactLink API and optionally checks the
+	 * type of the value being passed inside the link. Example:
+	 *
+	 * MyComponent.propTypes = {
+	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+	 * }
+	 */
+	function createLinkTypeChecker(linkType) {
+	  var shapes = {
+	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
+	    requestChange: React.PropTypes.func.isRequired
+	  };
+	  return React.PropTypes.shape(shapes);
+	}
+	
+	ReactLink.PropTypes = {
+	  link: createLinkTypeChecker
+	};
+	
+	module.exports = ReactLink;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactStateSetters
+	 */
+	
+	'use strict';
+	
+	var ReactStateSetters = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (component, funcReturningState) {
+	    return function (a, b, c, d, e, f) {
+	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+	      if (partialState) {
+	        component.setState(partialState);
+	      }
+	    };
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (component, key) {
+	    // Memoize the setters.
+	    var cache = component.__keySetters || (component.__keySetters = {});
+	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+	  }
+	};
+	
+	function createStateKeySetter(component, key) {
+	  // Partial state is allocated outside of the function closure so it can be
+	  // reused with every call, avoiding memory allocation when this function
+	  // is called.
+	  var partialState = {};
+	  return function stateKeySetter(value) {
+	    partialState[key] = value;
+	    component.setState(partialState);
+	  };
+	}
+	
+	ReactStateSetters.Mixin = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateSetter(function(xValue) {
+	   *     return {x: xValue};
+	   *   })(1);
+	   *
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (funcReturningState) {
+	    return ReactStateSetters.createStateSetter(this, funcReturningState);
+	  },
+	
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateKeySetter('x')(1);
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (key) {
+	    return ReactStateSetters.createStateKeySetter(this, key);
+	  }
+	};
+	
+	module.exports = ReactStateSetters;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SongActions = __webpack_require__(244);
+	
+	SongUtil = {
+	
+	  playSong: function (songId) {
+	    SongActions.playSong(songId);
+	  },
+	
+	  pauseSong: function () {
+	    SongActions.pauseSong();
+	  },
+	
+	  endSong: function () {
+	    SongActions.endSong();
+	  }
+	};
+	
+	module.exports = SongUtil;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(233);
+	
+	SongActions = {
+	  uploadSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'ADD_SONG',
+	      song: song
+	    });
+	  },
+	
+	  receiveSongs: function (songs) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONGS',
+	      songs: songs
+	    });
+	  },
+	
+	  receiveSingleSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONG',
+	      song: song
+	    });
+	  },
+	
+	  playSong: function (songId) {
+	    Dispatcher.dispatch({
+	      actionType: 'PLAY_SONG',
+	      songId: songId
+	    });
+	  },
+	
+	  pauseSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'PAUSE_SONG'
+	    });
+	  },
+	
+	  endSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'END_SONG'
+	    });
+	  }
+	
+	};
+	
+	module.exports = SongActions;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Header = __webpack_require__(246);
+	var UserForms = __webpack_require__(252);
+	
+	var LogIn = React.createClass({
+	  displayName: 'LogIn',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'logInPage' },
+	      React.createElement(
+	        'div',
+	        { className: 'userForms' },
+	        React.createElement(UserForms, null)
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = LogIn;
+
+/***/ },
 /* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var Logout = __webpack_require__(247);
-	var UploadSongButton = __webpack_require__(250);
-	var ProfileButton = __webpack_require__(251);
-	var Logo = __webpack_require__(252);
+	var UploadSongButton = __webpack_require__(249);
+	var ProfileButton = __webpack_require__(250);
+	var Logo = __webpack_require__(251);
 	
-	var SessionStore = __webpack_require__(269);
+	var SessionStore = __webpack_require__(216);
 	
 	var Header = React.createClass({
 	  displayName: 'Header',
@@ -32067,9 +32185,9 @@
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
-	var SessionStore = __webpack_require__(269);
-	var ApiUtil = __webpack_require__(268);
-	var SongUtil = __webpack_require__(242);
+	var SessionStore = __webpack_require__(216);
+	var ApiUtil = __webpack_require__(248);
+	var SongUtil = __webpack_require__(243);
 	
 	var Logout = React.createClass({
 	  displayName: 'Logout',
@@ -32095,508 +32213,7 @@
 /* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var UserActions = __webpack_require__(249);
-	
-	UserUtil = {
-	
-	  refreshSession: function (user) {
-	    UserActions.refreshSession(user);
-	  }
-	
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(233);
-	
-	UserActions = {
-	  logInUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGIN_USER',
-	      user: user
-	    });
-	  },
-	
-	  logOutUser: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGOUT_USER'
-	    });
-	  },
-	
-	  refreshSession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'REFRESH_SESSION',
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	var UploadSongButton = React.createClass({
-	  displayName: 'UploadSongButton',
-	
-	
-	  mixins: [History],
-	
-	  handleUploadClicked: function (event) {
-	    event.preventDefault();
-	    this.history.push('/songs/new');
-	  },
-	
-	  render: function () {
-	    return React.createElement('input', { onClick: this.handleUploadClicked, className: 'uploadButton', type: 'submit', value: 'Upload!' });
-	  }
-	});
-	
-	module.exports = UploadSongButton;
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	var SessionStore = __webpack_require__(269);
-	
-	var ProfileButton = React.createClass({
-	  displayName: 'ProfileButton',
-	
-	
-	  mixins: [History],
-	
-	  _onClick: function (event) {
-	    event.preventDefault();
-	    this.history.push('/users/' + SessionStore.currentUser().id);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'input',
-	      { className: 'profileButton', type: 'submit', value: 'Profile', onClick: this._onClick },
-	      'Profile'
-	    );
-	  }
-	});
-	
-	module.exports = ProfileButton;
-
-/***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	var SessionStore = __webpack_require__(269);
-	
-	var Logo = React.createClass({
-	  displayName: 'Logo',
-	
-	  mixins: [History],
-	
-	  _onClick: function (event) {
-	    if (SessionStore.loggedIn()) {
-	      this.history.push('/');
-	    } else {
-	      this.history.push('/session/new');
-	    }
-	  },
-	
-	  render: function () {
-	    return React.createElement('div', { className: 'logo', onClick: this._onClick });
-	  }
-	
-	});
-	
-	module.exports = Logo;
-
-/***/ },
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var Header = __webpack_require__(246);
-	var SongIndex = __webpack_require__(258);
-	
-	var FullApp = React.createClass({
-	  displayName: 'FullApp',
-	
-	
-	  componentDidMount: function () {},
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'welcome' },
-	      React.createElement('div', { className: 'imageBanner' }),
-	      React.createElement(SongIndex, null),
-	      this.props.children
-	    );
-	  }
-	});
-	
-	module.exports = FullApp;
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var SessionStore = __webpack_require__(269);
-	var SongStore = __webpack_require__(244);
-	var SongUtil = __webpack_require__(242);
-	var ApiUtil = __webpack_require__(268);
-	
-	var SongIndexItem = __webpack_require__(259);
-	
-	var SongIndex = React.createClass({
-	  displayName: 'SongIndex',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      songs: SongStore.all()
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = SongStore.addListener(this._songsChanged);
-	    var userId;
-	    if (SessionStore.currentUser()) {
-	      userId = SessionStore.currentUser().id;
-	    }
-	    ApiUtil.fetchExploreSongs(userId);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  _songsChanged: function () {
-	    this.setState({ songs: SongStore.all() });
-	  },
-	
-	  render: function () {
-	    var user = SessionStore.currentUser();
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'indexTitle' },
-	        'Explore:'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'songIndex' },
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        this.state.songs.map(function (song, index) {
-	          return React.createElement(SongIndexItem, { key: index, song: song });
-	        })
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = SongIndex;
-
-/***/ },
-/* 259 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	var History = __webpack_require__(159).History;
-	
-	var SongIndexItem = React.createClass({
-	  displayName: 'SongIndexItem',
-	
-	  mixins: [History],
-	
-	  getInitialState: function () {
-	    return {
-	      song: this.props.song
-	    };
-	  },
-	
-	  _onClick: function (event) {
-	    this.history.push('/songs/' + this.state.song.id);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { onClick: this._onClick, className: 'songIndexItem' },
-	      this.state.song.title
-	    );
-	  }
-	
-	});
-	
-	module.exports = SongIndexItem;
-
-/***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SongStore = __webpack_require__(244);
-	var PlayButton = __webpack_require__(265);
-	var PauseButton = __webpack_require__(267);
-	
-	var ApiUtil = __webpack_require__(268);
-	
-	var SongProfile = React.createClass({
-	  displayName: 'SongProfile',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      song: {
-	        title: "",
-	        audio_url: "",
-	        artist_name: ""
-	      },
-	      playing: false
-	    };
-	  },
-	
-	  getStateFromStore: function () {
-	    var song = SongStore.find(this.props.params.id);
-	    if (song) {
-	      this.setState({ song: SongStore.find(this.props.params.id) });
-	    }
-	  },
-	
-	  componentDidMount: function () {
-	    this.stateListener = SongStore.addListener(this.getStateFromStore);
-	    ApiUtil.fetchSingleSong(this.props.params.id);
-	    // this.buttonListener = SongStore.addListener(this.toggleButton);
-	  },
-	
-	  componentWillUnmount: function () {
-	    // this.buttonListener.remove();
-	    this.stateListener.remove();
-	  },
-	
-	  toggleButton: function () {
-	    // if (SongStore.playing() &&
-	    //     SongStore.currentSong().id === this.state.song.id) {
-	    //   this.setState( { playing: true } );
-	    // } else {
-	    //   this.setState( { playing: false } );
-	    // }
-	    this.setState({ playing: !this.state.playing });
-	  },
-	
-	  button: function () {
-	    var button;
-	
-	    if (this.state.playing) {
-	      button = React.createElement(PauseButton, { songId: this.props.params.id,
-	        toggle: this.toggleButton });
-	    } else {
-	      button = React.createElement(PlayButton, { songId: this.props.params.id,
-	        toggle: this.toggleButton });
-	    }
-	    return button;
-	  },
-	
-	  render: function () {
-	    var button = this.button();
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'songDisplay' },
-	      React.createElement(
-	        'div',
-	        { className: 'songTitleDisplay' },
-	        this.state.song.title
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'songArtist' },
-	        'by ',
-	        this.state.song.artist_name
-	      ),
-	      this.button()
-	    );
-	  }
-	});
-	
-	module.exports = SongProfile;
-
-/***/ },
-/* 261 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SongControls = __webpack_require__(266);
-	var SongStore = __webpack_require__(244);
-	
-	var Footer = React.createClass({
-	  displayName: 'Footer',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      showSong: false,
-	      playing: false
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.listener = SongStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-	
-	  _onChange: function () {
-	    if (SongStore.currentSong() !== null) {
-	      this.setState({ showSong: true });
-	    } else {
-	      this.setState({ showSong: false });
-	    }
-	  },
-	
-	  showPlaying: function () {
-	    var display = "";
-	    if (this.state.showSong) {
-	      display = "Now playing:     " + SongStore.currentSong().title + " - (" + SongStore.currentSong().artist_name + ")";
-	    }
-	    return display;
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'footer' },
-	      this.showPlaying()
-	    );
-	  }
-	
-	});
-	
-	module.exports = Footer;
-
-/***/ },
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SongStore = __webpack_require__(244);
-	
-	var PlayButton = React.createClass({
-	  displayName: 'PlayButton',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      songId: this.props.songId
-	    };
-	  },
-	
-	  playSong: function () {
-	    SongUtil.playSong(this.state.songId);
-	    this.props.toggle();
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'button',
-	      { className: 'songButton', onClick: this.playSong },
-	      'Play'
-	    );
-	  }
-	});
-	
-	module.exports = PlayButton;
-
-/***/ },
-/* 266 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var PlayButton = __webpack_require__(265);
-	
-	var SongControls = React.createClass({
-	  displayName: 'SongControls',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'songControls' },
-	      React.createElement(PlayButton, null)
-	    );
-	  }
-	});
-	
-	module.exports = SongControls;
-
-/***/ },
-/* 267 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var SongStore = __webpack_require__(244);
-	
-	var PauseButton = React.createClass({
-	  displayName: 'PauseButton',
-	
-	  getInitialState: function () {
-	    return {
-	      songId: this.props.songId
-	    };
-	  },
-	
-	  pauseSong: function () {
-	    SongUtil.pauseSong();
-	    this.props.toggle();
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'button',
-	      { className: 'songButton', onClick: this.pauseSong },
-	      'Pause'
-	    );
-	  }
-	});
-	
-	module.exports = PauseButton;
-
-/***/ },
-/* 268 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SongActions = __webpack_require__(243);
+	var SongActions = __webpack_require__(244);
 	
 	var ApiUtil = {
 	
@@ -32654,19 +32271,31 @@
 	        SongActions.uploadSong(song);
 	      },
 	      error: function (song, error) {
-	        debugger;
 	        alert(error);
 	      }
 	    });
 	  },
 	
-	  fetchExploreSongs: function (userId) {
+	  fetchExploreSongs: function () {
+	    data = { submitted: false };
 	    $.ajax({
 	      url: 'api/songs',
 	      method: 'GET',
-	      data: userId,
+	      data: data,
 	      success: function (songs) {
-	        SongActions.receiveAll(songs);
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchUserSongs: function (userId) {
+	    data = { userId: userId, submitted: true };
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: data,
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
 	      }
 	    });
 	  },
@@ -32682,99 +32311,98 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Store = __webpack_require__(217).Store;
-	var Dispatcher = __webpack_require__(233);
-	
-	var _user = null;
-	var _loggedIn = false;
-	
-	var SessionStore = new Store(Dispatcher);
-	
-	SessionStore.loggedIn = function () {
-	  return _loggedIn;
-	};
-	
-	SessionStore.currentUser = function () {
-	  return _user;
-	};
-	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'LOGIN_USER':
-	      login(payload.user);
-	      SessionStore.__emitChange();
-	      break;
-	    case 'LOGOUT_USER':
-	      logout();
-	      SessionStore.__emitChange();
-	      break;
-	    case 'REFRESH_SESSION':
-	      refresh(payload.user);
-	      SessionStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	var login = function (user) {
-	  _user = user;
-	  _loggedIn = true;
-	  var storedUser = JSON.stringify(user);
-	  localStorage.setItem('user', storedUser);
-	};
-	
-	var refresh = function (user) {
-	  var user = localStorage.getItem('user');
-	  _user = JSON.parse(user);
-	  _loggedIn = true;
-	};
-	
-	var logout = function () {
-	  localStorage.clear();
-	  _user = null;
-	  _loggedIn = false;
-	};
-	
-	module.exports = SessionStore;
-
-/***/ },
-/* 270 */,
-/* 271 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(246);
-	var UserForms = __webpack_require__(272);
+	var History = __webpack_require__(159).History;
 	
-	var LogIn = React.createClass({
-	  displayName: 'LogIn',
+	var UploadSongButton = React.createClass({
+	  displayName: 'UploadSongButton',
+	
+	
+	  mixins: [History],
+	
+	  handleUploadClicked: function (event) {
+	    event.preventDefault();
+	    this.history.push('/songs/new');
+	  },
+	
+	  render: function () {
+	    return React.createElement('input', { onClick: this.handleUploadClicked, className: 'uploadButton', type: 'submit', value: 'Upload!' });
+	  }
+	});
+	
+	module.exports = UploadSongButton;
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	var SessionStore = __webpack_require__(216);
+	
+	var ProfileButton = React.createClass({
+	  displayName: 'ProfileButton',
+	
+	
+	  mixins: [History],
+	
+	  _onClick: function (event) {
+	    event.preventDefault();
+	    this.history.push('/users/' + SessionStore.currentUser().id);
+	  },
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
-	      { className: 'logInPage' },
-	      React.createElement(
-	        'div',
-	        { className: 'userForms' },
-	        React.createElement(UserForms, null)
-	      )
+	      'input',
+	      { className: 'profileButton', type: 'submit', value: 'Profile', onClick: this._onClick },
+	      'Profile'
 	    );
 	  }
 	});
 	
-	module.exports = LogIn;
+	module.exports = ProfileButton;
 
 /***/ },
-/* 272 */
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	var SessionStore = __webpack_require__(216);
+	
+	var Logo = React.createClass({
+	  displayName: 'Logo',
+	
+	  mixins: [History],
+	
+	  _onClick: function (event) {
+	    if (SessionStore.loggedIn()) {
+	      this.history.push('/');
+	    } else {
+	      this.history.push('/session/new');
+	    }
+	  },
+	
+	  render: function () {
+	    return React.createElement('div', { className: 'logo', onClick: this._onClick });
+	  }
+	
+	});
+	
+	module.exports = Logo;
+
+/***/ },
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Tab = __webpack_require__(273);
-	var SignInForm = __webpack_require__(274);
-	var SignUpForm = __webpack_require__(275);
+	var Tab = __webpack_require__(253);
+	var SignInForm = __webpack_require__(254);
+	var SignUpForm = __webpack_require__(255);
 	
 	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
 	
@@ -32836,7 +32464,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 273 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -32862,12 +32490,12 @@
 	module.exports = Tab;
 
 /***/ },
-/* 274 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var History = __webpack_require__(159).History;
-	var ApiUtil = __webpack_require__(268);
+	var ApiUtil = __webpack_require__(248);
 	
 	var SignInForm = React.createClass({
 	  displayName: 'SignInForm',
@@ -32942,7 +32570,7 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 275 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// React dependencies
@@ -32950,8 +32578,8 @@
 	var History = __webpack_require__(159).History;
 	
 	// Local dependencies
-	var UserUtil = __webpack_require__(248);
-	var ApiUtil = __webpack_require__(268);
+	var UserUtil = __webpack_require__(256);
+	var ApiUtil = __webpack_require__(248);
 	
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
@@ -33024,6 +32652,412 @@
 	});
 	
 	module.exports = SignUpForm;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var UserActions = __webpack_require__(257);
+	
+	UserUtil = {
+	
+	  refreshSession: function (user) {
+	    UserActions.refreshSession(user);
+	  }
+	
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(233);
+	
+	UserActions = {
+	  logInUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGIN_USER',
+	      user: user
+	    });
+	  },
+	
+	  logOutUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGOUT_USER'
+	    });
+	  },
+	
+	  refreshSession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'REFRESH_SESSION',
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Header = __webpack_require__(246);
+	var SongIndex = __webpack_require__(259);
+	
+	var FullApp = React.createClass({
+	  displayName: 'FullApp',
+	
+	
+	  componentDidMount: function () {},
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'welcome' },
+	      React.createElement('div', { className: 'imageBanner' }),
+	      React.createElement(SongIndex, null),
+	      this.props.children
+	    );
+	  }
+	});
+	
+	module.exports = FullApp;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var SessionStore = __webpack_require__(216);
+	var SongStore = __webpack_require__(236);
+	var SongUtil = __webpack_require__(243);
+	var ApiUtil = __webpack_require__(248);
+	
+	var SongIndexItem = __webpack_require__(260);
+	
+	var SongIndex = React.createClass({
+	  displayName: 'SongIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      songs: SongStore.all()
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = SongStore.addListener(this._songsChanged);
+	    ApiUtil.fetchExploreSongs();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  _songsChanged: function () {
+	    this.setState({ songs: SongStore.all() });
+	    debugger;
+	  },
+	
+	  render: function () {
+	    var user = SessionStore.currentUser();
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'indexTitle' },
+	        'Explore:'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'songIndex' },
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        this.state.songs.map(function (song, index) {
+	          return React.createElement(SongIndexItem, { key: index, song: song });
+	        })
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = SongIndex;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var History = __webpack_require__(159).History;
+	
+	var SongIndexItem = React.createClass({
+	  displayName: 'SongIndexItem',
+	
+	  mixins: [History],
+	
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  _onClick: function (event) {
+	    this.history.push('/songs/' + this.state.song.id);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { onClick: this._onClick, className: 'songIndexItem' },
+	      this.state.song.title
+	    );
+	  }
+	
+	});
+	
+	module.exports = SongIndexItem;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongStore = __webpack_require__(236);
+	var PlayButton = __webpack_require__(262);
+	var PauseButton = __webpack_require__(263);
+	
+	var ApiUtil = __webpack_require__(248);
+	
+	var SongProfile = React.createClass({
+	  displayName: 'SongProfile',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      song: {
+	        title: "",
+	        audio_url: "",
+	        artist_name: ""
+	      },
+	      playing: false
+	    };
+	  },
+	
+	  getStateFromStore: function () {
+	    var song = SongStore.find(this.props.params.id);
+	    if (song) {
+	      this.setState({ song: SongStore.find(this.props.params.id) });
+	    }
+	  },
+	
+	  componentDidMount: function () {
+	    this.stateListener = SongStore.addListener(this.getStateFromStore);
+	    ApiUtil.fetchSingleSong(this.props.params.id);
+	    this.buttonListener = SongStore.addListener(this.toggleButton);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.buttonListener.remove();
+	    this.stateListener.remove();
+	  },
+	
+	  toggleButton: function () {
+	    if (SongStore.playing() && SongStore.currentSong().id === this.state.song.id) {
+	      this.setState({ playing: true });
+	    } else {
+	      this.setState({ playing: false });
+	    }
+	    // this.setState({ playing: !this.state.playing });
+	  },
+	
+	  button: function () {
+	    var button;
+	
+	    if (this.state.playing) {
+	      button = React.createElement(PauseButton, { songId: this.props.params.id,
+	        toggle: this.toggleButton });
+	    } else {
+	      button = React.createElement(PlayButton, { songId: this.props.params.id,
+	        toggle: this.toggleButton });
+	    }
+	    return button;
+	  },
+	
+	  render: function () {
+	    var button = this.button();
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'songDisplay' },
+	      React.createElement(
+	        'div',
+	        { className: 'songTitleDisplay' },
+	        this.state.song.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'songArtist' },
+	        'by ',
+	        this.state.song.artist_name
+	      ),
+	      this.button()
+	    );
+	  }
+	});
+	
+	module.exports = SongProfile;
+
+/***/ },
+/* 262 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongStore = __webpack_require__(236);
+	
+	var PlayButton = React.createClass({
+	  displayName: 'PlayButton',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      songId: this.props.songId
+	    };
+	  },
+	
+	  playSong: function () {
+	    SongUtil.playSong(this.state.songId);
+	    // this.props.toggle();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'button',
+	      { className: 'songButton', onClick: this.playSong },
+	      'Play'
+	    );
+	  }
+	});
+	
+	module.exports = PlayButton;
+
+/***/ },
+/* 263 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongStore = __webpack_require__(236);
+	
+	var PauseButton = React.createClass({
+	  displayName: 'PauseButton',
+	
+	  getInitialState: function () {
+	    return {
+	      songId: this.props.songId
+	    };
+	  },
+	
+	  pauseSong: function () {
+	    SongUtil.pauseSong();
+	    // this.props.toggle();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'button',
+	      { className: 'songButton', onClick: this.pauseSong },
+	      'Pause'
+	    );
+	  }
+	});
+	
+	module.exports = PauseButton;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var SongControls = __webpack_require__(265);
+	var SongStore = __webpack_require__(236);
+	
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      showSong: false,
+	      playing: false
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.listener = SongStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+	
+	  _onChange: function () {
+	    if (SongStore.currentSong() !== null) {
+	      this.setState({ showSong: true });
+	    } else {
+	      this.setState({ showSong: false });
+	    }
+	  },
+	
+	  showPlaying: function () {
+	    var display = "";
+	    if (this.state.showSong) {
+	      display = "Now playing:     " + SongStore.currentSong().title + " - (" + SongStore.currentSong().artist_name + ")";
+	    }
+	    return display;
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'footer' },
+	      this.showPlaying()
+	    );
+	  }
+	
+	});
+	
+	module.exports = Footer;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var PlayButton = __webpack_require__(262);
+	
+	var SongControls = React.createClass({
+	  displayName: 'SongControls',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'songControls' },
+	      React.createElement(PlayButton, null)
+	    );
+	  }
+	});
+	
+	module.exports = SongControls;
 
 /***/ }
 /******/ ]);

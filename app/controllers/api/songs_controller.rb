@@ -16,8 +16,11 @@ class Api::SongsController < ApplicationController
 
   def create
     @song = Song.create(song_params)
-    @song.save!
-    render json: @song
+    if @song.save!
+      render json: @song
+    else
+      render json: @song.errors.full_messages, status: 422
+    end
   end
 
   def new
@@ -25,10 +28,19 @@ class Api::SongsController < ApplicationController
 
   def show
     @song = find_song
+    if @song
+      render json: @song
+    else
+      render json: @song.errors.full_messages, status: 422
+    end
   end
 
   def index
-    @songs = Song.all
+    if (params["submitted"] == "false")
+      @songs = Song.where.not("user_id = ?", current_user.id)
+    else
+      @songs = Song.where("user_id = ?", current_user.id)
+    end
   end
 
   def update
@@ -45,7 +57,8 @@ class Api::SongsController < ApplicationController
 
   def song_params
     params.require(:song).permit(
-      :title, :audio_url, :user_id, :album_id, :artist_name, :public_id)
+      :title, :audio_url, :user_id,
+      :album_id, :artist_name, :public_id)
   end
 
   def find_song

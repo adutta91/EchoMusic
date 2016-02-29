@@ -8,7 +8,7 @@ SongActions = {
     });
   },
 
-  receiveAll: function(songs) {
+  receiveSongs: function(songs) {
     Dispatcher.dispatch({
       actionType: 'RECEIVE_SONGS',
       songs: songs

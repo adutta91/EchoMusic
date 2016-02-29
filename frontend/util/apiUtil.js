@@ -56,21 +56,33 @@ var ApiUtil = {
         SongActions.uploadSong(song);
       },
       error: function(song, error) {
-        debugger;
         alert(error);
       }
     });
   },
 
-  fetchExploreSongs: function(userId) {
+  fetchExploreSongs: function() {
+    data = {submitted: false};
     $.ajax({
       url: 'api/songs',
       method: 'GET',
-      data: userId,
+      data: data,
       success: function(songs) {
-        SongActions.receiveAll(songs);
+        SongActions.receiveSongs(songs);
       }
     });
+  },
+
+  fetchUserSongs: function(userId) {
+    data = {userId: userId, submitted: true};
+    $.ajax({
+      url: 'api/songs',
+      method: 'GET',
+      data: data,
+      success: function(songs) {
+        SongActions.receiveSongs(songs);
+      }
+    })
   },
 
   fetchSingleSong: function(id) {

@@ -16,11 +16,7 @@ var SongIndex = React.createClass({
 
   componentDidMount: function() {
     this.listener = SongStore.addListener(this._songsChanged);
-    var userId;
-    if (SessionStore.currentUser()) {
-      userId = SessionStore.currentUser().id;
-    }
-    ApiUtil.fetchExploreSongs(userId);
+    ApiUtil.fetchExploreSongs();
   },
 
   componentWillUnmount: function() {
@@ -29,6 +25,7 @@ var SongIndex = React.createClass({
 
   _songsChanged: function() {
     this.setState( { songs: SongStore.all() } );
+    debugger;
   },
 
   render: function() {

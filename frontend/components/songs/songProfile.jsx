@@ -29,22 +29,22 @@ var SongProfile = React.createClass({
   componentDidMount: function() {
     this.stateListener = SongStore.addListener(this.getStateFromStore);
     ApiUtil.fetchSingleSong(this.props.params.id);
-    // this.buttonListener = SongStore.addListener(this.toggleButton);
+    this.buttonListener = SongStore.addListener(this.toggleButton);
   },
 
   componentWillUnmount: function() {
-    // this.buttonListener.remove();
+    this.buttonListener.remove();
     this.stateListener.remove();
   },
 
   toggleButton: function() {
-    // if (SongStore.playing() &&
-    //     SongStore.currentSong().id === this.state.song.id) {
-    //   this.setState( { playing: true } );
-    // } else {
-    //   this.setState( { playing: false } );
-    // }
-    this.setState({ playing: !this.state.playing });
+    if (SongStore.playing() &&
+        SongStore.currentSong().id === this.state.song.id) {
+      this.setState( { playing: true } );
+    } else {
+      this.setState( { playing: false } );
+    }
+    // this.setState({ playing: !this.state.playing });
   },
 
   button: function() {

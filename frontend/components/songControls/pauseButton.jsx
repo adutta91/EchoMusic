@@ -11,7 +11,7 @@ var PauseButton = React.createClass({
 
   pauseSong: function() {
     SongUtil.pauseSong();
-    this.props.toggle();
+    // this.props.toggle();
   },
 
   render: function() {

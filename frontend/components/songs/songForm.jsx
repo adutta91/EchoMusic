@@ -4,7 +4,7 @@ var SongUtil = require('../../util/songUtil');
 var SessionStore = require('../../stores/SessionStore');
 var History = require('react-router').History;
 var SongStore = require('../../stores/songStore');
-var ApiUtil = require('../../util/songUtil');
+var ApiUtil = require('../../util/apiUtil');
 
 
 var SongForm = React.createClass({
