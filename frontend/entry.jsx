@@ -9,7 +9,7 @@ var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
 // stores
-var SessionStore = require('./stores/sessionStore');
+var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');
 
 // React components

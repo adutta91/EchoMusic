@@ -1,5 +1,5 @@
 var React = require('react');
-var SessionStore = require('../../stores/sessionStore');
+var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
 var SongUtil = require('../../util/songUtil');
 var ApiUtil = require('../../util/apiUtil');

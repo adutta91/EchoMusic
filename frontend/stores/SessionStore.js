@@ -4,6 +4,7 @@ var Dispatcher = require('../dispatcher');
 var _user = null;
 var _loggedIn = false;
 
+
 var SessionStore = new Store(Dispatcher);
 
 SessionStore.loggedIn = function() {

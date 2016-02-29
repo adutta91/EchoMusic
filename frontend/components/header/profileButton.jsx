@@ -1,6 +1,6 @@
 var React = require('react');
 var History = require('react-router').History;
-var SessionStore = require('../../stores/sessionStore');
+var SessionStore = require('../../stores/SessionStore');
 
 var ProfileButton = React.createClass({
 
