@@ -5,6 +5,8 @@ var SongIndex = require('../songs/songIndex');
 var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 
+var SessionStore = require('../../stores/SessionStore');
+
 var FullApp = React.createClass({
 
   render: function() {

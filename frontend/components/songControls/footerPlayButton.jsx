@@ -37,9 +37,9 @@ var FooterPlayButton = React.createClass({
 
   button: function() {
     if (this.state.playing) {
-      return (<button className="songButton" onClick={this.pauseSong}>Pause</button>)
+      return (<button className="footerSongButton" onClick={this.pauseSong}>Pause</button>)
     } else {
-      return (<button className="songButton" onClick={this.playSong}>Play</button>)
+      return (<button className="footerSongButton" onClick={this.playSong}>Play</button>)
     }
   },
 

@@ -67,6 +67,8 @@
 	var SongProfile = __webpack_require__(262);
 	var Footer = __webpack_require__(264);
 	
+	window.SessionStore = SessionStore;
+	
 	var App = React.createClass({
 	  displayName: 'App',
 	
@@ -32746,6 +32748,8 @@
 	var SongStore = __webpack_require__(236);
 	var ApiUtil = __webpack_require__(238);
 	
+	var SessionStore = __webpack_require__(267);
+	
 	var FullApp = React.createClass({
 	  displayName: 'FullApp',
 	
@@ -33052,13 +33056,13 @@
 	    if (this.state.playing) {
 	      return React.createElement(
 	        'button',
-	        { className: 'songButton', onClick: this.pauseSong },
+	        { className: 'footerSongButton', onClick: this.pauseSong },
 	        'Pause'
 	      );
 	    } else {
 	      return React.createElement(
 	        'button',
-	        { className: 'songButton', onClick: this.playSong },
+	        { className: 'footerSongButton', onClick: this.playSong },
 	        'Play'
 	      );
 	    }
