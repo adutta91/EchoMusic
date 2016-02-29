@@ -67,9 +67,6 @@
 	var SongProfile = __webpack_require__(262);
 	var Footer = __webpack_require__(264);
 	
-	window.SessionStore = SessionStore;
-	window.SongStore = SongStore;
-	
 	var App = React.createClass({
 	  displayName: 'App',
 	
