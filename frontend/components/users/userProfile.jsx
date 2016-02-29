@@ -40,7 +40,7 @@ var UserProfile = React.createClass({
           Uploaded Songs:
           {this.state.songs.map(function(song) {
             return (<div className="userSongListItem">
-                          {song.title} by {song.artist_name}
+                          <span>{song.title} by {song.artist_name}</span>
                           <PlayButton songId={song.id} />
                     </div>)
           })}

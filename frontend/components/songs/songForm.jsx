@@ -2,6 +2,7 @@ var React = require('react');
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SongUtil = require('../../util/songUtil');
 var SessionStore = require('../../stores/SessionStore');
+var SessionStore = require('../../stores/SessionStore');
 var History = require('react-router').History;
 var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
@@ -49,7 +50,7 @@ var SongForm = React.createClass({
     }}
     // TODO: how to get songId without searching store via URL?
     ApiUtil.createSong(song);
-    this.props.history.push('/');
+    this.props.history.push('/users/' + SessionStore.currentUser().id);
   },
 
   render: function() {

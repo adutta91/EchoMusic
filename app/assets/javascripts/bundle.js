@@ -31604,9 +31604,13 @@
 	          return React.createElement(
 	            'div',
 	            { className: 'userSongListItem' },
-	            song.title,
-	            ' by ',
-	            song.artist_name,
+	            React.createElement(
+	              'span',
+	              null,
+	              song.title,
+	              ' by ',
+	              song.artist_name
+	            ),
 	            React.createElement(PlayButton, { songId: song.id })
 	          );
 	        })
@@ -31637,7 +31641,7 @@
 	      error: function (user) {
 	        window.location = '/';
 	        // TODO: errors
-	        alert('ya done goofed');
+	        alert('create user error');
 	      }
 	    });
 	  },
@@ -31653,7 +31657,7 @@
 	      error: function (user) {
 	        window.location = '/';
 	        // TODO: errors
-	        alert('ya done goofed');
+	        alert('create session error');
 	      }
 	    });
 	  },
@@ -31679,7 +31683,7 @@
 	        SongActions.uploadSong(song);
 	      },
 	      error: function (song, error) {
-	        alert(error);
+	        alert("create song error");
 	      }
 	    });
 	  },
@@ -31883,6 +31887,7 @@
 	var LinkedStateMixin = __webpack_require__(243);
 	var SongUtil = __webpack_require__(241);
 	var SessionStore = __webpack_require__(267);
+	var SessionStore = __webpack_require__(267);
 	var History = __webpack_require__(159).History;
 	var SongStore = __webpack_require__(236);
 	var ApiUtil = __webpack_require__(238);
@@ -31931,7 +31936,7 @@
 	      } };
 	    // TODO: how to get songId without searching store via URL?
 	    ApiUtil.createSong(song);
-	    this.props.history.push('/');
+	    this.props.history.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  render: function () {

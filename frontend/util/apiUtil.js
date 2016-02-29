@@ -14,7 +14,7 @@ var ApiUtil = {
       error: function(user) {
         window.location = '/';
         // TODO: errors
-        alert('ya done goofed');
+        alert('create user error');
       }
     })
   },
@@ -30,7 +30,7 @@ var ApiUtil = {
       error: function(user) {
         window.location = '/';
         // TODO: errors
-        alert('ya done goofed');
+        alert('create session error');
       }
     });
   },
@@ -56,7 +56,7 @@ var ApiUtil = {
         SongActions.uploadSong(song);
       },
       error: function(song, error) {
-        alert(error);
+        alert("create song error");
       }
     });
   },
