@@ -19,7 +19,6 @@ SessionStore.currentUser = function() {
 };
 
 SessionStore.__onDispatch = function(payload) {
-  console.log(payload.actionType)
   switch(payload.actionType) {
     case 'LOGIN_USER':
       login(payload.user);
