@@ -14,11 +14,6 @@ var UpdateUserForm = React.createClass({
     });
   },
 
-  blankAttrs: {
-    username: this.state.user.username,
-    id: this.state.user.id
-  },
-
   render: function() {
     return (
       <form className="updateUserForm">

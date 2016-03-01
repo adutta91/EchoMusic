@@ -35170,11 +35170,6 @@
 	    };
 	  },
 	
-	  blankAttrs: {
-	    username: this.state.user.username,
-	    id: this.state.user.id
-	  },
-	
 	  render: function () {
 	    return React.createElement(
 	      'form',
