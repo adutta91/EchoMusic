@@ -12,7 +12,6 @@
   width: 60px;
   height: 30px;
   margin-left: 15px;
-  margin-top: 70px;
   text-align: center;
   line-height: 100%;
   font-size: 12px;
@@ -32,5 +31,9 @@
 }
 
 .songButton:hover {
+  cursor: pointer;
+}
+
+.footerSongButton:hover {
   cursor: pointer;
 }

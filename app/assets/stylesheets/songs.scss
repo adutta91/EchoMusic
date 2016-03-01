@@ -14,13 +14,13 @@ audio:hover {
 .songDisplay {
   display: flex;
   flex-direction: row;
+  margin-top: 64px;
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom left, #592000, #3D7899);
 }
 
 .songArtist {
-  margin-top: 75px;
   margin-left: 15px;
 }
 
@@ -85,7 +85,7 @@ audio:hover {
 
 .songTitleDisplay {
   font-size: 30px;
-  margin: 90px 0px 20px;
+  margin: 20px 0;
 }
 
 .songTitleForm {

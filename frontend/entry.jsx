@@ -1,6 +1,7 @@
 // React requires
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Modal = require('react-modal');
 
 // React router and routes
 var ReactRouter = require('react-router');
@@ -70,6 +71,7 @@ var appRoutes = (
 // Load onto document
 document.addEventListener("DOMContentLoaded", function() {
   var root = document.querySelector("#root");
+  Modal.setAppElement('#root');
 
   ReactDOM.render(<Router>{appRoutes}</Router>, root);
 

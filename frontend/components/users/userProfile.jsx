@@ -4,6 +4,7 @@ var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 var PlayButton = require('../songControls/playButton');
+var UpdateUserButton = require('./updateUserButton');
 
 var UserProfile = React.createClass({
   getInitialState: function() {
@@ -35,12 +36,18 @@ var UserProfile = React.createClass({
   render: function() {
     return (
       <div className="userPage">
-        <div id="userProfile">Hello, &nbsp; {this.state.user.username}</div>
+        <div id="userProfile">
+          Hello, &nbsp; {this.state.user.username}
+        </div>
+        <UpdateUserButton  />
         <div className= "userSongList">
           Uploaded Songs:
           {this.state.songs.map(function(song) {
             return (<div className="userSongListItem">
-                          <span>{song.title} by {song.artist_name}</span>
+                          <span className="songListItemInfo">
+                            {song.title}
+                            <span className="songListArtist"> by {song.artist_name}</span>
+                          </span>
                           <PlayButton songId={song.id} />
                     </div>)
           })}

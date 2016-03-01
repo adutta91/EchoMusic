@@ -1,5 +1,5 @@
 
 window.cloudinaryOptions = {
-  cloud_name: "<%= Figaro.env.cloud_name %>",
-  upload_preset: "<%= Figaro.env.upload_preset %>"
+  cloud_name: "<%= ENV['cloud_name'] %>",
+  upload_preset: "<%= ENV['upload_preset'] %>"
 };
