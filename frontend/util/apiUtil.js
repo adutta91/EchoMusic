@@ -8,6 +8,10 @@ var React = require('react');
 var SongActions = require('../actions/songActions');
 var SessionActions = require('../actions/sessionActions');
 
+// UTILS
+var SessionUtil = require('./sessionUtil');
+
+
 var ApiUtil = {
 
   // USER QUERIES ---------------------------------------------*****
@@ -34,7 +38,7 @@ var ApiUtil = {
       method: 'PATCH',
       data: user,
       success: function(user) {
-        console.log('user updated');
+        SessionUtil.refreshSession(user);
       },
       error: function(user) {
         alert('user update error');
@@ -66,7 +70,6 @@ var ApiUtil = {
       data: {id: user.id},
       success: function(user) {
         SessionActions.logOutUser();
-        window.location = '/';
       }
     });
   },

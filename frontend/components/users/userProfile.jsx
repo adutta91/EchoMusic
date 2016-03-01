@@ -30,20 +30,26 @@ var UserProfile = React.createClass({
     })
   },
 
-  _onChange: function() {
-    var songs = SongStore.all();
-    this.setState( { songs: songs } );
+  _onSongChange: function() {
+    this.setState( { songs: SongStore.all() } );
+  },
+
+  _onSessionChange: function() {
+    this.setState( { user: SessionStore.currentUser() })
   },
 
   componentDidMount: function() {
-    var user = SessionStore.currentUser();
-    this.setState({ user: user })
-    this.listener = SongStore.addListener(this._onChange);
-    ApiUtil.fetchUserSongs(user.id)
+    this.sessionListener = SessionStore.addListener(this._onSessionChange)
+    // var user = SessionStore.currentUser();
+    // this.setState({ user: user })
+
+    this.songListener = SongStore.addListener(this._onSongChange);
+    ApiUtil.fetchUserSongs(this.state.user.id)
   },
 
   componentWillUnmount: function() {
-    this.listener.remove();
+    this.songListener.remove();
+    this.sessionListener.remove();
   },
 
   render: function() {

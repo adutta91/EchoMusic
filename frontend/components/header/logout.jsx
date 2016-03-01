@@ -21,6 +21,7 @@ var Logout = React.createClass({
     var user = SessionStore.currentUser();
     ApiUtil.resetSession(user);
     SongUtil.endSong();
+    window.location = "/";
   },
 
   render: function() {
