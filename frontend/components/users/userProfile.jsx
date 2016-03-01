@@ -56,9 +56,13 @@ var UserProfile = React.createClass({
     return (
       <div className="userPage">
         <div id="userProfile">
-          Hello, &nbsp; {this.state.user.username}
-          <img src={this.state.user.image_url} className="profilePicture" />
-          <UpdateUserButton  />
+          <span className="welcomeProfileMessage">
+            Hello, {this.state.user.username}
+          </span>
+          <div className="picture">
+            <img src={this.state.user.image_url} className="profilePicture" />
+            <UpdateUserButton  />
+          </div>
         </div>
         <div className= "userSongList">
           Uploaded Songs:

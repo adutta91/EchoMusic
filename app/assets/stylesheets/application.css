@@ -16,7 +16,7 @@
 
  html {
    font-family: Quattrocento Sans;
-   background-color: #989898;
+   background-color: white;
    color: white;
    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
  }
@@ -48,7 +48,7 @@
  }
 
  #root {
-   background-color: #989898;
+   background-color: #FFFFFF;
    width: 100%;
    height: 100%;
  }

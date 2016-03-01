@@ -33661,10 +33661,18 @@
 	      React.createElement(
 	        'div',
 	        { id: 'userProfile' },
-	        'Hello,   ',
-	        this.state.user.username,
-	        React.createElement('img', { src: this.state.user.image_url, className: 'profilePicture' }),
-	        React.createElement(UpdateUserButton, null)
+	        React.createElement(
+	          'span',
+	          { className: 'welcomeProfileMessage' },
+	          'Hello, ',
+	          this.state.user.username
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'picture' },
+	          React.createElement('img', { src: this.state.user.image_url, className: 'profilePicture' }),
+	          React.createElement(UpdateUserButton, null)
+	        )
 	      ),
 	      React.createElement(
 	        'div',
