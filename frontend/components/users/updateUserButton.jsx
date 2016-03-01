@@ -2,7 +2,7 @@ var React = require('react');
 var Modal = require('react-modal');
 
 var style = require('./userModalStyle');
-var UpdateUserForm = require('./updateUserform');
+//var UpdateUserForm = require('./updateUserform');
 
 var UpdateUserButton = React.createClass({
 
@@ -30,7 +30,6 @@ var UpdateUserButton = React.createClass({
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
           style={style}>
-            <UpdateUserForm />
         </Modal>
       </div>
     )

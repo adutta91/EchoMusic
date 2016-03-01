@@ -33929,7 +33929,7 @@
 	var Modal = __webpack_require__(159);
 	
 	var style = __webpack_require__(265);
-	var UpdateUserForm = __webpack_require__(289);
+	//var UpdateUserForm = require('./updateUserform');
 	
 	var UpdateUserButton = React.createClass({
 	  displayName: 'UpdateUserButton',
@@ -33958,14 +33958,10 @@
 	        { className: 'updateUserButton', onClick: this.openModal },
 	        'Edit Profile'
 	      ),
-	      React.createElement(
-	        Modal,
-	        {
-	          isOpen: this.state.open,
-	          onRequestClose: this.closeModal,
-	          style: style },
-	        React.createElement(UpdateUserForm, null)
-	      )
+	      React.createElement(Modal, {
+	        isOpen: this.state.open,
+	        onRequestClose: this.closeModal,
+	        style: style })
 	    );
 	  }
 	
@@ -35147,48 +35143,6 @@
 	});
 	
 	module.exports = FooterPlayButton;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var LinkedStateMixin = __webpack_require__(267);
-	
-	var SessionStore = __webpack_require__(236);
-	
-	var UpdateUserForm = React.createClass({
-	  displayName: 'UpdateUserForm',
-	
-	  mixins: [LinkedStateMixin],
-	
-	  getInitialState: function () {
-	    return {
-	      username: SessionStore.currentUser().username
-	    };
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'form',
-	      { className: 'updateUserForm' },
-	      React.createElement(
-	        'h2',
-	        null,
-	        'I am a user form. Fear me.'
-	      ),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'username' },
-	        'Username'
-	      ),
-	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") })
-	    );
-	  }
-	});
-	
-	module.exports = UpdateUserForm;
 
 /***/ }
 /******/ ]);
