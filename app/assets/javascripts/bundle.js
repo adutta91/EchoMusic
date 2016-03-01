@@ -59,14 +59,14 @@
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
 	
-	var SessionUtil = __webpack_require__(289);
+	var SessionUtil = __webpack_require__(257);
 	
 	// React components
-	var UserProfile = __webpack_require__(257);
-	var SongForm = __webpack_require__(269);
-	var LogIn = __webpack_require__(270);
+	var UserProfile = __webpack_require__(259);
+	var SongForm = __webpack_require__(271);
+	var LogIn = __webpack_require__(272);
 	var LoggedInApp = __webpack_require__(282);
-	var Header = __webpack_require__(271);
+	var Header = __webpack_require__(273);
 	var SongProfile = __webpack_require__(285);
 	var Footer = __webpack_require__(286);
 	
@@ -33535,13 +33535,59 @@
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var SessionActions = __webpack_require__(258);
+	
+	SessionUtil = {
+	
+	  refreshSession: function (user) {
+	    SessionActions.refreshSession(user);
+	  }
+	
+	};
+	
+	module.exports = SessionUtil;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(253);
+	
+	SessionActions = {
+	  logInUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGIN_USER',
+	      user: user
+	    });
+	  },
+	
+	  logOutUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGOUT_USER'
+	    });
+	  },
+	
+	  refreshSession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'REFRESH_SESSION',
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1);
 	
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
-	var ApiUtil = __webpack_require__(258);
-	var PlayButton = __webpack_require__(260);
-	var UpdateUserButton = __webpack_require__(262);
+	var ApiUtil = __webpack_require__(260);
+	var PlayButton = __webpack_require__(262);
+	var UpdateUserButton = __webpack_require__(264);
 	
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
@@ -33613,12 +33659,12 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var SongActions = __webpack_require__(259);
-	var SessionActions = __webpack_require__(290);
+	var SongActions = __webpack_require__(261);
+	var SessionActions = __webpack_require__(258);
 	
 	var ApiUtil = {
 	
@@ -33719,7 +33765,7 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Dispatcher = __webpack_require__(253);
@@ -33770,13 +33816,13 @@
 	module.exports = SongActions;
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
 	var SongStore = __webpack_require__(256);
-	var SongUtil = __webpack_require__(261);
+	var SongUtil = __webpack_require__(263);
 	
 	var PlayButton = React.createClass({
 	  displayName: 'PlayButton',
@@ -33853,10 +33899,10 @@
 	module.exports = PlayButton;
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var SongActions = __webpack_require__(259);
+	var SongActions = __webpack_require__(261);
 	
 	SongUtil = {
 	
@@ -33876,14 +33922,14 @@
 	module.exports = SongUtil;
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var Modal = __webpack_require__(159);
 	
-	var style = __webpack_require__(263);
-	var UpdateUserForm = __webpack_require__(264);
+	var style = __webpack_require__(265);
+	var UpdateUserForm = __webpack_require__(266);
 	
 	var UpdateUserButton = React.createClass({
 	  displayName: 'UpdateUserButton',
@@ -33928,7 +33974,7 @@
 	module.exports = UpdateUserButton;
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports) {
 
 	style = {
@@ -33960,12 +34006,12 @@
 	module.exports = style;
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var LinkedStateMixin = __webpack_require__(265);
+	var LinkedStateMixin = __webpack_require__(267);
 	
 	var SessionStore = __webpack_require__(236);
 	
@@ -34002,13 +34048,13 @@
 	module.exports = UpdateUserForm;
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(266);
+	module.exports = __webpack_require__(268);
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34025,8 +34071,8 @@
 	
 	'use strict';
 	
-	var ReactLink = __webpack_require__(267);
-	var ReactStateSetters = __webpack_require__(268);
+	var ReactLink = __webpack_require__(269);
+	var ReactStateSetters = __webpack_require__(270);
 	
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -34049,7 +34095,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34123,7 +34169,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports) {
 
 	/**
@@ -34232,16 +34278,16 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(265);
-	var SongUtil = __webpack_require__(261);
+	var LinkedStateMixin = __webpack_require__(267);
+	var SongUtil = __webpack_require__(263);
 	var SessionStore = __webpack_require__(236);
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
-	var ApiUtil = __webpack_require__(258);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SongForm = React.createClass({
 	  displayName: 'SongForm',
@@ -34341,12 +34387,12 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(271);
-	var UserForms = __webpack_require__(276);
+	var Header = __webpack_require__(273);
+	var UserForms = __webpack_require__(278);
 	
 	var LogIn = React.createClass({
 	  displayName: 'LogIn',
@@ -34367,15 +34413,15 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Logout = __webpack_require__(272);
-	var UploadSongButton = __webpack_require__(273);
-	var ProfileButton = __webpack_require__(274);
-	var Logo = __webpack_require__(275);
+	var Logout = __webpack_require__(274);
+	var UploadSongButton = __webpack_require__(275);
+	var ProfileButton = __webpack_require__(276);
+	var Logo = __webpack_require__(277);
 	
 	var SessionStore = __webpack_require__(236);
 	
@@ -34434,13 +34480,13 @@
 	module.exports = Header;
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(236);
-	var ApiUtil = __webpack_require__(258);
-	var SongUtil = __webpack_require__(261);
+	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(263);
 	
 	var Logout = React.createClass({
 	  displayName: 'Logout',
@@ -34461,7 +34507,7 @@
 	module.exports = Logout;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34487,7 +34533,7 @@
 	module.exports = UploadSongButton;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34518,7 +34564,7 @@
 	module.exports = ProfileButton;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34549,14 +34595,14 @@
 	module.exports = Logo;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Tab = __webpack_require__(277);
-	var SignInForm = __webpack_require__(278);
-	var SignUpForm = __webpack_require__(279);
+	var Tab = __webpack_require__(279);
+	var SignInForm = __webpack_require__(280);
+	var SignUpForm = __webpack_require__(281);
 	
 	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
 	
@@ -34618,7 +34664,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
@@ -34644,11 +34690,11 @@
 	module.exports = Tab;
 
 /***/ },
-/* 278 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
-	var ApiUtil = __webpack_require__(258);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SignInForm = React.createClass({
 	  displayName: 'SignInForm',
@@ -34721,14 +34767,14 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 279 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// React dependencies
 	var React = __webpack_require__(1);
 	
 	// Local dependencies
-	var ApiUtil = __webpack_require__(258);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
@@ -34801,17 +34847,15 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 280 */,
-/* 281 */,
 /* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 	
-	var Header = __webpack_require__(271);
+	var Header = __webpack_require__(273);
 	var SongIndex = __webpack_require__(283);
 	var SongStore = __webpack_require__(256);
-	var ApiUtil = __webpack_require__(258);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SessionStore = __webpack_require__(236);
 	
@@ -34838,8 +34882,8 @@
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
-	var SongUtil = __webpack_require__(261);
-	var ApiUtil = __webpack_require__(258);
+	var SongUtil = __webpack_require__(263);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SongIndexItem = __webpack_require__(284);
 	
@@ -34934,9 +34978,9 @@
 	var React = __webpack_require__(1);
 	
 	var SongStore = __webpack_require__(256);
-	var PlayButton = __webpack_require__(260);
+	var PlayButton = __webpack_require__(262);
 	
-	var ApiUtil = __webpack_require__(258);
+	var ApiUtil = __webpack_require__(260);
 	
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
@@ -35059,7 +35103,7 @@
 
 	var React = __webpack_require__(1);
 	
-	var PlayButton = __webpack_require__(260);
+	var PlayButton = __webpack_require__(262);
 	
 	var SongControls = React.createClass({
 	  displayName: 'SongControls',
@@ -35082,7 +35126,7 @@
 	var React = __webpack_require__(1);
 	
 	var SongStore = __webpack_require__(256);
-	var SongUtil = __webpack_require__(261);
+	var SongUtil = __webpack_require__(263);
 	
 	var FooterPlayButton = React.createClass({
 	  displayName: 'FooterPlayButton',
@@ -35144,52 +35188,6 @@
 	});
 	
 	module.exports = FooterPlayButton;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var SessionActions = __webpack_require__(290);
-	
-	SessionUtil = {
-	
-	  refreshSession: function (user) {
-	    SessionActions.refreshSession(user);
-	  }
-	
-	};
-	
-	module.exports = SessionUtil;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(253);
-	
-	SessionActions = {
-	  logInUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGIN_USER',
-	      user: user
-	    });
-	  },
-	
-	  logOutUser: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGOUT_USER'
-	    });
-	  },
-	
-	  refreshSession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'REFRESH_SESSION',
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = SessionActions;
 
 /***/ }
 /******/ ]);
