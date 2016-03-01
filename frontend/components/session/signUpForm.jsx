@@ -2,14 +2,9 @@
 var React = require('react');
 
 // Local dependencies
-var UserUtil = require('../../util/userUtil');
 var ApiUtil = require('../../util/apiUtil');
 
 var SignUpForm = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -35,7 +30,6 @@ var SignUpForm = React.createClass({
       }
     };
     ApiUtil.createUser(user);
-    this.context.router.push('/');
   },
 
   render: function() {

@@ -4,10 +4,6 @@ var ApiUtil = require('../../util/apiUtil');
 
 var SignInForm = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   getInitialState: function() {
     return ({
       username: "",
@@ -32,7 +28,6 @@ var SignInForm = React.createClass({
       }
     };
     ApiUtil.createSession(user);
-    this.context.router.push('/');
   },
 
   render: function() {

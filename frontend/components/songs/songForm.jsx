@@ -44,7 +44,6 @@ var SongForm = React.createClass({
       user_id: SessionStore.currentUser().id,
       public_id: this.state.public_id
     }}
-    // TODO: how to get songId without searching store via URL?
     ApiUtil.createSong(song);
     this.context.router.push('/users/' + SessionStore.currentUser().id);
   },

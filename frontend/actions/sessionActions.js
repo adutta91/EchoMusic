@@ -1,6 +1,6 @@
 var Dispatcher = require('../dispatcher');
 
-UserActions = {
+SessionActions = {
   logInUser: function(user) {
     Dispatcher.dispatch({
       actionType: 'LOGIN_USER',
@@ -22,4 +22,4 @@ UserActions = {
   }
 };
 
-module.exports = UserActions;
+module.exports = SessionActions;

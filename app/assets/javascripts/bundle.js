@@ -61,6 +61,8 @@
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
 	
+	var SessionUtil = __webpack_require__(289);
+	
 	// React components
 	var UserProfile = __webpack_require__(257);
 	var SongForm = __webpack_require__(269);
@@ -69,8 +71,6 @@
 	var Header = __webpack_require__(271);
 	var SongProfile = __webpack_require__(285);
 	var Footer = __webpack_require__(286);
-	
-	window.SessionStore = SessionStore;
 	
 	var App = React.createClass({
 	  displayName: 'App',
@@ -89,11 +89,10 @@
 	  checkForLogIn: function () {
 	    var user = localStorage.getItem('loggedInUser');
 	    if (user === null) {
-	      debugger;
 	      this.context.router.push('/session/new');
 	    } else {
 	      user = JSON.parse(user);
-	      UserUtil.refreshSession(user);
+	      SessionUtil.refreshSession(user);
 	    }
 	  },
 	
@@ -33619,7 +33618,9 @@
 /* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
 	var SongActions = __webpack_require__(259);
+	var SessionActions = __webpack_require__(290);
 	
 	var ApiUtil = {
 	
@@ -33630,7 +33631,8 @@
 	      method: 'POST',
 	      data: user,
 	      success: function (user) {
-	        UserActions.logInUser(user);
+	        SessionActions.logInUser(user);
+	        window.location = '/';
 	      },
 	      error: function (user) {
 	        window.location = '/';
@@ -33646,7 +33648,8 @@
 	      method: 'POST',
 	      data: user,
 	      success: function (user) {
-	        UserActions.logInUser(user);
+	        SessionActions.logInUser(user);
+	        window.location = '/';
 	      },
 	      error: function (user) {
 	        window.location = '/';
@@ -33662,7 +33665,8 @@
 	      method: 'DELETE',
 	      data: { id: user.id },
 	      success: function (user) {
-	        UserActions.logOutUser();
+	        SessionActions.logOutUser();
+	        window.location = '/';
 	      }
 	    });
 	  },
@@ -34280,7 +34284,6 @@
 	        user_id: SessionStore.currentUser().id,
 	        public_id: this.state.public_id
 	      } };
-	    // TODO: how to get songId without searching store via URL?
 	    ApiUtil.createSong(song);
 	    this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
@@ -34445,16 +34448,11 @@
 	  displayName: 'Logout',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  handleLogout: function (event) {
 	    event.preventDefault();
 	    var user = SessionStore.currentUser();
 	    ApiUtil.resetSession(user);
 	    SongUtil.endSong();
-	    this.context.router.push('/session/new');
 	  },
 	
 	  render: function () {
@@ -34658,10 +34656,6 @@
 	  displayName: 'SignInForm',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  getInitialState: function () {
 	    return {
 	      username: "",
@@ -34686,7 +34680,6 @@
 	      }
 	    };
 	    ApiUtil.createSession(user);
-	    this.context.router.push('/');
 	  },
 	
 	  render: function () {
@@ -34737,16 +34730,11 @@
 	var React = __webpack_require__(1);
 	
 	// Local dependencies
-	var UserUtil = __webpack_require__(280);
 	var ApiUtil = __webpack_require__(258);
 	
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
 	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -34772,7 +34760,6 @@
 	      }
 	    };
 	    ApiUtil.createUser(user);
-	    this.context.router.push('/');
 	  },
 	
 	  render: function () {
@@ -34816,52 +34803,8 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var UserActions = __webpack_require__(281);
-	
-	UserUtil = {
-	
-	  refreshSession: function (user) {
-	    UserActions.refreshSession(user);
-	  }
-	
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(253);
-	
-	UserActions = {
-	  logInUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGIN_USER',
-	      user: user
-	    });
-	  },
-	
-	  logOutUser: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'LOGOUT_USER'
-	    });
-	  },
-	
-	  refreshSession: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'REFRESH_SESSION',
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
+/* 280 */,
+/* 281 */,
 /* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35203,6 +35146,52 @@
 	});
 	
 	module.exports = FooterPlayButton;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var SessionActions = __webpack_require__(290);
+	
+	SessionUtil = {
+	
+	  refreshSession: function (user) {
+	    SessionActions.refreshSession(user);
+	  }
+	
+	};
+	
+	module.exports = SessionUtil;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(253);
+	
+	SessionActions = {
+	  logInUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGIN_USER',
+	      user: user
+	    });
+	  },
+	
+	  logOutUser: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'LOGOUT_USER'
+	    });
+	  },
+	
+	  refreshSession: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'REFRESH_SESSION',
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = SessionActions;
 
 /***/ }
 /******/ ]);

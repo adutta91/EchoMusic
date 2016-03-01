@@ -1,4 +1,6 @@
+var React = require('react');
 var SongActions = require('../actions/songActions');
+var SessionActions = require('../actions/sessionActions');
 
 var ApiUtil = {
 
@@ -9,7 +11,8 @@ var ApiUtil = {
       method: 'POST',
       data: user,
       success: function(user) {
-        UserActions.logInUser(user);
+        SessionActions.logInUser(user);
+        window.location = '/';
       },
       error: function(user) {
         window.location = '/';
@@ -25,7 +28,8 @@ var ApiUtil = {
       method: 'POST',
       data: user,
       success: function(user) {
-        UserActions.logInUser(user);
+        SessionActions.logInUser(user);
+        window.location = '/';
       },
       error: function(user) {
         window.location = '/';
@@ -41,7 +45,8 @@ var ApiUtil = {
       method: 'DELETE',
       data: {id: user.id},
       success: function(user) {
-        UserActions.logOutUser();
+        SessionActions.logOutUser();
+        window.location = '/';
       }
     });
   },

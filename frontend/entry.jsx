@@ -15,6 +15,8 @@ var hashHistory = ReactRouter.hashHistory;
 var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');
 
+var SessionUtil = require('./util/sessionUtil');
+
 // React components
 var UserProfile = require('./components/users/userProfile');
 var SongForm = require('./components/songs/songForm');
@@ -24,7 +26,6 @@ var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
-window.SessionStore = SessionStore;
 
 var App = React.createClass({
 
@@ -41,11 +42,10 @@ var App = React.createClass({
   checkForLogIn: function() {
     var user = localStorage.getItem('loggedInUser')
     if (user === null) {
-      debugger;
       this.context.router.push('/session/new');
     } else {
       user = JSON.parse(user);
-      UserUtil.refreshSession(user);
+      SessionUtil.refreshSession(user);
     }
   },
 
