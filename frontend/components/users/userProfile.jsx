@@ -35,16 +35,14 @@ var UserProfile = React.createClass({
   },
 
   _onSessionChange: function() {
-    this.setState( { user: SessionStore.currentUser() })
+    console.log('session changed');
+    this.setState( { user: SessionStore.currentUser() });
   },
 
   componentDidMount: function() {
-    this.sessionListener = SessionStore.addListener(this._onSessionChange)
-    // var user = SessionStore.currentUser();
-    // this.setState({ user: user })
-
+    this.sessionListener = SessionStore.addListener(this._onSessionChange);
     this.songListener = SongStore.addListener(this._onSongChange);
-    ApiUtil.fetchUserSongs(this.state.user.id)
+    ApiUtil.fetchUserSongs(this.state.user.id);
   },
 
   componentWillUnmount: function() {
@@ -65,7 +63,7 @@ var UserProfile = React.createClass({
           </div>
         </div>
         <div className= "userSongList">
-          Uploaded Songs:
+          <span className="uploadedListTitle">Uploaded Songs:</span>
           {this.state.songs.map(function(song, index) {
             return (<div className="userSongListItem" key={index}>
                           <span className="songListItemInfo">

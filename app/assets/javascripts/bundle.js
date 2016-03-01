@@ -26709,7 +26709,7 @@
 	};
 	
 	SessionStore.__onDispatch = function (payload) {
-	
+	  console.log(payload.actionType);
 	  switch (payload.actionType) {
 	    case 'LOGIN_USER':
 	      login(payload.user);
@@ -33637,14 +33637,12 @@
 	  },
 	
 	  _onSessionChange: function () {
+	    console.log('session changed');
 	    this.setState({ user: SessionStore.currentUser() });
 	  },
 	
 	  componentDidMount: function () {
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
-	    // var user = SessionStore.currentUser();
-	    // this.setState({ user: user })
-	
 	    this.songListener = SongStore.addListener(this._onSongChange);
 	    ApiUtil.fetchUserSongs(this.state.user.id);
 	  },
@@ -33677,7 +33675,11 @@
 	      React.createElement(
 	        'div',
 	        { className: 'userSongList' },
-	        'Uploaded Songs:',
+	        React.createElement(
+	          'span',
+	          { className: 'uploadedListTitle' },
+	          'Uploaded Songs:'
+	        ),
 	        this.state.songs.map(function (song, index) {
 	          return React.createElement(
 	            'div',

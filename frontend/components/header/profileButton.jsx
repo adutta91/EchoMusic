@@ -8,6 +8,7 @@ var React = require('react');
 // STORES
 var SessionStore = require('../../stores/SessionStore');
 
+
 // CLASS DEFINITION ----------------------------------------***
 var ProfileButton = React.createClass({
 

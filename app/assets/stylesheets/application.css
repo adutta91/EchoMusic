@@ -121,12 +121,13 @@
   width: 35px;
   padding: 2px;
   text-align: center;
+  border-radius: 8px;
 }
 
 .profileButton:hover {
   cursor: pointer;
   background-color: #BA4300;
-  border-radius: 10px;
+  opacity: .8;
 }
 
 .logo {
