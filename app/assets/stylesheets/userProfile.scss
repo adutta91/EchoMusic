@@ -1,6 +1,7 @@
 
 
 #userProfile {
+  width: 300px;
   margin-top: 64px;
   background-color: blue;
   height: 80px;
@@ -12,9 +13,20 @@
   background: linear-gradient(to bottom left, #592000, #3D7899);
 }
 
+.userProfile{
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+}
+
+.profilePicture {
+  width: 150px;
+  margin: 0 75px;
+}
+
 .userPage {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .updateUserButton {
@@ -27,7 +39,7 @@
   font-size: 24px;
   font-weight: bold;
   width: 500px;
-  margin: 0 auto;
+  margin: 100px 20px;
   margin-bottom: 100px;
   align-items: center;
   display: flex;
@@ -51,5 +63,5 @@
 }
 
 .updateUserForm {
-  
+
 }

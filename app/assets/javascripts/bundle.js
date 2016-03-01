@@ -33662,13 +33662,9 @@
 	        'div',
 	        { id: 'userProfile' },
 	        'Hello,   ',
-	        this.state.user.username
-	      ),
-	      React.createElement(UpdateUserButton, null),
-	      React.createElement(
-	        'span',
-	        null,
-	        'TODO: (1) edit user form (2) display image (3) show followed songs'
+	        this.state.user.username,
+	        React.createElement('img', { src: this.state.user.image_url, className: 'profilePicture' }),
+	        React.createElement(UpdateUserButton, null)
 	      ),
 	      React.createElement(
 	        'div',

@@ -57,11 +57,9 @@ var UserProfile = React.createClass({
       <div className="userPage">
         <div id="userProfile">
           Hello, &nbsp; {this.state.user.username}
+          <img src={this.state.user.image_url} className="profilePicture" />
+          <UpdateUserButton  />
         </div>
-        <UpdateUserButton  />
-        <span>
-          TODO: (1) edit user form (2) display image (3) show followed songs
-        </span>
         <div className= "userSongList">
           Uploaded Songs:
           {this.state.songs.map(function(song, index) {
