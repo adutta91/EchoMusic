@@ -33652,6 +33652,8 @@
 	
 	  componentDidMount: function () {
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
+	    this.setState({ user: SessionStore.currentUser() });
+	
 	    this.songListener = SongStore.addListener(this._onSongChange);
 	    ApiUtil.fetchUserSongs(this.state.user.id);
 	  },
