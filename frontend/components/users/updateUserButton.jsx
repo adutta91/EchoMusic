@@ -2,7 +2,7 @@ var React = require('react');
 var Modal = require('react-modal');
 
 var style = require('./userModalStyle');
-var UpdateUserForm = require('./UpdateUserform');
+var UpdateUserForm = require('./updateUserform');
 
 var UpdateUserButton = React.createClass({
 
