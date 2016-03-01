@@ -1,15 +1,17 @@
 var React = require('react');
-var History = require('react-router').History;
 var SessionStore = require('../../stores/SessionStore');
 
 var Logo = React.createClass({
-  mixins: [History],
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   _onClick: function(event) {
     if(SessionStore.loggedIn()) {
-      this.history.push('/');
+      this.context.router.push('/');
     } else {
-      this.history.push('/session/new');
+      this.context.router.push('/session/new');
     }
   },
 

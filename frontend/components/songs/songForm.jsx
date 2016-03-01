@@ -3,23 +3,19 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SongUtil = require('../../util/songUtil');
 var SessionStore = require('../../stores/SessionStore');
 var SessionStore = require('../../stores/SessionStore');
-var History = require('react-router').History;
 var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 
 
 var SongForm = React.createClass({
-  mixins: [LinkedStateMixin, History],
+  mixins: [LinkedStateMixin],
 
-  blankAttrs: {
-    title: '',
-    artist: '',
-    album: ''
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
     return ({
-      blankAttrs: this.blankAttrs,
       audioUploaded: false,
       audioUrl: '',
       public_id: ''
@@ -50,7 +46,7 @@ var SongForm = React.createClass({
     }}
     // TODO: how to get songId without searching store via URL?
     ApiUtil.createSong(song);
-    this.props.history.push('/users/' + SessionStore.currentUser().id);
+    this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 
   render: function() {

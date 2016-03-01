@@ -42,8 +42,8 @@ var UserProfile = React.createClass({
         <UpdateUserButton  />
         <div className= "userSongList">
           Uploaded Songs:
-          {this.state.songs.map(function(song) {
-            return (<div className="userSongListItem">
+          {this.state.songs.map(function(song, index) {
+            return (<div className="userSongListItem" key={index}>
                           <span className="songListItemInfo">
                             {song.title}
                             <span className="songListArtist"> by {song.artist_name}</span>

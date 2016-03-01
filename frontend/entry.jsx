@@ -9,6 +9,8 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
+var hashHistory = ReactRouter.hashHistory;
+
 // stores
 var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');
@@ -26,6 +28,10 @@ window.SessionStore = SessionStore;
 
 var App = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return ({
       user: SessionStore.currentUser()
@@ -35,7 +41,8 @@ var App = React.createClass({
   checkForLogIn: function() {
     var user = localStorage.getItem('loggedInUser')
     if (user === null) {
-      this.props.history.push('/session/new');
+      debugger;
+      this.context.router.push('/session/new');
     } else {
       user = JSON.parse(user);
       UserUtil.refreshSession(user);

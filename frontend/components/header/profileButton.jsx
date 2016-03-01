@@ -1,19 +1,20 @@
 var React = require('react');
-var History = require('react-router').History;
 var SessionStore = require('../../stores/SessionStore');
 
 var ProfileButton = React.createClass({
 
-  mixins: [History],
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   _onClick: function(event) {
     event.preventDefault();
-    this.history.push('/users/' + SessionStore.currentUser().id);
+    this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 
   render: function() {
     return (
-      <input className="profileButton" type="submit" value="Profile" onClick={this._onClick}>Profile</input>
+      <button className="profileButton" onClick={this._onClick}>Profile</button>
     );
   }
 });

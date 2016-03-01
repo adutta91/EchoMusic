@@ -1,10 +1,12 @@
 var React = require('react');
-var History = require('react-router').History;
 var ApiUtil = require('../../util/apiUtil');
 
 
 var SignInForm = React.createClass({
-  mixins: [History],
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   getInitialState: function() {
     return ({
@@ -30,7 +32,7 @@ var SignInForm = React.createClass({
       }
     };
     ApiUtil.createSession(user);
-    this.history.push('/');
+    this.context.router.push('/');
   },
 
   render: function() {

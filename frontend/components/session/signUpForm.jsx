@@ -1,13 +1,15 @@
 // React dependencies
 var React = require('react');
-var History = require('react-router').History;
 
 // Local dependencies
 var UserUtil = require('../../util/userUtil');
 var ApiUtil = require('../../util/apiUtil');
 
 var SignUpForm = React.createClass({
-  mixins: [History],
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   getInitialState: function() {
     return ({
@@ -33,7 +35,7 @@ var SignUpForm = React.createClass({
       }
     };
     ApiUtil.createUser(user);
-    this.history.push('/');
+    this.context.router.push('/');
   },
 
   render: function() {

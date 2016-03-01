@@ -1,9 +1,11 @@
 var React = require('react');
-var History = require('react-router').History;
 
 
 var SongIndexItem = React.createClass({
-  mixins: [History],
+
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   getInitialState: function() {
     return ({
@@ -12,7 +14,7 @@ var SongIndexItem = React.createClass({
   },
 
   _onClick: function(event) {
-    this.history.push('/songs/' + this.state.song.id);
+    this.context.router.push('/songs/' + this.state.song.id);
   },
 
   render: function() {

@@ -1,14 +1,14 @@
 var React = require('react');
-var History = require('react-router').History;
-
 
 var UploadSongButton = React.createClass({
 
-  mixins: [History],
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
 
   handleUploadClicked: function(event) {
     event.preventDefault();
-    this.history.push('/songs/new');
+    this.context.router.push('/songs/new');
   },
 
   render: function() {
