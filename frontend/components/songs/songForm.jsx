@@ -28,7 +28,6 @@ var SongForm = React.createClass({
     return ({
       audioUploaded: false,
       audioUrl: '',
-      public_id: ''
     });
   },
 
@@ -36,12 +35,11 @@ var SongForm = React.createClass({
     var callback = this.uploadResult;
 
     cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
-    this.setState({audioUploaded: true});
+    this.setState( { audioUploaded: true } );
   },
 
   uploadResult: function(error, results) {
     this.state.audioUrl = results[0].url;
-    this.state.public_id = results[0].public_id
   },
 
   handleSubmit: function(event) {
@@ -51,8 +49,7 @@ var SongForm = React.createClass({
       artist_name: this.state.artist,
       audio_url: this.state.audioUrl,
       album_id: Number(this.state.album),
-      user_id: SessionStore.currentUser().id,
-      public_id: this.state.public_id
+      user_id: SessionStore.currentUser().id
     }}
     ApiUtil.createSong(song);
     this.context.router.push('/users/' + SessionStore.currentUser().id);

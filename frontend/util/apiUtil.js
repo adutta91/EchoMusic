@@ -28,6 +28,21 @@ var ApiUtil = {
     })
   },
 
+  updateUser: function(user) {
+    $.ajax({
+      url: 'api/users/' + user.user.id,
+      method: 'PATCH',
+      data: user,
+      success: function(user) {
+        debugger;
+        alert('user updated')
+      },
+      error: function(user) {
+        alert('user update error')
+      }
+    })
+  },
+
   createSession: function(user) {
     $.ajax({
       url: 'api/session',

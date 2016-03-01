@@ -33,11 +33,17 @@ class Api::UsersController < ApplicationController
     @user = find_user
   end
 
+  def update
+    @user = find_user
+    @user.update(user_params)
+    render :show
+  end
+
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password)
+    params.require(:user).permit(:username, :password, :id, :image_url, :description)
   end
 
   def find_user

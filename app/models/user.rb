@@ -4,8 +4,8 @@
 #
 #  id              :integer          not null, primary key
 #  username        :string           not null
-#  image_filename  :string
 #  description     :text
+#  image_url       :string
 #  password_digest :string           not null
 #  session_token   :string           not null
 #  created_at      :datetime         not null
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     BCrypt::Password.new(self.password_digest).is_password?(password)
   end
 
-  #session_token methods
+  # session_token methods
   def reset_session_token!
     self.session_token = generate_session_token
     self.save

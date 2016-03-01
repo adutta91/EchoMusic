@@ -42,7 +42,7 @@ var UpdateUserButton = React.createClass({
           onRequestClose={this.closeModal}
           style={style}>
 
-          <UpdateUserForm />
+          <UpdateUserForm modalCallback={this.closeModal}/>
         </Modal>
       </div>
     )

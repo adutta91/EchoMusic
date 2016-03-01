@@ -33727,6 +33727,21 @@
 	    });
 	  },
 	
+	  updateUser: function (user) {
+	    $.ajax({
+	      url: 'api/users/' + user.user.id,
+	      method: 'PATCH',
+	      data: user,
+	      success: function (user) {
+	        debugger;
+	        alert('user updated');
+	      },
+	      error: function (user) {
+	        alert('user update error');
+	      }
+	    });
+	  },
+	
 	  createSession: function (user) {
 	    $.ajax({
 	      url: 'api/session',
@@ -34034,7 +34049,7 @@
 	          isOpen: this.state.open,
 	          onRequestClose: this.closeModal,
 	          style: style },
-	        React.createElement(UpdateUserForm, null)
+	        React.createElement(UpdateUserForm, { modalCallback: this.closeModal })
 	      )
 	    );
 	  }
@@ -34095,6 +34110,9 @@
 	// STORES
 	var SessionStore = __webpack_require__(236);
 	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(267);
 	
@@ -34104,16 +34122,64 @@
 	
 	  mixins: [LinkedStateMixin],
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
 	    return {
-	      username: SessionStore.currentUser().username
+	      username: SessionStore.currentUser().username,
+	      desc: SessionStore.currentUser().description,
+	      imageUrl: SessionStore.currentUser().image_url,
+	      imageUploaded: false
 	    };
+	  },
+	
+	  imageUpload: function () {
+	    var callback = this.uploadResult;
+	
+	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
+	    this.setState({ imageUploaded: true });
+	  },
+	
+	  uploadResult: function (error, results) {
+	    this.state.imageUrl = results[0].url;
+	  },
+	
+	  uploadDisplay: function () {
+	    var display = React.createElement(
+	      'div',
+	      { className: 'imageChecked' },
+	      'Uploaded!'
+	    );
+	    if (!this.state.imageUploaded) {
+	      display = React.createElement(
+	        'button',
+	        { className: 'imageUploadButton', onClick: this.imageUpload },
+	        'Choose a File!'
+	      );
+	    }
+	    return display;
+	  },
+	
+	  handleSubmit: function () {
+	    event.preventDefault();
+	
+	    var user = { user: {
+	        id: SessionStore.currentUser().id,
+	        username: this.state.username,
+	        description: this.state.desc,
+	        image_url: this.state.imageUrl
+	      } };
+	    ApiUtil.updateUser(user);
+	    this.props.modalCallback();
+	    this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'form',
-	      { className: 'updateUserForm' },
+	      { className: 'updateUserForm', onSubmit: this.handleSubmit },
 	      React.createElement(
 	        'h2',
 	        null,
@@ -34124,7 +34190,15 @@
 	        { htmlFor: 'username' },
 	        'Username'
 	      ),
-	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") })
+	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") }),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'desc' },
+	        'About'
+	      ),
+	      React.createElement('input', { id: 'desc', type: 'text', valueLink: this.linkState("desc") }),
+	      this.uploadDisplay(),
+	      React.createElement('input', { className: 'updateFormButton', type: 'submit', value: 'Update!' })
 	    );
 	  }
 	});
@@ -34396,8 +34470,7 @@
 	  getInitialState: function () {
 	    return {
 	      audioUploaded: false,
-	      audioUrl: '',
-	      public_id: ''
+	      audioUrl: ''
 	    };
 	  },
 	
@@ -34410,7 +34483,6 @@
 	
 	  uploadResult: function (error, results) {
 	    this.state.audioUrl = results[0].url;
-	    this.state.public_id = results[0].public_id;
 	  },
 	
 	  handleSubmit: function (event) {
@@ -34420,8 +34492,7 @@
 	        artist_name: this.state.artist,
 	        audio_url: this.state.audioUrl,
 	        album_id: Number(this.state.album),
-	        user_id: SessionStore.currentUser().id,
-	        public_id: this.state.public_id
+	        user_id: SessionStore.currentUser().id
 	      } };
 	    ApiUtil.createSong(song);
 	    this.context.router.push('/users/' + SessionStore.currentUser().id);
