@@ -60,7 +60,7 @@ var SongForm = React.createClass({
 
   uploadDisplay: function() {
     var display = <div className="audioChecked">Uploaded!</div>
-    if (this.state.audioUploaded) {
+    if (!this.state.audioUploaded) {
       display = (
         <button className="audioUploadButton" onClick={this.audioUpload}>
           Choose a File!
@@ -95,7 +95,7 @@ var SongForm = React.createClass({
                valueLink={this.linkState("album")}/>
         <br/>
 
-        {this.uploadDisplay}
+        {this.uploadDisplay()}
 
         <input className="uploadFormButton" type="submit" value="Upload!"/>
 
