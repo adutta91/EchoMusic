@@ -47,3 +47,8 @@ song.user_id = 2
 song.audio_url = "http://res.cloudinary.com/dzyfczxnr/video/upload/v1456869740/Short%20Clip.mp3"
 song.album_id = 1
 song.save!
+
+sf = SongFollow.new
+sf.user_id = 1
+sf.song_id = 2
+sf.save!

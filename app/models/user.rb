@@ -24,6 +24,11 @@ class User < ActiveRecord::Base
   attr_reader :password
 
   # associations
+  has_many :song_follows
+
+  has_many :followed_songs,
+    through: :song_follows,
+    source: :song
 
   # password methods
   def password=(password)

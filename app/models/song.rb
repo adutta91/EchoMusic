@@ -19,4 +19,10 @@ class Song < ActiveRecord::Base
   belongs_to :user
   belongs_to :album
 
+  has_many :song_follows
+
+  has_many :following_users,
+    through: :song_follows,
+    source: :user
+
 end
