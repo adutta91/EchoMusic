@@ -33934,7 +33934,7 @@
 	var Modal = __webpack_require__(159);
 	
 	var style = __webpack_require__(265);
-	var UpdateUserForm = __webpack_require__(289);
+	var UpdateUserForm = __webpack_require__(292);
 	
 	var UpdateUserButton = React.createClass({
 	  displayName: 'UpdateUserButton',
@@ -35164,7 +35164,10 @@
 	module.exports = FooterPlayButton;
 
 /***/ },
-/* 289 */
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
