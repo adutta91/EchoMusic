@@ -40,6 +40,7 @@ var UserProfile = React.createClass({
           Hello, &nbsp; {this.state.user.username}
         </div>
         <UpdateUserButton  />
+        <span> TODO: (1) edit user form (2) display image (3) show followed songs</span>
         <div className= "userSongList">
           Uploaded Songs:
           {this.state.songs.map(function(song, index) {

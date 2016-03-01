@@ -36,6 +36,7 @@ var SongProfile = React.createClass({
   render: function() {
 
     return (
+      <div>
       <div className="songDisplay">
         <div className="songTitleDisplay">
           {this.state.song.title}
@@ -44,6 +45,9 @@ var SongProfile = React.createClass({
           by {this.state.song.artist_name}
         </div>
         <PlayButton songId={this.props.params.id} />
+        <br/>
+      </div>
+      <span>TODO: (1) 'follow' song, (2) display user, (3) display image</span>
       </div>
     );
   }

@@ -33630,6 +33630,11 @@
 	      ),
 	      React.createElement(UpdateUserButton, null),
 	      React.createElement(
+	        'span',
+	        null,
+	        ' TODO: (1) edit user form (2) display image (3) show followed songs'
+	      ),
+	      React.createElement(
 	        'div',
 	        { className: 'userSongList' },
 	        'Uploaded Songs:',
@@ -33929,7 +33934,7 @@
 	var Modal = __webpack_require__(159);
 	
 	var style = __webpack_require__(265);
-	//var UpdateUserForm = require('./updateUserform');
+	var UpdateUserForm = __webpack_require__(289);
 	
 	var UpdateUserButton = React.createClass({
 	  displayName: 'UpdateUserButton',
@@ -33958,10 +33963,14 @@
 	        { className: 'updateUserButton', onClick: this.openModal },
 	        'Edit Profile'
 	      ),
-	      React.createElement(Modal, {
-	        isOpen: this.state.open,
-	        onRequestClose: this.closeModal,
-	        style: style })
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.open,
+	          onRequestClose: this.closeModal,
+	          style: style },
+	        React.createElement(UpdateUserForm, null)
+	      )
 	    );
 	  }
 	
@@ -34971,19 +34980,29 @@
 	
 	    return React.createElement(
 	      'div',
-	      { className: 'songDisplay' },
+	      null,
 	      React.createElement(
 	        'div',
-	        { className: 'songTitleDisplay' },
-	        this.state.song.title
+	        { className: 'songDisplay' },
+	        React.createElement(
+	          'div',
+	          { className: 'songTitleDisplay' },
+	          this.state.song.title
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'songArtist' },
+	          'by ',
+	          this.state.song.artist_name
+	        ),
+	        React.createElement(PlayButton, { songId: this.props.params.id }),
+	        React.createElement('br', null)
 	      ),
 	      React.createElement(
-	        'div',
-	        { className: 'songArtist' },
-	        'by ',
-	        this.state.song.artist_name
-	      ),
-	      React.createElement(PlayButton, { songId: this.props.params.id })
+	        'span',
+	        null,
+	        'TODO: (1) \'follow\' song, (2) display user, (3) display image'
+	      )
 	    );
 	  }
 	});
@@ -35143,6 +35162,48 @@
 	});
 	
 	module.exports = FooterPlayButton;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var LinkedStateMixin = __webpack_require__(267);
+	
+	var SessionStore = __webpack_require__(236);
+	
+	var UpdateUserForm = React.createClass({
+	  displayName: 'UpdateUserForm',
+	
+	  mixins: [LinkedStateMixin],
+	
+	  getInitialState: function () {
+	    return {
+	      username: SessionStore.currentUser().username
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'updateUserForm' },
+	      React.createElement(
+	        'h2',
+	        null,
+	        'I am a user form. Fear me.'
+	      ),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'username' },
+	        'Username'
+	      ),
+	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") })
+	    );
+	  }
+	});
+	
+	module.exports = UpdateUserForm;
 
 /***/ }
 /******/ ]);
