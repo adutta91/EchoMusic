@@ -33953,9 +33953,11 @@
 	  button: function () {
 	    var button;
 	    if (this.state.playing) {
-	      button = React.createElement('img', { src: 'assets/pause-button.png', className: 'songButton', onClick: this.pauseSong });
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456869991/PauseButton.png',
+	        className: 'songButton', onClick: this.pauseSong });
 	    } else {
-	      button = React.createElement('img', { src: 'assets/play-button.png', className: 'songButton', onClick: this.playSong });
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456870006/PlayButton.png',
+	        className: 'songButton', onClick: this.playSong });
 	    }
 	    return button;
 	  },
@@ -35473,11 +35475,15 @@
 	  },
 	
 	  button: function () {
+	    var button;
 	    if (this.state.playing) {
-	      return React.createElement('img', { src: 'assets/pause-button.png', className: 'footerSongButton', onClick: this.pauseSong });
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456869991/PauseButton.png',
+	        className: 'footerSongButton', onClick: this.pauseSong });
 	    } else {
-	      return React.createElement('img', { src: 'assets/play-button.png', className: 'footerSongButton', onClick: this.playSong });
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456870006/PlayButton.png',
+	        className: 'footerSongButton', onClick: this.playSong });
 	    }
+	    return button;
 	  },
 	
 	  render: function () {

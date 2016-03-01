@@ -47,15 +47,19 @@ var FooterPlayButton = React.createClass({
   },
 
   button: function() {
+    var button;
     if (this.state.playing) {
-      return (
-        <img src="assets/pause-button.png" className="footerSongButton" onClick={this.pauseSong} />
+      button = (
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456869991/PauseButton.png"
+             className="footerSongButton" onClick={this.pauseSong} />
       );
     } else {
-      return (
-        <img src="assets/play-button.png" className="footerSongButton" onClick={this.playSong} />
+      button = (
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456870006/PlayButton.png"
+             className="footerSongButton" onClick={this.playSong} />
       );
     }
+    return button
   },
 
   render: function() {
