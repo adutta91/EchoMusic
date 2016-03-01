@@ -10,7 +10,7 @@ var UpdateUserForm = React.createClass({
 
   getInitialState: function() {
     return ({
-      user: SessionStore.currentUser()
+      username: SessionStore.currentUser().username
     });
   },
 
@@ -21,8 +21,6 @@ var UpdateUserForm = React.createClass({
         <label htmlFor="username">Username</label>
         <input id="username" type="text" valueLink={this.linkState("username")} />
 
-        <label htmlFor="id">Id</label>
-        <input id="id" type="text" value={this.state.user.id} />
       </form>
     )
   }

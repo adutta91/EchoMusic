@@ -35166,7 +35166,7 @@
 	
 	  getInitialState: function () {
 	    return {
-	      user: SessionStore.currentUser()
+	      username: SessionStore.currentUser().username
 	    };
 	  },
 	
@@ -35184,13 +35184,7 @@
 	        { htmlFor: 'username' },
 	        'Username'
 	      ),
-	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") }),
-	      React.createElement(
-	        'label',
-	        { htmlFor: 'id' },
-	        'Id'
-	      ),
-	      React.createElement('input', { id: 'id', type: 'text', value: this.state.user.id })
+	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") })
 	    );
 	  }
 	});
