@@ -64,15 +64,11 @@ var PlayButton = React.createClass({
     var button;
     if (this.state.playing) {
       button = (
-        <button className="songButton" onClick={this.pauseSong}>
-          Pause
-        </button>
+        <img src="assets/pause-button.png" className="songButton" onClick={this.pauseSong} />
       );
     } else {
       button = (
-        <button className="songButton" onClick={this.playSong}>
-          Play
-        </button>
+        <img src="assets/play-button.png" className="songButton" onClick={this.playSong} />
       );
     }
     return button

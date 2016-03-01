@@ -20,7 +20,7 @@ var Logo = React.createClass({
 
   render: function() {
     return (
-      <div className="logo" onClick={this._onClick}></div>
+      <div className="logo" onClick={this._onClick} />
     );
   }
 

@@ -63,7 +63,7 @@ var UserProfile = React.createClass({
                           <span className="songListItemInfo">
                             {song.title}
                             <span className="songListArtist">
-                              by {song.artist_name}
+                              &nbsp; by {song.artist_name}
                             </span>
                           </span>
                           <PlayButton songId={song.id} />

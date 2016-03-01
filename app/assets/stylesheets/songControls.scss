@@ -9,31 +9,35 @@
 }
 
 .songButton {
-  width: 60px;
-  height: 30px;
-  margin-left: 15px;
+  width: 45px;
+  height: 45px;
+  margin: 5px 0 0 15px;
   text-align: center;
   line-height: 100%;
   font-size: 12px;
   border-radius: 5px;
-  background-color: #949DBB;
 }
 
 .footerSongButton {
-  width: 60px;
+  width: 30px;
   height: 30px;
-  margin-left: 15px;
+  margin: 0 0 0 15px;
   text-align: center;
   line-height: 100%;
   font-size: 12px;
   border-radius: 5px;
-  background-color: #949DBB;
 }
 
 .songButton:hover {
+  width: 41px;
+  height: 41px;
+  margin: 7px 2px 2px 17px;
   cursor: pointer;
 }
 
 .footerSongButton:hover {
+  width: 26px;
+  height: 26px;
+  margin: 2px 2px 2px 17px;
   cursor: pointer;
 }

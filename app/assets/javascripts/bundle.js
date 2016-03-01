@@ -33679,7 +33679,7 @@
 	              React.createElement(
 	                'span',
 	                { className: 'songListArtist' },
-	                'by ',
+	                '  by ',
 	                song.artist_name
 	              )
 	            ),
@@ -33733,8 +33733,7 @@
 	      method: 'PATCH',
 	      data: user,
 	      success: function (user) {
-	        debugger;
-	        alert('user updated');
+	        console.log('user updated');
 	      },
 	      error: function (user) {
 	        alert('user update error');
@@ -33942,17 +33941,9 @@
 	  button: function () {
 	    var button;
 	    if (this.state.playing) {
-	      button = React.createElement(
-	        'button',
-	        { className: 'songButton', onClick: this.pauseSong },
-	        'Pause'
-	      );
+	      button = React.createElement('img', { src: 'assets/pause-button.png', className: 'songButton', onClick: this.pauseSong });
 	    } else {
-	      button = React.createElement(
-	        'button',
-	        { className: 'songButton', onClick: this.playSong },
-	        'Play'
-	      );
+	      button = React.createElement('img', { src: 'assets/play-button.png', className: 'songButton', onClick: this.playSong });
 	    }
 	    return button;
 	  },
@@ -35080,8 +35071,8 @@
 	        'div',
 	        { className: 'headerButtons' },
 	        React.createElement(UploadSongButton, null),
-	        React.createElement(ProfileButton, null),
-	        React.createElement(Logout, null)
+	        React.createElement(Logout, null),
+	        React.createElement(ProfileButton, null)
 	      );
 	    }
 	    return headerButtons;
@@ -35239,12 +35230,16 @@
 	    this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
+	  findImage: function () {
+	    var imageUrl = 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/xagahvi1zmrahngkzif5.png';
+	    if (SessionStore.currentUser().image_url) {
+	      imageUrl = SessionStore.currentUser().image_url;
+	    }
+	    return imageUrl;
+	  },
+	
 	  render: function () {
-	    return React.createElement(
-	      'button',
-	      { className: 'profileButton', onClick: this._onClick },
-	      'Profile'
-	    );
+	    return React.createElement('img', { src: this.findImage(), className: 'profileButton', onClick: this._onClick });
 	  }
 	});
 	
@@ -35466,17 +35461,9 @@
 	
 	  button: function () {
 	    if (this.state.playing) {
-	      return React.createElement(
-	        'button',
-	        { className: 'footerSongButton', onClick: this.pauseSong },
-	        'Pause'
-	      );
+	      return React.createElement('img', { src: 'assets/pause-button.png', className: 'footerSongButton', onClick: this.pauseSong });
 	    } else {
-	      return React.createElement(
-	        'button',
-	        { className: 'footerSongButton', onClick: this.playSong },
-	        'Play'
-	      );
+	      return React.createElement('img', { src: 'assets/play-button.png', className: 'footerSongButton', onClick: this.playSong });
 	    }
 	  },
 	

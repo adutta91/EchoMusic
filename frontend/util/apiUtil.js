@@ -34,11 +34,10 @@ var ApiUtil = {
       method: 'PATCH',
       data: user,
       success: function(user) {
-        debugger;
-        alert('user updated')
+        console.log('user updated');
       },
       error: function(user) {
-        alert('user update error')
+        alert('user update error');
       }
     })
   },

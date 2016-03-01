@@ -101,7 +101,7 @@
 }
 
 .logoutButton:hover {
-  background-color: #952000;
+  background-color: #A72603;
 }
 
 .uploadButton {
@@ -113,15 +113,23 @@
 }
 
 .profileButton {
-  background-color: #908E8B
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 35px;
+  width: 35px;
+  padding: 2px;
+  text-align: center;
 }
 
 .profileButton:hover {
-  background-color: #757472
+  cursor: pointer;
+  background-color: #BA4300;
+  border-radius: 10px;
 }
 
 .logo {
-  align-self: flex-start;
   margin: 15px 5px 5px 20px;
   -webkit-background-size: cover;
   -moz-background-size: cover;

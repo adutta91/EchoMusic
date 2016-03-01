@@ -20,9 +20,17 @@ var ProfileButton = React.createClass({
     this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 
+  findImage: function() {
+    var imageUrl = 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/xagahvi1zmrahngkzif5.png';
+    if (SessionStore.currentUser().image_url) {
+      imageUrl = SessionStore.currentUser().image_url;
+    }
+    return imageUrl;
+  },
+
   render: function() {
     return (
-      <button className="profileButton" onClick={this._onClick}>Profile</button>
+      <img src={this.findImage()} className="profileButton" onClick={this._onClick} />
     );
   }
 });
