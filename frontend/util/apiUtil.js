@@ -38,7 +38,7 @@ var ApiUtil = {
       method: 'PATCH',
       data: user,
       success: function(user) {
-        SessionUtil.refreshSession(user);
+        SessionActions.showUser(user);
       },
       error: function(user) {
         alert('user update error');

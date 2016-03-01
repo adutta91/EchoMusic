@@ -26722,6 +26722,9 @@
 	      login(payload.user);
 	      SessionStore.__emitChange();
 	      break;
+	    case 'SHOW_USER':
+	      SessionStore.__emitChange();
+	      break;
 	  }
 	};
 	
@@ -33583,12 +33586,20 @@
 	    });
 	  },
 	
+	  showUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'SHOW_USER',
+	      user: user
+	    });
+	  },
+	
 	  refreshSession: function (user) {
 	    Dispatcher.dispatch({
 	      actionType: 'REFRESH_SESSION',
 	      user: user
 	    });
 	  }
+	
 	};
 	
 	module.exports = SessionActions;
@@ -33746,7 +33757,7 @@
 	      method: 'PATCH',
 	      data: user,
 	      success: function (user) {
-	        SessionUtil.refreshSession(user);
+	        SessionActions.showUser(user);
 	      },
 	      error: function (user) {
 	        alert('user update error');
@@ -35231,6 +35242,9 @@
 	// STORES
 	var SessionStore = __webpack_require__(236);
 	
+	// UTIL
+	var SessionUtil = __webpack_require__(257);
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var ProfileButton = React.createClass({
 	  displayName: 'ProfileButton',
@@ -35242,6 +35256,7 @@
 	
 	  _onClick: function (event) {
 	    event.preventDefault();
+	    SessionUtil.refreshSession(SessionStore.currentUser());
 	    this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	

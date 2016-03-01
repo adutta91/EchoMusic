@@ -8,6 +8,8 @@ var React = require('react');
 // STORES
 var SessionStore = require('../../stores/SessionStore');
 
+// UTIL
+var SessionUtil = require('../../util/sessionUtil');
 
 // CLASS DEFINITION ----------------------------------------***
 var ProfileButton = React.createClass({
@@ -18,6 +20,7 @@ var ProfileButton = React.createClass({
 
   _onClick: function(event) {
     event.preventDefault();
+    SessionUtil.refreshSession(SessionStore.currentUser());
     this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 

@@ -18,12 +18,20 @@ SessionActions = {
     });
   },
 
+  showUser: function(user) {
+    Dispatcher.dispatch({
+      actionType: 'SHOW_USER',
+      user: user
+    });
+  },
+
   refreshSession: function(user) {
     Dispatcher.dispatch({
       actionType: 'REFRESH_SESSION',
       user: user
     });
   }
+
 };
 
 module.exports = SessionActions;
