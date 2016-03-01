@@ -1,6 +1,9 @@
 var React = require('react');
+
+// STORE
 var SessionStore = require('../../stores/SessionStore');
 
+// CLASS DEFINITION ----------------------------------------***
 var Logo = React.createClass({
 
   contextTypes: {

@@ -1,24 +1,29 @@
-// React dependencies
+// sign up form component
+//    purpose: receive data to create a new user and session
+//
+//    children: none
+//    actions: receive data to send to server
+//    info: none
+
 var React = require('react');
 
-// Local dependencies
+// UTILS
 var ApiUtil = require('../../util/apiUtil');
 
+// MIXINS
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
+
+
+// CLASS DEFINITION ----------------------------------------***
 var SignUpForm = React.createClass({
+
+  mixins: [LinkedStateMixin],
 
   getInitialState: function() {
     return ({
       username: "",
       password: ""
     });
-  },
-
-  handleUsernameChange: function(event) {
-    this.setState({username: event.target.value});
-  },
-
-  handlePasswordChange: function(event) {
-    this.setState({password: event.target.value});
   },
 
   handleSubmit: function(event) {
@@ -40,8 +45,7 @@ var SignUpForm = React.createClass({
         <input
           className="input"
           type="text"
-          value={this.state.username}
-          onChange={this.handleUsernameChange}
+          valueLink={this.linkState("username")}
           id="username" />
         <br/>
 
@@ -50,8 +54,7 @@ var SignUpForm = React.createClass({
         <input
           className="input"
           type="password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
+          valueLink={this.linkState("password")}
           id="password" />
         <br/>
 

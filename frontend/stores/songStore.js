@@ -1,3 +1,7 @@
+// song store
+//    purpose: store relevant data on given songs, keep track of current song
+//             for track playback
+
 var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher');
 

@@ -1,12 +1,22 @@
+// song form component
+//    purpose: to receive data to create a new song
+//
+//    children: none
+//    actions: receive relevant data (eventually modal)
+//    info: none
+
 var React = require('react');
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-var SongUtil = require('../../util/songUtil');
+
+// STORES
 var SessionStore = require('../../stores/SessionStore');
-var SessionStore = require('../../stores/SessionStore');
-var SongStore = require('../../stores/songStore');
+
+// UTILS
 var ApiUtil = require('../../util/apiUtil');
 
+// MIXINS
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
+// CLASS DEFINITION ----------------------------------------***
 var SongForm = React.createClass({
   mixins: [LinkedStateMixin],
 
@@ -48,6 +58,18 @@ var SongForm = React.createClass({
     this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 
+  uploadDisplay: function() {
+    var display = <div className="audioChecked">Uploaded!</div>
+    if (this.state.audioUploaded) {
+      display = (
+        <button className="audioUploadButton" onClick={this.audioUpload}>
+          Choose a File!
+        </button>
+      );
+    }
+    return display;
+  },
+
   render: function() {
     return (
       <div className="songFormBanner">
@@ -73,7 +95,7 @@ var SongForm = React.createClass({
                valueLink={this.linkState("album")}/>
         <br/>
 
-        {this.state.audioUploaded ? <div className="audioChecked">Uploaded!</div> : <button className="audioUploadButton" onClick={this.audioUpload}>Choose a File!</button>}
+        {this.uploadDisplay}
 
         <input className="uploadFormButton" type="submit" value="Upload!"/>
 

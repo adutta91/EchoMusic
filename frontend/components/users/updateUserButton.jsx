@@ -1,9 +1,20 @@
-var React = require('react');
-var Modal = require('react-modal');
+// update user button component
+//    purpose: open edit user profile form
+//
+//    children: modal user update form
+//    actions: open and close modal form
+//    info: none
 
+var React = require('react');
+
+// MODAL DEPENDENCIES
+var Modal = require('react-modal');
 var style = require('./userModalStyle');
+
+// REACT COMPONENTS
 var UpdateUserForm = require('./updateUserForm');
 
+// CLASS DEFINITION ----------------------------------------***
 var UpdateUserButton = React.createClass({
 
   getInitialState: function() {

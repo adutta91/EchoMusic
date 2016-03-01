@@ -1,3 +1,6 @@
+// functions for all song actions
+//    purpose: dispatch actions to SongStore
+
 var Dispatcher = require('../dispatcher');
 
 SongActions = {

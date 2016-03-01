@@ -44,24 +44,25 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// React requires
+	// REACT
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var Modal = __webpack_require__(159);
 	
-	// React router and routes
+	// ROUTER
 	var ReactRouter = __webpack_require__(179);
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
 	
-	// stores
+	// STORES
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
 	
+	// UTILS
 	var SessionUtil = __webpack_require__(257);
 	
-	// React components
+	// REACT COMPONENTS
 	var UserProfile = __webpack_require__(259);
 	var SongForm = __webpack_require__(271);
 	var LogIn = __webpack_require__(272);
@@ -70,6 +71,7 @@
 	var SongProfile = __webpack_require__(285);
 	var Footer = __webpack_require__(286);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var App = React.createClass({
 	  displayName: 'App',
 	
@@ -109,6 +111,7 @@
 	  }
 	});
 	
+	// ROUTES DEFINITION ----------------------------------------***
 	var appRoutes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
@@ -26686,6 +26689,9 @@
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// session store
+	//    purpose: store relevant data on current session
+	
 	var Store = __webpack_require__(237).Store;
 	var Dispatcher = __webpack_require__(253);
 	
@@ -33403,6 +33409,10 @@
 /* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song store
+	//    purpose: store relevant data on given songs, keep track of current song
+	//             for track playback
+	
 	var Store = __webpack_require__(237).Store;
 	var Dispatcher = __webpack_require__(253);
 	
@@ -33535,6 +33545,10 @@
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// session util
+	//    purpose: all non-server action requests regarding the session
+	
+	// ACTIONS
 	var SessionActions = __webpack_require__(258);
 	
 	SessionUtil = {
@@ -33551,6 +33565,9 @@
 /* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// Functions for all session actions
+	//    purpose: dispatch actions to SessionStore
+	
 	var Dispatcher = __webpack_require__(253);
 	
 	SessionActions = {
@@ -33581,14 +33598,27 @@
 /* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// user profile component
+	//    purpose: display relevant user information
+	//
+	//    children: PlayButton, UpdateUserButton
+	//    actions: play an uploaded song
+	//    info: user info, user uploaded songs, user followed songs
+	
 	var React = __webpack_require__(1);
 	
+	// STORES
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
+	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
+	
+	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(262);
 	var UpdateUserButton = __webpack_require__(264);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var UserProfile = React.createClass({
 	  displayName: 'UserProfile',
 	
@@ -33632,7 +33662,7 @@
 	      React.createElement(
 	        'span',
 	        null,
-	        ' TODO: (1) edit user form (2) display image (3) show followed songs'
+	        'TODO: (1) edit user form (2) display image (3) show followed songs'
 	      ),
 	      React.createElement(
 	        'div',
@@ -33649,7 +33679,7 @@
 	              React.createElement(
 	                'span',
 	                { className: 'songListArtist' },
-	                ' by ',
+	                'by ',
 	                song.artist_name
 	              )
 	            ),
@@ -33667,7 +33697,13 @@
 /* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// api Util
+	//    purpose: handle all server requests, call appropriate actions if
+	//             successful to represent changes on the frontend
+	
 	var React = __webpack_require__(1);
+	
+	// ACTIONS
 	var SongActions = __webpack_require__(261);
 	var SessionActions = __webpack_require__(258);
 	
@@ -33773,6 +33809,9 @@
 /* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// functions for all song actions
+	//    purpose: dispatch actions to SongStore
+	
 	var Dispatcher = __webpack_require__(253);
 	
 	SongActions = {
@@ -33824,11 +33863,22 @@
 /* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// play button component
+	//    purpose: to play or pause a song, given a songId
+	//
+	//    children: none
+	//    actions: play and pause specific song
+	//    info: appropriate available action
+	
 	var React = __webpack_require__(1);
 	
+	// STORES
 	var SongStore = __webpack_require__(256);
+	
+	// UTILS
 	var SongUtil = __webpack_require__(263);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var PlayButton = React.createClass({
 	  displayName: 'PlayButton',
 	
@@ -33907,6 +33957,10 @@
 /* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song Util
+	//    purpose: all non-server action requests regarding songs
+	
+	// ACTIONS
 	var SongActions = __webpack_require__(261);
 	
 	SongUtil = {
@@ -33930,12 +33984,23 @@
 /* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
-	var Modal = __webpack_require__(159);
+	// update user button component
+	//    purpose: open edit user profile form
+	//
+	//    children: modal user update form
+	//    actions: open and close modal form
+	//    info: none
 	
+	var React = __webpack_require__(1);
+	
+	// MODAL DEPENDENCIES
+	var Modal = __webpack_require__(159);
 	var style = __webpack_require__(265);
+	
+	// REACT COMPONENTS
 	var UpdateUserForm = __webpack_require__(292);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var UpdateUserButton = React.createClass({
 	  displayName: 'UpdateUserButton',
 	
@@ -33982,6 +34047,10 @@
 /* 265 */
 /***/ function(module, exports) {
 
+	// style specifications for modal form
+	
+	// TODO: (move to appropriate place)
+	
 	style = {
 	  overlay: {
 	    position: 'fixed',
@@ -34245,14 +34314,25 @@
 /* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song form component
+	//    purpose: to receive data to create a new song
+	//
+	//    children: none
+	//    actions: receive relevant data (eventually modal)
+	//    info: none
+	
 	var React = __webpack_require__(1);
-	var LinkedStateMixin = __webpack_require__(267);
-	var SongUtil = __webpack_require__(263);
+	
+	// STORES
 	var SessionStore = __webpack_require__(236);
-	var SessionStore = __webpack_require__(236);
-	var SongStore = __webpack_require__(256);
+	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
+	// MIXINS
+	var LinkedStateMixin = __webpack_require__(267);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var SongForm = React.createClass({
 	  displayName: 'SongForm',
 	
@@ -34296,6 +34376,22 @@
 	    this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
+	  uploadDisplay: function () {
+	    var display = React.createElement(
+	      'div',
+	      { className: 'audioChecked' },
+	      'Uploaded!'
+	    );
+	    if (this.state.audioUploaded) {
+	      display = React.createElement(
+	        'button',
+	        { className: 'audioUploadButton', onClick: this.audioUpload },
+	        'Choose a File!'
+	      );
+	    }
+	    return display;
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -34333,15 +34429,7 @@
 	          id: 'album',
 	          valueLink: this.linkState("album") }),
 	        React.createElement('br', null),
-	        this.state.audioUploaded ? React.createElement(
-	          'div',
-	          { className: 'audioChecked' },
-	          'Uploaded!'
-	        ) : React.createElement(
-	          'button',
-	          { className: 'audioUploadButton', onClick: this.audioUpload },
-	          'Choose a File!'
-	        ),
+	        this.uploadDisplay,
 	        React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
 	      )
 	    );
@@ -34354,10 +34442,17 @@
 /* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// Login app component
+	//    purpose: display sign in and sign up forms for new visitors
+	//
+	//    children: UserForms
+	
 	var React = __webpack_require__(1);
-	var Header = __webpack_require__(273);
+	
+	// REACT COMPONENTS
 	var UserForms = __webpack_require__(278);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var LogIn = React.createClass({
 	  displayName: 'LogIn',
 	
@@ -34380,15 +34475,25 @@
 /* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// header react component
+	//    purpose: provide navigation throughout the site via buttons
+	//
+	//    children: Logout, Upload, Profile, Logo
+	//    actions: none
+	//    info: none
+	
 	var React = __webpack_require__(1);
 	
+	// STORES
+	var SessionStore = __webpack_require__(236);
+	
+	// REACT COMPONENTS
+	var Logo = __webpack_require__(277);
 	var Logout = __webpack_require__(274);
 	var UploadSongButton = __webpack_require__(275);
 	var ProfileButton = __webpack_require__(276);
-	var Logo = __webpack_require__(277);
 	
-	var SessionStore = __webpack_require__(236);
-	
+	// CLASS DEFINITION ----------------------------------------***
 	var Header = React.createClass({
 	  displayName: 'Header',
 	
@@ -34399,7 +34504,7 @@
 	  },
 	
 	  toggleButtons: function () {
-	    this.setState({ showButtons: !this.state.showButtons });
+	    this.setState({ showButtons: SessionStore.loggedIn() });
 	  },
 	
 	  componentDidMount: function () {
@@ -34410,7 +34515,8 @@
 	    this.listener.remove();
 	  },
 	
-	  render: function () {
+	  // composes html elements based onwhether buttons should be shown or not
+	  showButtons: function () {
 	    var headerButtons = React.createElement('div', null);
 	
 	    if (this.state.showButtons) {
@@ -34422,7 +34528,10 @@
 	        React.createElement(Logout, null)
 	      );
 	    }
+	    return headerButtons;
+	  },
 	
+	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
@@ -34435,7 +34544,7 @@
 	        'div',
 	        { className: 'header' },
 	        React.createElement(Logo, null),
-	        headerButtons
+	        this.showButtons()
 	      )
 	    );
 	  }
@@ -34447,11 +34556,21 @@
 /* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// logout button react component
+	//    purpose: button for ending the current session
+	//
+	//    children: none
+	
 	var React = __webpack_require__(1);
+	
+	// STORES
 	var SessionStore = __webpack_require__(236);
+	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	var SongUtil = __webpack_require__(263);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var Logout = React.createClass({
 	  displayName: 'Logout',
 	
@@ -34474,8 +34593,14 @@
 /* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// upload button react component
+	//    purpose: open the upload new song form (eventually modal)
+	//
+	//    children: none
+	
 	var React = __webpack_require__(1);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var UploadSongButton = React.createClass({
 	  displayName: 'UploadSongButton',
 	
@@ -34500,9 +34625,17 @@
 /* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// profile button react component
+	//    purpose: redirect to the user profile page
+	//
+	//    children: None
+	
 	var React = __webpack_require__(1);
+	
+	// STORES
 	var SessionStore = __webpack_require__(236);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var ProfileButton = React.createClass({
 	  displayName: 'ProfileButton',
 	
@@ -34532,8 +34665,11 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
+	
+	// STORE
 	var SessionStore = __webpack_require__(236);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var Logo = React.createClass({
 	  displayName: 'Logo',
 	
@@ -34562,24 +34698,35 @@
 /* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// user forms component
+	//    purpose: provide appropriate forms based on selected tab
+	//
+	//    children: Tab, SignInForm / SignUpForm
+	//    actions: display forms
+	//    info: type of form / session created
+	
 	var React = __webpack_require__(1);
 	
+	// REACT COMPONENTS
 	var Tab = __webpack_require__(279);
 	var SignInForm = __webpack_require__(280);
 	var SignUpForm = __webpack_require__(281);
 	
-	var tabs = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
+	// POSSIBLE TYPE OF FORMS (CONSTANTS)
+	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var UserForms = React.createClass({
 	  displayName: 'UserForms',
 	
 	  getInitialState: function () {
 	    return {
-	      tabs: tabs,
+	      tabs: TABS,
 	      selectedTabIdx: null
 	    };
 	  },
 	
+	  // finds current tab clicked
 	  tabClicked: function (index, event) {
 	    this.setState({ selectedTabIdx: index });
 	  },
@@ -34631,8 +34778,16 @@
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// tab component
+	//    purpose: to display the proper session form (eventually modal)
+	//
+	//    children: none
+	//    actions: call a callback when clicked
+	//    info: type of session form (sign in or sign up)
+	
 	var React = __webpack_require__(1);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var Tab = React.createClass({
 	  displayName: 'Tab',
 	
@@ -34657,26 +34812,33 @@
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// sign-in form component
+	//    purpose: receive data from the user and start a login request
+	//
+	//    children: none
+	//    actions: receive data to send to server
+	//    info: none
+	
 	var React = __webpack_require__(1);
+	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
+	// MIXINS
+	var LinkedStateMixin = __webpack_require__(267);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var SignInForm = React.createClass({
 	  displayName: 'SignInForm',
 	
+	
+	  mixins: [LinkedStateMixin],
 	
 	  getInitialState: function () {
 	    return {
 	      username: "",
 	      password: ""
 	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
 	  },
 	
 	  handleSubmit: function (event) {
@@ -34703,8 +34865,7 @@
 	      React.createElement('input', {
 	        className: 'input',
 	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
+	        valueLink: this.linkState("username"),
 	        id: 'username' }),
 	      React.createElement('br', null),
 	      React.createElement(
@@ -34716,8 +34877,7 @@
 	      React.createElement('input', {
 	        className: 'input',
 	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
+	        valueLink: this.linkState("password"),
 	        id: 'password' }),
 	      React.createElement('br', null),
 	      React.createElement('input', {
@@ -34734,29 +34894,33 @@
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// React dependencies
+	// sign up form component
+	//    purpose: receive data to create a new user and session
+	//
+	//    children: none
+	//    actions: receive data to send to server
+	//    info: none
+	
 	var React = __webpack_require__(1);
 	
-	// Local dependencies
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
+	// MIXINS
+	var LinkedStateMixin = __webpack_require__(267);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var SignUpForm = React.createClass({
 	  displayName: 'SignUpForm',
 	
+	
+	  mixins: [LinkedStateMixin],
 	
 	  getInitialState: function () {
 	    return {
 	      username: "",
 	      password: ""
 	    };
-	  },
-	
-	  handleUsernameChange: function (event) {
-	    this.setState({ username: event.target.value });
-	  },
-	
-	  handlePasswordChange: function (event) {
-	    this.setState({ password: event.target.value });
 	  },
 	
 	  handleSubmit: function (event) {
@@ -34783,8 +34947,7 @@
 	      React.createElement('input', {
 	        className: 'input',
 	        type: 'text',
-	        value: this.state.username,
-	        onChange: this.handleUsernameChange,
+	        valueLink: this.linkState("username"),
 	        id: 'username' }),
 	      React.createElement('br', null),
 	      React.createElement(
@@ -34796,8 +34959,7 @@
 	      React.createElement('input', {
 	        className: 'input',
 	        type: 'password',
-	        value: this.state.password,
-	        onChange: this.handlePasswordChange,
+	        valueLink: this.linkState("password"),
 	        id: 'password' }),
 	      React.createElement('br', null),
 	      React.createElement('input', {
@@ -34814,15 +34976,26 @@
 /* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// full app react component
+	//    purpose: to display the app to logged-in users
+	//
+	//    children: SongIndex
+	//    actions: none
+	//    info: a list of explorable songs
+	
 	var React = __webpack_require__(1);
 	
-	var Header = __webpack_require__(273);
-	var SongIndex = __webpack_require__(283);
+	// STORES
 	var SongStore = __webpack_require__(256);
-	var ApiUtil = __webpack_require__(260);
-	
 	var SessionStore = __webpack_require__(236);
 	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
+	// REACT COMPONENTS
+	var SongIndex = __webpack_require__(283);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
 	  displayName: 'FullApp',
 	
@@ -34843,14 +35016,26 @@
 /* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song index component
+	//    purpose: display a list of unknown songs
+	//
+	//    children: SongIndexItems
+	//    actions: none
+	//    info: list of songs NOT uploaded by the current user
+	
 	var React = __webpack_require__(1);
+	
+	// STORES
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
-	var SongUtil = __webpack_require__(263);
+	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
+	// REACT COMPONENTS
 	var SongIndexItem = __webpack_require__(284);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
 	  displayName: 'SongIndex',
 	
@@ -34903,8 +35088,16 @@
 /* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song index item component
+	//    purpose: display title of song and provide link to song show page
+	//
+	//    children: none
+	//    actions: redirect to song show page on click
+	//    info: song title
+	
 	var React = __webpack_require__(1);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var SongIndexItem = React.createClass({
 	  displayName: 'SongIndexItem',
 	
@@ -34939,13 +35132,25 @@
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// song profile component
+	//    purpose: display all relevant song info
+	//
+	//    children: PlayButton
+	//    actions: play and pause song, (eventually more)
+	//    info: song title, artist, user, album
+	
 	var React = __webpack_require__(1);
 	
+	// STORES
 	var SongStore = __webpack_require__(256);
-	var PlayButton = __webpack_require__(262);
 	
+	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
+	// REACT COMPONENTS
+	var PlayButton = __webpack_require__(262);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
 	  displayName: 'SongProfile',
 	
@@ -35013,12 +35218,22 @@
 /* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// footer react component
+	//    purpose: display info at a fixed position at the bottom of the screen
+	//
+	//    children: FooterPlayButton
+	//    actions: pause and play current song
+	//    info: current song title and artist
+	
 	var React = __webpack_require__(1);
 	
-	var SongControls = __webpack_require__(287);
+	// STORES
 	var SongStore = __webpack_require__(256);
+	
+	// REACT COMPONENTS
 	var FooterPlayButton = __webpack_require__(288);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
 	  displayName: 'Footer',
 	
@@ -35038,6 +35253,7 @@
 	    this.listener.remove();
 	  },
 	
+	  // re-assesses whether it should show a song that is playing
 	  _onChange: function () {
 	    if (SongStore.currentSong() !== null) {
 	      this.setState({ showSong: true });
@@ -35046,6 +35262,7 @@
 	    }
 	  },
 	
+	  // composes the information for when a song is playing
 	  showPlaying: function () {
 	    var display = "";
 	    if (this.state.showSong) {
@@ -35072,36 +35289,26 @@
 	module.exports = Footer;
 
 /***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-	
-	var PlayButton = __webpack_require__(262);
-	
-	var SongControls = React.createClass({
-	  displayName: 'SongControls',
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'songControls' },
-	      React.createElement(PlayButton, null)
-	    );
-	  }
-	});
-	
-	module.exports = SongControls;
-
-/***/ },
+/* 287 */,
 /* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// footer play button component
+	//    purpose: pause and play current song as appropriate
+	//
+	//    children: none
+	//    actions: pause and play song
+	//    info: appropriate available action
+	
 	var React = __webpack_require__(1);
 	
+	// STORES
 	var SongStore = __webpack_require__(256);
+	
+	// UTILS
 	var SongUtil = __webpack_require__(263);
 	
+	// CLASS DEFINITION ----------------------------------------***
 	var FooterPlayButton = React.createClass({
 	  displayName: 'FooterPlayButton',
 	
@@ -35170,12 +35377,22 @@
 /* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// edit user profile component
+	//    purpose: receive info to update user profile
+	//
+	//    children: none
+	//    actions: receive data for profile update
+	//    info: current values for relevant fields
+	
 	var React = __webpack_require__(1);
 	
-	var LinkedStateMixin = __webpack_require__(267);
-	
+	// STORES
 	var SessionStore = __webpack_require__(236);
 	
+	// MIXINS
+	var LinkedStateMixin = __webpack_require__(267);
+	
+	// CLASS DEFINITION ----------------------------------------***
 	var UpdateUserForm = React.createClass({
 	  displayName: 'UpdateUserForm',
 	

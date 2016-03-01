@@ -1,5 +1,12 @@
+// upload button react component
+//    purpose: open the upload new song form (eventually modal)
+//
+//    children: none
+
+
 var React = require('react');
 
+// CLASS DEFINITION ----------------------------------------***
 var UploadSongButton = React.createClass({
 
   contextTypes: {

@@ -1,8 +1,19 @@
+// footer play button component
+//    purpose: pause and play current song as appropriate
+//
+//    children: none
+//    actions: pause and play song
+//    info: appropriate available action
+
 var React = require('react');
 
+// STORES
 var SongStore = require('../../stores/songStore');
+
+// UTILS
 var SongUtil = require('../../util/songUtil');
 
+// CLASS DEFINITION ----------------------------------------***
 var FooterPlayButton = React.createClass({
 
   getInitialState: function() {
@@ -37,9 +48,17 @@ var FooterPlayButton = React.createClass({
 
   button: function() {
     if (this.state.playing) {
-      return (<button className="footerSongButton" onClick={this.pauseSong}>Pause</button>)
+      return (
+        <button className="footerSongButton" onClick={this.pauseSong}>
+          Pause
+        </button>
+      );
     } else {
-      return (<button className="footerSongButton" onClick={this.playSong}>Play</button>)
+      return (
+        <button className="footerSongButton" onClick={this.playSong}>
+          Play
+        </button>
+      );
     }
   },
 

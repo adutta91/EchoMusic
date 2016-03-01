@@ -1,3 +1,7 @@
+// Functions for all session actions
+//    purpose: dispatch actions to SessionStore
+
+
 var Dispatcher = require('../dispatcher');
 
 SessionActions = {

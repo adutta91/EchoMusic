@@ -1,23 +1,33 @@
+// user forms component
+//    purpose: provide appropriate forms based on selected tab
+//
+//    children: Tab, SignInForm / SignUpForm
+//    actions: display forms
+//    info: type of form / session created
+
 var React = require('react');
 
+// REACT COMPONENTS
 var Tab = require('./tab');
 var SignInForm = require('./signInForm');
 var SignUpForm = require('./signUpForm');
 
-
-var tabs = [
+// POSSIBLE TYPE OF FORMS (CONSTANTS)
+var TABS = [
   {type: "Sign In", form: <SignInForm />},
   {type: "Sign Up", form: <SignUpForm />}
 ]
 
+// CLASS DEFINITION ----------------------------------------***
 var UserForms = React.createClass({
   getInitialState: function() {
     return({
-      tabs: tabs,
+      tabs: TABS,
       selectedTabIdx: null
     })
   },
 
+  // finds current tab clicked
   tabClicked: function(index, event) {
     this.setState( { selectedTabIdx: index } )
   },

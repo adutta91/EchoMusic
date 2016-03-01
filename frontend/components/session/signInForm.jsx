@@ -1,22 +1,29 @@
+// sign-in form component
+//    purpose: receive data from the user and start a login request
+//
+//    children: none
+//    actions: receive data to send to server
+//    info: none
+
+
 var React = require('react');
+
+// UTILS
 var ApiUtil = require('../../util/apiUtil');
 
+// MIXINS
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
+// CLASS DEFINITION ----------------------------------------***
 var SignInForm = React.createClass({
+  
+  mixins: [LinkedStateMixin],
 
   getInitialState: function() {
     return ({
       username: "",
       password: ""
     });
-  },
-
-  handleUsernameChange: function(event) {
-    this.setState({username: event.target.value});
-  },
-
-  handlePasswordChange: function(event) {
-    this.setState({password: event.target.value});
   },
 
   handleSubmit: function(event) {
@@ -38,8 +45,7 @@ var SignInForm = React.createClass({
         <input
           className="input"
           type="text"
-          value={this.state.username}
-          onChange={this.handleUsernameChange}
+          valueLink={this.linkState("username")}
           id="username" />
         <br/>
 
@@ -48,8 +54,7 @@ var SignInForm = React.createClass({
         <input
           className="input"
           type="password"
-          value={this.state.password}
-          onChange={this.handlePasswordChange}
+          valueLink={this.linkState("password")}
           id="password" />
         <br/>
 

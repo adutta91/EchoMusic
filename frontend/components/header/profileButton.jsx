@@ -1,6 +1,14 @@
+// profile button react component
+//    purpose: redirect to the user profile page
+//
+//    children: None
+
 var React = require('react');
+
+// STORES
 var SessionStore = require('../../stores/SessionStore');
 
+// CLASS DEFINITION ----------------------------------------***
 var ProfileButton = React.createClass({
 
   contextTypes: {

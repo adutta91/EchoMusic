@@ -1,6 +1,13 @@
+// song index item component
+//    purpose: display title of song and provide link to song show page
+//
+//    children: none
+//    actions: redirect to song show page on click
+//    info: song title
+
 var React = require('react');
 
-
+// CLASS DEFINITION ----------------------------------------***
 var SongIndexItem = React.createClass({
 
   contextTypes: {

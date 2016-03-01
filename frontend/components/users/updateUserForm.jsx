@@ -1,10 +1,19 @@
+// edit user profile component
+//    purpose: receive info to update user profile
+//
+//    children: none
+//    actions: receive data for profile update
+//    info: current values for relevant fields
+
 var React = require('react');
 
-var LinkedStateMixin = require('react-addons-linked-state-mixin');
-
-
+// STORES
 var SessionStore = require('../../stores/SessionStore');
 
+// MIXINS
+var LinkedStateMixin = require('react-addons-linked-state-mixin');
+
+// CLASS DEFINITION ----------------------------------------***
 var UpdateUserForm = React.createClass({
   mixins: [LinkedStateMixin],
 

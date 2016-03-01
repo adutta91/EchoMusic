@@ -1,3 +1,7 @@
+// style specifications for modal form
+
+// TODO: (move to appropriate place)
+
 style = {
   overlay : {
     position          : 'fixed',

@@ -1,11 +1,24 @@
+// user profile component
+//    purpose: display relevant user information
+//
+//    children: PlayButton, UpdateUserButton
+//    actions: play an uploaded song
+//    info: user info, user uploaded songs, user followed songs
+
 var React = require('react');
 
+// STORES
 var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
+
+// UTILS
 var ApiUtil = require('../../util/apiUtil');
+
+// REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
 var UpdateUserButton = require('./updateUserButton');
 
+// CLASS DEFINITION ----------------------------------------***
 var UserProfile = React.createClass({
   getInitialState: function() {
     return ({
@@ -40,14 +53,18 @@ var UserProfile = React.createClass({
           Hello, &nbsp; {this.state.user.username}
         </div>
         <UpdateUserButton  />
-        <span> TODO: (1) edit user form (2) display image (3) show followed songs</span>
+        <span>
+          TODO: (1) edit user form (2) display image (3) show followed songs
+        </span>
         <div className= "userSongList">
           Uploaded Songs:
           {this.state.songs.map(function(song, index) {
             return (<div className="userSongListItem" key={index}>
                           <span className="songListItemInfo">
                             {song.title}
-                            <span className="songListArtist"> by {song.artist_name}</span>
+                            <span className="songListArtist">
+                              by {song.artist_name}
+                            </span>
                           </span>
                           <PlayButton songId={song.id} />
                     </div>)

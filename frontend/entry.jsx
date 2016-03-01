@@ -1,21 +1,22 @@
-// React requires
+// REACT
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Modal = require('react-modal');
 
-// React router and routes
+// ROUTER
 var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
-// stores
+// STORES
 var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');
 
+// UTILS
 var SessionUtil = require('./util/sessionUtil');
 
-// React components
+// REACT COMPONENTS
 var UserProfile = require('./components/users/userProfile');
 var SongForm = require('./components/songs/songForm');
 var LogIn = require('./components/session/logIn');
@@ -24,7 +25,7 @@ var Header = require('./components/header/header');
 var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
-
+// CLASS DEFINITION ----------------------------------------***
 var App = React.createClass({
 
   contextTypes: {
@@ -62,6 +63,7 @@ var App = React.createClass({
   }
 });
 
+// ROUTES DEFINITION ----------------------------------------***
 var appRoutes = (
   <Route path='/' component={App}>
     <IndexRoute component={LoggedInApp} />

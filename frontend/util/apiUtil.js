@@ -1,4 +1,10 @@
+// api Util
+//    purpose: handle all server requests, call appropriate actions if
+//             successful to represent changes on the frontend
+
 var React = require('react');
+
+// ACTIONS
 var SongActions = require('../actions/songActions');
 var SessionActions = require('../actions/sessionActions');
 

@@ -1,8 +1,20 @@
+// play button component
+//    purpose: to play or pause a song, given a songId
+//
+//    children: none
+//    actions: play and pause specific song
+//    info: appropriate available action
+
+
 var React = require('react');
 
+// STORES
 var SongStore = require('../../stores/songStore');
+
+// UTILS
 var SongUtil = require('../../util/songUtil');
 
+// CLASS DEFINITION ----------------------------------------***
 var PlayButton = React.createClass({
 
   getInitialState: function() {
@@ -51,9 +63,17 @@ var PlayButton = React.createClass({
   button: function() {
     var button;
     if (this.state.playing) {
-      button = (<button className="songButton" onClick={this.pauseSong}>Pause</button>);
+      button = (
+        <button className="songButton" onClick={this.pauseSong}>
+          Pause
+        </button>
+      );
     } else {
-      button = (<button className="songButton" onClick={this.playSong}>Play</button>);
+      button = (
+        <button className="songButton" onClick={this.playSong}>
+          Play
+        </button>
+      );
     }
     return button
   },

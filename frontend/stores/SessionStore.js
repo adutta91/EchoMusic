@@ -1,3 +1,6 @@
+// session store
+//    purpose: store relevant data on current session
+
 var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher');
 

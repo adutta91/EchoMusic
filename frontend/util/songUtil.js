@@ -1,3 +1,7 @@
+// song Util
+//    purpose: all non-server action requests regarding songs
+
+// ACTIONS
 var SongActions = require('../actions/songActions');
 
 SongUtil = {

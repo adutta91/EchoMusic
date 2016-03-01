@@ -1,10 +1,22 @@
+// song profile component
+//    purpose: display all relevant song info
+//
+//    children: PlayButton
+//    actions: play and pause song, (eventually more)
+//    info: song title, artist, user, album
+
 var React = require('react');
 
+// STORES
 var SongStore = require('../../stores/songStore');
-var PlayButton = require('../songControls/playButton');
 
+// UTILS
 var ApiUtil = require('../../util/apiUtil');
 
+// REACT COMPONENTS
+var PlayButton = require('../songControls/playButton');
+
+// CLASS DEFINITION ----------------------------------------***
 var SongProfile = React.createClass({
 
   getInitialState: function() {
