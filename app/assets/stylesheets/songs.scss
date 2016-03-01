@@ -35,11 +35,12 @@ audio:hover {
 
 .songFormBanner {
   width: 100%;
-  background: url("https://images.unsplash.com/photo-1453906971074-ce568cccbc63?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=381fb31fe6b888aed685b1a5ece3da3f") no-repeat center center fixed;
+  background: url("https://images.unsplash.com/photo-1420161900862-9a86fa1f5c79?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=ca5701e0f1e03876b6bd3477a2390f7f") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  padding: 100px 0px 300px 0px;
 }
 
 .songIndex {
