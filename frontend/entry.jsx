@@ -9,8 +9,6 @@ var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
 
-var hashHistory = ReactRouter.hashHistory;
-
 // stores
 var SessionStore = require('./stores/SessionStore');
 var SongStore = require('./stores/songStore');

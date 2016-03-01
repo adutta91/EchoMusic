@@ -55,8 +55,6 @@
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
 	
-	var hashHistory = ReactRouter.hashHistory;
-	
 	// stores
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
