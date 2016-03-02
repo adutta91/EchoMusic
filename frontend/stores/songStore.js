@@ -147,7 +147,7 @@ var endSong = function() {
 };
 
 var resetSongs = function(songs) {
-  newSongs = {};
+  var newSongs = {};
   songs.forEach(function(song) {
     newSongs[song.id] = song;
   });
@@ -155,7 +155,7 @@ var resetSongs = function(songs) {
 };
 
 var resetFollowedSongs = function(songs) {
-  newSongs = {};
+  var newSongs = {};
   songs.forEach(function(song) {
     newSongs[song.id] = song;
   });

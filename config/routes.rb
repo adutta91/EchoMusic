@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resource :session, only: [:new, :create, :destroy]
 
     # user routes
-    resources :users, only: [:new, :create, :update]
+    resources :users, only: [:new, :create, :update, :index, :show]
     get '/users/:id/followed_songs', to: 'users#followed_songs'
 
     # song routes

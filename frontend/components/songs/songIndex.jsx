@@ -43,7 +43,7 @@ var SongIndex = React.createClass({
     var list = <div>No more songs to explore!</div>
     if (this.state.songs.length > 0){
       list = this.state.songs.map(function(song, index) {
-        return <SongIndexItem key={index} song={song}/>
+        return <SongIndexItem key={song.id} song={song}/>
       });
     }
     return list;

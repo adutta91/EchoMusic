@@ -33561,7 +33561,7 @@
 	};
 	
 	var resetSongs = function (songs) {
-	  newSongs = {};
+	  var newSongs = {};
 	  songs.forEach(function (song) {
 	    newSongs[song.id] = song;
 	  });
@@ -33569,7 +33569,7 @@
 	};
 	
 	var resetFollowedSongs = function (songs) {
-	  newSongs = {};
+	  var newSongs = {};
 	  songs.forEach(function (song) {
 	    newSongs[song.id] = song;
 	  });
@@ -33657,8 +33657,6 @@
 	//    children: PlayButton, UpdateUserButton, FollowedSongIndex
 	//    actions: play an uploaded song
 	//    info: user info, user uploaded songs, user followed songs
-	
-	// TODO: refactor uploaded songs into separate component
 	
 	var React = __webpack_require__(1);
 	
@@ -35312,7 +35310,7 @@
 	    );
 	    if (this.state.songs.length > 0) {
 	      list = this.state.songs.map(function (song, index) {
-	        return React.createElement(SongIndexItem, { key: index, song: song });
+	        return React.createElement(SongIndexItem, { key: song.id, song: song });
 	      });
 	    }
 	    return list;
@@ -35624,7 +35622,7 @@
 	// song profile component
 	//    purpose: display all relevant song info
 	//
-	//    children: PlayButton, FollowButton
+	//    children: PlayButton, FollowButton, UserDisplay
 	//    actions: play and pause song, (eventually more)
 	//    info: song title, artist, user, album
 	
@@ -35640,6 +35638,7 @@
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
 	var FollowButton = __webpack_require__(290);
+	var UserDisplay = __webpack_require__(293);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
@@ -35712,7 +35711,8 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        React.createElement('br', null)
 	      ),
-	      this.followButton()
+	      this.followButton(),
+	      React.createElement(UserDisplay, { user: SessionStore.currentUser() })
 	    );
 	  }
 	});
@@ -35951,6 +35951,153 @@
 	});
 	
 	module.exports = FooterPlayButton;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// user display component
+	//    purpose: display info on a specific user
+	//
+	//    children: none
+	//    actions: redirect to user page on click
+	//    info: user info
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var UserStore = __webpack_require__(294);
+	
+	// UTILS
+	var UserUtil = __webpack_require__(295);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var UserDisplay = React.createClass({
+	  displayName: 'UserDisplay',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      user: this.props.user
+	    };
+	  },
+	
+	  _onChange: function () {
+	    console.log('userStore changed');
+	  },
+	
+	  componentDidMount: function () {
+	    // this.userListener = UserStore.addListener(this._onChange);
+	    UserUtil.fetchSingleUser(this.state.user.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    // this.userListener.remove();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'userDisplay' },
+	      'I am a user display'
+	    );
+	  }
+	});
+	
+	module.exports = UserDisplay;
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// user store
+	//    purpose: store relevant data on lists of users
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _users = {};
+	
+	var UserStore = new Store(Dispatcher);
+	
+	UserStore.all = function () {
+	  var users = [];
+	  Object.keys(_users).forEach(function (userId) {
+	    users.push(_users[userId]);
+	  });
+	  return users;
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'RECEIVE_USERS':
+	      resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	    case 'RECEIVE_USER':
+	      addUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var resetUsers = function (users) {
+	  var newUsers = {};
+	  users.forEach(function (user) {
+	    newUsers[user.id] = user;
+	  });
+	  _users = newUsers;
+	};
+	
+	var addUser = function (user) {
+	  _users[user.id] = user;
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// user Util
+	//    purpose: all action requests regarding users
+	
+	// ACTIONS
+	var UserActions = __webpack_require__(296);
+	
+	UserUtil = {
+	  fetchSingleUser: function (userId) {
+	    $.ajax({
+	      url: 'api/users/' + userId,
+	      method: 'GET',
+	      success: function (user) {
+	        UserActions.receiveSingleUser(user);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all user actions
+	//    purpose: dispatch actions to UserStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var UserActions = {
+	  receiveSingleUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_USER',
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = UserActions;
 
 /***/ }
 /******/ ]);

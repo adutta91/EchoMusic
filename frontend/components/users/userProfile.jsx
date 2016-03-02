@@ -5,7 +5,6 @@
 //    actions: play an uploaded song
 //    info: user info, user uploaded songs, user followed songs
 
-// TODO: refactor uploaded songs into separate component
 
 var React = require('react');
 

@@ -45,6 +45,15 @@ class Api::UsersController < ApplicationController
     render :show_songs
   end
 
+  def index
+    @users = User.all
+    render :index
+  end
+
+  def show
+    @user = find_user
+    render :show
+  end
 
   private
 
