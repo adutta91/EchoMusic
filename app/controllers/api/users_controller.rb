@@ -13,13 +13,14 @@
 #
 
 class Api::UsersController < ApplicationController
-
+  DEFAULT_IMAGE_URL = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png"
   def new
     @user = User.new
   end
 
   def create
     @user = User.create(user_params)
+    @user.image_url = DEFAULT_IMAGE_URL
     if @user.save!
       log_in(@user)
       render :show

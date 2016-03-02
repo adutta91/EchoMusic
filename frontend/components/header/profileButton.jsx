@@ -25,7 +25,7 @@ var ProfileButton = React.createClass({
   },
 
   findImage: function() {
-    var imageUrl = 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/xagahvi1zmrahngkzif5.png';
+    var imageUrl = 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png';
     if (SessionStore.currentUser().image_url) {
       imageUrl = SessionStore.currentUser().image_url;
     }
