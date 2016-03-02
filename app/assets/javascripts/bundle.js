@@ -35831,23 +35831,30 @@
 	    if (this.state.showSong) {
 	      if (SongStore.loading()) {
 	        display = React.createElement(
-	          'span',
-	          { className: 'nowPlaying' },
-	          'Loading... ',
-	          SongStore.currentSong().title,
-	          ' - (',
-	          SongStore.currentSong().artist_name,
-	          ')'
+	          'div',
+	          { className: 'footerDisplay' },
+	          React.createElement(
+	            'span',
+	            { className: 'nowPlaying' },
+	            'Loading... ',
+	            SongStore.currentSong().title
+	          ),
+	          React.createElement(FooterPlayButton, null)
 	        );
 	      } else {
 	        display = React.createElement(
-	          'span',
-	          { className: 'nowPlaying' },
-	          'Now playing: ',
-	          SongStore.currentSong().title,
-	          ' - (',
-	          SongStore.currentSong().artist_name,
-	          ')'
+	          'div',
+	          { className: 'footerDisplay' },
+	          React.createElement(
+	            'span',
+	            { className: 'nowPlaying' },
+	            'Now playing: ',
+	            SongStore.currentSong().title,
+	            ' - (',
+	            SongStore.currentSong().artist_name,
+	            ')'
+	          ),
+	          React.createElement(FooterPlayButton, null)
 	        );
 	      }
 	    }
@@ -35855,15 +35862,10 @@
 	  },
 	
 	  render: function () {
-	    var button = React.createElement('div', null);
-	    if (this.state.showSong) {
-	      button = React.createElement(FooterPlayButton, null);
-	    }
 	    return React.createElement(
 	      'div',
 	      { className: 'footer' },
-	      this.showPlaying(),
-	      button
+	      this.showPlaying()
 	    );
 	  }
 	

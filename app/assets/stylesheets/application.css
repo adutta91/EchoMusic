@@ -89,6 +89,13 @@
   height: 40px;
 }
 
+.footerDisplay {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
 .headerButtons {
   font-size: 32px;
   display: flex;

@@ -47,17 +47,22 @@ var Footer = React.createClass({
     if (this.state.showSong) {
       if (SongStore.loading()){
         display = (
-          <span className="nowPlaying">
-          Loading... {SongStore.currentSong().title} - (
-            {SongStore.currentSong().artist_name})
-          </span>
+          <div className="footerDisplay">
+            <span className="nowPlaying">
+              Loading... {SongStore.currentSong().title}
+            </span>
+            <FooterPlayButton />
+          </div>
         )
       } else {
         display = (
-          <span className="nowPlaying">
-          Now playing: {SongStore.currentSong().title} - (
-            {SongStore.currentSong().artist_name})
-          </span>
+          <div className="footerDisplay">
+            <span className="nowPlaying">
+              Now playing: {SongStore.currentSong().title} - (
+                {SongStore.currentSong().artist_name})
+            </span>
+            <FooterPlayButton />
+          </div>
         );
       }
     }
@@ -65,14 +70,9 @@ var Footer = React.createClass({
   },
 
   render: function() {
-    var button = <div/>
-    if (this.state.showSong) {
-      button =  <FooterPlayButton />
-    }
     return (
       <div className="footer">
         {this.showPlaying()}
-        {button}
       </div>
     );
   }
