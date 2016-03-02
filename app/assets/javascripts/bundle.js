@@ -33695,11 +33695,10 @@
 	          'Hello, ',
 	          this.state.user.username
 	        ),
-	        React.createElement(UpdateUserButton, null),
 	        React.createElement(
 	          'div',
-	          { className: 'picture' },
-	          React.createElement('img', { src: this.state.user.image_url, className: 'profilePicture' })
+	          { className: 'profilePic' },
+	          React.createElement(UpdateUserButton, { user: this.state.user })
 	        ),
 	        React.createElement(UploadedSongsIndex, null)
 	      ),
@@ -33952,12 +33951,22 @@
 	    this.setState({ open: false });
 	  },
 	
+	  findPicture: function () {
+	    var pic = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png";
+	    if (this.props.user.image_url) {
+	      pic = this.props.user.image_url;
+	    }
+	    return pic;
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      { className: 'updateUserButton' },
-	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456897486/Edit.png',
-	        className: 'updateUserButton', onClick: this.openModal }),
+	      React.createElement('img', { src: this.findPicture(),
+	        onClick: this.openModal,
+	        width: '120',
+	        height: '120' }),
 	      React.createElement(
 	        Modal,
 	        {

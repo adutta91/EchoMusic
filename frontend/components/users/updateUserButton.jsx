@@ -31,11 +31,21 @@ var UpdateUserButton = React.createClass({
     this.setState({open: false });
   },
 
+  findPicture: function() {
+    var pic = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png";
+    if (this.props.user.image_url) {
+      pic = this.props.user.image_url;
+    }
+    return pic;
+  },
+
   render: function() {
     return (
       <div className="updateUserButton">
-        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456897486/Edit.png"
-             className="updateUserButton" onClick={this.openModal} />
+        <img src={this.findPicture()}
+             onClick={this.openModal}
+             width="120"
+             height="120"/>
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.closeModal}
