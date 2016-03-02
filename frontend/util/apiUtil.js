@@ -102,7 +102,7 @@ var ApiUtil = {
   },
 
   fetchUserSongs: function(userId) {
-    data = {userId: userId, submitted: true};
+    data = {explore: false};
     $.ajax({
       url: 'api/songs',
       method: 'GET',
@@ -133,6 +133,17 @@ var ApiUtil = {
     $.ajax({
       url: 'api/song_follows',
       method: 'POST',
+      data: songFollow,
+      success: function(songFollow) {
+        this.fetchFollowedSongs(songFollow.user_id);
+      }.bind(this)
+    });
+  },
+
+  deleteSongFollow: function(songFollow) {
+    $.ajax({
+      url: 'api/song_follows',
+      method: 'PATCH',
       data: songFollow,
       success: function(songFollow) {
         this.fetchFollowedSongs(songFollow.user_id);

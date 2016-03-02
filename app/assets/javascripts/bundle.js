@@ -33454,6 +33454,14 @@
 	  return _followedSongs[songId];
 	};
 	
+	SongStore.following = function (songId) {
+	  if (_followedSongs[songId]) {
+	    return true;
+	  } else {
+	    return false;
+	  }
+	};
+	
 	SongStore.currentSong = function () {
 	  if (_currentSong) {
 	    return _currentSong;
@@ -33835,7 +33843,7 @@
 	  },
 	
 	  fetchUserSongs: function (userId) {
-	    data = { userId: userId, submitted: true };
+	    data = { explore: false };
 	    $.ajax({
 	      url: 'api/songs',
 	      method: 'GET',
@@ -33866,6 +33874,17 @@
 	    $.ajax({
 	      url: 'api/song_follows',
 	      method: 'POST',
+	      data: songFollow,
+	      success: function (songFollow) {
+	        this.fetchFollowedSongs(songFollow.user_id);
+	      }.bind(this)
+	    });
+	  },
+	
+	  deleteSongFollow: function (songFollow) {
+	    $.ajax({
+	      url: 'api/song_follows',
+	      method: 'PATCH',
 	      data: songFollow,
 	      success: function (songFollow) {
 	        this.fetchFollowedSongs(songFollow.user_id);
@@ -34462,7 +34481,7 @@
 	        'Following'
 	      ),
 	      this.state.songs.map(function (song, index) {
-	        return React.createElement(FollowedSongIndexItem, { song: song, key: index });
+	        return React.createElement(FollowedSongIndexItem, { song: song, key: song.id });
 	      })
 	    );
 	  }
@@ -34720,7 +34739,7 @@
 	        'Uploaded'
 	      ),
 	      this.state.songs.map(function (song, index) {
-	        return React.createElement(UploadedSongIndexItem, { song: song, key: index });
+	        return React.createElement(UploadedSongIndexItem, { song: song, key: song.id });
 	      })
 	    );
 	  }
@@ -35652,7 +35671,8 @@
 	        audio_url: "",
 	        artist_name: ""
 	      },
-	      display: true
+	      display: true,
+	      followed: false
 	    };
 	  },
 	
@@ -35661,7 +35681,7 @@
 	    if (song) {
 	      this.setState({ song: song });
 	      if (SongStore.findFollowedSong(song.id)) {
-	        this.setState({ display: false });
+	        this.setState({ followed: true });
 	      }
 	      if (this.state.song.user_id === SessionStore.currentUser().id) {
 	        this.setState({ display: false });
@@ -35684,7 +35704,8 @@
 	  followButton: function () {
 	    var button = React.createElement('div', null);
 	    if (this.state.display) {
-	      button = React.createElement(FollowButton, { songId: this.props.params.id });
+	      button = React.createElement(FollowButton, { songId: this.props.params.id,
+	        followed: this.state.followed });
 	    }
 	    return button;
 	  },
@@ -35735,6 +35756,7 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
+	var SongStore = __webpack_require__(256);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
@@ -35750,11 +35772,24 @@
 	
 	  getInitialState: function () {
 	    return {
-	      songId: Number(this.props.songId)
+	      songId: Number(this.props.songId),
+	      followed: this.props.followed
 	    };
 	  },
 	
-	  _onClick: function () {
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ followed: SongStore.following(this.state.songId) });
+	  },
+	
+	  followClick: function () {
 	    user = SessionStore.currentUser();
 	    var songFollow = {
 	      song_follow: {
@@ -35765,11 +35800,43 @@
 	    ApiUtil.createSongFollow(songFollow);
 	  },
 	
+	  unFollowClick: function () {
+	    user = SessionStore.currentUser();
+	    var songFollow = {
+	      song_follow: {
+	        user_id: user.id,
+	        song_id: this.state.songId
+	      }
+	    };
+	    ApiUtil.deleteSongFollow(songFollow);
+	  },
+	
+	  button: function () {
+	    var button = React.createElement('div', null);
+	    if (this.state.followed) {
+	      button = React.createElement(
+	        'div',
+	        { className: 'followButton', onClick: this.unFollowClick },
+	        'UnFollow'
+	      );
+	    } else {
+	      button = React.createElement(
+	        'div',
+	        { className: 'followButton', onClick: this.followClick },
+	        'Follow'
+	      );
+	    }
+	    return button;
+	  },
+	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
-	      { className: 'followButton', onClick: this._onClick },
-	      'Follow'
+	      null,
+	      ' ',
+	      this.button(),
+	      ' '
 	    );
 	  }
 	

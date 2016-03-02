@@ -56,7 +56,7 @@ var UploadedSongsIndex = React.createClass({
       <div>
         <div className="uploadedListTitle">Uploaded</div>
         {this.state.songs.map(function(song, index) {
-          return (<UploadedSongIndexItem song={song} key={index}/>)
+          return (<UploadedSongIndexItem song={song} key={song.id}/>)
         })}
       </div>
     )

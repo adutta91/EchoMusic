@@ -10,6 +10,7 @@ var React = require('react');
 
 // STORES
 var SessionStore = require('../../stores/SessionStore');
+var SongStore = require('../../stores/songStore');
 
 // UTILS
 var ApiUtil = require('../../util/apiUtil');
@@ -23,11 +24,24 @@ var FollowButton = React.createClass({
 
   getInitialState: function() {
     return ({
-      songId: Number(this.props.songId)
+      songId: Number(this.props.songId),
+      followed: this.props.followed
     });
   },
 
-  _onClick: function() {
+  componentDidMount: function() {
+    this.songListener = SongStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    this.songListener.remove();
+  },
+
+  _onChange: function() {
+    this.setState( { followed: SongStore.following(this.state.songId) } )
+  },
+
+  followClick: function() {
     user = SessionStore.currentUser();
     var songFollow = {
       song_follow: {
@@ -38,12 +52,40 @@ var FollowButton = React.createClass({
     ApiUtil.createSongFollow(songFollow);
   },
 
+  unFollowClick: function() {
+    user = SessionStore.currentUser();
+    var songFollow = {
+      song_follow: {
+        user_id: user.id,
+        song_id: this.state.songId
+      }
+    }
+    ApiUtil.deleteSongFollow(songFollow);
+  },
+
+  button: function() {
+    var button = <div/>
+    if (this.state.followed) {
+      button = (
+        <div className="followButton" onClick={this.unFollowClick}>
+          UnFollow
+        </div>
+      );
+    } else {
+      button = (
+        <div className="followButton" onClick={this.followClick}>
+          Follow
+        </div>
+      );
+    }
+    return button;
+  },
+
   render: function() {
+
     return (
-      <div className="followButton" onClick={this._onClick}>
-        Follow
-      </div>
-    )
+      <div> {this.button()} </div>
+    );
   }
 
 });

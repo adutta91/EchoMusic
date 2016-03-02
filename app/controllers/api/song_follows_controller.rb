@@ -5,6 +5,7 @@ class Api::SongFollowsController < ApplicationController
     song_id = Integer(song_follow_params["song_id"])
 
     @song_follow = SongFollow.find_specific_follow(user_id, song_id)
+
     unless @song_follow
       @song_follow = SongFollow.new(song_follow_params)
     end
@@ -13,7 +14,12 @@ class Api::SongFollowsController < ApplicationController
   end
 
   def destroy
-    debugger;
+    user_id = Integer(song_follow_params["user_id"])
+    song_id = Integer(song_follow_params["song_id"])
+
+    @song_follow = SongFollow.find_specific_follow(user_id, song_id)
+    @song_follow.delete
+    render :show
   end
 
   private

@@ -40,6 +40,14 @@ SongStore.findFollowedSong = function(songId) {
   return _followedSongs[songId];
 };
 
+SongStore.following = function(songId) {
+  if (_followedSongs[songId]) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 SongStore.currentSong = function() {
   if (_currentSong) {
     return _currentSong;

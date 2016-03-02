@@ -16,7 +16,8 @@ Rails.application.routes.draw do
     resources :songs
 
     # song_follow routes
-    resources :song_follows, only: [:create, :destroy]
+    resources :song_follows, only: [:create]
+    patch '/song_follows', to:'song_follows#destroy'
   end
 
 end

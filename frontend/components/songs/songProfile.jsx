@@ -29,7 +29,8 @@ var SongProfile = React.createClass({
         audio_url: "",
         artist_name: ""
       },
-      display: true
+      display: true,
+      followed: false
     });
   },
 
@@ -38,7 +39,7 @@ var SongProfile = React.createClass({
     if (song) {
       this.setState( { song: song });
       if (SongStore.findFollowedSong(song.id)) {
-        this.setState( { display: false } );
+        this.setState( { followed: true } );
       }
       if (this.state.song.user_id === SessionStore.currentUser().id) {
         this.setState( { display: false } );
@@ -61,7 +62,10 @@ var SongProfile = React.createClass({
   followButton: function() {
     var button = (<div />);
     if (this.state.display) {
-      button = (<FollowButton songId={this.props.params.id} />);
+      button = (
+        <FollowButton songId={this.props.params.id}
+                      followed={this.state.followed}/>
+      );
     }
     return button;
   },
