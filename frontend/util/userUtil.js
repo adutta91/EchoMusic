@@ -6,7 +6,6 @@ var UserActions = require('../actions/userActions');
 
 UserUtil = {
   fetchSingleUser: function(userId) {
-    console.log('props', userId);
     $.ajax({
       url: 'api/users/' + userId,
       method: 'GET',

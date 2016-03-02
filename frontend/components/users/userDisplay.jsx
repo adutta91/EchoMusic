@@ -67,6 +67,4 @@ var UserDisplay = React.createClass({
   }
 });
 
-window.UserStore = UserStore;
-
 module.exports = UserDisplay;

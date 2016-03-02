@@ -72,7 +72,7 @@ var SongProfile = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="songProfile">
       <div className="songDisplay">
         <div className="songTitleDisplay">
           {this.state.song.title}
