@@ -35630,7 +35630,7 @@
 	        audio_url: "",
 	        artist_name: ""
 	      },
-	      isFollowed: false
+	      display: true
 	    };
 	  },
 	
@@ -35639,7 +35639,10 @@
 	    if (song) {
 	      this.setState({ song: song });
 	      if (SongStore.findFollowedSong(song.id)) {
-	        this.setState({ isFollowed: true });
+	        this.setState({ display: false });
+	      }
+	      if (this.state.song.user_id === SessionStore.currentUser().id) {
+	        this.setState({ display: false });
 	      }
 	    }
 	  },
@@ -35657,9 +35660,9 @@
 	  },
 	
 	  followButton: function () {
-	    var button = React.createElement(FollowButton, { songId: this.props.params.id });
-	    if (this.state.isFollowed) {
-	      button = React.createElement('div', null);
+	    var button = React.createElement('div', null);
+	    if (this.state.display) {
+	      button = React.createElement(FollowButton, { songId: this.props.params.id });
 	    }
 	    return button;
 	  },
