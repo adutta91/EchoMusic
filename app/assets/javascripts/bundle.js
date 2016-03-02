@@ -33812,7 +33812,7 @@
 	  },
 	
 	  fetchExploreSongs: function () {
-	    data = { submitted: false };
+	    data = { explore: true };
 	    $.ajax({
 	      url: 'api/songs',
 	      method: 'GET',
@@ -35281,6 +35281,20 @@
 	    this.setState({ songs: SongStore.all() });
 	  },
 	
+	  getSongs: function () {
+	    var list = React.createElement(
+	      'div',
+	      null,
+	      'No more songs to explore!'
+	    );
+	    if (this.state.songs.length > 0) {
+	      list = this.state.songs.map(function (song, index) {
+	        return React.createElement(SongIndexItem, { key: index, song: song });
+	      });
+	    }
+	    return list;
+	  },
+	
 	  render: function () {
 	    var user = SessionStore.currentUser();
 	    return React.createElement(
@@ -35296,9 +35310,7 @@
 	        { className: 'songIndex' },
 	        React.createElement('br', null),
 	        React.createElement('br', null),
-	        this.state.songs.map(function (song, index) {
-	          return React.createElement(SongIndexItem, { key: index, song: song });
-	        })
+	        this.getSongs()
 	      )
 	    );
 	  }

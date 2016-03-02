@@ -90,7 +90,7 @@ var ApiUtil = {
   },
 
   fetchExploreSongs: function() {
-    data = {submitted: false};
+    data = { explore: true };
     $.ajax({
       url: 'api/songs',
       method: 'GET',

@@ -36,10 +36,18 @@ class Api::SongsController < ApplicationController
   end
 
   def index
-    if (params["submitted"] == "false")
-      @songs = Song.where.not("user_id = ?", current_user.id)
+    user = current_user
+    if (params["explore"] == "true")
+      all_songs = Song.where.not("user_id = ?", user.id)
+      @songs = all_songs.map do |song|
+        following_user_ids = song.following_users.map do |user|
+          user.id
+        end
+        song if !following_user_ids.include?(user.id)
+      end
+      @songs = @songs.compact
     else
-      @songs = Song.where("user_id = ?", current_user.id)
+      @songs = Song.where("user_id = ?", user.id)
     end
   end
 
