@@ -20,32 +20,37 @@ var UserDisplay = React.createClass({
     router: React.PropTypes.object.isRequired
   },
 
-  // getInitialState: function() {
-  //   return ({
-  //     userId: this.props.userId
-  //   })
-  // },
+  getInitialState: function() {
+    return ({
+      userId: this.props.userId,
+      user: {}
+    })
+  },
 
-  // _onChange: function() {
-  //   // console.log('store changed');
-  // },
+  _onChange: function() {
+    this.setState({user: UserStore.find(this.state.userId)})
+  },
 
   _onClick: function() {
     this.context.router.push('/users/' + this.state.userId);
   },
 
   componentDidMount: function() {
-    debugger;
-    UserUtil.fetchSingleUser(this.props.userId);
-    // this.userListener = UserStore.addListener(this._onChange);
+    this.userListener = UserStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    // this.userListener.remove();
+    this.userListener.remove();
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    UserUtil.fetchSingleUser(newProps.userId);
+    this.setState({userId: newProps.userId});
   },
 
   findUsername: function() {
-    var user = UserStore.find(this.props.userId);
+    var user = UserStore.find(this.state.userId);
+
     if (user) {
       return user.username
     } else {
@@ -61,5 +66,7 @@ var UserDisplay = React.createClass({
     )
   }
 });
+
+window.UserStore = UserStore;
 
 module.exports = UserDisplay;

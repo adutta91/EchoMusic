@@ -63,6 +63,4 @@ var FollowedSongIndex = React.createClass({
   }
 });
 
-window.SongStore = SongStore;
-
 module.exports = FollowedSongIndex;
