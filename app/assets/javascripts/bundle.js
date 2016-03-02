@@ -33611,9 +33611,11 @@
 	// user profile component
 	//    purpose: display relevant user information
 	//
-	//    children: PlayButton, UpdateUserButton
+	//    children: PlayButton, UpdateUserButton, FollowedSongIndex
 	//    actions: play an uploaded song
 	//    info: user info, user uploaded songs, user followed songs
+	
+	// TODO: refactor uploaded songs into separate component
 	
 	var React = __webpack_require__(1);
 	
@@ -33627,6 +33629,7 @@
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(262);
 	var UpdateUserButton = __webpack_require__(264);
+	var FollowedSongsIndex = __webpack_require__(288);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserProfile = React.createClass({
@@ -33709,6 +33712,11 @@
 	            React.createElement(PlayButton, { songId: song.id })
 	          );
 	        })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'followedSongList' },
+	        React.createElement(FollowedSongsIndex, null)
 	      )
 	    );
 	  }
@@ -35513,6 +35521,37 @@
 	});
 	
 	module.exports = FooterPlayButton;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// followed songs index component
+	//    purpose: display all of the songs the user follows
+	//
+	//    children: FollowedSongIndexItem
+	//    actions: none
+	//    info: list of songs
+	
+	var React = __webpack_require__(1);
+	
+	// REACT COMPONENTS
+	// var FollowedSongIndexItem = require('./followedSongIndexItem');
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var FollowedSongIndex = React.createClass({
+	  displayName: 'FollowedSongIndex',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'this is a song index'
+	    );
+	  }
+	});
+	
+	module.exports = FollowedSongIndex;
 
 /***/ }
 /******/ ]);

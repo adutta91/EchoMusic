@@ -1,9 +1,11 @@
 // user profile component
 //    purpose: display relevant user information
 //
-//    children: PlayButton, UpdateUserButton
+//    children: PlayButton, UpdateUserButton, FollowedSongIndex
 //    actions: play an uploaded song
 //    info: user info, user uploaded songs, user followed songs
+
+// TODO: refactor uploaded songs into separate component
 
 var React = require('react');
 
@@ -17,6 +19,7 @@ var ApiUtil = require('../../util/apiUtil');
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
 var UpdateUserButton = require('./updateUserButton');
+var FollowedSongsIndex = require('./followedSongsIndex');
 
 // CLASS DEFINITION ----------------------------------------***
 var UserProfile = React.createClass({
@@ -41,7 +44,7 @@ var UserProfile = React.createClass({
   componentDidMount: function() {
     this.sessionListener = SessionStore.addListener(this._onSessionChange);
     this.setState( {user: SessionStore.currentUser() });
-    
+
     this.songListener = SongStore.addListener(this._onSongChange);
     ApiUtil.fetchUserSongs(this.state.user.id);
   },
@@ -76,6 +79,9 @@ var UserProfile = React.createClass({
                           <PlayButton songId={song.id} />
                     </div>)
           })}
+        </div>
+        <div className="followedSongList">
+          <FollowedSongsIndex />
         </div>
       </div>
     )
