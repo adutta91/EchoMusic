@@ -33845,6 +33845,17 @@
 	    $.get('api/songs/' + id, {}, function (song) {
 	      SongActions.receiveSingleSong(song);
 	    });
+	  },
+	
+	  createSongFollow: function (songFollow) {
+	    $.ajax({
+	      url: 'api/song_follows',
+	      method: 'POST',
+	      data: songFollow,
+	      success: function (songFollow) {
+	        this.fetchFollowedSongs(songFollow.user_id);
+	      }.bind(this)
+	    });
 	  }
 	
 	};
@@ -35643,12 +35654,7 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        React.createElement('br', null)
 	      ),
-	      React.createElement(
-	        'span',
-	        null,
-	        'TODO: (1) \'follow\' song, (2) display user, (3) display image'
-	      ),
-	      React.createElement(FollowButton, null)
+	      React.createElement(FollowButton, { songId: this.props.params.id })
 	    );
 	  }
 	});
@@ -35669,13 +35675,36 @@
 	
 	var React = __webpack_require__(1);
 	
+	// STORES
+	var SessionStore = __webpack_require__(236);
+	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowButton = React.createClass({
 	  displayName: 'FollowButton',
 	
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      songId: Number(this.props.songId)
+	    };
+	  },
+	
 	  _onClick: function () {
-	    alert('i was clicked');
+	    user = SessionStore.currentUser();
+	    var songFollow = {
+	      song_follow: {
+	        user_id: user.id,
+	        song_id: this.state.songId
+	      }
+	    };
+	    ApiUtil.createSongFollow(songFollow);
 	  },
 	
 	  render: function () {

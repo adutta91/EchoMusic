@@ -60,8 +60,7 @@ var SongProfile = React.createClass({
         <PlayButton songId={this.props.params.id} />
         <br/>
       </div>
-      <span>TODO: (1) 'follow' song, (2) display user, (3) display image</span>
-      <FollowButton />
+      <FollowButton songId={this.props.params.id} />
       </div>
     );
   }

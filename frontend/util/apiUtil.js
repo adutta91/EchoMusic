@@ -127,6 +127,17 @@ var ApiUtil = {
     $.get('api/songs/' + id, {}, function(song) {
       SongActions.receiveSingleSong(song);
     });
+  },
+
+  createSongFollow: function(songFollow) {
+    $.ajax({
+      url: 'api/song_follows',
+      method: 'POST',
+      data: songFollow,
+      success: function(songFollow) {
+        this.fetchFollowedSongs(songFollow.user_id);
+      }.bind(this)
+    });
   }
 
 }

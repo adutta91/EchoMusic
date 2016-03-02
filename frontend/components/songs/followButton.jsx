@@ -8,11 +8,34 @@
 
 var React = require('react');
 
+// STORES
+var SessionStore = require('../../stores/SessionStore');
+
+// UTILS
+var ApiUtil = require('../../util/apiUtil');
+
 // CLASS DEFINITION ----------------------------------------***
 var FollowButton = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
+  getInitialState: function() {
+    return ({
+      songId: Number(this.props.songId)
+    });
+  },
+
   _onClick: function() {
-    alert('i was clicked');
+    user = SessionStore.currentUser();
+    var songFollow = {
+      song_follow: {
+        user_id: user.id,
+        song_id: this.state.songId
+      }
+    }
+    ApiUtil.createSongFollow(songFollow);
   },
 
   render: function() {
