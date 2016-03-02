@@ -16,6 +16,10 @@ UserStore.all = function() {
   return users;
 };
 
+UserStore.find = function(id) {
+  return _users[id];
+};
+
 UserStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case 'RECEIVE_USERS':

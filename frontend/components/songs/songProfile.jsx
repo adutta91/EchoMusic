@@ -71,7 +71,6 @@ var SongProfile = React.createClass({
   },
 
   render: function() {
-
     return (
       <div>
       <div className="songDisplay">
@@ -85,7 +84,7 @@ var SongProfile = React.createClass({
         <br/>
       </div>
       { this.followButton() }
-      <UserDisplay user={SessionStore.currentUser()}/>
+      <UserDisplay userId={this.state.song.user_id}/>
       </div>
     );
   }

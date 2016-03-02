@@ -6,6 +6,7 @@ var UserActions = require('../actions/userActions');
 
 UserUtil = {
   fetchSingleUser: function(userId) {
+
     $.ajax({
       url: 'api/users/' + userId,
       method: 'GET',

@@ -44,6 +44,7 @@ var UserProfile = React.createClass({
   },
 
   render: function() {
+
     return (
       <div className="userPage">
         <div id="userProfile">
@@ -62,5 +63,6 @@ var UserProfile = React.createClass({
     )
   }
 });
+
 
 module.exports = UserProfile;

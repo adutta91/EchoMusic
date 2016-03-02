@@ -33706,6 +33706,7 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'userPage' },
@@ -34451,18 +34452,16 @@
 	
 	  _onSessionChange: function () {
 	    this.setState({ user: SessionStore.currentUser() });
-	  },
-	
-	  componentWillMount: function () {
-	    this.songListener = SongStore.addListener(this._onSongChange);
-	
-	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
-	    this.setState({ user: SessionStore.currentUser() });
+	    ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
 	  },
 	
 	  componentDidMount: function () {
-	    if (this.state.user) {
-	      ApiUtil.fetchFollowedSongs(this.state.user.id);
+	    this.songListener = SongStore.addListener(this._onSongChange);
+	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
+	
+	    if (SessionStore.currentUser()) {
+	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	      this.setState({ user: SessionStore.currentUser() });
 	    }
 	  },
 	
@@ -34486,6 +34485,8 @@
 	    );
 	  }
 	});
+	
+	window.SongStore = SongStore;
 	
 	module.exports = FollowedSongIndex;
 
@@ -35711,7 +35712,6 @@
 	  },
 	
 	  render: function () {
-	
 	    return React.createElement(
 	      'div',
 	      null,
@@ -35733,7 +35733,7 @@
 	        React.createElement('br', null)
 	      ),
 	      this.followButton(),
-	      React.createElement(UserDisplay, { user: SessionStore.currentUser() })
+	      React.createElement(UserDisplay, { userId: this.state.song.user_id })
 	    );
 	  }
 	});
@@ -36052,30 +36052,52 @@
 	  displayName: 'UserDisplay',
 	
 	
-	  getInitialState: function () {
-	    return {
-	      user: this.props.user
-	    };
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
 	  },
 	
-	  _onChange: function () {
-	    console.log('userStore changed');
+	  // getInitialState: function() {
+	  //   return ({
+	  //     userId: this.props.userId
+	  //   })
+	  // },
+	
+	  // _onChange: function() {
+	  //   // console.log('store changed');
+	  // },
+	
+	  _onClick: function () {
+	    this.context.router.push('/users/' + this.state.userId);
 	  },
 	
 	  componentDidMount: function () {
+	    debugger;
+	    UserUtil.fetchSingleUser(this.props.userId);
 	    // this.userListener = UserStore.addListener(this._onChange);
-	    UserUtil.fetchSingleUser(this.state.user.id);
 	  },
 	
 	  componentWillUnmount: function () {
 	    // this.userListener.remove();
 	  },
 	
+	  findUsername: function () {
+	    var user = UserStore.find(this.props.userId);
+	    if (user) {
+	      return user.username;
+	    } else {
+	      return "";
+	    }
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'userDisplay' },
-	      'I am a user display'
+	      { className: 'userDisplay', onClick: this._onClick },
+	      React.createElement(
+	        'div',
+	        null,
+	        this.findUsername()
+	      )
 	    );
 	  }
 	});
@@ -36102,6 +36124,10 @@
 	    users.push(_users[userId]);
 	  });
 	  return users;
+	};
+	
+	UserStore.find = function (id) {
+	  return _users[id];
 	};
 	
 	UserStore.__onDispatch = function (payload) {
@@ -36143,6 +36169,7 @@
 	
 	UserUtil = {
 	  fetchSingleUser: function (userId) {
+	
 	    $.ajax({
 	      url: 'api/users/' + userId,
 	      method: 'GET',
