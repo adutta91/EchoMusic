@@ -7,9 +7,13 @@ var Dispatcher = require('../dispatcher');
 
 var _songs = {};
 var _followedSongs = {};
+
 var _currentSong = null;
-var _playing = false;
 var _audio = new Audio();
+
+var _playing = false;
+var _loading = false;
+
 var SongStore = new Store(Dispatcher);
 
 SongStore.all = function() {
@@ -55,6 +59,10 @@ SongStore.playing = function() {
   return _playing;
 };
 
+SongStore.loading = function() {
+  return _loading;
+};
+
 SongStore.setCurrentSong = function(songId) {
   if(_songs[songId]) {
     _currentSong = _songs[songId];
@@ -81,7 +89,7 @@ SongStore.__onDispatch = function(payload) {
       resetSong(payload.song);
       SongStore.__emitChange();
       break;
-    case 'PLAY_SONG':
+    case 'LOAD_SONG':
       if (_currentSong === null) {
         SongStore.setCurrentSong(payload.songId);
         playSong();
@@ -92,6 +100,9 @@ SongStore.__onDispatch = function(payload) {
       } else {
         resumeSong();
       }
+      SongStore.__emitChange();
+      break;
+    case 'PLAY_SONG':
       SongStore.__emitChange();
       break;
     case 'PAUSE_SONG':
@@ -107,10 +118,12 @@ SongStore.__onDispatch = function(payload) {
 
 var playSong = function() {
   _audio.src = _currentSong.audio_url;
-
+  _loading = true;
   _audio.addEventListener('canplay', function() {
     _audio.play();
+    _loading = false;
     _playing = true;
+    SongActions.playSong();
   });
 
   _audio.addEventListener('ended', function() {

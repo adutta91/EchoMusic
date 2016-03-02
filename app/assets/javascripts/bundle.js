@@ -33421,9 +33421,13 @@
 	
 	var _songs = {};
 	var _followedSongs = {};
+	
 	var _currentSong = null;
-	var _playing = false;
 	var _audio = new Audio();
+	
+	var _playing = false;
+	var _loading = false;
+	
 	var SongStore = new Store(Dispatcher);
 	
 	SongStore.all = function () {
@@ -33469,6 +33473,10 @@
 	  return _playing;
 	};
 	
+	SongStore.loading = function () {
+	  return _loading;
+	};
+	
 	SongStore.setCurrentSong = function (songId) {
 	  if (_songs[songId]) {
 	    _currentSong = _songs[songId];
@@ -33495,7 +33503,7 @@
 	      resetSong(payload.song);
 	      SongStore.__emitChange();
 	      break;
-	    case 'PLAY_SONG':
+	    case 'LOAD_SONG':
 	      if (_currentSong === null) {
 	        SongStore.setCurrentSong(payload.songId);
 	        playSong();
@@ -33506,6 +33514,9 @@
 	      } else {
 	        resumeSong();
 	      }
+	      SongStore.__emitChange();
+	      break;
+	    case 'PLAY_SONG':
 	      SongStore.__emitChange();
 	      break;
 	    case 'PAUSE_SONG':
@@ -33521,10 +33532,12 @@
 	
 	var playSong = function () {
 	  _audio.src = _currentSong.audio_url;
-	
+	  _loading = true;
 	  _audio.addEventListener('canplay', function () {
 	    _audio.play();
+	    _loading = false;
 	    _playing = true;
+	    SongActions.playSong();
 	  });
 	
 	  _audio.addEventListener('ended', function () {
@@ -33904,10 +33917,16 @@
 	    });
 	  },
 	
-	  playSong: function (songId) {
+	  loadSong: function (songId) {
 	    Dispatcher.dispatch({
-	      actionType: 'PLAY_SONG',
+	      actionType: 'LOAD_SONG',
 	      songId: songId
+	    });
+	  },
+	
+	  playSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'PLAY_SONG'
 	    });
 	  },
 	
@@ -34576,7 +34595,7 @@
 	
 	  playSong: function (event) {
 	    event.stopPropagation();
-	    SongUtil.playSong(this.state.songId);
+	    SongUtil.loadSong(this.state.songId);
 	    this.setState({ playing: true });
 	  },
 	
@@ -34615,8 +34634,8 @@
 	
 	SongUtil = {
 	
-	  playSong: function (songId) {
-	    SongActions.playSong(songId);
+	  loadSong: function (songId) {
+	    SongActions.loadSong(songId);
 	  },
 	
 	  pauseSong: function () {
@@ -34625,6 +34644,10 @@
 	
 	  endSong: function () {
 	    SongActions.endSong();
+	  },
+	
+	  playSong: function () {
+	    SongActions.playSong();
 	  }
 	};
 	
@@ -35806,7 +35829,27 @@
 	  showPlaying: function () {
 	    var display = "";
 	    if (this.state.showSong) {
-	      display = "Now playing:     " + SongStore.currentSong().title + " - (" + SongStore.currentSong().artist_name + ")";
+	      if (SongStore.loading()) {
+	        display = React.createElement(
+	          'span',
+	          { className: 'nowPlaying' },
+	          'Loading... ',
+	          SongStore.currentSong().title,
+	          ' - (',
+	          SongStore.currentSong().artist_name,
+	          ')'
+	        );
+	      } else {
+	        display = React.createElement(
+	          'span',
+	          { className: 'nowPlaying' },
+	          'Now playing: ',
+	          SongStore.currentSong().title,
+	          ' - (',
+	          SongStore.currentSong().artist_name,
+	          ')'
+	        );
+	      }
 	    }
 	    return display;
 	  },
@@ -35861,8 +35904,8 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      currentSong: SongStore.currentSong(),
-	      playing: SongStore.playing()
+	      currentSong: SongStore.currentSong()
+	      // playing
 	    });
 	  },
 	
@@ -35875,11 +35918,13 @@
 	  },
 	
 	  playSong: function () {
-	    SongUtil.playSong(this.state.currentSong.id);
+	    SongUtil.loadSong(this.state.currentSong.id);
+	    this.setState({ playing: true });
 	  },
 	
 	  pauseSong: function () {
 	    SongUtil.pauseSong();
+	    this.setState({ playing: false });
 	  },
 	
 	  button: function () {

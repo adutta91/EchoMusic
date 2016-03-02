@@ -58,7 +58,7 @@ var PlayButton = React.createClass({
 
   playSong: function(event) {
     event.stopPropagation()
-    SongUtil.playSong(this.state.songId);
+    SongUtil.loadSong(this.state.songId);
     this.setState({playing: true})
   },
 

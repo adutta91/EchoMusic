@@ -32,10 +32,16 @@ SongActions = {
     });
   },
 
-  playSong: function(songId) {
+  loadSong: function(songId) {
     Dispatcher.dispatch({
-      actionType: 'PLAY_SONG',
+      actionType: 'LOAD_SONG',
       songId: songId
+    });
+  },
+
+  playSong: function() {
+    Dispatcher.dispatch({
+      actionType: 'PLAY_SONG'
     });
   },
 

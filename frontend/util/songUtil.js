@@ -6,8 +6,8 @@ var SongActions = require('../actions/songActions');
 
 SongUtil = {
 
-  playSong: function(songId) {
-    SongActions.playSong(songId);
+  loadSong: function(songId) {
+    SongActions.loadSong(songId);
   },
 
   pauseSong: function() {
@@ -16,6 +16,10 @@ SongUtil = {
 
   endSong: function() {
     SongActions.endSong();
+  },
+
+  playSong: function() {
+    SongActions.playSong();
   }
 }
 

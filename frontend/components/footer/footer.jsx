@@ -45,10 +45,21 @@ var Footer = React.createClass({
   showPlaying: function() {
     var display = "";
     if (this.state.showSong) {
-      display = (
-        "Now playing:     " + SongStore.currentSong().title + " - (" +
-          SongStore.currentSong().artist_name + ")"
-      );
+      if (SongStore.loading()){
+        display = (
+          <span className="nowPlaying">
+          Loading... {SongStore.currentSong().title} - (
+            {SongStore.currentSong().artist_name})
+          </span>
+        )
+      } else {
+        display = (
+          <span className="nowPlaying">
+          Now playing: {SongStore.currentSong().title} - (
+            {SongStore.currentSong().artist_name})
+          </span>
+        );
+      }
     }
     return display;
   },

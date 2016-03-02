@@ -25,8 +25,8 @@ var FooterPlayButton = React.createClass({
 
   _onChange: function() {
     this.setState( {
-      currentSong: SongStore.currentSong(),
-      playing: SongStore.playing()
+      currentSong: SongStore.currentSong()
+      // playing
     });
   },
 
@@ -39,11 +39,13 @@ var FooterPlayButton = React.createClass({
   },
 
   playSong: function() {
-    SongUtil.playSong(this.state.currentSong.id);
+    SongUtil.loadSong(this.state.currentSong.id);
+    this.setState({playing: true})
   },
 
   pauseSong: function() {
     SongUtil.pauseSong();
+    this.setState({playing: false})
   },
 
   button: function() {
