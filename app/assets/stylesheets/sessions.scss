@@ -47,7 +47,6 @@ body {
 }
 
 .tab {
-  background-color: #FF5B00;
   font-size: 24px;
   color: white;
   margin: 30px 30px 60px 30px;
@@ -56,7 +55,8 @@ body {
   border: 1px solid black;
   padding: 8px;
   border-radius: 2px;
-  background-color: #FF5B00;
+  background: linear-gradient(to bottom right, #592000, #FF5B00);
+  transition: all 1s ease 0s;
 }
 
 .tab:hover {
@@ -71,7 +71,6 @@ body {
 }
 
 .tab.notSelected {
-
 }
 
 .userForms {
@@ -114,6 +113,7 @@ body {
   border: 1px solid black;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   text-align: center;
+  transition: all 1s ease 0s;
 }
 
 .submitButton:hover {

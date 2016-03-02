@@ -35868,6 +35868,10 @@
 	  displayName: 'Footer',
 	
 	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
 	  getInitialState: function () {
 	    return {
 	      showSong: false,
@@ -35892,6 +35896,11 @@
 	    }
 	  },
 	
+	  _songClick: function () {
+	    songId = SongStore.currentSong().id;
+	    this.context.router.push('/songs/' + songId);
+	  },
+	
 	  // composes the information for when a song is playing
 	  showPlaying: function () {
 	    var display = "";
@@ -35914,7 +35923,7 @@
 	          { className: 'footerDisplay' },
 	          React.createElement(
 	            'span',
-	            { className: 'nowPlaying' },
+	            { className: 'nowPlaying', onClick: this._songClick },
 	            'Now playing: ',
 	            SongStore.currentSong().title,
 	            ' - (',

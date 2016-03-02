@@ -17,6 +17,10 @@ var FooterPlayButton = require('../songControls/footerPlayButton');
 // CLASS DEFINITION ----------------------------------------***
 var Footer = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return ({
       showSong: false,
@@ -41,6 +45,11 @@ var Footer = React.createClass({
     }
   },
 
+  _songClick: function() {
+    songId = SongStore.currentSong().id;
+    this.context.router.push('/songs/' + songId);
+  },
+
   // composes the information for when a song is playing
   showPlaying: function() {
     var display = "";
@@ -57,7 +66,7 @@ var Footer = React.createClass({
       } else {
         display = (
           <div className="footerDisplay">
-            <span className="nowPlaying">
+            <span className="nowPlaying" onClick={this._songClick}>
               Now playing: {SongStore.currentSong().title} - (
                 {SongStore.currentSong().artist_name})
             </span>
