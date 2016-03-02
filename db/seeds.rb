@@ -9,11 +9,14 @@
 user = User.new
 user.username = "adutta"
 user.password = "password"
+user.image_url = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456878559/arfxlgnwtqdi1rsakzmr.png"
+user.description = "I am cool"
 user.save!
 
 user = User.new
 user.username = "guest"
 user.password = "password"
+user.description = "This is a guest account - explore away!"
 user.save!
 
 song = Song.new

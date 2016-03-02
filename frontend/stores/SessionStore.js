@@ -33,6 +33,7 @@ SessionStore.__onDispatch = function(payload) {
       SessionStore.__emitChange();
       break;
     case 'SHOW_USER':
+      login(payload.user);
       SessionStore.__emitChange();
       break;
   }

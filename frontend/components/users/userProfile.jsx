@@ -32,6 +32,7 @@ var UserProfile = React.createClass({
   },
 
   _onSessionChange: function() {
+    debugger;
     this.setState( { user: SessionStore.currentUser() });
   },
 

@@ -26723,6 +26723,7 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case 'SHOW_USER':
+	      login(payload.user);
 	      SessionStore.__emitChange();
 	      break;
 	  }
@@ -33644,6 +33645,7 @@
 	  },
 	
 	  _onSessionChange: function () {
+	    debugger;
 	    this.setState({ user: SessionStore.currentUser() });
 	  },
 	
@@ -35559,6 +35561,10 @@
 	    this.setState({ songs: SongStore.all() });
 	  },
 	
+	  _onSessionChange: function () {
+	    this.setState({ user: SessionStore.currentUser() });
+	  },
+	
 	  componentDidMount: function () {
 	    this.songListener = SongStore.addListener(this._onSongChange);
 	    ApiUtil.fetchUserSongs(this.state.user.id);
@@ -35677,6 +35683,7 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case 'SHOW_USER':
+	      login(payload.user);
 	      SessionStore.__emitChange();
 	      break;
 	  }
