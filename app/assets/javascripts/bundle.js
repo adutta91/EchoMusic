@@ -33621,15 +33621,14 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
-	var SongStore = __webpack_require__(256);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var PlayButton = __webpack_require__(262);
 	var UpdateUserButton = __webpack_require__(264);
 	var FollowedSongsIndex = __webpack_require__(288);
+	var UploadedSongsIndex = __webpack_require__(289);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserProfile = React.createClass({
@@ -33640,13 +33639,8 @@
 	      user: {
 	        username: "",
 	        id: ""
-	      },
-	      songs: []
+	      }
 	    };
-	  },
-	
-	  _onSongChange: function () {
-	    this.setState({ songs: SongStore.all() });
 	  },
 	
 	  _onSessionChange: function () {
@@ -33656,13 +33650,9 @@
 	  componentDidMount: function () {
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
 	    this.setState({ user: SessionStore.currentUser() });
-	
-	    this.songListener = SongStore.addListener(this._onSongChange);
-	    ApiUtil.fetchUserSongs(this.state.user.id);
 	  },
 	
 	  componentWillUnmount: function () {
-	    this.songListener.remove();
 	    this.sessionListener.remove();
 	  },
 	
@@ -33686,37 +33676,11 @@
 	          React.createElement(UpdateUserButton, null)
 	        )
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'userSongList' },
-	        React.createElement(
-	          'span',
-	          { className: 'uploadedListTitle' },
-	          'Uploaded Songs:'
-	        ),
-	        this.state.songs.map(function (song, index) {
-	          return React.createElement(
-	            'div',
-	            { className: 'userSongListItem', key: index },
-	            React.createElement(
-	              'span',
-	              { className: 'songListItemInfo' },
-	              song.title,
-	              React.createElement(
-	                'span',
-	                { className: 'songListArtist' },
-	                '  by ',
-	                song.artist_name
-	              )
-	            ),
-	            React.createElement(PlayButton, { songId: song.id })
-	          );
-	        })
-	      ),
+	      React.createElement(UploadedSongsIndex, null),
 	      React.createElement(
 	        'div',
 	        { className: 'followedSongList' },
-	        React.createElement(FollowedSongsIndex, null)
+	        React.createElement(FollowedSongsIndex, { user: this.state.user })
 	      )
 	    );
 	  }
@@ -35552,6 +35516,186 @@
 	});
 	
 	module.exports = FollowedSongIndex;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// uploaded Songs index component
+	//    purpose: display list of songs uploaded by the user
+	//
+	//    children: UploadedSongIndexItem
+	//    actions: none
+	//    info: list of songs
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var SongStore = __webpack_require__(256);
+	var SessionStore = __webpack_require__(291);
+	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
+	// REACT COMPONENTS
+	var UploadedSongIndexItem = __webpack_require__(290);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var UploadedSongsIndex = React.createClass({
+	  displayName: 'UploadedSongsIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      user: {
+	        username: "",
+	        id: ""
+	      },
+	      songs: []
+	    };
+	  },
+	
+	  _onSongChange: function () {
+	    this.setState({ songs: SongStore.all() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this._onSongChange);
+	    ApiUtil.fetchUserSongs(this.state.user.id);
+	
+	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
+	    this.setState({ user: SessionStore.currentUser() });
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	    this.sessionListener.remove();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'span',
+	        { className: 'uploadedListTitle' },
+	        'Uploaded Songs:'
+	      ),
+	      this.state.songs.map(function (song, index) {
+	        return React.createElement(UploadedSongIndexItem, { song: song, key: index });
+	      })
+	    );
+	  }
+	});
+	
+	module.exports = UploadedSongsIndex;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// uploaded song index item component
+	//    purpose: display a song that the user uploaded
+	//
+	//    children: PlayButton
+	//    actions: redirect to song show page on click
+	//    info: basic song info
+	
+	var React = __webpack_require__(1);
+	
+	// REACT COMPONENTS
+	var PlayButton = __webpack_require__(262);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var UploadedSongIndexItem = React.createClass({
+	  displayName: 'UploadedSongIndexItem',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'userSongListItem' },
+	      React.createElement(
+	        'span',
+	        { className: 'songListItemInfo' },
+	        this.state.song.title,
+	        React.createElement(
+	          'span',
+	          { className: 'songListArtist' },
+	          '  by ',
+	          this.state.song.artist_name
+	        )
+	      ),
+	      React.createElement(PlayButton, { songId: this.state.song.id })
+	    );
+	  }
+	});
+	
+	module.exports = UploadedSongIndexItem;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// session store
+	//    purpose: store relevant data on current session
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _user = null;
+	var _loggedIn = false;
+	
+	var SessionStore = new Store(Dispatcher);
+	
+	SessionStore.loggedIn = function () {
+	  return _loggedIn;
+	};
+	
+	SessionStore.currentUser = function () {
+	  return _user;
+	};
+	
+	SessionStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'LOGIN_USER':
+	      login(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	    case 'LOGOUT_USER':
+	      logout();
+	      SessionStore.__emitChange();
+	      break;
+	    case 'REFRESH_SESSION':
+	      login(payload.user);
+	      SessionStore.__emitChange();
+	      break;
+	    case 'SHOW_USER':
+	      SessionStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var login = function (user) {
+	  _user = user;
+	  _loggedIn = true;
+	  var storedUser = JSON.stringify(user);
+	  localStorage.setItem('loggedInUser', storedUser);
+	};
+	
+	var logout = function () {
+	  localStorage.clear();
+	  _user = null;
+	  _loggedIn = false;
+	};
+	
+	module.exports = SessionStore;
 
 /***/ }
 /******/ ]);
