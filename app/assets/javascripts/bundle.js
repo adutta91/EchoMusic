@@ -33446,6 +33446,10 @@
 	  return _songs[songId];
 	};
 	
+	SongStore.findFollowedSong = function (songId) {
+	  return _followedSongs[songId];
+	};
+	
 	SongStore.currentSong = function () {
 	  if (_currentSong) {
 	    return _currentSong;
@@ -34421,8 +34425,8 @@
 	  },
 	
 	  componentDidMount: function () {
-	    if (SessionStore.currentUser()) {
-	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	    if (this.state.user) {
+	      ApiUtil.fetchFollowedSongs(this.state.user.id);
 	    }
 	  },
 	
@@ -35593,6 +35597,7 @@
 	
 	// STORES
 	var SongStore = __webpack_require__(256);
+	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
@@ -35612,24 +35617,39 @@
 	        title: "",
 	        audio_url: "",
 	        artist_name: ""
-	      }
+	      },
+	      isFollowed: false
 	    };
 	  },
 	
 	  getStateFromStore: function () {
 	    var song = SongStore.find(this.props.params.id);
 	    if (song) {
-	      this.setState({ song: SongStore.find(this.props.params.id) });
+	      this.setState({ song: song });
+	      if (SongStore.findFollowedSong(song.id)) {
+	        this.setState({ isFollowed: true });
+	      }
 	    }
 	  },
 	
 	  componentDidMount: function () {
-	    this.stateListener = SongStore.addListener(this.getStateFromStore);
+	    this.songListener = SongStore.addListener(this.getStateFromStore);
 	    ApiUtil.fetchSingleSong(this.props.params.id);
+	    if (SessionStore.loggedIn()) {
+	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	    }
 	  },
 	
 	  componentWillUnmount: function () {
-	    this.stateListener.remove();
+	    this.songListener.remove();
+	  },
+	
+	  followButton: function () {
+	    var button = React.createElement(FollowButton, { songId: this.props.params.id });
+	    if (this.state.isFollowed) {
+	      button = React.createElement('div', null);
+	    }
+	    return button;
 	  },
 	
 	  render: function () {
@@ -35654,7 +35674,7 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        React.createElement('br', null)
 	      ),
-	      React.createElement(FollowButton, { songId: this.props.params.id })
+	      this.followButton()
 	    );
 	  }
 	});

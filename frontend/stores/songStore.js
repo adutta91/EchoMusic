@@ -32,6 +32,10 @@ SongStore.find = function(songId) {
   return _songs[songId];
 };
 
+SongStore.findFollowedSong = function(songId) {
+  return _followedSongs[songId];
+};
+
 SongStore.currentSong = function() {
   if (_currentSong) {
     return _currentSong;

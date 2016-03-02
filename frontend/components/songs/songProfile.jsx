@@ -9,6 +9,7 @@ var React = require('react');
 
 // STORES
 var SongStore = require('../../stores/songStore');
+var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
 var ApiUtil = require('../../util/apiUtil');
@@ -26,24 +27,40 @@ var SongProfile = React.createClass({
         title: "",
         audio_url: "",
         artist_name: ""
-      }
+      },
+      isFollowed: false
     });
   },
 
   getStateFromStore: function() {
     var song =  SongStore.find(this.props.params.id);
     if (song) {
-      this.setState( { song: SongStore.find(this.props.params.id) });
+      this.setState( { song: song });
+      if (SongStore.findFollowedSong(song.id)) {
+        this.setState( { isFollowed: true } );
+      }
     }
+
   },
 
   componentDidMount: function() {
-    this.stateListener = SongStore.addListener(this.getStateFromStore);
+    this.songListener = SongStore.addListener(this.getStateFromStore);
     ApiUtil.fetchSingleSong(this.props.params.id);
+    if (SessionStore.loggedIn()){
+      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id)
+    }
   },
 
   componentWillUnmount: function() {
-    this.stateListener.remove();
+    this.songListener.remove();
+  },
+
+  followButton: function() {
+    var button = (<FollowButton songId={this.props.params.id} />);
+    if (this.state.isFollowed) {
+      button = <div />
+    }
+    return button;
   },
 
   render: function() {
@@ -60,7 +77,7 @@ var SongProfile = React.createClass({
         <PlayButton songId={this.props.params.id} />
         <br/>
       </div>
-      <FollowButton songId={this.props.params.id} />
+      { this.followButton() }
       </div>
     );
   }

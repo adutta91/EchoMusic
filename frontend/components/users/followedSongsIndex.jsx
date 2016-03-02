@@ -43,8 +43,8 @@ var FollowedSongIndex = React.createClass({
   },
 
   componentDidMount: function() {
-    if(SessionStore.currentUser()){
-      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+    if(this.state.user){
+      ApiUtil.fetchFollowedSongs(this.state.user.id);
     }
   },
 
