@@ -35299,7 +35299,7 @@
 	// song profile component
 	//    purpose: display all relevant song info
 	//
-	//    children: PlayButton
+	//    children: PlayButton, FollowButton
 	//    actions: play and pause song, (eventually more)
 	//    info: song title, artist, user, album
 	
@@ -35313,6 +35313,7 @@
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(262);
+	var FollowButton = __webpack_require__(293);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
@@ -35371,7 +35372,8 @@
 	        'span',
 	        null,
 	        'TODO: (1) \'follow\' song, (2) display user, (3) display image'
-	      )
+	      ),
+	      React.createElement(FollowButton, null)
 	    );
 	  }
 	});
@@ -35781,6 +35783,41 @@
 	});
 	
 	module.exports = FollowedSongIndexItem;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// follow button component
+	//    purpose: add a new SongFollow to the database to connect the user
+	//             and the song
+	//
+	//    children: none
+	//    actions: sends a create request to the SongFollow controller
+	//    info: none
+	
+	var React = __webpack_require__(1);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var FollowButton = React.createClass({
+	  displayName: 'FollowButton',
+	
+	
+	  _onClick: function () {
+	    alert('i was clicked');
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'followButton', onClick: this._onClick },
+	      'Follow'
+	    );
+	  }
+	
+	});
+	
+	module.exports = FollowButton;
 
 /***/ }
 /******/ ]);

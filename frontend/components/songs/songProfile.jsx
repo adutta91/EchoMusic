@@ -1,7 +1,7 @@
 // song profile component
 //    purpose: display all relevant song info
 //
-//    children: PlayButton
+//    children: PlayButton, FollowButton
 //    actions: play and pause song, (eventually more)
 //    info: song title, artist, user, album
 
@@ -15,6 +15,7 @@ var ApiUtil = require('../../util/apiUtil');
 
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
+var FollowButton = require('./followButton');
 
 // CLASS DEFINITION ----------------------------------------***
 var SongProfile = React.createClass({
@@ -60,6 +61,7 @@ var SongProfile = React.createClass({
         <br/>
       </div>
       <span>TODO: (1) 'follow' song, (2) display user, (3) display image</span>
+      <FollowButton />
       </div>
     );
   }

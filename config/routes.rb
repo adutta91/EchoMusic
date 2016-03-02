@@ -10,10 +10,13 @@ Rails.application.routes.draw do
 
     # user routes
     resources :users, only: [:new, :create, :update]
-    get '/users/:id/followed_songs', to: 'users#followed_songs' 
+    get '/users/:id/followed_songs', to: 'users#followed_songs'
 
     # song routes
     resources :songs
+
+    # song_follow routes
+    resources :song_follows, only: [:create, :destroy]
   end
 
 end

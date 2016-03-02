@@ -1,0 +1,2 @@
+module SongFollowsHelper
+end
