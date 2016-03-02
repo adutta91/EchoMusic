@@ -52,7 +52,11 @@ SongStore.playing = function() {
 };
 
 SongStore.setCurrentSong = function(songId) {
-  _currentSong = _songs[songId];
+  if(_songs[songId]) {
+    _currentSong = _songs[songId];
+  } else {
+    _currentSong = _followedSongs[songId];
+  }
 };
 
 SongStore.__onDispatch = function(payload) {

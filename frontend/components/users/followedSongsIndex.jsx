@@ -28,7 +28,6 @@ var FollowedSongIndex = React.createClass({
   },
 
   _onSongChange: function() {
-    debugger;
     this.setState( { songs: SongStore.followedSongs() } );
   },
 
@@ -36,12 +35,17 @@ var FollowedSongIndex = React.createClass({
     this.setState( { user: SessionStore.currentUser() } );
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
     this.songListener = SongStore.addListener(this._onSongChange);
-    ApiUtil.fetchFollowedSongs(this.state.user.id);
 
     this.sessionListener = SessionStore.addListener(this._onSessionChange);
     this.setState( { user: SessionStore.currentUser() } );
+  },
+
+  componentDidMount: function() {
+    if(SessionStore.currentUser()){
+      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+    }
   },
 
   componentWillUnmount: function() {
@@ -53,7 +57,7 @@ var FollowedSongIndex = React.createClass({
     return (
       <div>
         {this.state.songs.map(function(song, index) {
-          <FollowedSongIndexItem song={song} key={index} />
+          return <FollowedSongIndexItem song={song} key={index} />
         })}
       </div>
     )

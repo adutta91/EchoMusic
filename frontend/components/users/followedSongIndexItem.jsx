@@ -20,7 +20,7 @@ var FollowedSongIndexItem = React.createClass({
       song: this.props.song
     })
   },
-  
+
   render: function() {
     return (
       <div className="userFollowListItem">

@@ -33466,7 +33466,11 @@
 	};
 	
 	SongStore.setCurrentSong = function (songId) {
-	  _currentSong = _songs[songId];
+	  if (_songs[songId]) {
+	    _currentSong = _songs[songId];
+	  } else {
+	    _currentSong = _followedSongs[songId];
+	  }
 	};
 	
 	SongStore.__onDispatch = function (payload) {
@@ -35561,7 +35565,6 @@
 	  },
 	
 	  _onSongChange: function () {
-	    debugger;
 	    this.setState({ songs: SongStore.followedSongs() });
 	  },
 	
@@ -35569,12 +35572,17 @@
 	    this.setState({ user: SessionStore.currentUser() });
 	  },
 	
-	  componentDidMount: function () {
+	  componentWillMount: function () {
 	    this.songListener = SongStore.addListener(this._onSongChange);
-	    ApiUtil.fetchFollowedSongs(this.state.user.id);
 	
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
 	    this.setState({ user: SessionStore.currentUser() });
+	  },
+	
+	  componentDidMount: function () {
+	    if (SessionStore.currentUser()) {
+	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	    }
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35587,7 +35595,7 @@
 	      'div',
 	      null,
 	      this.state.songs.map(function (song, index) {
-	        React.createElement(FollowedSongIndexItem, { song: song, key: index });
+	        return React.createElement(FollowedSongIndexItem, { song: song, key: index });
 	      })
 	    );
 	  }
