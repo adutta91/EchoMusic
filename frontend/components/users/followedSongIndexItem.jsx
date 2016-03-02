@@ -15,15 +15,23 @@ var PlayButton = require('../songControls/playButton');
 // CLASS DEFINITION ----------------------------------------***
 var FollowedSongIndexItem = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return ({
       song: this.props.song
     })
   },
 
+  _onClick: function() {
+    this.context.router.push('/songs/' + this.state.song.id);
+  },
+
   render: function() {
     return (
-      <div className="userFollowListItem">
+      <div className="userFollowListItem" onClick={this._onClick}>
         <span className="followListItemInfo">
           {this.state.song.title}
           <span className="followListArtist">

@@ -13,20 +13,25 @@ var PlayButton = require('../songControls/playButton');
 // CLASS DEFINITION ----------------------------------------***
 var UploadedSongIndexItem = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     return ({
       song: this.props.song
     })
   },
 
+  _onClick: function() {
+    this.context.router.push('/songs/' + this.state.song.id);
+  },
+
   render: function() {
     return (
-      <div className="userSongListItem">
+      <div className="userSongListItem" onClick={this._onClick}>
         <span className="songListItemInfo">
           {this.state.song.title}
-          <span className="songListArtist">
-            &nbsp; by {this.state.song.artist_name}
-          </span>
         </span>
         <PlayButton songId={this.state.song.id} />
       </div>

@@ -50,12 +50,14 @@ var PlayButton = React.createClass({
     }
   },
 
-  pauseSong: function() {
+  pauseSong: function(event) {
+    event.stopPropagation()
     SongUtil.pauseSong();
     this.toggle();
   },
 
-  playSong: function() {
+  playSong: function(event) {
+    event.stopPropagation()
     SongUtil.playSong(this.state.songId);
     this.setState({playing: true})
   },

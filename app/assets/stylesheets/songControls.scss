@@ -15,7 +15,7 @@
   text-align: center;
   line-height: 100%;
   font-size: 12px;
-  border-radius: 5px;
+  transition: all .3s ease 0s;
 }
 
 .footerSongButton {
@@ -25,19 +25,19 @@
   text-align: center;
   line-height: 100%;
   font-size: 12px;
-  border-radius: 5px;
+  transition: all .3s ease 0s;
 }
 
 .songButton:hover {
-  width: 41px;
-  height: 41px;
-  margin: 7px 2px 2px 17px;
+  border-radius: 50%;
   cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+  box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
 }
 
 .footerSongButton:hover {
-  width: 26px;
-  height: 26px;
-  margin: 2px 2px 2px 17px;
+  border-radius: 50%;
   cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+  box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
 }

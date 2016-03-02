@@ -34,9 +34,8 @@ var UpdateUserButton = React.createClass({
   render: function() {
     return (
       <div className="updateUserButton">
-        <button className="updateUserButton" onClick={this.openModal}>
-          Edit Profile
-        </button>
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456897486/Edit.png"
+             className="updateUserButton" onClick={this.openModal} />
         <Modal
           isOpen={this.state.open}
           onRequestClose={this.closeModal}

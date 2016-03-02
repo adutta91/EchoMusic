@@ -51,9 +51,9 @@ var UserProfile = React.createClass({
           <span className="welcomeProfileMessage">
             Hello, {this.state.user.username}
           </span>
+          <UpdateUserButton  />
           <div className="picture">
             <img src={this.state.user.image_url} className="profilePicture" />
-            <UpdateUserButton  />
           </div>
           <UploadedSongsIndex />
         </div>

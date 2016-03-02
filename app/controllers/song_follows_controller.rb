@@ -5,7 +5,7 @@ class SongFollowsController < ApplicationController
   end
 
   def destroy
-
+    
   end
 
   private

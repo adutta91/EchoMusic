@@ -64,8 +64,7 @@ audio:hover {
   -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
   box-shadow: 1px 2px 3px rgba(0,0,0,.5);
   text-overflow: ellipsis;
-
-  /* Required for text-overflow to do anything */
+  transition: all 1s ease 0s;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -73,6 +72,8 @@ audio:hover {
 .songIndexItem:hover {
   opacity: 1;
   cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+  box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
 }
 
 .indexTitle {

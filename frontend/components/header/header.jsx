@@ -44,9 +44,9 @@ var Header = React.createClass({
     if (this.state.showButtons) {
       headerButtons = (
         <div className="headerButtons">
+        <ProfileButton />
         <UploadSongButton />
         <Logout />
-        <ProfileButton />
         </div>
       );
     }
