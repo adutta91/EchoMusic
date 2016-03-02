@@ -6,6 +6,7 @@ var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher');
 
 var _songs = {};
+var _followedSongs = {};
 var _currentSong = null;
 var _playing = false;
 var _audio = new Audio();
@@ -15,6 +16,14 @@ SongStore.all = function() {
   var songs = []
   Object.keys(_songs).forEach(function(songId){
     songs.push(_songs[songId]);
+  });
+  return songs;
+};
+
+SongStore.followedSongs = function() {
+  var songs = []
+  Object.keys(_followedSongs).forEach(function(songId){
+    songs.push(_followedSongs[songId]);
   });
   return songs;
 };
@@ -54,6 +63,10 @@ SongStore.__onDispatch = function(payload) {
       break;
     case 'RECEIVE_SONGS':
       resetSongs(payload.songs);
+      SongStore.__emitChange();
+      break;
+    case 'RECEIVE_FOLLOWED_SONGS':
+      resetFollowedSongs(payload.songs);
       SongStore.__emitChange();
       break;
     case 'RECEIVE_SONG':
@@ -117,7 +130,15 @@ var resetSongs = function(songs) {
   songs.forEach(function(song) {
     newSongs[song.id] = song;
   });
-  _songs = newSongs
+  _songs = newSongs;
+};
+
+var resetFollowedSongs = function(songs) {
+  newSongs = {};
+  songs.forEach(function(song) {
+    newSongs[song.id] = song;
+  });
+  _followedSongs = newSongs;
 };
 
 var resetSong = function(song) {

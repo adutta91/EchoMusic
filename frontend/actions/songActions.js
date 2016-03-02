@@ -18,6 +18,13 @@ SongActions = {
     });
   },
 
+  receiveFollowedSongs: function(songs) {
+    Dispatcher.dispatch({
+      actionType: 'RECEIVE_FOLLOWED_SONGS',
+      songs: songs
+    });
+  },
+
   receiveSingleSong: function(song) {
     Dispatcher.dispatch({
       actionType: 'RECEIVE_SONG',

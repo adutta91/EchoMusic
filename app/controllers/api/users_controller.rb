@@ -41,7 +41,6 @@ class Api::UsersController < ApplicationController
 
   def followed_songs
     @user = find_user
-    debugger;
     render :show_songs
   end
 

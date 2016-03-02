@@ -113,6 +113,16 @@ var ApiUtil = {
     })
   },
 
+  fetchFollowedSongs: function(userId) {
+    $.ajax({
+      url: 'api/users/' + userId + '/followed_songs',
+      method: 'GET',
+      success: function(songs) {
+        SongActions.receiveFollowedSongs(songs);
+      }
+    });
+  },
+
   fetchSingleSong: function(id) {
     $.get('api/songs/' + id, {}, function(song) {
       SongActions.receiveSingleSong(song);

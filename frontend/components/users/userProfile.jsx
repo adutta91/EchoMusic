@@ -32,7 +32,6 @@ var UserProfile = React.createClass({
   },
 
   _onSessionChange: function() {
-    debugger;
     this.setState( { user: SessionStore.currentUser() });
   },
 
@@ -56,8 +55,8 @@ var UserProfile = React.createClass({
             <img src={this.state.user.image_url} className="profilePicture" />
             <UpdateUserButton  />
           </div>
+          <UploadedSongsIndex />
         </div>
-        <UploadedSongsIndex />
         <div className="followedSongList">
           <FollowedSongsIndex user={this.state.user} />
         </div>

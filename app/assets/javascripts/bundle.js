@@ -33420,6 +33420,7 @@
 	var Dispatcher = __webpack_require__(253);
 	
 	var _songs = {};
+	var _followedSongs = {};
 	var _currentSong = null;
 	var _playing = false;
 	var _audio = new Audio();
@@ -33429,6 +33430,14 @@
 	  var songs = [];
 	  Object.keys(_songs).forEach(function (songId) {
 	    songs.push(_songs[songId]);
+	  });
+	  return songs;
+	};
+	
+	SongStore.followedSongs = function () {
+	  var songs = [];
+	  Object.keys(_followedSongs).forEach(function (songId) {
+	    songs.push(_followedSongs[songId]);
 	  });
 	  return songs;
 	};
@@ -33468,6 +33477,10 @@
 	      break;
 	    case 'RECEIVE_SONGS':
 	      resetSongs(payload.songs);
+	      SongStore.__emitChange();
+	      break;
+	    case 'RECEIVE_FOLLOWED_SONGS':
+	      resetFollowedSongs(payload.songs);
 	      SongStore.__emitChange();
 	      break;
 	    case 'RECEIVE_SONG':
@@ -33532,6 +33545,14 @@
 	    newSongs[song.id] = song;
 	  });
 	  _songs = newSongs;
+	};
+	
+	var resetFollowedSongs = function (songs) {
+	  newSongs = {};
+	  songs.forEach(function (song) {
+	    newSongs[song.id] = song;
+	  });
+	  _followedSongs = newSongs;
 	};
 	
 	var resetSong = function (song) {
@@ -33645,7 +33666,6 @@
 	  },
 	
 	  _onSessionChange: function () {
-	    debugger;
 	    this.setState({ user: SessionStore.currentUser() });
 	  },
 	
@@ -33676,9 +33696,9 @@
 	          { className: 'picture' },
 	          React.createElement('img', { src: this.state.user.image_url, className: 'profilePicture' }),
 	          React.createElement(UpdateUserButton, null)
-	        )
+	        ),
+	        React.createElement(UploadedSongsIndex, null)
 	      ),
-	      React.createElement(UploadedSongsIndex, null),
 	      React.createElement(
 	        'div',
 	        { className: 'followedSongList' },
@@ -33808,6 +33828,16 @@
 	    });
 	  },
 	
+	  fetchFollowedSongs: function (userId) {
+	    $.ajax({
+	      url: 'api/users/' + userId + '/followed_songs',
+	      method: 'GET',
+	      success: function (songs) {
+	        SongActions.receiveFollowedSongs(songs);
+	      }
+	    });
+	  },
+	
 	  fetchSingleSong: function (id) {
 	    $.get('api/songs/' + id, {}, function (song) {
 	      SongActions.receiveSingleSong(song);
@@ -33838,6 +33868,13 @@
 	  receiveSongs: function (songs) {
 	    Dispatcher.dispatch({
 	      actionType: 'RECEIVE_SONGS',
+	      songs: songs
+	    });
+	  },
+	
+	  receiveFollowedSongs: function (songs) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_FOLLOWED_SONGS',
 	      songs: songs
 	    });
 	  },
@@ -35501,18 +35538,57 @@
 	
 	var React = __webpack_require__(1);
 	
+	// STORES
+	var SessionStore = __webpack_require__(236);
+	var SongStore = __webpack_require__(256);
+	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
 	// REACT COMPONENTS
-	// var FollowedSongIndexItem = require('./followedSongIndexItem');
+	var FollowedSongIndexItem = __webpack_require__(292);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowedSongIndex = React.createClass({
 	  displayName: 'FollowedSongIndex',
 	
+	
+	  getInitialState: function () {
+	    return {
+	      user: SessionStore.currentUser(),
+	      songs: []
+	    };
+	  },
+	
+	  _onSongChange: function () {
+	    debugger;
+	    this.setState({ songs: SongStore.followedSongs() });
+	  },
+	
+	  _onSessionChange: function () {
+	    this.setState({ user: SessionStore.currentUser() });
+	  },
+	
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this._onSongChange);
+	    ApiUtil.fetchFollowedSongs(this.state.user.id);
+	
+	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
+	    this.setState({ user: SessionStore.currentUser() });
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	    this.sessionListener.remove();
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      'this is a song index'
+	      this.state.songs.map(function (song, index) {
+	        React.createElement(FollowedSongIndexItem, { song: song, key: index });
+	      })
 	    );
 	  }
 	});
@@ -35534,7 +35610,7 @@
 	
 	// STORES
 	var SongStore = __webpack_require__(256);
-	var SessionStore = __webpack_require__(291);
+	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
@@ -35646,63 +35722,57 @@
 	module.exports = UploadedSongIndexItem;
 
 /***/ },
-/* 291 */
+/* 291 */,
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// session store
-	//    purpose: store relevant data on current session
+	// followed song index item component
+	//    purpose: display a song that the user followed
+	//
+	//    children: PlayButton
+	//    actions: redirect to song show page on click
+	//    info: basic song info
 	
-	var Store = __webpack_require__(237).Store;
-	var Dispatcher = __webpack_require__(253);
+	var React = __webpack_require__(1);
 	
-	var _user = null;
-	var _loggedIn = false;
+	var React = __webpack_require__(1);
 	
-	var SessionStore = new Store(Dispatcher);
+	// REACT COMPONENTS
+	var PlayButton = __webpack_require__(262);
 	
-	SessionStore.loggedIn = function () {
-	  return _loggedIn;
-	};
+	// CLASS DEFINITION ----------------------------------------***
+	var FollowedSongIndexItem = React.createClass({
+	  displayName: 'FollowedSongIndexItem',
 	
-	SessionStore.currentUser = function () {
-	  return _user;
-	};
 	
-	SessionStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'LOGIN_USER':
-	      login(payload.user);
-	      SessionStore.__emitChange();
-	      break;
-	    case 'LOGOUT_USER':
-	      logout();
-	      SessionStore.__emitChange();
-	      break;
-	    case 'REFRESH_SESSION':
-	      login(payload.user);
-	      SessionStore.__emitChange();
-	      break;
-	    case 'SHOW_USER':
-	      login(payload.user);
-	      SessionStore.__emitChange();
-	      break;
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'userFollowListItem' },
+	      React.createElement(
+	        'span',
+	        { className: 'followListItemInfo' },
+	        this.state.song.title,
+	        React.createElement(
+	          'span',
+	          { className: 'followListArtist' },
+	          '  by ',
+	          this.state.song.artist_name
+	        )
+	      ),
+	      React.createElement(PlayButton, { songId: this.state.song.id })
+	    );
 	  }
-	};
 	
-	var login = function (user) {
-	  _user = user;
-	  _loggedIn = true;
-	  var storedUser = JSON.stringify(user);
-	  localStorage.setItem('loggedInUser', storedUser);
-	};
+	});
 	
-	var logout = function () {
-	  localStorage.clear();
-	  _user = null;
-	  _loggedIn = false;
-	};
-	
-	module.exports = SessionStore;
+	module.exports = FollowedSongIndexItem;
 
 /***/ }
 /******/ ]);

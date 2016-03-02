@@ -9,7 +9,7 @@ var React = require('react');
 
 // STORES
 var SongStore = require('../../stores/songStore');
-var SessionStore = require('../../stores/sessionStore');
+var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
 var ApiUtil = require('../../util/apiUtil');
