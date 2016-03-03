@@ -77,6 +77,17 @@
   margin-left: 40px;
 }
 
+.followListArtist {
+  transition: all .5s ease 0s;
+  font-size: 15px;
+}
+
+.followListArtist:hover {
+  cursor: pointer;
+  transform: scale(2);
+  font-size: 18px;
+}
+
 .followedSongList {
   display: flex;
   flex-direction: column;
@@ -87,6 +98,7 @@
 
 .userFollowListItem {
   display: flex;
+  font-size: 20px;
   opacity: .4;
   justify-content: space-between;
   align-items: center;

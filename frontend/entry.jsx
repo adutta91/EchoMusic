@@ -19,11 +19,12 @@ var SessionUtil = require('./util/sessionUtil');
 
 // REACT COMPONENTS
 var UserProfile = require('./components/users/userProfile');
+var SongProfile = require('./components/songs/songProfile');
+var ArtistProfile = require('./components/artists/artistProfile');
 var SongForm = require('./components/songs/songForm');
 var LogIn = require('./components/session/logIn');
 var LoggedInApp = require('./components/app/app');
 var Header = require('./components/header/header');
-var SongProfile = require('./components/songs/songProfile');
 var Footer = require('./components/footer/footer');
 
 // CLASS DEFINITION ----------------------------------------***
@@ -72,6 +73,7 @@ var appRoutes = (
     <Route path='/session/new' component={LogIn} />
     <Route path='/users/:id' component={UserProfile} />
     <Route path='/songs/:id' component={SongProfile} />
+    <Route path='/artists/:id' component={ArtistProfile} />
   </Route>
 );
 

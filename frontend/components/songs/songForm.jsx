@@ -13,7 +13,7 @@ var hashHistory = ReactRouter.hashHistory;
 
 // STORES
 var SessionStore = require('../../stores/SessionStore');
-var ArtistStore = require('../../stores/ArtistStore');
+var ArtistStore = require('../../stores/artistStore');
 
 // UTILS
 var ApiUtil = require('../../util/apiUtil');

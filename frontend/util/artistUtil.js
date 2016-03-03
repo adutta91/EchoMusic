@@ -16,6 +16,16 @@ var ArtistUtil = {
     });
   },
 
+  fetchSingleArtist: function(artistId) {
+    $.ajax({
+      url: 'api/artists/' + artistId,
+      method: 'GET',
+      success: function(artist) {
+        ArtistActions.receiveSingleArtist(artist);
+      }
+    })
+  },
+
   createArtist: function(artist) {
     $.ajax({
       url: 'api/artists',

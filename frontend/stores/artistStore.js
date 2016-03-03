@@ -16,10 +16,18 @@ ArtistStore.all = function() {
   return artists;
 };
 
+ArtistStore.find = function(artistId) {
+  return _artists[artistId];
+};
+
 ArtistStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case 'RECEIVE_ALL_ARTISTS':
       resetArtists(payload.artists);
+      ArtistStore.__emitChange();
+      break;
+    case 'RECEIVE_SINGLE_ARTIST':
+      resetArtist(payload.artist);
       ArtistStore.__emitChange();
       break;
   }
@@ -41,6 +49,10 @@ var resetArtists = function(artists) {
     newArtists[artist.id] = artist;
   });
   _artists = newArtists;
+};
+
+var resetArtist = function(artist) {
+  _artists[artist.id] = artist;
 }
 
 module.exports = ArtistStore;

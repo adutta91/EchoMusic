@@ -9,6 +9,13 @@ ArtistActions = {
       actionType: "RECEIVE_ALL_ARTISTS",
       artists: artists
     });
+  },
+
+  receiveSingleArtist: function(artist) {
+    Dispatcher.dispatch({
+      actionType: "RECEIVE_SINGLE_ARTIST",
+      artist: artist
+    });
   }
 };
 

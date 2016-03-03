@@ -65,11 +65,12 @@
 	
 	// REACT COMPONENTS
 	var UserProfile = __webpack_require__(259);
+	var SongProfile = __webpack_require__(293);
+	var ArtistProfile = __webpack_require__(300);
 	var SongForm = __webpack_require__(276);
 	var LogIn = __webpack_require__(280);
 	var LoggedInApp = __webpack_require__(285);
 	var Header = __webpack_require__(288);
-	var SongProfile = __webpack_require__(293);
 	var Footer = __webpack_require__(298);
 	
 	// CLASS DEFINITION ----------------------------------------***
@@ -120,7 +121,8 @@
 	  React.createElement(Route, { path: '/songs/new', component: SongForm }),
 	  React.createElement(Route, { path: '/session/new', component: LogIn }),
 	  React.createElement(Route, { path: '/users/:id', component: UserProfile }),
-	  React.createElement(Route, { path: '/songs/:id', component: SongProfile })
+	  React.createElement(Route, { path: '/songs/:id', component: SongProfile }),
+	  React.createElement(Route, { path: '/artists/:id', component: ArtistProfile })
 	);
 	
 	// Load onto document
@@ -34537,8 +34539,15 @@
 	    };
 	  },
 	
-	  _onClick: function () {
+	  _onClick: function (event) {
+	    event.preventDefault();
 	    hashHistory.push('/songs/' + this.state.song.id);
+	  },
+	
+	  artistClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    hashHistory.push('/artists/' + this.state.song.artist_id);
 	  },
 	
 	  render: function () {
@@ -34551,9 +34560,13 @@
 	        this.state.song.title,
 	        React.createElement(
 	          'span',
-	          { className: 'followListArtist' },
-	          '  by ',
-	          this.state.song.artist_name
+	          { onClick: this.artistClick },
+	          '  - ',
+	          React.createElement(
+	            'span',
+	            { className: 'followListArtist' },
+	            this.state.song.artist_name
+	          )
 	        )
 	      ),
 	      React.createElement(
@@ -34939,7 +34952,7 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
-	var ArtistStore = __webpack_require__(277);
+	var ArtistStore = __webpack_require__(301);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
@@ -35077,57 +35090,7 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// artist store
-	//    purpose: store relevant data on artists
-	
-	var Store = __webpack_require__(237).Store;
-	var Dispatcher = __webpack_require__(253);
-	
-	var _artists = {};
-	
-	var ArtistStore = new Store(Dispatcher);
-	
-	ArtistStore.all = function () {
-	  var artists = [];
-	  Object.keys(_artists).forEach(function (artistId) {
-	    artists.push(_artists[artistId]);
-	  });
-	  return artists;
-	};
-	
-	ArtistStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'RECEIVE_ALL_ARTISTS':
-	      resetArtists(payload.artists);
-	      ArtistStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	ArtistStore.findByName = function (name) {
-	  var result = null;
-	  Object.keys(_artists).forEach(function (artistId) {
-	    if (_artists[artistId].name === name) {
-	      result = _artists[artistId];
-	    }
-	  });
-	  return result;
-	};
-	
-	var resetArtists = function (artists) {
-	  var newArtists = {};
-	  artists.forEach(function (artist) {
-	    newArtists[artist.id] = artist;
-	  });
-	  _artists = newArtists;
-	};
-	
-	module.exports = ArtistStore;
-
-/***/ },
+/* 277 */,
 /* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35144,6 +35107,16 @@
 	      method: 'GET',
 	      success: function (artists) {
 	        ArtistActions.receiveAllArtists(artists);
+	      }
+	    });
+	  },
+	
+	  fetchSingleArtist: function (artistId) {
+	    $.ajax({
+	      url: 'api/artists/' + artistId,
+	      method: 'GET',
+	      success: function (artist) {
+	        ArtistActions.receiveSingleArtist(artist);
 	      }
 	    });
 	  },
@@ -35177,6 +35150,13 @@
 	    Dispatcher.dispatch({
 	      actionType: "RECEIVE_ALL_ARTISTS",
 	      artists: artists
+	    });
+	  },
+	
+	  receiveSingleArtist: function (artist) {
+	    Dispatcher.dispatch({
+	      actionType: "RECEIVE_SINGLE_ARTIST",
+	      artist: artist
 	    });
 	  }
 	};
@@ -36382,6 +36362,140 @@
 	});
 	
 	module.exports = FooterPlayButton;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist profile component
+	//    purpose: display artist info
+	//
+	//    children: ArtistSongIndex
+	//    actions: none
+	//    info: artist info
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var ArtistStore = __webpack_require__(301);
+	
+	// UTILS
+	var ArtistUtil = __webpack_require__(278);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ArtistProfile = React.createClass({
+	  displayName: 'ArtistProfile',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      artist: {
+	        name: ""
+	      }
+	    };
+	  },
+	
+	  getStateFromStore: function () {
+	    var artist = ArtistStore.find(this.props.params.id);
+	    if (artist) {
+	      this.setState({ artist: artist });
+	    }
+	  },
+	
+	  componentDidMount: function () {
+	    this.artistListener = ArtistStore.addListener(this._onChange);
+	    ArtistUtil.fetchSingleArtist(this.props.params.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.artistListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.getStateFromStore();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'artistProfile' },
+	      React.createElement(
+	        'div',
+	        { className: 'artistDisplay' },
+	        React.createElement(
+	          'span',
+	          { className: 'artistTitleDisplay' },
+	          this.state.artist.name
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ArtistProfile;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist store
+	//    purpose: store relevant data on artists
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _artists = {};
+	
+	var ArtistStore = new Store(Dispatcher);
+	
+	ArtistStore.all = function () {
+	  var artists = [];
+	  Object.keys(_artists).forEach(function (artistId) {
+	    artists.push(_artists[artistId]);
+	  });
+	  return artists;
+	};
+	
+	ArtistStore.find = function (artistId) {
+	  return _artists[artistId];
+	};
+	
+	ArtistStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'RECEIVE_ALL_ARTISTS':
+	      resetArtists(payload.artists);
+	      ArtistStore.__emitChange();
+	      break;
+	    case 'RECEIVE_SINGLE_ARTIST':
+	      resetArtist(payload.artist);
+	      ArtistStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	ArtistStore.findByName = function (name) {
+	  var result = null;
+	  Object.keys(_artists).forEach(function (artistId) {
+	    if (_artists[artistId].name === name) {
+	      result = _artists[artistId];
+	    }
+	  });
+	  return result;
+	};
+	
+	var resetArtists = function (artists) {
+	  var newArtists = {};
+	  artists.forEach(function (artist) {
+	    newArtists[artist.id] = artist;
+	  });
+	  _artists = newArtists;
+	};
+	
+	var resetArtist = function (artist) {
+	  _artists[artist.id] = artist;
+	};
+	
+	module.exports = ArtistStore;
 
 /***/ }
 /******/ ]);

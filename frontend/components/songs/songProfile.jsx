@@ -73,17 +73,17 @@ var SongProfile = React.createClass({
   render: function() {
     return (
       <div className="songProfile">
-      <div className="songDisplay">
-        <div className="songTitleDisplay">
-          {this.state.song.title}
+        <div className="songDisplay">
+          <div className="songTitleDisplay">
+            {this.state.song.title}
+          </div>
+          <div className="songArtist">
+            by {this.state.song.artist_name}
+          </div>
+          <PlayButton songId={this.props.params.id} />
+          { this.followButton() }
         </div>
-        <div className="songArtist">
-          by {this.state.song.artist_name}
-        </div>
-        <PlayButton songId={this.props.params.id} />
-        { this.followButton() }
-      </div>
-      <UserDisplay userId={this.state.song.user_id}/>
+        <UserDisplay userId={this.state.song.user_id}/>
       </div>
     );
   }

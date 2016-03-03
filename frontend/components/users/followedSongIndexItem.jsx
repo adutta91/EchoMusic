@@ -28,8 +28,15 @@ var FollowedSongIndexItem = React.createClass({
     })
   },
 
-  _onClick: function() {
+  _onClick: function(event) {
+    event.preventDefault();
     hashHistory.push('/songs/' + this.state.song.id);
+  },
+
+  artistClick: function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    hashHistory.push('/artists/' + this.state.song.artist_id);
   },
 
   render: function() {
@@ -37,8 +44,8 @@ var FollowedSongIndexItem = React.createClass({
       <div className="userFollowListItem" onClick={this._onClick}>
         <span className="followListItemInfo">
           {this.state.song.title}
-          <span className="followListArtist">
-            &nbsp; by {this.state.song.artist_name}
+          <span onClick={this.artistClick}>
+            &nbsp; - <span className="followListArtist" >{this.state.song.artist_name}</span>
           </span>
         </span>
         <div className="songManipulators">
