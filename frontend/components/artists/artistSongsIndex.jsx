@@ -14,7 +14,7 @@ var SongStore = require('../../stores/songStore');
 var SongUtil = require('../../util/songUtil');
 
 // REACT COMPONENTS
-var FollowedSongIndexItem = require('../users/followedSongIndexItem');
+var SongIndexItem = require('../users/songIndexItem');
 
 // CLASS DEFINITION ----------------------------------------***
 var ArtistSongIndex = React.createClass({
@@ -45,13 +45,13 @@ var ArtistSongIndex = React.createClass({
 
   songs: function() {
     return (this.state.songs.map(function(song, idx) {
-      return <FollowedSongIndexItem song={song} key={song.id}/>
+      return <SongIndexItem song={song} key={song.id}/>
     }));
   },
 
   render: function() {
     return (
-      <div>{this.songs()}</div>
+      <div className="artistSongIndex">{this.songs()}</div>
     )
   }
 });

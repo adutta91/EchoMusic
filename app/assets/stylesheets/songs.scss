@@ -20,7 +20,15 @@ audio:hover {
 }
 
 .songArtist {
-  margin-left: 15px;
+  transition: all .5s ease 0s;
+  font-size: 15px;
+  margin-top: 3px;
+}
+
+.songArtist:hover {
+  cursor: pointer;
+  transform: scale(1);
+  font-size: 18px;
 }
 
 .songForm {

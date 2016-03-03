@@ -7,6 +7,10 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var SongStore = require('../../stores/songStore');
 var SessionStore = require('../../stores/SessionStore');
@@ -59,6 +63,12 @@ var SongProfile = React.createClass({
     this.songListener.remove();
   },
 
+  artistClick: function() {
+    event.preventDefault();
+    event.stopPropagation();
+    hashHistory.push('/artists/' + this.state.song.artist_id);
+  },
+
   followButton: function() {
     var button = (<div />);
     if (this.state.display) {
@@ -77,8 +87,9 @@ var SongProfile = React.createClass({
           <div className="songTitleDisplay">
             {this.state.song.title}
           </div>
-          <div className="songArtist">
-            by {this.state.song.artist_name}
+          &nbsp; - &nbsp;
+          <div className="songArtist" onClick={this.artistClick}>
+            {this.state.song.artist_name}
           </div>
           <PlayButton songId={this.props.params.id} />
           { this.followButton() }

@@ -16,7 +16,7 @@ var PlayButton = require('../songControls/playButton');
 var FollowButton = require('../songs/followButton');
 
 // CLASS DEFINITION ----------------------------------------***
-var FollowedSongIndexItem = React.createClass({
+var SongIndexItem = React.createClass({
 
   contextTypes: {
     router: React.PropTypes.object.isRequired
@@ -58,4 +58,4 @@ var FollowedSongIndexItem = React.createClass({
 
 });
 
-module.exports = FollowedSongIndexItem;
+module.exports = SongIndexItem;

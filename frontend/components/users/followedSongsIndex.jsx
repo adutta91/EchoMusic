@@ -1,7 +1,7 @@
 // followed songs index component
 //    purpose: display all of the songs the user follows
 //
-//    children: FollowedSongIndexItem
+//    children: SongIndexItem
 //    actions: none
 //    info: list of songs
 
@@ -15,7 +15,7 @@ var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 
 // REACT COMPONENTS
-var FollowedSongIndexItem = require('./followedSongIndexItem');
+var SongIndexItem = require('./songIndexItem');
 
 // CLASS DEFINITION ----------------------------------------***
 var FollowedSongIndex = React.createClass({
@@ -56,7 +56,7 @@ var FollowedSongIndex = React.createClass({
       <div>
         <div className="followedListTitle">Following</div>
         {this.state.songs.map(function(song, index) {
-          return <FollowedSongIndexItem song={song} key={song.id} />
+          return <SongIndexItem song={song} key={song.id} />
         })}
       </div>
     )

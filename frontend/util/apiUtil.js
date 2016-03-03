@@ -141,7 +141,6 @@ var ApiUtil = {
       data: songFollow,
       success: function(songFollow) {
         this.fetchFollowedSongs(songFollow.user_id);
-        hashHistory.push('/users/' + songFollow.user_id);
       }.bind(this)
     });
   },

@@ -12,7 +12,7 @@ var ReactRouter = require('react-router');
 var hashHistory = ReactRouter.hashHistory;
 
 // CLASS DEFINITION ----------------------------------------***
-var SongIndexItem = React.createClass({
+var ExploreIndexItem = React.createClass({
 
   getInitialState: function() {
     return ({
@@ -34,4 +34,4 @@ var SongIndexItem = React.createClass({
 
 });
 
-module.exports = SongIndexItem;
+module.exports = ExploreIndexItem;

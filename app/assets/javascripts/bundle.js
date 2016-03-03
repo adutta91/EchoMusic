@@ -33887,7 +33887,6 @@
 	      data: songFollow,
 	      success: function (songFollow) {
 	        this.fetchFollowedSongs(songFollow.user_id);
-	        hashHistory.push('/users/' + songFollow.user_id);
 	      }.bind(this)
 	    });
 	  },
@@ -34433,7 +34432,7 @@
 	// followed songs index component
 	//    purpose: display all of the songs the user follows
 	//
-	//    children: FollowedSongIndexItem
+	//    children: SongIndexItem
 	//    actions: none
 	//    info: list of songs
 	
@@ -34447,7 +34446,7 @@
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var FollowedSongIndexItem = __webpack_require__(270);
+	var SongIndexItem = __webpack_require__(303);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowedSongIndex = React.createClass({
@@ -34495,7 +34494,7 @@
 	        'Following'
 	      ),
 	      this.state.songs.map(function (song, index) {
-	        return React.createElement(FollowedSongIndexItem, { song: song, key: song.id });
+	        return React.createElement(SongIndexItem, { song: song, key: song.id });
 	      })
 	    );
 	  }
@@ -34504,85 +34503,7 @@
 	module.exports = FollowedSongIndex;
 
 /***/ },
-/* 270 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// followed song index item component
-	//    purpose: display a song that the user followed
-	//
-	//    children: PlayButton, FollowButton
-	//    actions: redirect to song show page on click
-	//    info: basic song info
-	
-	var React = __webpack_require__(1);
-	
-	// HISTORY
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// REACT COMPONENTS
-	var PlayButton = __webpack_require__(271);
-	var FollowButton = __webpack_require__(273);
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var FollowedSongIndexItem = React.createClass({
-	  displayName: 'FollowedSongIndexItem',
-	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
-	  getInitialState: function () {
-	    return {
-	      song: this.props.song
-	    };
-	  },
-	
-	  _onClick: function (event) {
-	    event.preventDefault();
-	    hashHistory.push('/songs/' + this.state.song.id);
-	  },
-	
-	  artistClick: function (event) {
-	    event.preventDefault();
-	    event.stopPropagation();
-	    hashHistory.push('/artists/' + this.state.song.artist_id);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'userFollowListItem', onClick: this._onClick },
-	      React.createElement(
-	        'span',
-	        { className: 'followListItemInfo' },
-	        this.state.song.title,
-	        React.createElement(
-	          'span',
-	          { onClick: this.artistClick },
-	          '  - ',
-	          React.createElement(
-	            'span',
-	            { className: 'followListArtist' },
-	            this.state.song.artist_name
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'songManipulators' },
-	        React.createElement(PlayButton, { songId: this.state.song.id }),
-	        React.createElement(FollowButton, { songId: this.state.song.id, followed: true })
-	      )
-	    );
-	  }
-	
-	});
-	
-	module.exports = FollowedSongIndexItem;
-
-/***/ },
+/* 270 */,
 /* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35531,7 +35452,7 @@
 	// song index component
 	//    purpose: display a list of unknown songs
 	//
-	//    children: SongIndexItems
+	//    children: ExploreIndexItem
 	//    actions: none
 	//    info: list of songs NOT uploaded by the current user
 	
@@ -35545,7 +35466,7 @@
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var SongIndexItem = __webpack_require__(287);
+	var ExploreIndexItem = __webpack_require__(304);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -35579,7 +35500,7 @@
 	    );
 	    if (this.state.songs.length > 0) {
 	      list = this.state.songs.map(function (song, index) {
-	        return React.createElement(SongIndexItem, { key: song.id, song: song });
+	        return React.createElement(ExploreIndexItem, { key: song.id, song: song });
 	      });
 	    }
 	    return list;
@@ -35609,50 +35530,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 287 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// song index item component
-	//    purpose: display title of song and provide link to song show page
-	//
-	//    children: none
-	//    actions: redirect to song show page on click
-	//    info: song title
-	
-	var React = __webpack_require__(1);
-	
-	// HISTORY
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var SongIndexItem = React.createClass({
-	  displayName: 'SongIndexItem',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      song: this.props.song
-	    };
-	  },
-	
-	  _onClick: function (event) {
-	    hashHistory.push('/songs/' + this.state.song.id);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { onClick: this._onClick, className: 'songIndexItem' },
-	      this.state.song.title
-	    );
-	  }
-	
-	});
-	
-	module.exports = SongIndexItem;
-
-/***/ },
+/* 287 */,
 /* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -35920,6 +35798,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var SongStore = __webpack_require__(256);
 	var SessionStore = __webpack_require__(236);
@@ -35974,6 +35856,12 @@
 	    this.songListener.remove();
 	  },
 	
+	  artistClick: function () {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    hashHistory.push('/artists/' + this.state.song.artist_id);
+	  },
+	
 	  followButton: function () {
 	    var button = React.createElement('div', null);
 	    if (this.state.display) {
@@ -35995,10 +35883,10 @@
 	          { className: 'songTitleDisplay' },
 	          this.state.song.title
 	        ),
+	        '  -  ',
 	        React.createElement(
 	          'div',
-	          { className: 'songArtist' },
-	          'by ',
+	          { className: 'songArtist', onClick: this.artistClick },
 	          this.state.song.artist_name
 	        ),
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
@@ -36531,7 +36419,7 @@
 	var SongUtil = __webpack_require__(272);
 	
 	// REACT COMPONENTS
-	var FollowedSongIndexItem = __webpack_require__(270);
+	var SongIndexItem = __webpack_require__(303);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistSongIndex = React.createClass({
@@ -36564,20 +36452,143 @@
 	
 	  songs: function () {
 	    return this.state.songs.map(function (song, idx) {
-	      return React.createElement(FollowedSongIndexItem, { song: song, key: song.id });
+	      return React.createElement(SongIndexItem, { song: song, key: song.id });
 	    });
 	  },
 	
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'artistSongIndex' },
 	      this.songs()
 	    );
 	  }
 	});
 	
 	module.exports = ArtistSongIndex;
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// followed song index item component
+	//    purpose: display a song that the user followed
+	//
+	//    children: PlayButton, FollowButton
+	//    actions: redirect to song show page on click
+	//    info: basic song info
+	
+	var React = __webpack_require__(1);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// REACT COMPONENTS
+	var PlayButton = __webpack_require__(271);
+	var FollowButton = __webpack_require__(273);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var SongIndexItem = React.createClass({
+	  displayName: 'SongIndexItem',
+	
+	
+	  contextTypes: {
+	    router: React.PropTypes.object.isRequired
+	  },
+	
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  _onClick: function (event) {
+	    event.preventDefault();
+	    hashHistory.push('/songs/' + this.state.song.id);
+	  },
+	
+	  artistClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    hashHistory.push('/artists/' + this.state.song.artist_id);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'userFollowListItem', onClick: this._onClick },
+	      React.createElement(
+	        'span',
+	        { className: 'followListItemInfo' },
+	        this.state.song.title,
+	        React.createElement(
+	          'span',
+	          { onClick: this.artistClick },
+	          '  - ',
+	          React.createElement(
+	            'span',
+	            { className: 'followListArtist' },
+	            this.state.song.artist_name
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'songManipulators' },
+	        React.createElement(PlayButton, { songId: this.state.song.id }),
+	        React.createElement(FollowButton, { songId: this.state.song.id, followed: true })
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = SongIndexItem;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// song index item component
+	//    purpose: display title of song and provide link to song show page
+	//
+	//    children: none
+	//    actions: redirect to song show page on click
+	//    info: song title
+	
+	var React = __webpack_require__(1);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ExploreIndexItem = React.createClass({
+	  displayName: 'ExploreIndexItem',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      song: this.props.song
+	    };
+	  },
+	
+	  _onClick: function (event) {
+	    hashHistory.push('/songs/' + this.state.song.id);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { onClick: this._onClick, className: 'songIndexItem' },
+	      this.state.song.title
+	    );
+	  }
+	
+	});
+	
+	module.exports = ExploreIndexItem;
 
 /***/ }
 /******/ ]);

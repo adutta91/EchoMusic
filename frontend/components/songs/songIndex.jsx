@@ -1,7 +1,7 @@
 // song index component
 //    purpose: display a list of unknown songs
 //
-//    children: SongIndexItems
+//    children: ExploreIndexItem
 //    actions: none
 //    info: list of songs NOT uploaded by the current user
 
@@ -15,7 +15,7 @@ var SongStore = require('../../stores/songStore');
 var ApiUtil = require('../../util/apiUtil');
 
 // REACT COMPONENTS
-var SongIndexItem = require('./songIndexItem');
+var ExploreIndexItem = require('./exploreIndexItem');
 
 // CLASS DEFINITION ----------------------------------------***
 var SongIndex = React.createClass({
@@ -43,7 +43,7 @@ var SongIndex = React.createClass({
     var list = <div>No more songs to explore!</div>
     if (this.state.songs.length > 0){
       list = this.state.songs.map(function(song, index) {
-        return <SongIndexItem key={song.id} song={song}/>
+        return <ExploreIndexItem key={song.id} song={song}/>
       });
     }
     return list;
