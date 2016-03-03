@@ -35609,7 +35609,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'appName' },
-	        'EchO'
+	        'echo'
 	      ),
 	      React.createElement(
 	        'div',
