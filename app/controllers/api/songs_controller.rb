@@ -21,7 +21,7 @@ class Api::SongsController < ApplicationController
       artist = Artist.create(name: song_params['artist_name'])
       @song.artist_id = artist.id
     end
-    byebug
+
     if @song.save!
       render json: @song
     else

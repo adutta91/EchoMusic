@@ -34854,7 +34854,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'userSongList' },
 	      React.createElement(
 	        'div',
 	        { className: 'uploadedListTitle' },

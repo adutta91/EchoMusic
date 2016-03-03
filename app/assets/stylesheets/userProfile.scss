@@ -103,14 +103,9 @@
 }
 
 .userSongList {
-  overflow: scroll;
-  overflow-x: hidden;
   font-size: 24px;
-  font-weight: bold;
   width: 300px;
   height: 300px;
-  margin: 20px;
-  margin-bottom: 100px;
 }
 
 .userSongListItem {
@@ -120,9 +115,10 @@
   justify-content: space-between;
   align-items: center;
   width: 250px;
-  border: 1px solid black;
-  margin: 5px;
+  margin: 5px 5px 5px 0;
   padding: 5px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
   background: linear-gradient(to bottom right, #592000, #FF5B00);
   transition: all 1s ease 0s;
 }
@@ -130,7 +126,8 @@
 .userSongListItem:hover {
   opacity: 1;
   cursor: pointer;
-  border-radius: 5px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .songListItemInfo {

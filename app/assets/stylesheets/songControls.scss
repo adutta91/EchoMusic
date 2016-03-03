@@ -44,6 +44,8 @@
 
 .nowPlaying {
   transition: all 1s ease 0s;
+  padding: 5px;
+  border-radius: 2px;
 }
 
 .nowPlaying:hover {
