@@ -67,6 +67,7 @@ var ApiUtil = {
   },
 
   resetSession: function(user) {
+    debugger;
     $.ajax({
       url: 'api/session',
       method: 'DELETE',
@@ -139,8 +140,8 @@ var ApiUtil = {
       method: 'POST',
       data: songFollow,
       success: function(songFollow) {
-        hashHistory.push('/songs/' + songFollow.song_id);
         this.fetchFollowedSongs(songFollow.user_id);
+        hashHistory.push('/users/' + songFollow.user_id);
       }.bind(this)
     });
   },
@@ -151,7 +152,6 @@ var ApiUtil = {
       method: 'PATCH',
       data: songFollow,
       success: function(songFollow) {
-        hashHistory.push('/users/' + songFollow.user_id);
         this.fetchFollowedSongs(songFollow.user_id);
       }.bind(this)
     });

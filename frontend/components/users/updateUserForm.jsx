@@ -37,11 +37,13 @@ var UpdateUserForm = React.createClass({
     var callback = this.uploadResult;
 
     cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
-    this.setState( { imageUploaded: true } );
   },
 
   uploadResult: function(error, results) {
-    this.state.imageUrl = results[0].url;
+    if (results) {
+      this.state.imageUrl = results[0].url;
+      this.setState( { imageUploaded: true } );
+    }
   },
 
   uploadDisplay: function() {

@@ -26716,6 +26716,7 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case 'LOGOUT_USER':
+	      console.log('logout');
 	      logout();
 	      SessionStore.__emitChange();
 	      break;
@@ -33811,6 +33812,7 @@
 	  },
 	
 	  resetSession: function (user) {
+	    debugger;
 	    $.ajax({
 	      url: 'api/session',
 	      method: 'DELETE',
@@ -33883,8 +33885,8 @@
 	      method: 'POST',
 	      data: songFollow,
 	      success: function (songFollow) {
-	        hashHistory.push('/songs/' + songFollow.song_id);
 	        this.fetchFollowedSongs(songFollow.user_id);
+	        hashHistory.push('/users/' + songFollow.user_id);
 	      }.bind(this)
 	    });
 	  },
@@ -33895,7 +33897,6 @@
 	      method: 'PATCH',
 	      data: songFollow,
 	      success: function (songFollow) {
-	        hashHistory.push('/users/' + songFollow.user_id);
 	        this.fetchFollowedSongs(songFollow.user_id);
 	      }.bind(this)
 	    });
@@ -34022,18 +34023,21 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'updateUserButton' },
-	      React.createElement('img', { src: this.findPicture(),
-	        onClick: this.openModal,
-	        width: '120',
-	        height: '120' }),
+	      { className: 'profilePicWrapper' },
 	      React.createElement(
-	        Modal,
-	        {
-	          isOpen: this.state.open,
-	          onRequestClose: this.closeModal,
-	          style: style },
-	        React.createElement(UpdateUserForm, { modalCallback: this.closeModal })
+	        'div',
+	        { className: 'updateUserButton' },
+	        React.createElement('img', { className: 'profilePic',
+	          src: this.findPicture(),
+	          onClick: this.openModal }),
+	        React.createElement(
+	          Modal,
+	          {
+	            isOpen: this.state.open,
+	            onRequestClose: this.closeModal,
+	            style: style },
+	          React.createElement(UpdateUserForm, { modalCallback: this.closeModal })
+	        )
 	      )
 	    );
 	  }
@@ -34123,11 +34127,13 @@
 	    var callback = this.uploadResult;
 	
 	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
-	    this.setState({ imageUploaded: true });
 	  },
 	
 	  uploadResult: function (error, results) {
-	    this.state.imageUrl = results[0].url;
+	    if (results) {
+	      this.state.imageUrl = results[0].url;
+	      this.setState({ imageUploaded: true });
+	    }
 	  },
 	
 	  uploadDisplay: function () {
@@ -35549,15 +35555,22 @@
 	
 	
 	  _onClick: function (event) {
+	    event.preventDefault();
 	    if (SessionStore.loggedIn()) {
-	      this.context.router.push('/');
+	      hashHistory.push('/');
 	    } else {
 	      hashHistory.push('/session/new');
 	    }
 	  },
 	
 	  render: function () {
-	    return React.createElement('div', { className: 'logo', onClick: this._onClick });
+	    return React.createElement(
+	      'div',
+	      { className: 'logoWrapper' },
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png',
+	        className: 'logo',
+	        onClick: this._onClick })
+	    );
 	  }
 	
 	});
@@ -35589,6 +35602,7 @@
 	
 	  handleLogout: function (event) {
 	    event.preventDefault();
+	
 	    var user = SessionStore.currentUser();
 	    ApiUtil.resetSession(user);
 	    SongUtil.endSong();
@@ -35596,7 +35610,13 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement('input', { onClick: this.handleLogout, className: 'logoutButton', type: 'submit', value: 'Logout' });
+	    return React.createElement(
+	      'div',
+	      { className: 'logoutWrapper' },
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456984021/logout.png',
+	        onClick: this.handleLogout,
+	        className: 'logoutButton' })
+	    );
 	  }
 	});
 	
@@ -35624,12 +35644,18 @@
 	
 	  handleUploadClicked: function (event) {
 	    event.preventDefault();
-	    this.context.router.push('/songs/new');
 	    hashHistory.push('/songs/new');
 	  },
 	
 	  render: function () {
-	    return React.createElement('input', { onClick: this.handleUploadClicked, className: 'uploadButton', type: 'submit', value: 'Upload!' });
+	    return React.createElement(
+	      'div',
+	      { className: 'uploadWrapper' },
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png',
+	        onClick: this.handleUploadClicked,
+	        className: 'uploadButton',
+	        type: 'submit' })
+	    );
 	  }
 	});
 	
@@ -35833,6 +35859,8 @@
 	
 	  followClick: function (event) {
 	    event.preventDefault();
+	    event.stopPropagation();
+	
 	    user = SessionStore.currentUser();
 	    var songFollow = {
 	      song_follow: {
@@ -35845,6 +35873,8 @@
 	
 	  unFollowClick: function (event) {
 	    event.preventDefault();
+	    event.stopPropagation();
+	
 	    user = SessionStore.currentUser();
 	    var songFollow = {
 	      song_follow: {

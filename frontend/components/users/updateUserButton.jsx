@@ -41,18 +41,19 @@ var UpdateUserButton = React.createClass({
 
   render: function() {
     return (
-      <div className="updateUserButton">
-        <img src={this.findPicture()}
-             onClick={this.openModal}
-             width="120"
-             height="120"/>
-        <Modal
-          isOpen={this.state.open}
-          onRequestClose={this.closeModal}
-          style={style}>
+      <div className="profilePicWrapper">
+        <div className="updateUserButton">
+          <img className="profilePic"
+               src={this.findPicture()}
+               onClick={this.openModal}/>
+          <Modal
+            isOpen={this.state.open}
+            onRequestClose={this.closeModal}
+            style={style}>
 
-          <UpdateUserForm modalCallback={this.closeModal}/>
-        </Modal>
+            <UpdateUserForm modalCallback={this.closeModal}/>
+          </Modal>
+        </div>
       </div>
     )
   }

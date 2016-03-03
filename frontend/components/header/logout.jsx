@@ -18,6 +18,7 @@ var Logout = React.createClass({
 
   handleLogout: function(event) {
     event.preventDefault();
+  
     var user = SessionStore.currentUser();
     ApiUtil.resetSession(user);
     SongUtil.endSong();
@@ -26,7 +27,11 @@ var Logout = React.createClass({
 
   render: function() {
     return (
-      <input onClick={this.handleLogout} className="logoutButton" type="submit" value="Logout"/>
+      <div className="logoutWrapper">
+      <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456984021/logout.png"
+           onClick={this.handleLogout}
+           className="logoutButton" />
+     </div>
     )
   }
 });

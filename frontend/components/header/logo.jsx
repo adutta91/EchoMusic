@@ -12,8 +12,9 @@ var SessionStore = require('../../stores/SessionStore');
 var Logo = React.createClass({
 
   _onClick: function(event) {
+    event.preventDefault();
     if(SessionStore.loggedIn()) {
-      this.context.router.push('/');
+      hashHistory.push('/');
     } else {
       hashHistory.push('/session/new');
     }
@@ -21,7 +22,11 @@ var Logo = React.createClass({
 
   render: function() {
     return (
-      <div className="logo" onClick={this._onClick} />
+      <div className="logoWrapper">
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png"
+             className="logo"
+             onClick={this._onClick} />
+      </div>
     );
   }
 

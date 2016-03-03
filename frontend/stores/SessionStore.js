@@ -25,6 +25,7 @@ SessionStore.__onDispatch = function(payload) {
       SessionStore.__emitChange();
       break;
     case 'LOGOUT_USER':
+      console.log('logout');
       logout();
       SessionStore.__emitChange();
       break;

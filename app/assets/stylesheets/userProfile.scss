@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom-right-radius: 10%;
-  background: linear-gradient(to bottom left, #592000, #3D7899);
+  background: linear-gradient(to bottom, #3D7899, #592000);
   border-bottom: 2px solid black;
   border-right: 2px solid black;
   box-shadow: 1px 2px 3px 3px rgba(0,0,0,.5);
@@ -32,18 +32,30 @@
 .updateUserButton {
   height: 120px;
   width: 120px;
-  margin-bottom: 70px;
-  margin-top: 15px;
-  background-color: #FFFFFF;
-  border: 3px solid black;
-  transition: all .5s ease 0s;
 }
 
-.updateUserButton:hover {
+.profilePicWrapper:hover {
   cursor: pointer;
-  background-color: #C9C9C9;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+}
+
+.profilePic {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.profilePicWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  background: white;
+  border: 3px solid black;
+  margin-bottom: 50px;
+  transition: all .5s ease 0s;
 }
 
 .welcomeProfileMessage {

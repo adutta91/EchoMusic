@@ -15,13 +15,17 @@ var UploadSongButton = React.createClass({
 
   handleUploadClicked: function(event) {
     event.preventDefault();
-    this.context.router.push('/songs/new');
     hashHistory.push('/songs/new');
   },
 
   render: function() {
     return (
-      <input onClick={this.handleUploadClicked} className="uploadButton" type="submit" value="Upload!" />
+      <div className="uploadWrapper">
+      <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png"
+           onClick={this.handleUploadClicked}
+           className="uploadButton"
+           type="submit" />
+     </div>
     );
   }
 });

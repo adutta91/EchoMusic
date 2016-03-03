@@ -39,6 +39,8 @@ var FollowButton = React.createClass({
 
   followClick: function(event) {
     event.preventDefault();
+    event.stopPropagation();
+
     user = SessionStore.currentUser();
     var songFollow = {
       song_follow: {
@@ -51,6 +53,8 @@ var FollowButton = React.createClass({
 
   unFollowClick: function(event) {
     event.preventDefault();
+    event.stopPropagation();
+    
     user = SessionStore.currentUser();
     var songFollow = {
       song_follow: {
