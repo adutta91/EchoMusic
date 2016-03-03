@@ -17,6 +17,7 @@ var SongStore = require('../../stores/songStore');
 
 // REACT COMPONENTS
 var FooterPlayButton = require('../songControls/footerPlayButton');
+var ProgressBar = require('../songControls/progressBar');
 
 // CLASS DEFINITION ----------------------------------------***
 var Footer = React.createClass({
@@ -80,6 +81,7 @@ var Footer = React.createClass({
                   ({SongStore.currentSong().artist_name})
                 </span>
             </span>
+            <ProgressBar />
             <FooterPlayButton />
           </div>
         );

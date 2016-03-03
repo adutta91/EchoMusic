@@ -33497,6 +33497,18 @@
 	  }
 	};
 	
+	SongStore.currentTime = function () {
+	  return _audio.currentTime;
+	};
+	
+	SongStore.setTime = function (time) {
+	  _audio.currentTime = time;
+	};
+	
+	SongStore.duration = function () {
+	  return _audio.duration;
+	};
+	
 	SongStore.__onDispatch = function (payload) {
 	  switch (payload.actionType) {
 	    case 'ADD_SONG':
@@ -36111,6 +36123,7 @@
 	
 	// REACT COMPONENTS
 	var FooterPlayButton = __webpack_require__(299);
+	var ProgressBar = __webpack_require__(305);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
@@ -36188,6 +36201,7 @@
 	              ')'
 	            )
 	          ),
+	          React.createElement(ProgressBar, null),
 	          React.createElement(FooterPlayButton, null)
 	        );
 	      }
@@ -36633,6 +36647,69 @@
 	});
 	
 	module.exports = ExploreIndexItem;
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// progress bar component
+	//    purpose: provide info on song duration and allow user to move around the
+	//             song
+	//
+	//    children: none
+	//    actions: change _audio 'currentTime' value
+	//    info: current location in song
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var SongStore = __webpack_require__(256);
+	
+	var ProgressBar = React.createClass({
+	  displayName: 'ProgressBar',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      duration: Math.floor(SongStore.duration()),
+	      currentTime: SongStore.currentTime()
+	    };
+	  },
+	
+	  slide: function (event) {
+	    event.preventDefault();
+	    SongStore.setTime(event.target.value);
+	  },
+	
+	  componentDidMount: function () {
+	    this.interval = setInterval(this.updateTime, 500);
+	    this.songListener = SongStore.addListener(this.updateTime);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	    clearInterval(this.interval);
+	  },
+	
+	  updateTime: function () {
+	    this.setState({ currentTime: SongStore.currentTime() });
+	  },
+	
+	  render: function () {
+	    var style = {
+	      width: "250px"
+	    };
+	    var max = this.state.duration.toString();
+	    return React.createElement('input', { className: 'progressBar',
+	      type: 'range',
+	      min: '0',
+	      max: max,
+	      value: this.state.currentTime,
+	      onChange: this.slide });
+	  }
+	});
+	
+	module.exports = ProgressBar;
 
 /***/ }
 /******/ ]);
