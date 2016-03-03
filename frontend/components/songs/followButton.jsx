@@ -18,10 +18,6 @@ var ApiUtil = require('../../util/apiUtil');
 // CLASS DEFINITION ----------------------------------------***
 var FollowButton = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   getInitialState: function() {
     return ({
       songId: Number(this.props.songId),
@@ -41,7 +37,8 @@ var FollowButton = React.createClass({
     this.setState( { followed: SongStore.following(this.state.songId) } )
   },
 
-  followClick: function() {
+  followClick: function(event) {
+    event.preventDefault();
     user = SessionStore.currentUser();
     var songFollow = {
       song_follow: {
@@ -52,7 +49,8 @@ var FollowButton = React.createClass({
     ApiUtil.createSongFollow(songFollow);
   },
 
-  unFollowClick: function() {
+  unFollowClick: function(event) {
+    event.preventDefault();
     user = SessionStore.currentUser();
     var songFollow = {
       song_follow: {
@@ -67,15 +65,15 @@ var FollowButton = React.createClass({
     var button = <div/>
     if (this.state.followed) {
       button = (
-        <div className="followButton" onClick={this.unFollowClick}>
-          UnFollow
-        </div>
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979419/remove.png"
+             className="followButton"
+             onClick={this.unFollowClick}/>
       );
     } else {
       button = (
-        <div className="followButton" onClick={this.followClick}>
-          Follow
-        </div>
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979318/add.png"
+             className="followButton"
+             onClick={this.followClick}/>
       );
     }
     return button;

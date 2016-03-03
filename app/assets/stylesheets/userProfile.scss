@@ -75,7 +75,7 @@
 
 .userFollowListItem {
   display: flex;
-  opacity: .6;
+  opacity: .4;
   justify-content: space-between;
   align-items: center;
   border: 1px solid black;
@@ -87,6 +87,7 @@
 .userFollowListItem:hover {
   opacity: 1;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .userSongList {
@@ -101,7 +102,7 @@
 }
 
 .userSongListItem {
-  opacity: .6;
+  opacity: .4;
   font-size: 20px;
   display: flex;
   justify-content: space-between;
@@ -117,6 +118,7 @@
 .userSongListItem:hover {
   opacity: 1;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .songListItemInfo {
@@ -124,13 +126,28 @@
 }
 
 .followButton {
-  height: 30px;
-  width: 60px;
-  background: blue;
+  height: 40px;
+  width: 40px;
+  margin-top: 7px;
+  margin-right: 5px;
+  transition: all 1s ease 0s;
+  border-radius: 50%;
+}
+
+.followButton:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+  box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+  opacity: .8
 }
 
 .userDisplay {
   height: 30px;
   width: 60px;
   background: red;
+}
+
+.songManipulators {
+  display: flex;
+  justify-content: center;
 }

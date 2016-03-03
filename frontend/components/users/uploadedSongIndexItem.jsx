@@ -7,15 +7,15 @@
 
 var React = require('react')
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
 
 // CLASS DEFINITION ----------------------------------------***
 var UploadedSongIndexItem = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -24,7 +24,7 @@ var UploadedSongIndexItem = React.createClass({
   },
 
   _onClick: function() {
-    this.context.router.push('/songs/' + this.state.song.id);
+    hashHistory.push('/songs/' + this.state.song.id);
   },
 
   render: function() {

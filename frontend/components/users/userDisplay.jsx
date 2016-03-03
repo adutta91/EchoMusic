@@ -7,6 +7,10 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var UserStore = require('../../stores/userStore');
 
@@ -15,10 +19,6 @@ var UserUtil = require('../../util/userUtil');
 
 // CLASS DEFINITION ----------------------------------------***
 var UserDisplay = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -32,7 +32,7 @@ var UserDisplay = React.createClass({
   },
 
   _onClick: function() {
-    this.context.router.push('/users/' + this.state.userId);
+    hashHistory.push('/users/' + this.state.userId);
   },
 
   componentDidMount: function() {

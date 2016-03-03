@@ -54,6 +54,7 @@
 	var Router = ReactRouter.Router;
 	var Route = ReactRouter.Route;
 	var IndexRoute = ReactRouter.IndexRoute;
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
@@ -129,7 +130,7 @@
 	
 	  ReactDOM.render(React.createElement(
 	    Router,
-	    null,
+	    { history: hashHistory },
 	    appRoutes
 	  ), root);
 	});
@@ -33590,6 +33591,7 @@
 	
 	var addSong = function (song) {
 	  _songs[song.id] = song;
+	  SongUtil.songCreated(song);
 	};
 	
 	module.exports = SongStore;
@@ -33747,6 +33749,9 @@
 	
 	var React = __webpack_require__(1);
 	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// ACTIONS
 	var SongActions = __webpack_require__(261);
 	var SessionActions = __webpack_require__(258);
@@ -33824,6 +33829,7 @@
 	      data: song,
 	      success: function (song) {
 	        SongActions.uploadSong(song);
+	        hashHistory.push('/songs/' + song.id);
 	      },
 	      error: function (song, error) {
 	        alert("create song error");
@@ -33877,6 +33883,7 @@
 	      method: 'POST',
 	      data: songFollow,
 	      success: function (songFollow) {
+	        hashHistory.push('/songs/' + songFollow.song_id);
 	        this.fetchFollowedSongs(songFollow.user_id);
 	      }.bind(this)
 	    });
@@ -33888,6 +33895,7 @@
 	      method: 'PATCH',
 	      data: songFollow,
 	      success: function (songFollow) {
+	        hashHistory.push('/users/' + songFollow.user_id);
 	        this.fetchFollowedSongs(songFollow.user_id);
 	      }.bind(this)
 	    });
@@ -34083,6 +34091,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var SessionStore = __webpack_require__(236);
 	
@@ -34097,10 +34109,6 @@
 	  displayName: 'UpdateUserForm',
 	
 	  mixins: [LinkedStateMixin],
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -34149,7 +34157,7 @@
 	      } };
 	    ApiUtil.updateUser(user);
 	    this.props.modalCallback();
-	    this.context.router.push('/users/' + SessionStore.currentUser().id);
+	    hashHistory.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  render: function () {
@@ -34495,16 +34503,19 @@
 	// followed song index item component
 	//    purpose: display a song that the user followed
 	//
-	//    children: PlayButton
+	//    children: PlayButton, FollowButton
 	//    actions: redirect to song show page on click
 	//    info: basic song info
 	
 	var React = __webpack_require__(1);
 	
-	var React = __webpack_require__(1);
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
+	var FollowButton = __webpack_require__(290);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowedSongIndexItem = React.createClass({
@@ -34522,7 +34533,7 @@
 	  },
 	
 	  _onClick: function () {
-	    this.context.router.push('/songs/' + this.state.song.id);
+	    hashHistory.push('/songs/' + this.state.song.id);
 	  },
 	
 	  render: function () {
@@ -34540,7 +34551,12 @@
 	          this.state.song.artist_name
 	        )
 	      ),
-	      React.createElement(PlayButton, { songId: this.state.song.id })
+	      React.createElement(
+	        'div',
+	        { className: 'songManipulators' },
+	        React.createElement(PlayButton, { songId: this.state.song.id }),
+	        React.createElement(FollowButton, { songId: this.state.song.id, followed: true })
+	      )
 	    );
 	  }
 	
@@ -34759,6 +34775,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
 	
@@ -34767,10 +34787,6 @@
 	  displayName: 'UploadedSongIndexItem',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  getInitialState: function () {
 	    return {
 	      song: this.props.song
@@ -34778,7 +34794,7 @@
 	  },
 	
 	  _onClick: function () {
-	    this.context.router.push('/songs/' + this.state.song.id);
+	    hashHistory.push('/songs/' + this.state.song.id);
 	  },
 	
 	  render: function () {
@@ -34810,11 +34826,17 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var SessionStore = __webpack_require__(236);
+	var ArtistStore = __webpack_require__(299);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
+	var ArtistUtil = __webpack_require__(297);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(265);
@@ -34825,15 +34847,15 @@
 	
 	  mixins: [LinkedStateMixin],
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  getInitialState: function () {
 	    return {
 	      audioUploaded: false,
 	      audioUrl: ''
 	    };
+	  },
+	
+	  componentDidMount: function () {
+	    ArtistUtil.fetchAllArtists();
 	  },
 	
 	  audioUpload: function () {
@@ -34849,15 +34871,40 @@
 	
 	  handleSubmit: function (event) {
 	    event.preventDefault();
+	
+	    var artistId = this.findArtist();
+	
 	    var song = { song: {
 	        title: this.state.title,
 	        artist_name: this.state.artist,
 	        audio_url: this.state.audioUrl,
-	        album_id: Number(this.state.album),
-	        user_id: SessionStore.currentUser().id
+	        album_id: this.state.album,
+	        user_id: SessionStore.currentUser().id,
+	        artist_id: artistId
 	      } };
+	
 	    ApiUtil.createSong(song);
-	    this.context.router.push('/users/' + SessionStore.currentUser().id);
+	    // this.context.router.push('/users/' + SessionStore.currentUser().id);
+	  },
+	
+	  findArtist: function () {
+	    var result;
+	    var artistName = this.state.artist;
+	    var artist = ArtistStore.findByName(artistName);
+	    if (artist) {
+	      result = artist.id;
+	    } else if (artistName === "") {
+	      result = 0;
+	    } else {
+	      // TODO: create artist, which then updates the song...
+	      ArtistUtil.createArtist({
+	        artist: {
+	          name: artistName
+	        }
+	      });
+	      result = 0;
+	    }
+	    return result;
 	  },
 	
 	  uploadDisplay: function () {
@@ -35370,14 +35417,14 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndexItem = React.createClass({
 	  displayName: 'SongIndexItem',
 	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -35386,7 +35433,7 @@
 	  },
 	
 	  _onClick: function (event) {
-	    this.context.router.push('/songs/' + this.state.song.id);
+	    hashHistory.push('/songs/' + this.state.song.id);
 	  },
 	
 	  render: function () {
@@ -35486,7 +35533,12 @@
 /* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
+	
 	var React = __webpack_require__(1);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORE
 	var SessionStore = __webpack_require__(236);
@@ -35496,15 +35548,11 @@
 	  displayName: 'Logo',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  _onClick: function (event) {
 	    if (SessionStore.loggedIn()) {
 	      this.context.router.push('/');
 	    } else {
-	      this.context.router.push('/session/new');
+	      hashHistory.push('/session/new');
 	    }
 	  },
 	
@@ -35565,18 +35613,19 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadSongButton = React.createClass({
 	  displayName: 'UploadSongButton',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  handleUploadClicked: function (event) {
 	    event.preventDefault();
 	    this.context.router.push('/songs/new');
+	    hashHistory.push('/songs/new');
 	  },
 	
 	  render: function () {
@@ -35597,6 +35646,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var SessionStore = __webpack_require__(236);
 	
@@ -35608,14 +35661,10 @@
 	  displayName: 'ProfileButton',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  _onClick: function (event) {
 	    event.preventDefault();
 	    SessionUtil.refreshSession(SessionStore.currentUser());
-	    this.context.router.push('/users/' + SessionStore.currentUser().id);
+	    hashHistory.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  findImage: function () {
@@ -35728,9 +35777,8 @@
 	          this.state.song.artist_name
 	        ),
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
-	        React.createElement('br', null)
+	        this.followButton()
 	      ),
-	      this.followButton(),
 	      React.createElement(UserDisplay, { userId: this.state.song.user_id })
 	    );
 	  }
@@ -35764,10 +35812,6 @@
 	  displayName: 'FollowButton',
 	
 	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
-	
 	  getInitialState: function () {
 	    return {
 	      songId: Number(this.props.songId),
@@ -35787,7 +35831,8 @@
 	    this.setState({ followed: SongStore.following(this.state.songId) });
 	  },
 	
-	  followClick: function () {
+	  followClick: function (event) {
+	    event.preventDefault();
 	    user = SessionStore.currentUser();
 	    var songFollow = {
 	      song_follow: {
@@ -35798,7 +35843,8 @@
 	    ApiUtil.createSongFollow(songFollow);
 	  },
 	
-	  unFollowClick: function () {
+	  unFollowClick: function (event) {
+	    event.preventDefault();
 	    user = SessionStore.currentUser();
 	    var songFollow = {
 	      song_follow: {
@@ -35812,17 +35858,13 @@
 	  button: function () {
 	    var button = React.createElement('div', null);
 	    if (this.state.followed) {
-	      button = React.createElement(
-	        'div',
-	        { className: 'followButton', onClick: this.unFollowClick },
-	        'UnFollow'
-	      );
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979419/remove.png',
+	        className: 'followButton',
+	        onClick: this.unFollowClick });
 	    } else {
-	      button = React.createElement(
-	        'div',
-	        { className: 'followButton', onClick: this.followClick },
-	        'Follow'
-	      );
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979318/add.png',
+	        className: 'followButton',
+	        onClick: this.followClick });
 	    }
 	    return button;
 	  },
@@ -35855,6 +35897,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var SongStore = __webpack_require__(256);
 	
@@ -35865,10 +35911,6 @@
 	var Footer = React.createClass({
 	  displayName: 'Footer',
 	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -35896,7 +35938,7 @@
 	
 	  _songClick: function () {
 	    songId = SongStore.currentSong().id;
-	    this.context.router.push('/songs/' + songId);
+	    hashHistory.push('/songs/' + songId);
 	  },
 	
 	  // composes the information for when a song is playing
@@ -36039,6 +36081,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var UserStore = __webpack_require__(294);
 	
@@ -36049,10 +36095,6 @@
 	var UserDisplay = React.createClass({
 	  displayName: 'UserDisplay',
 	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -36066,7 +36108,7 @@
 	  },
 	
 	  _onClick: function () {
-	    this.context.router.push('/users/' + this.state.userId);
+	    hashHistory.push('/users/' + this.state.userId);
 	  },
 	
 	  componentDidMount: function () {
@@ -36203,6 +36245,113 @@
 	};
 	
 	module.exports = UserActions;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist Util
+	//    purpose: all action requests regarding artists
+	
+	// ACTIONS
+	var ArtistActions = __webpack_require__(298);
+	
+	var ArtistUtil = {
+	  fetchAllArtists: function () {
+	    $.ajax({
+	      url: 'api/artists',
+	      method: 'GET',
+	      success: function (artists) {
+	        ArtistActions.receiveAllArtists(artists);
+	      }
+	    });
+	  },
+	
+	  createArtist: function (artist) {
+	    $.ajax({
+	      url: 'api/artists',
+	      method: 'POST',
+	      data: artist,
+	      success: function (artist) {
+	        this.fetchAllArtists();
+	      }.bind(this)
+	    });
+	  }
+	
+	};
+	
+	module.exports = ArtistUtil;
+
+/***/ },
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all artist actions
+	//    purpose: dispatch actions to ArtistStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	ArtistActions = {
+	  receiveAllArtists: function (artists) {
+	    Dispatcher.dispatch({
+	      actionType: "RECEIVE_ALL_ARTISTS",
+	      artists: artists
+	    });
+	  }
+	};
+	
+	module.exports = ArtistActions;
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist store
+	//    purpose: store relevant data on artists
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _artists = {};
+	
+	var ArtistStore = new Store(Dispatcher);
+	
+	ArtistStore.all = function () {
+	  var artists = [];
+	  Object.keys(_artists).forEach(function (artistId) {
+	    artists.push(_artists[artistId]);
+	  });
+	  return artists;
+	};
+	
+	ArtistStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'RECEIVE_ALL_ARTISTS':
+	      resetArtists(payload.artists);
+	      ArtistStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	ArtistStore.findByName = function (name) {
+	  var result = null;
+	  Object.keys(_artists).forEach(function (artistId) {
+	    if (_artists[artistId].name === name) {
+	      result = _artists[artistId];
+	    }
+	  });
+	  return result;
+	};
+	
+	var resetArtists = function (artists) {
+	  var newArtists = {};
+	  artists.forEach(function (artist) {
+	    newArtists[artist.id] = artist;
+	  });
+	  _artists = newArtists;
+	};
+	
+	module.exports = ArtistStore;
 
 /***/ }
 /******/ ]);

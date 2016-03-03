@@ -1,16 +1,19 @@
 // followed song index item component
 //    purpose: display a song that the user followed
 //
-//    children: PlayButton
+//    children: PlayButton, FollowButton
 //    actions: redirect to song show page on click
 //    info: basic song info
 
 var React = require('react');
 
-var React = require('react')
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
 
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
+var FollowButton = require('../songs/followButton');
 
 // CLASS DEFINITION ----------------------------------------***
 var FollowedSongIndexItem = React.createClass({
@@ -26,7 +29,7 @@ var FollowedSongIndexItem = React.createClass({
   },
 
   _onClick: function() {
-    this.context.router.push('/songs/' + this.state.song.id);
+    hashHistory.push('/songs/' + this.state.song.id);
   },
 
   render: function() {
@@ -38,7 +41,10 @@ var FollowedSongIndexItem = React.createClass({
             &nbsp; by {this.state.song.artist_name}
           </span>
         </span>
-        <PlayButton songId={this.state.song.id} />
+        <div className="songManipulators">
+          <PlayButton songId={this.state.song.id} />
+          <FollowButton songId={this.state.song.id} followed={true}/>
+        </div>
       </div>
     )
   }

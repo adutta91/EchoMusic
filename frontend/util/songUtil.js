@@ -20,7 +20,7 @@ SongUtil = {
 
   playSong: function() {
     SongActions.playSong();
-  }
+  },
 }
 
 module.exports = SongUtil;

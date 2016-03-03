@@ -7,6 +7,10 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var SessionStore = require('../../stores/SessionStore');
 
@@ -19,10 +23,6 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 // CLASS DEFINITION ----------------------------------------***
 var UpdateUserForm = React.createClass({
   mixins: [LinkedStateMixin],
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -67,7 +67,7 @@ var UpdateUserForm = React.createClass({
     }};
     ApiUtil.updateUser(user);
     this.props.modalCallback();
-    this.context.router.push('/users/' + SessionStore.currentUser().id);
+    hashHistory.push('/users/' + SessionStore.currentUser().id);
   },
 
   render: function() {

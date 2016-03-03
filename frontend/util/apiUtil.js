@@ -4,6 +4,9 @@
 
 var React = require('react');
 
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // ACTIONS
 var SongActions = require('../actions/songActions');
 var SessionActions = require('../actions/sessionActions');
@@ -82,6 +85,7 @@ var ApiUtil = {
       data: song,
       success: function(song) {
         SongActions.uploadSong(song);
+        hashHistory.push('/songs/'+ song.id);
       },
       error: function(song, error) {
         alert("create song error");
@@ -135,6 +139,7 @@ var ApiUtil = {
       method: 'POST',
       data: songFollow,
       success: function(songFollow) {
+        hashHistory.push('/songs/' + songFollow.song_id);
         this.fetchFollowedSongs(songFollow.user_id);
       }.bind(this)
     });
@@ -146,6 +151,7 @@ var ApiUtil = {
       method: 'PATCH',
       data: songFollow,
       success: function(songFollow) {
+        hashHistory.push('/users/' + songFollow.user_id);
         this.fetchFollowedSongs(songFollow.user_id);
       }.bind(this)
     });

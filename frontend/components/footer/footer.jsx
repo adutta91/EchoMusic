@@ -8,6 +8,10 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var SongStore = require('../../stores/songStore');
 
@@ -16,10 +20,6 @@ var FooterPlayButton = require('../songControls/footerPlayButton');
 
 // CLASS DEFINITION ----------------------------------------***
 var Footer = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -47,7 +47,7 @@ var Footer = React.createClass({
 
   _songClick: function() {
     songId = SongStore.currentSong().id;
-    this.context.router.push('/songs/' + songId);
+    hashHistory.push('/songs/' + songId);
   },
 
   // composes the information for when a song is playing

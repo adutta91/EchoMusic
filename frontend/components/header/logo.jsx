@@ -1,4 +1,9 @@
+
 var React = require('react');
+
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
 
 // STORE
 var SessionStore = require('../../stores/SessionStore');
@@ -6,15 +11,11 @@ var SessionStore = require('../../stores/SessionStore');
 // CLASS DEFINITION ----------------------------------------***
 var Logo = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   _onClick: function(event) {
     if(SessionStore.loggedIn()) {
       this.context.router.push('/');
     } else {
-      this.context.router.push('/session/new');
+      hashHistory.push('/session/new');
     }
   },
 

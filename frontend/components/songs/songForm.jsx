@@ -7,11 +7,17 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var SessionStore = require('../../stores/SessionStore');
+var ArtistStore = require('../../stores/ArtistStore');
 
 // UTILS
 var ApiUtil = require('../../util/apiUtil');
+var ArtistUtil = require('../../util/artistUtil');
 
 // MIXINS
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
@@ -20,15 +26,15 @@ var LinkedStateMixin = require('react-addons-linked-state-mixin');
 var SongForm = React.createClass({
   mixins: [LinkedStateMixin],
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   getInitialState: function() {
     return ({
       audioUploaded: false,
       audioUrl: '',
     });
+  },
+
+  componentDidMount: function() {
+    ArtistUtil.fetchAllArtists();
   },
 
   audioUpload: function() {
@@ -44,15 +50,42 @@ var SongForm = React.createClass({
 
   handleSubmit: function(event) {
     event.preventDefault();
+
+    var artistId = this.findArtist();
+
     var song = { song: {
       title: this.state.title,
       artist_name: this.state.artist,
       audio_url: this.state.audioUrl,
-      album_id: Number(this.state.album),
-      user_id: SessionStore.currentUser().id
-    }}
+      album_id: this.state.album,
+      user_id: SessionStore.currentUser().id,
+      artist_id: artistId
+    }};
+
     ApiUtil.createSong(song);
-    this.context.router.push('/users/' + SessionStore.currentUser().id);
+    // this.context.router.push('/users/' + SessionStore.currentUser().id);
+  },
+
+  findArtist: function() {
+    var result;
+    var artistName = this.state.artist
+    var artist = ArtistStore.findByName(artistName);
+    if (artist) {
+      result = artist.id;
+    } else if (artistName === "") {
+      result = 0;
+    } else {
+      // TODO: create artist, which then updates the song...
+      ArtistUtil.createArtist(
+        {
+          artist: {
+            name: artistName
+          }
+        }
+      );
+      result = 0;
+    }
+    return result;
   },
 
   uploadDisplay: function() {

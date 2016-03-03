@@ -5,6 +5,10 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // STORES
 var SessionStore = require('../../stores/SessionStore');
 
@@ -14,14 +18,10 @@ var SessionUtil = require('../../util/sessionUtil');
 // CLASS DEFINITION ----------------------------------------***
 var ProfileButton = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   _onClick: function(event) {
     event.preventDefault();
     SessionUtil.refreshSession(SessionStore.currentUser());
-    this.context.router.push('/users/' + SessionStore.currentUser().id);
+    hashHistory.push('/users/' + SessionStore.currentUser().id);
   },
 
   findImage: function() {

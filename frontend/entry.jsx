@@ -8,6 +8,7 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 var IndexRoute = ReactRouter.IndexRoute;
+var hashHistory = ReactRouter.hashHistory;
 
 // STORES
 var SessionStore = require('./stores/SessionStore');
@@ -80,6 +81,6 @@ document.addEventListener("DOMContentLoaded", function() {
   var root = document.querySelector("#root");
   Modal.setAppElement('#root');
 
-  ReactDOM.render(<Router>{appRoutes}</Router>, root);
+  ReactDOM.render(<Router history={hashHistory}>{appRoutes}</Router>, root);
 
 });

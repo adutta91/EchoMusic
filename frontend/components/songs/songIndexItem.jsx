@@ -7,12 +7,12 @@
 
 var React = require('react');
 
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // CLASS DEFINITION ----------------------------------------***
 var SongIndexItem = React.createClass({
-
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
 
   getInitialState: function() {
     return ({
@@ -21,7 +21,7 @@ var SongIndexItem = React.createClass({
   },
 
   _onClick: function(event) {
-    this.context.router.push('/songs/' + this.state.song.id);
+    hashHistory.push('/songs/' + this.state.song.id);
   },
 
   render: function() {

@@ -81,9 +81,8 @@ var SongProfile = React.createClass({
           by {this.state.song.artist_name}
         </div>
         <PlayButton songId={this.props.params.id} />
-        <br/>
+        { this.followButton() }
       </div>
-      { this.followButton() }
       <UserDisplay userId={this.state.song.user_id}/>
       </div>
     );

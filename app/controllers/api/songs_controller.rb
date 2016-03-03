@@ -15,15 +15,13 @@
 class Api::SongsController < ApplicationController
 
   def create
-    @song = Song.create(song_params)
+    @song = Song.new(song_params)
+    debugger;
     if @song.save!
       render json: @song
     else
       render json: @song.errors.full_messages, status: 422
     end
-  end
-
-  def new
   end
 
   def show
@@ -51,9 +49,6 @@ class Api::SongsController < ApplicationController
     end
   end
 
-  def update
-  end
-
   def destroy
     @song = find_song
     if @song
@@ -66,7 +61,7 @@ class Api::SongsController < ApplicationController
   def song_params
     params.require(:song).permit(
       :title, :audio_url, :user_id,
-      :album_id, :artist_name, :public_id)
+      :album_id, :artist_name, :artist_id)
   end
 
   def find_song
