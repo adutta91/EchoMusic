@@ -34844,8 +34844,15 @@
 	    };
 	  },
 	
-	  _onClick: function () {
+	  _onClick: function (event) {
+	    event.preventDefault();
 	    hashHistory.push('/songs/' + this.state.song.id);
+	  },
+	
+	  artistClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    hashHistory.push('/artists/' + this.state.song.artist_id);
 	  },
 	
 	  render: function () {
@@ -34853,9 +34860,14 @@
 	      'div',
 	      { className: 'userSongListItem', onClick: this._onClick },
 	      React.createElement(
-	        'span',
+	        'div',
 	        { className: 'songListItemInfo' },
 	        this.state.song.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { onClick: this.artistClick, className: 'uploadListArtist' },
+	        this.state.song.artist_name
 	      ),
 	      React.createElement(PlayButton, { songId: this.state.song.id })
 	    );
@@ -36129,9 +36141,17 @@
 	    }
 	  },
 	
-	  _songClick: function () {
+	  _songClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
 	    songId = SongStore.currentSong().id;
 	    hashHistory.push('/songs/' + songId);
+	  },
+	
+	  _artistClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	    hashHistory.push('/artists/' + SongStore.currentSong().artist_id);
 	  },
 	
 	  // composes the information for when a song is playing
@@ -36159,9 +36179,14 @@
 	            { className: 'nowPlaying', onClick: this._songClick },
 	            'Now playing: ',
 	            SongStore.currentSong().title,
-	            ' - (',
-	            SongStore.currentSong().artist_name,
-	            ')'
+	            ' -  ',
+	            React.createElement(
+	              'span',
+	              { className: 'footerArtist', onClick: this._artistClick },
+	              '(',
+	              SongStore.currentSong().artist_name,
+	              ')'
+	            )
 	          ),
 	          React.createElement(FooterPlayButton, null)
 	        );
@@ -36274,6 +36299,10 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
 	var ArtistStore = __webpack_require__(301);
 	
@@ -36292,7 +36321,8 @@
 	    return {
 	      artist: {
 	        name: ""
-	      }
+	      },
+	      artistId: this.props.params.id
 	    };
 	  },
 	
@@ -36300,6 +36330,7 @@
 	    var artist = ArtistStore.find(this.props.params.id);
 	    if (artist) {
 	      this.setState({ artist: artist });
+	      hashHistory.push('/artists/' + artist.id);
 	    }
 	  },
 	
@@ -36310,6 +36341,12 @@
 	
 	  componentWillUnmount: function () {
 	    this.artistListener.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({
+	      artistId: newProps.params.id
+	    });
 	  },
 	
 	  _onChange: function () {
@@ -36514,6 +36551,11 @@
 	    hashHistory.push('/artists/' + this.state.song.artist_id);
 	  },
 	
+	  followButton: function () {
+	
+	    React.createElement(FollowButton, { songId: this.state.song.id, followed: true });
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -36537,7 +36579,7 @@
 	        'div',
 	        { className: 'songManipulators' },
 	        React.createElement(PlayButton, { songId: this.state.song.id }),
-	        React.createElement(FollowButton, { songId: this.state.song.id, followed: true })
+	        this.followButton()
 	      )
 	    );
 	  }

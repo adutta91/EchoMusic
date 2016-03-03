@@ -96,6 +96,16 @@
   justify-content: center;
 }
 
+.footerArtist {
+  transition: all .5s ease 0s;
+}
+
+.footerArtist:hover {
+  cursor: pointer;
+  color: #000000;
+ text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
 .headerButtons {
   font-size: 32px;
   display: flex;

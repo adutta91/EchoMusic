@@ -39,6 +39,11 @@ var SongIndexItem = React.createClass({
     hashHistory.push('/artists/' + this.state.song.artist_id);
   },
 
+  followButton: function() {
+    
+    <FollowButton songId={this.state.song.id} followed={true}/>
+  },
+
   render: function() {
     return (
       <div className="userFollowListItem" onClick={this._onClick}>
@@ -50,7 +55,7 @@ var SongIndexItem = React.createClass({
         </span>
         <div className="songManipulators">
           <PlayButton songId={this.state.song.id} />
-          <FollowButton songId={this.state.song.id} followed={true}/>
+          {this.followButton()}
         </div>
       </div>
     )

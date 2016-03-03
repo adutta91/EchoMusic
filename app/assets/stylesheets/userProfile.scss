@@ -88,6 +88,17 @@
   font-size: 18px;
 }
 
+.uploadListArtist {
+  transition: all .5s ease 0s;
+  font-size: 12px;
+}
+
+.uploadListArtist:hover {
+  cursor: pointer;
+  transform: scale(1);
+  font-size: 15px;
+}
+
 .followedSongList {
   display: flex;
   flex-direction: column;
@@ -123,27 +134,29 @@
 .userSongListItem {
   opacity: .4;
   font-size: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 250px;
+  overflow-x: hidden;
+  width: 100px;
   margin: 5px 5px 5px 0;
   padding: 5px;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   background: linear-gradient(to bottom right, #592000, #FF5B00);
   transition: all 1s ease 0s;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .userSongListItem:hover {
   opacity: 1;
   cursor: pointer;
+  width: 300px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 .songListItemInfo {
-  margin-left: 15px;
 }
 
 .followButton {

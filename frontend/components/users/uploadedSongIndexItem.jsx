@@ -23,16 +23,24 @@ var UploadedSongIndexItem = React.createClass({
     })
   },
 
-  _onClick: function() {
+  _onClick: function(event) {
+    event.preventDefault();
     hashHistory.push('/songs/' + this.state.song.id);
+  },
+
+  artistClick: function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    hashHistory.push('/artists/' + this.state.song.artist_id);
   },
 
   render: function() {
     return (
       <div className="userSongListItem" onClick={this._onClick}>
-        <span className="songListItemInfo">
+        <div className="songListItemInfo">
           {this.state.song.title}
-        </span>
+        </div>
+        <div onClick={this.artistClick} className="uploadListArtist" >{this.state.song.artist_name}</div>
         <PlayButton songId={this.state.song.id} />
       </div>
     )

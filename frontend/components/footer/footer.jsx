@@ -45,9 +45,17 @@ var Footer = React.createClass({
     }
   },
 
-  _songClick: function() {
+  _songClick: function(event) {
+    event.preventDefault();
+    event.stopPropagation();
     songId = SongStore.currentSong().id;
     hashHistory.push('/songs/' + songId);
+  },
+
+  _artistClick: function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    hashHistory.push('/artists/' + SongStore.currentSong().artist_id);
   },
 
   // composes the information for when a song is playing
@@ -67,8 +75,10 @@ var Footer = React.createClass({
         display = (
           <div className="footerDisplay">
             <span className="nowPlaying" onClick={this._songClick}>
-              Now playing: {SongStore.currentSong().title} - (
-                {SongStore.currentSong().artist_name})
+              Now playing: {SongStore.currentSong().title} - &nbsp;
+                <span className="footerArtist" onClick={this._artistClick}>
+                  ({SongStore.currentSong().artist_name})
+                </span>
             </span>
             <FooterPlayButton />
           </div>
