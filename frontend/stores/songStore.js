@@ -79,6 +79,18 @@ SongStore.setCurrentSong = function(songId) {
   }
 };
 
+SongStore.currentTime = function() {
+  return _audio.currentTime;
+};
+
+SongStore.setTime = function(time) {
+  _audio.currentTime = time;
+};
+
+SongStore.duration = function() {
+  return _audio.duration;
+};
+
 SongStore.__onDispatch = function(payload) {
   switch(payload.actionType) {
     case 'ADD_SONG':
