@@ -16,11 +16,16 @@ class Api::SongsController < ApplicationController
 
   def create
     @song = Song.new(song_params)
-    debugger;
+
+    if (song_params['artist_id'] == '0' && song_params['artist_name'] != "")
+      artist = Artist.create(name: song_params['artist_name'])
+      @song.artist_id = artist.id
+    end
+    byebug
     if @song.save!
       render json: @song
     else
-      render json: @song.errors.full_messages, status: 422
+      render :errors, errors: @song.errors.full_messages
     end
   end
 

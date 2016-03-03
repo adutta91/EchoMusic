@@ -34,7 +34,8 @@ var ProfileButton = React.createClass({
 
   render: function() {
     return (
-      <img src={this.findImage()} className="profileButton" onClick={this._onClick} />
+      <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png"
+           className="profileButton" onClick={this._onClick} />
     );
   }
 });

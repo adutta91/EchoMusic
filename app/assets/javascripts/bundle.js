@@ -65,12 +65,12 @@
 	
 	// REACT COMPONENTS
 	var UserProfile = __webpack_require__(259);
-	var SongForm = __webpack_require__(275);
-	var LogIn = __webpack_require__(276);
-	var LoggedInApp = __webpack_require__(281);
-	var Header = __webpack_require__(284);
-	var SongProfile = __webpack_require__(289);
-	var Footer = __webpack_require__(291);
+	var SongForm = __webpack_require__(276);
+	var LogIn = __webpack_require__(280);
+	var LoggedInApp = __webpack_require__(285);
+	var Header = __webpack_require__(288);
+	var SongProfile = __webpack_require__(293);
+	var Footer = __webpack_require__(298);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var App = React.createClass({
@@ -33592,7 +33592,6 @@
 	
 	var addSong = function (song) {
 	  _songs[song.id] = song;
-	  SongUtil.songCreated(song);
 	};
 	
 	module.exports = SongStore;
@@ -33680,7 +33679,7 @@
 	// REACT COMPONENTS
 	var UpdateUserButton = __webpack_require__(262);
 	var FollowedSongsIndex = __webpack_require__(269);
-	var UploadedSongsIndex = __webpack_require__(273);
+	var UploadedSongsIndex = __webpack_require__(274);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserProfile = React.createClass({
@@ -33812,7 +33811,6 @@
 	  },
 	
 	  resetSession: function (user) {
-	    debugger;
 	    $.ajax({
 	      url: 'api/session',
 	      method: 'DELETE',
@@ -33833,8 +33831,9 @@
 	        SongActions.uploadSong(song);
 	        hashHistory.push('/songs/' + song.id);
 	      },
-	      error: function (song, error) {
-	        alert("create song error");
+	      error: function (error) {
+	        debugger;
+	        alert(error.responseText);
 	      }
 	    });
 	  },
@@ -34521,7 +34520,7 @@
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
-	var FollowButton = __webpack_require__(290);
+	var FollowButton = __webpack_require__(273);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowedSongIndexItem = React.createClass({
@@ -34695,6 +34694,108 @@
 /* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// follow button component
+	//    purpose: add a new SongFollow to the database to connect the user
+	//             and the song
+	//
+	//    children: none
+	//    actions: sends a create request to the SongFollow controller
+	//    info: none
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var SessionStore = __webpack_require__(236);
+	var SongStore = __webpack_require__(256);
+	
+	// UTILS
+	var ApiUtil = __webpack_require__(260);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var FollowButton = React.createClass({
+	  displayName: 'FollowButton',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      songId: Number(this.props.songId),
+	      followed: this.props.followed
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this._onChange);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ followed: SongStore.following(this.state.songId) });
+	  },
+	
+	  followClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	
+	    user = SessionStore.currentUser();
+	    var songFollow = {
+	      song_follow: {
+	        user_id: user.id,
+	        song_id: this.state.songId
+	      }
+	    };
+	    ApiUtil.createSongFollow(songFollow);
+	  },
+	
+	  unFollowClick: function (event) {
+	    event.preventDefault();
+	    event.stopPropagation();
+	
+	    user = SessionStore.currentUser();
+	    var songFollow = {
+	      song_follow: {
+	        user_id: user.id,
+	        song_id: this.state.songId
+	      }
+	    };
+	    ApiUtil.deleteSongFollow(songFollow);
+	  },
+	
+	  button: function () {
+	    var button = React.createElement('div', null);
+	    if (this.state.followed) {
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979419/remove.png',
+	        className: 'followButton',
+	        onClick: this.unFollowClick });
+	    } else {
+	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979318/add.png',
+	        className: 'followButton',
+	        onClick: this.followClick });
+	    }
+	    return button;
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      null,
+	      ' ',
+	      this.button(),
+	      ' '
+	    );
+	  }
+	
+	});
+	
+	module.exports = FollowButton;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// uploaded Songs index component
 	//    purpose: display list of songs uploaded by the user
 	//
@@ -34712,7 +34813,7 @@
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var UploadedSongIndexItem = __webpack_require__(274);
+	var UploadedSongIndexItem = __webpack_require__(275);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadedSongsIndex = React.createClass({
@@ -34769,7 +34870,7 @@
 	module.exports = UploadedSongsIndex;
 
 /***/ },
-/* 274 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// uploaded song index item component
@@ -34820,7 +34921,7 @@
 	module.exports = UploadedSongIndexItem;
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song form component
@@ -34838,11 +34939,11 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
-	var ArtistStore = __webpack_require__(299);
+	var ArtistStore = __webpack_require__(277);
 	
 	// UTILS
 	var ApiUtil = __webpack_require__(260);
-	var ArtistUtil = __webpack_require__(297);
+	var ArtistUtil = __webpack_require__(278);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(265);
@@ -34976,7 +35077,114 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 276 */
+/* 277 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist store
+	//    purpose: store relevant data on artists
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _artists = {};
+	
+	var ArtistStore = new Store(Dispatcher);
+	
+	ArtistStore.all = function () {
+	  var artists = [];
+	  Object.keys(_artists).forEach(function (artistId) {
+	    artists.push(_artists[artistId]);
+	  });
+	  return artists;
+	};
+	
+	ArtistStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'RECEIVE_ALL_ARTISTS':
+	      resetArtists(payload.artists);
+	      ArtistStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	ArtistStore.findByName = function (name) {
+	  var result = null;
+	  Object.keys(_artists).forEach(function (artistId) {
+	    if (_artists[artistId].name === name) {
+	      result = _artists[artistId];
+	    }
+	  });
+	  return result;
+	};
+	
+	var resetArtists = function (artists) {
+	  var newArtists = {};
+	  artists.forEach(function (artist) {
+	    newArtists[artist.id] = artist;
+	  });
+	  _artists = newArtists;
+	};
+	
+	module.exports = ArtistStore;
+
+/***/ },
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist Util
+	//    purpose: all action requests regarding artists
+	
+	// ACTIONS
+	var ArtistActions = __webpack_require__(279);
+	
+	var ArtistUtil = {
+	  fetchAllArtists: function () {
+	    $.ajax({
+	      url: 'api/artists',
+	      method: 'GET',
+	      success: function (artists) {
+	        ArtistActions.receiveAllArtists(artists);
+	      }
+	    });
+	  },
+	
+	  createArtist: function (artist) {
+	    $.ajax({
+	      url: 'api/artists',
+	      method: 'POST',
+	      data: artist,
+	      success: function (artist) {
+	        this.fetchAllArtists();
+	      }.bind(this)
+	    });
+	  }
+	
+	};
+	
+	module.exports = ArtistUtil;
+
+/***/ },
+/* 279 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all artist actions
+	//    purpose: dispatch actions to ArtistStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	ArtistActions = {
+	  receiveAllArtists: function (artists) {
+	    Dispatcher.dispatch({
+	      actionType: "RECEIVE_ALL_ARTISTS",
+	      artists: artists
+	    });
+	  }
+	};
+	
+	module.exports = ArtistActions;
+
+/***/ },
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Login app component
@@ -34987,7 +35195,7 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var UserForms = __webpack_require__(277);
+	var UserForms = __webpack_require__(281);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var LogIn = React.createClass({
@@ -35009,7 +35217,7 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 277 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user forms component
@@ -35022,9 +35230,9 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var Tab = __webpack_require__(278);
-	var SignInForm = __webpack_require__(279);
-	var SignUpForm = __webpack_require__(280);
+	var Tab = __webpack_require__(282);
+	var SignInForm = __webpack_require__(283);
+	var SignUpForm = __webpack_require__(284);
 	
 	// POSSIBLE TYPE OF FORMS (CONSTANTS)
 	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
@@ -35089,7 +35297,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 278 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// tab component
@@ -35123,7 +35331,7 @@
 	module.exports = Tab;
 
 /***/ },
-/* 279 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign-in form component
@@ -35205,7 +35413,7 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 280 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign up form component
@@ -35287,7 +35495,7 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 281 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// full app react component
@@ -35307,7 +35515,7 @@
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var SongIndex = __webpack_require__(282);
+	var SongIndex = __webpack_require__(286);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -35327,7 +35535,7 @@
 	module.exports = FullApp;
 
 /***/ },
-/* 282 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index component
@@ -35347,7 +35555,7 @@
 	var ApiUtil = __webpack_require__(260);
 	
 	// REACT COMPONENTS
-	var SongIndexItem = __webpack_require__(283);
+	var SongIndexItem = __webpack_require__(287);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -35411,7 +35619,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 283 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index item component
@@ -35455,7 +35663,7 @@
 	module.exports = SongIndexItem;
 
 /***/ },
-/* 284 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// header react component
@@ -35471,10 +35679,10 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// REACT COMPONENTS
-	var Logo = __webpack_require__(285);
-	var Logout = __webpack_require__(286);
-	var UploadSongButton = __webpack_require__(287);
-	var ProfileButton = __webpack_require__(288);
+	var Logo = __webpack_require__(289);
+	var Logout = __webpack_require__(290);
+	var UploadSongButton = __webpack_require__(291);
+	var ProfileButton = __webpack_require__(292);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Header = React.createClass({
@@ -35536,7 +35744,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 285 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -35578,7 +35786,7 @@
 	module.exports = Logo;
 
 /***/ },
-/* 286 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// logout button react component
@@ -35623,7 +35831,7 @@
 	module.exports = Logout;
 
 /***/ },
-/* 287 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// upload button react component
@@ -35662,7 +35870,7 @@
 	module.exports = UploadSongButton;
 
 /***/ },
-/* 288 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// profile button react component
@@ -35702,14 +35910,15 @@
 	  },
 	
 	  render: function () {
-	    return React.createElement('img', { src: this.findImage(), className: 'profileButton', onClick: this._onClick });
+	    return React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png',
+	      className: 'profileButton', onClick: this._onClick });
 	  }
 	});
 	
 	module.exports = ProfileButton;
 
 /***/ },
-/* 289 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song profile component
@@ -35730,8 +35939,8 @@
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
-	var FollowButton = __webpack_require__(290);
-	var UserDisplay = __webpack_require__(293);
+	var FollowButton = __webpack_require__(273);
+	var UserDisplay = __webpack_require__(294);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
@@ -35813,109 +36022,185 @@
 	module.exports = SongProfile;
 
 /***/ },
-/* 290 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// follow button component
-	//    purpose: add a new SongFollow to the database to connect the user
-	//             and the song
+	// user display component
+	//    purpose: display info on a specific user
 	//
 	//    children: none
-	//    actions: sends a create request to the SongFollow controller
-	//    info: none
+	//    actions: redirect to user page on click
+	//    info: user info
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// STORES
-	var SessionStore = __webpack_require__(236);
-	var SongStore = __webpack_require__(256);
+	var UserStore = __webpack_require__(295);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var UserUtil = __webpack_require__(296);
 	
 	// CLASS DEFINITION ----------------------------------------***
-	var FollowButton = React.createClass({
-	  displayName: 'FollowButton',
+	var UserDisplay = React.createClass({
+	  displayName: 'UserDisplay',
 	
 	
 	  getInitialState: function () {
 	    return {
-	      songId: Number(this.props.songId),
-	      followed: this.props.followed
+	      userId: this.props.userId,
+	      user: {}
 	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.songListener = SongStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.songListener.remove();
 	  },
 	
 	  _onChange: function () {
-	    this.setState({ followed: SongStore.following(this.state.songId) });
+	    this.setState({ user: UserStore.find(this.state.userId) });
 	  },
 	
-	  followClick: function (event) {
-	    event.preventDefault();
-	    event.stopPropagation();
-	
-	    user = SessionStore.currentUser();
-	    var songFollow = {
-	      song_follow: {
-	        user_id: user.id,
-	        song_id: this.state.songId
-	      }
-	    };
-	    ApiUtil.createSongFollow(songFollow);
+	  _onClick: function () {
+	    hashHistory.push('/users/' + this.state.userId);
 	  },
 	
-	  unFollowClick: function (event) {
-	    event.preventDefault();
-	    event.stopPropagation();
-	
-	    user = SessionStore.currentUser();
-	    var songFollow = {
-	      song_follow: {
-	        user_id: user.id,
-	        song_id: this.state.songId
-	      }
-	    };
-	    ApiUtil.deleteSongFollow(songFollow);
+	  componentDidMount: function () {
+	    this.userListener = UserStore.addListener(this._onChange);
 	  },
 	
-	  button: function () {
-	    var button = React.createElement('div', null);
-	    if (this.state.followed) {
-	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979419/remove.png',
-	        className: 'followButton',
-	        onClick: this.unFollowClick });
+	  componentWillUnmount: function () {
+	    this.userListener.remove();
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    UserUtil.fetchSingleUser(newProps.userId);
+	    this.setState({ userId: newProps.userId });
+	  },
+	
+	  findUsername: function () {
+	    var user = UserStore.find(this.state.userId);
+	
+	    if (user) {
+	      return user.username;
 	    } else {
-	      button = React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456979318/add.png',
-	        className: 'followButton',
-	        onClick: this.followClick });
+	      return "";
 	    }
-	    return button;
 	  },
 	
 	  render: function () {
-	
 	    return React.createElement(
 	      'div',
-	      null,
-	      ' ',
-	      this.button(),
-	      ' '
+	      { className: 'userDisplay', onClick: this._onClick },
+	      React.createElement(
+	        'div',
+	        null,
+	        this.findUsername()
+	      )
 	    );
 	  }
-	
 	});
 	
-	module.exports = FollowButton;
+	module.exports = UserDisplay;
 
 /***/ },
-/* 291 */
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// user store
+	//    purpose: store relevant data on lists of users
+	
+	var Store = __webpack_require__(237).Store;
+	var Dispatcher = __webpack_require__(253);
+	
+	var _users = {};
+	
+	var UserStore = new Store(Dispatcher);
+	
+	UserStore.all = function () {
+	  var users = [];
+	  Object.keys(_users).forEach(function (userId) {
+	    users.push(_users[userId]);
+	  });
+	  return users;
+	};
+	
+	UserStore.find = function (id) {
+	  return _users[id];
+	};
+	
+	UserStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case 'RECEIVE_USERS':
+	      resetUsers(payload.users);
+	      UserStore.__emitChange();
+	      break;
+	    case 'RECEIVE_USER':
+	      addUser(payload.user);
+	      UserStore.__emitChange();
+	      break;
+	  }
+	};
+	
+	var resetUsers = function (users) {
+	  var newUsers = {};
+	  users.forEach(function (user) {
+	    newUsers[user.id] = user;
+	  });
+	  _users = newUsers;
+	};
+	
+	var addUser = function (user) {
+	  _users[user.id] = user;
+	};
+	
+	module.exports = UserStore;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// user Util
+	//    purpose: all action requests regarding users
+	
+	// ACTIONS
+	var UserActions = __webpack_require__(297);
+	
+	UserUtil = {
+	  fetchSingleUser: function (userId) {
+	    $.ajax({
+	      url: 'api/users/' + userId,
+	      method: 'GET',
+	      success: function (user) {
+	        UserActions.receiveSingleUser(user);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = UserUtil;
+
+/***/ },
+/* 297 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all user actions
+	//    purpose: dispatch actions to UserStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var UserActions = {
+	  receiveSingleUser: function (user) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_USER',
+	      user: user
+	    });
+	  }
+	};
+	
+	module.exports = UserActions;
+
+/***/ },
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer react component
@@ -35935,7 +36220,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// REACT COMPONENTS
-	var FooterPlayButton = __webpack_require__(292);
+	var FooterPlayButton = __webpack_require__(299);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
@@ -36020,7 +36305,7 @@
 	module.exports = Footer;
 
 /***/ },
-/* 292 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer play button component
@@ -36052,8 +36337,8 @@
 	
 	  _onChange: function () {
 	    this.setState({
-	      currentSong: SongStore.currentSong()
-	      // playing
+	      currentSong: SongStore.currentSong(),
+	      playing: SongStore.playing()
 	    });
 	  },
 	
@@ -36097,291 +36382,6 @@
 	});
 	
 	module.exports = FooterPlayButton;
-
-/***/ },
-/* 293 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// user display component
-	//    purpose: display info on a specific user
-	//
-	//    children: none
-	//    actions: redirect to user page on click
-	//    info: user info
-	
-	var React = __webpack_require__(1);
-	
-	// HISTORY
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// STORES
-	var UserStore = __webpack_require__(294);
-	
-	// UTILS
-	var UserUtil = __webpack_require__(295);
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var UserDisplay = React.createClass({
-	  displayName: 'UserDisplay',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      userId: this.props.userId,
-	      user: {}
-	    };
-	  },
-	
-	  _onChange: function () {
-	    this.setState({ user: UserStore.find(this.state.userId) });
-	  },
-	
-	  _onClick: function () {
-	    hashHistory.push('/users/' + this.state.userId);
-	  },
-	
-	  componentDidMount: function () {
-	    this.userListener = UserStore.addListener(this._onChange);
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.userListener.remove();
-	  },
-	
-	  componentWillReceiveProps: function (newProps) {
-	    UserUtil.fetchSingleUser(newProps.userId);
-	    this.setState({ userId: newProps.userId });
-	  },
-	
-	  findUsername: function () {
-	    var user = UserStore.find(this.state.userId);
-	
-	    if (user) {
-	      return user.username;
-	    } else {
-	      return "";
-	    }
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'userDisplay', onClick: this._onClick },
-	      React.createElement(
-	        'div',
-	        null,
-	        this.findUsername()
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = UserDisplay;
-
-/***/ },
-/* 294 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// user store
-	//    purpose: store relevant data on lists of users
-	
-	var Store = __webpack_require__(237).Store;
-	var Dispatcher = __webpack_require__(253);
-	
-	var _users = {};
-	
-	var UserStore = new Store(Dispatcher);
-	
-	UserStore.all = function () {
-	  var users = [];
-	  Object.keys(_users).forEach(function (userId) {
-	    users.push(_users[userId]);
-	  });
-	  return users;
-	};
-	
-	UserStore.find = function (id) {
-	  return _users[id];
-	};
-	
-	UserStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'RECEIVE_USERS':
-	      resetUsers(payload.users);
-	      UserStore.__emitChange();
-	      break;
-	    case 'RECEIVE_USER':
-	      addUser(payload.user);
-	      UserStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	var resetUsers = function (users) {
-	  var newUsers = {};
-	  users.forEach(function (user) {
-	    newUsers[user.id] = user;
-	  });
-	  _users = newUsers;
-	};
-	
-	var addUser = function (user) {
-	  _users[user.id] = user;
-	};
-	
-	module.exports = UserStore;
-
-/***/ },
-/* 295 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// user Util
-	//    purpose: all action requests regarding users
-	
-	// ACTIONS
-	var UserActions = __webpack_require__(296);
-	
-	UserUtil = {
-	  fetchSingleUser: function (userId) {
-	    $.ajax({
-	      url: 'api/users/' + userId,
-	      method: 'GET',
-	      success: function (user) {
-	        UserActions.receiveSingleUser(user);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = UserUtil;
-
-/***/ },
-/* 296 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// functions for all user actions
-	//    purpose: dispatch actions to UserStore
-	
-	var Dispatcher = __webpack_require__(253);
-	
-	var UserActions = {
-	  receiveSingleUser: function (user) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_USER',
-	      user: user
-	    });
-	  }
-	};
-	
-	module.exports = UserActions;
-
-/***/ },
-/* 297 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// artist Util
-	//    purpose: all action requests regarding artists
-	
-	// ACTIONS
-	var ArtistActions = __webpack_require__(298);
-	
-	var ArtistUtil = {
-	  fetchAllArtists: function () {
-	    $.ajax({
-	      url: 'api/artists',
-	      method: 'GET',
-	      success: function (artists) {
-	        ArtistActions.receiveAllArtists(artists);
-	      }
-	    });
-	  },
-	
-	  createArtist: function (artist) {
-	    $.ajax({
-	      url: 'api/artists',
-	      method: 'POST',
-	      data: artist,
-	      success: function (artist) {
-	        this.fetchAllArtists();
-	      }.bind(this)
-	    });
-	  }
-	
-	};
-	
-	module.exports = ArtistUtil;
-
-/***/ },
-/* 298 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// functions for all artist actions
-	//    purpose: dispatch actions to ArtistStore
-	
-	var Dispatcher = __webpack_require__(253);
-	
-	ArtistActions = {
-	  receiveAllArtists: function (artists) {
-	    Dispatcher.dispatch({
-	      actionType: "RECEIVE_ALL_ARTISTS",
-	      artists: artists
-	    });
-	  }
-	};
-	
-	module.exports = ArtistActions;
-
-/***/ },
-/* 299 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// artist store
-	//    purpose: store relevant data on artists
-	
-	var Store = __webpack_require__(237).Store;
-	var Dispatcher = __webpack_require__(253);
-	
-	var _artists = {};
-	
-	var ArtistStore = new Store(Dispatcher);
-	
-	ArtistStore.all = function () {
-	  var artists = [];
-	  Object.keys(_artists).forEach(function (artistId) {
-	    artists.push(_artists[artistId]);
-	  });
-	  return artists;
-	};
-	
-	ArtistStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case 'RECEIVE_ALL_ARTISTS':
-	      resetArtists(payload.artists);
-	      ArtistStore.__emitChange();
-	      break;
-	  }
-	};
-	
-	ArtistStore.findByName = function (name) {
-	  var result = null;
-	  Object.keys(_artists).forEach(function (artistId) {
-	    if (_artists[artistId].name === name) {
-	      result = _artists[artistId];
-	    }
-	  });
-	  return result;
-	};
-	
-	var resetArtists = function (artists) {
-	  var newArtists = {};
-	  artists.forEach(function (artist) {
-	    newArtists[artist.id] = artist;
-	  });
-	  _artists = newArtists;
-	};
-	
-	module.exports = ArtistStore;
 
 /***/ }
 /******/ ]);

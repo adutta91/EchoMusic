@@ -67,7 +67,6 @@ var ApiUtil = {
   },
 
   resetSession: function(user) {
-    debugger;
     $.ajax({
       url: 'api/session',
       method: 'DELETE',
@@ -88,8 +87,9 @@ var ApiUtil = {
         SongActions.uploadSong(song);
         hashHistory.push('/songs/'+ song.id);
       },
-      error: function(song, error) {
-        alert("create song error");
+      error: function(error) {
+        debugger;
+        alert(error.responseText);
       }
     });
   },

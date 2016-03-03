@@ -176,7 +176,6 @@ var resetSong = function(song) {
 
 var addSong = function(song) {
   _songs[song.id] = song;
-  SongUtil.songCreated(song);
 };
 
 module.exports = SongStore;

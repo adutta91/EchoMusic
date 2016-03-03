@@ -60,20 +60,3 @@ sf = SongFollow.new
 sf.user_id = 1
 sf.song_id = 2
 sf.save!
-
-# ---------------------------------------------ARTISTS--------------------------
-artist = Artist.new
-artist.name = "Blind Pilot"
-artist.save!
-
-artist = Artist.new
-artist.name = "Nikhil D."
-artist.save!
-
-artist = Artist.new
-artist.name = "Charlie Parr"
-artist.save!
-
-artist = Artist.new
-artist.name = "Lucius Fox"
-artist.save!
