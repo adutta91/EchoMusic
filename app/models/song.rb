@@ -10,7 +10,6 @@
 #  user_id     :integer          not null
 #  artist_name :string
 #  audio_url   :string
-#  public_id   :string
 #
 
 class Song < ActiveRecord::Base
@@ -18,6 +17,7 @@ class Song < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :album
+  belongs_to :artist
 
   has_many :song_follows
 

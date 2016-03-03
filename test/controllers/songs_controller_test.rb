@@ -10,7 +10,6 @@
 #  user_id     :integer          not null
 #  artist_name :string
 #  audio_url   :string
-#  public_id   :string
 #
 
 require 'test_helper'
