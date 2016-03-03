@@ -35609,7 +35609,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'appName' },
-	        'SongStorm'
+	        'EchO'
 	      ),
 	      React.createElement(
 	        'div',
@@ -36329,8 +36329,10 @@
 	  getStateFromStore: function () {
 	    var artist = ArtistStore.find(this.props.params.id);
 	    if (artist) {
-	      this.setState({ artist: artist });
-	      hashHistory.push('/artists/' + artist.id);
+	      this.setState({
+	        artist: artist,
+	        artistId: artist.id
+	      });
 	    }
 	  },
 	
@@ -36344,9 +36346,9 @@
 	  },
 	
 	  componentWillReceiveProps: function (newProps) {
-	    this.setState({
-	      artistId: newProps.params.id
-	    });
+	    if (newProps.params.id !== this.state.artistId) {
+	      ArtistUtil.fetchSingleArtist(newProps.params.id);
+	    }
 	  },
 	
 	  _onChange: function () {

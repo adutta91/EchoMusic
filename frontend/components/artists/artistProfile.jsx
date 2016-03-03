@@ -35,8 +35,10 @@ var ArtistProfile = React.createClass({
   getStateFromStore: function() {
     var artist =  ArtistStore.find(this.props.params.id);
     if (artist) {
-      this.setState( { artist: artist });
-      hashHistory.push('/artists/' + artist.id)
+      this.setState( {
+        artist: artist,
+        artistId: artist.id
+      });
     }
   },
 
@@ -50,9 +52,9 @@ var ArtistProfile = React.createClass({
   },
 
   componentWillReceiveProps: function(newProps) {
-    this.setState({
-      artistId: newProps.params.id
-    });
+    if (newProps.params.id !== this.state.artistId) {
+      ArtistUtil.fetchSingleArtist(newProps.params.id);
+    }
   },
 
   _onChange: function() {

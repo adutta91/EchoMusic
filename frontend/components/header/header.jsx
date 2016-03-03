@@ -56,7 +56,7 @@ var Header = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="appName">SongStorm</div>
+        <div className="appName">EchO</div>
         <div className="header">
           <Logo />
           {this.showButtons()}
