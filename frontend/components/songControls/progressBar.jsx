@@ -26,7 +26,7 @@ var ProgressBar = React.createClass({
   },
 
   componentDidMount: function() {
-    this.interval = setInterval(this.updateTime, 500);
+    this.interval = setInterval(this.updateTime, 250);
     this.songListener = SongStore.addListener(this.updateTime);
   },
 
