@@ -22,6 +22,12 @@ class Api::ArtistsController < ApplicationController
     render :show
   end
 
+  def songs
+    @artist = find_artist
+    render :show_songs
+  end
+
+
   private
 
   def artist_params

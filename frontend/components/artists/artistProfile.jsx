@@ -13,6 +13,9 @@ var ArtistStore = require('../../stores/artistStore');
 // UTILS
 var ArtistUtil = require('../../util/artistUtil');
 
+// REACT COMPONENTS
+var ArtistSongIndex = require('./artistSongsIndex');
+
 // CLASS DEFINITION ----------------------------------------***
 var ArtistProfile = React.createClass({
 
@@ -50,6 +53,7 @@ var ArtistProfile = React.createClass({
         <div className="artistDisplay">
           <span className="artistTitleDisplay">{this.state.artist.name}</span>
         </div>
+        <ArtistSongIndex artist={this.state.artist}/>
       </div>
     );
   }

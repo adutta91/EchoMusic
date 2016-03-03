@@ -34698,6 +34698,16 @@
 	
 	  playSong: function () {
 	    SongActions.playSong();
+	  },
+	
+	  fetchArtistSongs: function (artistId) {
+	    $.ajax({
+	      url: 'api/artists/' + artistId + '/songs',
+	      method: 'GET',
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
 	  }
 	};
 	
@@ -36382,6 +36392,9 @@
 	// UTILS
 	var ArtistUtil = __webpack_require__(278);
 	
+	// REACT COMPONENTS
+	var ArtistSongIndex = __webpack_require__(302);
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistProfile = React.createClass({
 	  displayName: 'ArtistProfile',
@@ -36427,7 +36440,8 @@
 	          { className: 'artistTitleDisplay' },
 	          this.state.artist.name
 	        )
-	      )
+	      ),
+	      React.createElement(ArtistSongIndex, { artist: this.state.artist })
 	    );
 	  }
 	});
@@ -36496,6 +36510,74 @@
 	};
 	
 	module.exports = ArtistStore;
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// artist song index component
+	//    purpose: display songs by this artist
+	//
+	//    children: ArtistSongIndexItem
+	//    actions: none
+	//    info: list of songs
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var SongStore = __webpack_require__(256);
+	
+	// UTILS
+	var SongUtil = __webpack_require__(272);
+	
+	// REACT COMPONENTS
+	var FollowedSongIndexItem = __webpack_require__(270);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ArtistSongIndex = React.createClass({
+	  displayName: 'ArtistSongIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      artist: {},
+	      songs: []
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this._onChange);
+	  },
+	
+	  componentWillReceiveProps: function (newProps) {
+	    this.setState({ artist: newProps.artist });
+	    SongUtil.fetchArtistSongs(newProps.artist.id);
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	  },
+	
+	  _onChange: function () {
+	    this.setState({ songs: SongStore.all() });
+	  },
+	
+	  songs: function () {
+	    return this.state.songs.map(function (song, idx) {
+	      return React.createElement(FollowedSongIndexItem, { song: song, key: song.id });
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.songs()
+	    );
+	  }
+	});
+	
+	module.exports = ArtistSongIndex;
 
 /***/ }
 /******/ ]);

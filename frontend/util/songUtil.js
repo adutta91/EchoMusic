@@ -21,6 +21,16 @@ SongUtil = {
   playSong: function() {
     SongActions.playSong();
   },
+
+  fetchArtistSongs: function(artistId) {
+    $.ajax({
+      url: 'api/artists/' + artistId + '/songs',
+      method: 'GET',
+      success: function(songs) {
+        SongActions.receiveSongs(songs);
+      }
+    });
+  }
 }
 
 module.exports = SongUtil;

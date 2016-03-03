@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
     # artist routes
     resources :artists, only: [:create, :update, :index, :show]
+    get 'artists/:id/songs', to: 'artists#songs'
 
   end
 
