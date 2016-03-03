@@ -76,7 +76,7 @@ var Footer = React.createClass({
         display = (
           <div className="footerDisplay">
             <span className="nowPlaying" onClick={this._songClick}>
-              Now playing: {SongStore.currentSong().title} - &nbsp;
+              {SongStore.currentSong().title} - &nbsp;
                 <span className="footerArtist" onClick={this._artistClick}>
                   ({SongStore.currentSong().artist_name})
                 </span>

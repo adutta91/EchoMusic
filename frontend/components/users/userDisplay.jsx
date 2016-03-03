@@ -60,8 +60,8 @@ var UserDisplay = React.createClass({
 
   render: function() {
     return (
-      <div className="userDisplay" onClick={this._onClick}>
-        <div>{this.findUsername()}</div>
+      <div className="userDisplay">
+        <div>submitted by {this.findUsername()}</div>
       </div>
     )
   }

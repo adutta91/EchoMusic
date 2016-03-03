@@ -16,6 +16,7 @@ var ApiUtil = require('../../util/apiUtil');
 
 // REACT COMPONENTS
 var SongIndex = require('../songs/songIndex');
+var ExploreArtistsIndex = require('../artists/exploreArtistsIndex');
 
 // CLASS DEFINITION ----------------------------------------***
 var FullApp = React.createClass({
@@ -24,7 +25,10 @@ var FullApp = React.createClass({
     return (
       <div className="welcome">
         <div className="imageBanner"></div>
-        <SongIndex />
+        <div className="exploreIndices">
+          <SongIndex />
+          <ExploreArtistsIndex />
+        </div>
       </div>
     );
   }

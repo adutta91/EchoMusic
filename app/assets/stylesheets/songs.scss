@@ -16,6 +16,7 @@ audio:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 100%;
   opacity: .9;
   background: linear-gradient(to bottom left, #592000, #3D7899);
 }
@@ -51,14 +52,14 @@ audio:hover {
   padding: 69px 0px 300px 0px;
 }
 
-.songIndex {
-  display: flex;
-  margin: 0 auto;
-  width: 900px;
-  text-align: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+// .songIndex {
+//   display: flex;
+//   margin: 0 auto;
+//   width: 900px;
+//   text-align: center;
+//   flex-wrap: wrap;
+//   justify-content: center;
+// }
 
 .songIndexItem {
   opacity: 0.4;
@@ -75,6 +76,7 @@ audio:hover {
   transition: all 1s ease 0s;
   white-space: nowrap;
   overflow: hidden;
+  text-align: center;
 }
 
 .songIndexItem:hover {

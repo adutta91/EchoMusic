@@ -35451,6 +35451,7 @@
 	
 	// REACT COMPONENTS
 	var SongIndex = __webpack_require__(286);
+	var ExploreArtistsIndex = __webpack_require__(306);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -35462,7 +35463,12 @@
 	      'div',
 	      { className: 'welcome' },
 	      React.createElement('div', { className: 'imageBanner' }),
-	      React.createElement(SongIndex, null)
+	      React.createElement(
+	        'div',
+	        { className: 'exploreIndices' },
+	        React.createElement(SongIndex, null),
+	        React.createElement(ExploreArtistsIndex, null)
+	      )
 	    );
 	  }
 	});
@@ -35534,17 +35540,15 @@
 	    var user = SessionStore.currentUser();
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'exploreTitle' },
 	      React.createElement(
-	        'div',
-	        { className: 'indexTitle' },
-	        'Explore:'
+	        'span',
+	        null,
+	        'Songs'
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'songIndex' },
-	        React.createElement('br', null),
-	        React.createElement('br', null),
+	        { className: 'exploreIndex' },
 	        this.getSongs()
 	      )
 	    );
@@ -35992,10 +35996,11 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'userDisplay', onClick: this._onClick },
+	      { className: 'userDisplay' },
 	      React.createElement(
 	        'div',
 	        null,
+	        'submitted by ',
 	        this.findUsername()
 	      )
 	    );
@@ -36190,7 +36195,6 @@
 	          React.createElement(
 	            'span',
 	            { className: 'nowPlaying', onClick: this._songClick },
-	            'Now playing: ',
 	            SongStore.currentSong().title,
 	            ' -  ',
 	            React.createElement(
@@ -36633,6 +36637,7 @@
 	  },
 	
 	  _onClick: function (event) {
+	    event.preventDefault();
 	    hashHistory.push('/songs/' + this.state.song.id);
 	  },
 	
@@ -36640,7 +36645,11 @@
 	    return React.createElement(
 	      'div',
 	      { onClick: this._onClick, className: 'songIndexItem' },
-	      this.state.song.title
+	      React.createElement(
+	        'div',
+	        null,
+	        this.state.song.title
+	      )
 	    );
 	  }
 	
@@ -36710,6 +36719,120 @@
 	});
 	
 	module.exports = ProgressBar;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// explore artists index component
+	//    purpose: display artists
+	//
+	//    children: ExploreArtistIndexItem
+	//    actions: none
+	//    info: list of artists
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var ArtistStore = __webpack_require__(301);
+	
+	// UTILS
+	var ArtistUtil = __webpack_require__(278);
+	
+	// REACT COMPONENTS
+	var ExploreArtistsIndexItem = __webpack_require__(307);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ExploreArtistsIndex = React.createClass({
+	  displayName: 'ExploreArtistsIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      artists: []
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.artistListener = ArtistStore.addListener(this.updateArtists);
+	    ArtistUtil.fetchAllArtists();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.artistListener.remove();
+	  },
+	
+	  updateArtists: function () {
+	    this.setState({ artists: ArtistStore.all() });
+	  },
+	
+	  artists: function () {
+	    return this.state.artists.map(function (artist) {
+	      return React.createElement(ExploreArtistsIndexItem, { artist: artist, key: artist.id });
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'exploreTitle' },
+	      React.createElement(
+	        'span',
+	        null,
+	        'Artists'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'exploreIndex' },
+	        this.artists()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ExploreArtistsIndex;
+
+/***/ },
+/* 307 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// explore artists index item component
+	//    purpose: display artist
+	//
+	//    children: none
+	//    actions: redirect to artist page on click
+	//    info: artist name
+	
+	var React = __webpack_require__(1);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ExploreArtistsIndexItem = React.createClass({
+	  displayName: 'ExploreArtistsIndexItem',
+	
+	
+	  artistClick: function (event) {
+	    event.preventDefault();
+	    hashHistory.push('artists/' + this.props.artist.id);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'exploreArtistItem', onClick: this.artistClick },
+	      React.createElement(
+	        'div',
+	        null,
+	        this.props.artist.name
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ExploreArtistsIndexItem;
 
 /***/ }
 /******/ ]);

@@ -220,3 +220,46 @@
   -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,.5);
   box-shadow: 1px 2px 3px 3px rgba(0,0,0,.5);
 }
+
+.exploreIndices {
+  display: flex;
+}
+
+.exploreIndex {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.exploreTitle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 50%;
+  margin-top: 20px;
+}
+
+.exploreArtistItem {
+  opacity: 0.4;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  background: linear-gradient(to bottom right, #3D7899, #592000);
+  margin: 10px;
+  border-radius: 5px;
+  -moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  text-overflow: ellipsis;
+  transition: all 1s ease 0s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+}
+
+.exploreArtistItem:hover {
+  cursor: pointer;
+  opacity: 1;
+}

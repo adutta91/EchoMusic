@@ -64,7 +64,7 @@
 
 .uploadedListTitle {
   width: 100%;
-  margin: 30px 0 15px 70px;
+  margin: 30px 0 15px 20px;
 }
 
 .followedListTitle {
@@ -156,8 +156,6 @@
   border-top-right-radius: 10px;
 }
 
-.songListItemInfo {
-}
 
 .followButton {
   height: 40px;
@@ -173,12 +171,6 @@
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   opacity: .8
-}
-
-.userDisplay {
-  height: 30px;
-  width: 60px;
-  background: red;
 }
 
 .songManipulators {

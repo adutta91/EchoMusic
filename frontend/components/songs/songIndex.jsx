@@ -52,12 +52,10 @@ var SongIndex = React.createClass({
   render: function() {
     var user = SessionStore.currentUser();
     return (
-      <div>
-        <div className="indexTitle">Explore:</div>
-        <div className="songIndex">
-          <br/>
-          <br/>
-          { this.getSongs() }
+      <div className="exploreTitle">
+        <span>Songs</span>
+        <div className="exploreIndex">
+            { this.getSongs() }
         </div>
       </div>
     )

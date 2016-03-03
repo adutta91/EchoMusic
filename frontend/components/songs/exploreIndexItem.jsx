@@ -21,13 +21,14 @@ var ExploreIndexItem = React.createClass({
   },
 
   _onClick: function(event) {
+    event.preventDefault();
     hashHistory.push('/songs/' + this.state.song.id);
   },
 
   render: function() {
     return (
       <div onClick={this._onClick} className="songIndexItem">
-        {this.state.song.title}
+        <div>{this.state.song.title}</div>
       </div>
     );
   }
