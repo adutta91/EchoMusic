@@ -33481,6 +33481,14 @@
 	  return songs;
 	};
 	
+	SongStore.allShuffled = function () {
+	  var songs = [];
+	  Object.keys(_songs).forEach(function (songId) {
+	    songs.push(_songs[songId]);
+	  });
+	  return shuffle(songs);
+	};
+	
 	SongStore.followedSongs = function () {
 	  var songs = [];
 	  Object.keys(_followedSongs).forEach(function (songId) {
@@ -33645,6 +33653,17 @@
 	
 	var addSong = function (song) {
 	  _songs[song.id] = song;
+	};
+	
+	var shuffle = function (songs) {
+	  var j, x, i;
+	  for (i = songs.length; i; i -= 1) {
+	    j = Math.floor(Math.random() * i);
+	    x = songs[i - 1];
+	    songs[i - 1] = songs[j];
+	    songs[j] = x;
+	  }
+	  return songs;
 	};
 	
 	module.exports = SongStore;
@@ -33932,17 +33951,21 @@
 	      { className: 'userPage' },
 	      React.createElement(
 	        'div',
-	        { id: 'userProfile' },
-	        React.createElement(
-	          'span',
-	          { className: 'welcomeProfileMessage' },
-	          'Hello, ',
-	          this.state.user.username
-	        ),
+	        null,
 	        React.createElement(
 	          'div',
-	          { className: 'profilePic' },
-	          React.createElement(UpdateUserButton, { user: this.state.user })
+	          { id: 'userProfile' },
+	          React.createElement(
+	            'span',
+	            { className: 'welcomeProfileMessage' },
+	            'Hello, ',
+	            this.state.user.username
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'profilePic' },
+	            React.createElement(UpdateUserButton, { user: this.state.user })
+	          )
 	        ),
 	        React.createElement(UploadedSongsIndex, null)
 	      ),
@@ -34738,13 +34761,6 @@
 	  },
 	
 	  getInitialState: function () {
-	    // var followed;
-	    // if (this.props.followed) {
-	    //   followed = this.props.followed;
-	    // } else {
-	    //   followed = false;
-	    // }
-	
 	    return {
 	      song: this.props.song,
 	      followed: this.props.followed,
@@ -36329,7 +36345,7 @@
 	  },
 	
 	  _songsChanged: function () {
-	    this.setState({ songs: SongStore.all() });
+	    this.setState({ songs: SongStore.allShuffled() });
 	  },
 	
 	  getSongs: function () {
@@ -36339,7 +36355,11 @@
 	      'No more songs to explore!'
 	    );
 	    if (this.state.songs.length > 0) {
-	      list = this.state.songs.map(function (song, index) {
+	      var songs = this.state.songs;
+	      if (songs.length > 20) {
+	        songs = songs.slice(0, 20);
+	      }
+	      list = songs.map(function (song, index) {
 	        return React.createElement(ExploreIndexItem, { key: song.id, song: song });
 	      });
 	    }

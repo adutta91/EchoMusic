@@ -42,6 +42,7 @@ class Api::SongsController < ApplicationController
     user = current_user
     if (params["explore"] == "true")
       all_songs = Song.where.not("user_id = ?", user.id)
+      all_songs = all_songs.order("RANDOM()")
       @songs = all_songs.map do |song|
         following_user_ids = song.following_users.map do |user|
           user.id

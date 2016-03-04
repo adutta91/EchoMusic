@@ -26,13 +26,6 @@ var SongIndexItem = React.createClass({
   },
 
   getInitialState: function() {
-    // var followed;
-    // if (this.props.followed) {
-    //   followed = this.props.followed;
-    // } else {
-    //   followed = false;
-    // }
-
     return ({
       song: this.props.song,
       followed: this.props.followed,

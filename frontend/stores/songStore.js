@@ -24,6 +24,14 @@ SongStore.all = function() {
   return songs;
 };
 
+SongStore.allShuffled = function() {
+  var songs = []
+  Object.keys(_songs).forEach(function(songId){
+    songs.push(_songs[songId]);
+  });
+  return shuffle(songs);
+};
+
 SongStore.followedSongs = function() {
   var songs = []
   Object.keys(_followedSongs).forEach(function(songId){
@@ -189,5 +197,17 @@ var resetSong = function(song) {
 var addSong = function(song) {
   _songs[song.id] = song;
 };
+
+var shuffle = function(songs) {
+    var j, x, i;
+    for (i = songs.length; i; i -= 1) {
+        j = Math.floor(Math.random() * i);
+        x = songs[i - 1];
+        songs[i - 1] = songs[j];
+        songs[j] = x;
+    }
+    return songs
+}
+
 
 module.exports = SongStore;

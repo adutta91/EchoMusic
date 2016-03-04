@@ -36,13 +36,17 @@ var SongIndex = React.createClass({
   },
 
   _songsChanged: function() {
-    this.setState( { songs: SongStore.all() } );
+    this.setState( { songs: SongStore.allShuffled() } );
   },
 
   getSongs: function() {
     var list = <div>No more songs to explore!</div>
     if (this.state.songs.length > 0){
-      list = this.state.songs.map(function(song, index) {
+      var songs = this.state.songs;
+      if (songs.length > 20) {
+        songs = songs.slice(0, 20);
+      }
+      list = songs.map(function(song, index) {
         return <ExploreIndexItem key={song.id} song={song}/>
       });
     }
