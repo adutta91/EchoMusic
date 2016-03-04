@@ -12,7 +12,7 @@ var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SongUtil = require('../../util/songUtil');
 
 // REACT COMPONENTS
 var ExploreIndexItem = require('./exploreIndexItem');
@@ -28,7 +28,7 @@ var SongIndex = React.createClass({
 
   componentDidMount: function() {
     this.listener = SongStore.addListener(this._songsChanged);
-    ApiUtil.fetchExploreSongs();
+    SongUtil.fetchExploreSongs();
   },
 
   componentWillUnmount: function() {

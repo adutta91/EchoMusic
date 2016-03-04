@@ -9,7 +9,7 @@ var React = require('react');
 var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SessionUtil = require('../../util/sessionUtil');
 var SongUtil = require('../../util/songUtil');
 
 
@@ -18,9 +18,9 @@ var Logout = React.createClass({
 
   handleLogout: function(event) {
     event.preventDefault();
-  
+
     var user = SessionStore.currentUser();
-    ApiUtil.resetSession(user);
+    SessionUtil.resetSession(user);
     SongUtil.endSong();
     window.location = "/";
   },

@@ -15,7 +15,7 @@ var hashHistory = ReactRouter.hashHistory;
 var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SessionUtil = require('../../util/sessionUtil');
 
 // MIXINS
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
@@ -67,7 +67,7 @@ var UpdateUserForm = React.createClass({
       description: this.state.desc,
       image_url: this.state.imageUrl
     }};
-    ApiUtil.updateUser(user);
+    SessionUtil.updateUser(user);
     this.props.modalCallback();
     hashHistory.push('/users/' + SessionStore.currentUser().id);
   },

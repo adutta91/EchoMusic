@@ -16,7 +16,7 @@ var SongStore = require('../../stores/songStore');
 var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SongUtil = require('../../util/songUtil');
 
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
@@ -53,9 +53,9 @@ var SongProfile = React.createClass({
 
   componentDidMount: function() {
     this.songListener = SongStore.addListener(this.getStateFromStore);
-    ApiUtil.fetchSingleSong(this.props.params.id);
+    SongUtil.fetchSingleSong(this.props.params.id);
     if (SessionStore.loggedIn()){
-      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id)
+      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id)
     }
   },
 

@@ -1,6 +1,9 @@
 // artist Util
 //    purpose: all action requests regarding artists
 
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // ACTIONS
 var ArtistActions = require('../actions/artistActions');
 

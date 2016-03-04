@@ -1,6 +1,9 @@
 // user Util
 //    purpose: all action requests regarding users
 
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
+
 // ACTIONS
 var UserActions = require('../actions/userActions');
 

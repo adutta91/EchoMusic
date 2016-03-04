@@ -9,14 +9,14 @@
 var React = require('react');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SessionUtil = require('../../util/sessionUtil');
 
 // MIXINS
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 // CLASS DEFINITION ----------------------------------------***
 var SignInForm = React.createClass({
-  
+
   mixins: [LinkedStateMixin],
 
   getInitialState: function() {
@@ -34,7 +34,7 @@ var SignInForm = React.createClass({
         password: this.state.password
       }
     };
-    ApiUtil.createSession(user);
+    SessionUtil.createSession(user);
   },
 
   render: function() {

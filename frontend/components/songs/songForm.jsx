@@ -16,7 +16,7 @@ var SessionStore = require('../../stores/SessionStore');
 var ArtistStore = require('../../stores/artistStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SongUtil = require('../../util/songUtil');
 var ArtistUtil = require('../../util/artistUtil');
 
 // MIXINS
@@ -62,7 +62,7 @@ var SongForm = React.createClass({
       artist_id: artistId
     }};
 
-    ApiUtil.createSong(song);
+    SongUtil.createSong(song);
     // this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 

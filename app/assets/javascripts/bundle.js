@@ -33617,10 +33617,71 @@
 	// session util
 	//    purpose: all non-server action requests regarding the session
 	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// ACTIONS
 	var SessionActions = __webpack_require__(258);
 	
 	SessionUtil = {
+	  createUser: function (user) {
+	    $.ajax({
+	      url: 'api/users',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.logInUser(user);
+	        window.location = '/';
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('create user error');
+	      }
+	    });
+	  },
+	
+	  updateUser: function (user) {
+	    $.ajax({
+	      url: 'api/users/' + user.user.id,
+	      method: 'PATCH',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.showUser(user);
+	      },
+	      error: function (user) {
+	        alert('user update error');
+	      }
+	    });
+	  },
+	
+	  createSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.logInUser(user);
+	        window.location = '/';
+	      },
+	      error: function (user) {
+	        window.location = '/';
+	        // TODO: errors
+	        alert('create session error');
+	      }
+	    });
+	  },
+	
+	  resetSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'DELETE',
+	      data: { id: user.id },
+	      success: function (user) {
+	        SessionActions.logOutUser();
+	      }
+	    });
+	  },
 	
 	  refreshSession: function (user) {
 	    SessionActions.refreshSession(user);
@@ -33768,137 +33829,18 @@
 	
 	// ACTIONS
 	var SongActions = __webpack_require__(261);
-	var SessionActions = __webpack_require__(258);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(257);
+	var SongUtil = __webpack_require__(272);
 	
 	var ApiUtil = {
-	
-	  // USER QUERIES ---------------------------------------------*****
-	  createUser: function (user) {
-	    $.ajax({
-	      url: 'api/users',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.logInUser(user);
-	        window.location = '/';
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('create user error');
-	      }
-	    });
-	  },
-	
-	  updateUser: function (user) {
-	    $.ajax({
-	      url: 'api/users/' + user.user.id,
-	      method: 'PATCH',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.showUser(user);
-	      },
-	      error: function (user) {
-	        alert('user update error');
-	      }
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.logInUser(user);
-	        window.location = '/';
-	      },
-	      error: function (user) {
-	        window.location = '/';
-	        // TODO: errors
-	        alert('create session error');
-	      }
-	    });
-	  },
-	
-	  resetSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'DELETE',
-	      data: { id: user.id },
-	      success: function (user) {
-	        SessionActions.logOutUser();
-	      }
-	    });
-	  },
-	
-	  // SONG QUERIES ---------------------------------------------*****
-	  createSong: function (song) {
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'POST',
-	      data: song,
-	      success: function (song) {
-	        SongActions.uploadSong(song);
-	        hashHistory.push('/songs/' + song.id);
-	      },
-	      error: function (error) {
-	        debugger;
-	        alert(error.responseText);
-	      }
-	    });
-	  },
-	
-	  fetchExploreSongs: function () {
-	    data = { explore: true };
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'GET',
-	      data: data,
-	      success: function (songs) {
-	        SongActions.receiveSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchUserSongs: function (userId) {
-	    data = { explore: false };
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'GET',
-	      data: data,
-	      success: function (songs) {
-	        SongActions.receiveSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchFollowedSongs: function (userId) {
-	    $.ajax({
-	      url: 'api/users/' + userId + '/followed_songs',
-	      method: 'GET',
-	      success: function (songs) {
-	        SongActions.receiveFollowedSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchSingleSong: function (id) {
-	    $.get('api/songs/' + id, {}, function (song) {
-	      SongActions.receiveSingleSong(song);
-	    });
-	  },
-	
 	  createSongFollow: function (songFollow) {
 	    $.ajax({
 	      url: 'api/song_follows',
 	      method: 'POST',
 	      data: songFollow,
 	      success: function (songFollow) {
-	        this.fetchFollowedSongs(songFollow.user_id);
+	        SongUtil.fetchFollowedSongs(songFollow.user_id);
 	      }.bind(this)
 	    });
 	  },
@@ -33909,7 +33851,7 @@
 	      method: 'PATCH',
 	      data: songFollow,
 	      success: function (songFollow) {
-	        this.fetchFollowedSongs(songFollow.user_id);
+	        SongUtil.fetchFollowedSongs(songFollow.user_id);
 	      }.bind(this)
 	    });
 	  }
@@ -34115,7 +34057,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SessionUtil = __webpack_require__(257);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(265);
@@ -34173,7 +34115,7 @@
 	        description: this.state.desc,
 	        image_url: this.state.imageUrl
 	      } };
-	    ApiUtil.updateUser(user);
+	    SessionUtil.updateUser(user);
 	    this.props.modalCallback();
 	    hashHistory.push('/users/' + SessionStore.currentUser().id);
 	  },
@@ -34455,7 +34397,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(272);
 	
 	// REACT COMPONENTS
 	var SongIndexItem = __webpack_require__(303);
@@ -34478,7 +34420,7 @@
 	
 	  _onSessionChange: function () {
 	    this.setState({ user: SessionStore.currentUser() });
-	    ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	    SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
 	  },
 	
 	  componentDidMount: function () {
@@ -34486,7 +34428,7 @@
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
 	
 	    if (SessionStore.currentUser()) {
-	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
 	      this.setState({ user: SessionStore.currentUser() });
 	    }
 	  },
@@ -34612,6 +34554,9 @@
 	// song Util
 	//    purpose: all non-server action requests regarding songs
 	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
 	// ACTIONS
 	var SongActions = __webpack_require__(261);
 	
@@ -34631,6 +34576,62 @@
 	
 	  playSong: function () {
 	    SongActions.playSong();
+	  },
+	
+	  createSong: function (song) {
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'POST',
+	      data: song,
+	      success: function (song) {
+	        SongActions.uploadSong(song);
+	        hashHistory.push('/songs/' + song.id);
+	      },
+	      error: function (error) {
+	        debugger;
+	        alert(error.responseText);
+	      }
+	    });
+	  },
+	
+	  fetchExploreSongs: function () {
+	    data = { explore: true };
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: data,
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchUserSongs: function (userId) {
+	    data = { explore: false };
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: data,
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchFollowedSongs: function (userId) {
+	    $.ajax({
+	      url: 'api/users/' + userId + '/followed_songs',
+	      method: 'GET',
+	      success: function (songs) {
+	        SongActions.receiveFollowedSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchSingleSong: function (id) {
+	    $.get('api/songs/' + id, {}, function (song) {
+	      SongActions.receiveSingleSong(song);
+	    });
 	  },
 	
 	  fetchArtistSongs: function (artistId) {
@@ -34766,7 +34767,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(272);
 	
 	// REACT COMPONENTS
 	var UploadedSongIndexItem = __webpack_require__(275);
@@ -34796,7 +34797,7 @@
 	
 	  componentDidMount: function () {
 	    this.songListener = SongStore.addListener(this._onSongChange);
-	    ApiUtil.fetchUserSongs(this.state.user.id);
+	    SongUtil.fetchUserSongs(this.state.user.id);
 	
 	    this.sessionListener = SessionStore.addListener(this._onSessionChange);
 	    this.setState({ user: SessionStore.currentUser() });
@@ -34910,7 +34911,7 @@
 	var ArtistStore = __webpack_require__(301);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(272);
 	var ArtistUtil = __webpack_require__(278);
 	
 	// MIXINS
@@ -34958,7 +34959,7 @@
 	        artist_id: artistId
 	      } };
 	
-	    ApiUtil.createSong(song);
+	    SongUtil.createSong(song);
 	    // this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
@@ -35051,6 +35052,9 @@
 
 	// artist Util
 	//    purpose: all action requests regarding artists
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
 	var ArtistActions = __webpack_require__(279);
@@ -35279,7 +35283,7 @@
 	var React = __webpack_require__(1);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SessionUtil = __webpack_require__(257);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(265);
@@ -35306,7 +35310,7 @@
 	        password: this.state.password
 	      }
 	    };
-	    ApiUtil.createSession(user);
+	    SessionUtil.createSession(user);
 	  },
 	
 	  render: function () {
@@ -35361,7 +35365,7 @@
 	var React = __webpack_require__(1);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SessionUtil = __webpack_require__(257);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(265);
@@ -35388,7 +35392,7 @@
 	        password: this.state.password
 	      }
 	    };
-	    ApiUtil.createUser(user);
+	    SessionUtil.createUser(user);
 	  },
 	
 	  render: function () {
@@ -35493,7 +35497,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(272);
 	
 	// REACT COMPONENTS
 	var ExploreIndexItem = __webpack_require__(304);
@@ -35511,7 +35515,7 @@
 	
 	  componentDidMount: function () {
 	    this.listener = SongStore.addListener(this._songsChanged);
-	    ApiUtil.fetchExploreSongs();
+	    SongUtil.fetchExploreSongs();
 	  },
 	
 	  componentWillUnmount: function () {
@@ -35696,7 +35700,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SessionUtil = __webpack_require__(257);
 	var SongUtil = __webpack_require__(272);
 	
 	// CLASS DEFINITION ----------------------------------------***
@@ -35708,7 +35712,7 @@
 	    event.preventDefault();
 	
 	    var user = SessionStore.currentUser();
-	    ApiUtil.resetSession(user);
+	    SessionUtil.resetSession(user);
 	    SongUtil.endSong();
 	    window.location = "/";
 	  },
@@ -35835,7 +35839,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(260);
+	var SongUtil = __webpack_require__(272);
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(271);
@@ -35874,9 +35878,9 @@
 	
 	  componentDidMount: function () {
 	    this.songListener = SongStore.addListener(this.getStateFromStore);
-	    ApiUtil.fetchSingleSong(this.props.params.id);
+	    SongUtil.fetchSingleSong(this.props.params.id);
 	    if (SessionStore.loggedIn()) {
-	      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
 	    }
 	  },
 	
@@ -36068,6 +36072,9 @@
 
 	// user Util
 	//    purpose: all action requests regarding users
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
 	var UserActions = __webpack_require__(297);

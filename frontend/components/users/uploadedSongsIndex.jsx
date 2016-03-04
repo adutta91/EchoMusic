@@ -12,7 +12,7 @@ var SongStore = require('../../stores/songStore');
 var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SongUtil = require('../../util/songUtil');
 
 // REACT COMPONENTS
 var UploadedSongIndexItem = require('./uploadedSongIndexItem');
@@ -40,7 +40,7 @@ var UploadedSongsIndex = React.createClass({
 
   componentDidMount: function() {
     this.songListener = SongStore.addListener(this._onSongChange);
-    ApiUtil.fetchUserSongs(this.state.user.id);
+    SongUtil.fetchUserSongs(this.state.user.id);
 
     this.sessionListener = SessionStore.addListener(this._onSessionChange);
     this.setState( {user: SessionStore.currentUser() });

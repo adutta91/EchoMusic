@@ -12,7 +12,7 @@ var SessionStore = require('../../stores/SessionStore');
 var SongStore = require('../../stores/songStore');
 
 // UTILS
-var ApiUtil = require('../../util/apiUtil');
+var SongUtil = require('../../util/songUtil');
 
 // REACT COMPONENTS
 var SongIndexItem = require('./songIndexItem');
@@ -33,7 +33,7 @@ var FollowedSongIndex = React.createClass({
 
   _onSessionChange: function() {
     this.setState( { user: SessionStore.currentUser() } );
-    ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+    SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
   },
 
   componentDidMount: function() {
@@ -41,7 +41,7 @@ var FollowedSongIndex = React.createClass({
     this.sessionListener = SessionStore.addListener(this._onSessionChange);
 
     if(SessionStore.currentUser()){
-      ApiUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
       this.setState( { user: SessionStore.currentUser() } );
     }
   },
