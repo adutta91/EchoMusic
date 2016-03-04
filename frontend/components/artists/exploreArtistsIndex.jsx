@@ -46,7 +46,7 @@ var ExploreArtistsIndex = React.createClass({
 
   render: function() {
     return (
-      <div className="exploreTitle">
+      <div className="exploreArtistTitle">
         <span>Artists</span>
         <div className="exploreIndex">
           {this.artists()}

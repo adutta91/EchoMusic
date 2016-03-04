@@ -25,7 +25,7 @@ var FullApp = React.createClass({
     return (
       <div className="welcome">
         <div className="imageBanner"></div>
-        <div className="exploreIndices">
+        <div className="indices">
           <SongIndex />
           <ExploreArtistsIndex />
         </div>

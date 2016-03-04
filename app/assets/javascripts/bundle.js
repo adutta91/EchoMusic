@@ -35465,7 +35465,7 @@
 	      React.createElement('div', { className: 'imageBanner' }),
 	      React.createElement(
 	        'div',
-	        { className: 'exploreIndices' },
+	        { className: 'indices' },
 	        React.createElement(SongIndex, null),
 	        React.createElement(ExploreArtistsIndex, null)
 	      )
@@ -35540,7 +35540,7 @@
 	    var user = SessionStore.currentUser();
 	    return React.createElement(
 	      'div',
-	      { className: 'exploreTitle' },
+	      { className: 'exploreSongTitle' },
 	      React.createElement(
 	        'span',
 	        null,
@@ -36775,7 +36775,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'exploreTitle' },
+	      { className: 'exploreArtistTitle' },
 	      React.createElement(
 	        'span',
 	        null,
