@@ -3,7 +3,7 @@
 
 var Dispatcher = require('../dispatcher');
 
-SongActions = {
+var SongActions = {
   uploadSong: function(song) {
     Dispatcher.dispatch({
       actionType: 'ADD_SONG',

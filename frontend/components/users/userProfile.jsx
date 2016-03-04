@@ -58,8 +58,17 @@ var UserProfile = React.createClass({
           </div>
           <UploadedSongsIndex />
         </div>
-        <div className="followedSongList">
-          <FollowedSongsIndex user={this.state.user} />
+        <div className="userMidCol">
+          <div className="aboutUser">
+            <div className="aboutUserTitle">About</div>
+            <div className="aboutUserDesc">{this.state.user.description}</div>
+          </div>
+          <div className="followGroup">
+            <div className="followedListTitle">Following</div>
+            <div className="followedSongList">
+              <FollowedSongsIndex user={this.state.user} />
+            </div>
+          </div>
         </div>
       </div>
     )

@@ -5,6 +5,10 @@
 var Store = require('flux/utils').Store;
 var Dispatcher = require('../dispatcher');
 
+var SongActions = require('../actions/songActions');
+
+var SongUtil = require('../util/songUtil');
+
 var _songs = {};
 var _followedSongs = {};
 

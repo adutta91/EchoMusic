@@ -4,7 +4,7 @@
 
 var Dispatcher = require('../dispatcher');
 
-SessionActions = {
+var SessionActions = {
   logInUser: function(user) {
     Dispatcher.dispatch({
       actionType: 'LOGIN_USER',

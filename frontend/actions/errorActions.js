@@ -3,7 +3,7 @@
 
 var Dispatcher = require('../dispatcher');
 
-ErrorActions = {
+var ErrorActions = {
   receiveError: function(errorMessage) {
     Dispatcher.dispatch({
       actionType: 'RAISE_ERROR',

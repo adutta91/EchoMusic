@@ -8,7 +8,7 @@ var hashHistory = ReactRouter.hashHistory;
 var SongActions = require('../actions/songActions');
 var ErrorActions = require('../actions/errorActions');
 
-SongUtil = {
+var SongUtil = {
 
   loadSong: function(songId) {
     SongActions.loadSong(songId);

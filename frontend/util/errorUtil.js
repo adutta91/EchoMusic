@@ -8,7 +8,7 @@ var hashHistory = ReactRouter.hashHistory;
 var SessionActions = require('../actions/sessionActions');
 var ErrorActions = require('../actions/errorActions');
 
-ErrorUtil = {
+var ErrorUtil = {
   clearErrors: function() {
     ErrorActions.clearErrors();
   }

@@ -17,6 +17,7 @@ var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
 var SongUtil = require('../../util/songUtil');
+var LyricUtil = require('../../util/lyricUtil');
 
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
@@ -34,7 +35,8 @@ var SongProfile = React.createClass({
         artist_name: ""
       },
       display: true,
-      followed: false
+      followed: false,
+      lyrics: (<div/>)
     });
   },
 
@@ -69,6 +71,18 @@ var SongProfile = React.createClass({
     hashHistory.push('/artists/' + this.state.song.artist_id);
   },
 
+  lyricButton: function() {
+    LyricUtil.fetchLyrics();
+  },
+
+  lyrics: function() {
+    return (
+      <div
+        className="lyrics"
+        onClick={this.lyricButton}/>
+    )
+  },
+
   followButton: function() {
     var button = (<div />);
     if (this.state.display) {
@@ -95,6 +109,7 @@ var SongProfile = React.createClass({
           { this.followButton() }
         </div>
         <UserDisplay userId={this.state.song.user_id}/>
+        {this.lyrics()}
       </div>
     );
   }

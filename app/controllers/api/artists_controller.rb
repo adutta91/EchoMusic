@@ -2,11 +2,7 @@ class Api::ArtistsController < ApplicationController
 
   def create
     @artist = Artist.new(artist_params)
-    if @artist.save
-      render :show
-    else
-      render :errors, status: 422
-    end
+    render :show
   end
 
   def show

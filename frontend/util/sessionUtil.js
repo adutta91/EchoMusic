@@ -8,7 +8,7 @@ var hashHistory = ReactRouter.hashHistory;
 var SessionActions = require('../actions/sessionActions');
 var ErrorActions = require('../actions/errorActions');
 
-SessionUtil = {
+var SessionUtil = {
   createUser: function(user) {
     $.ajax({
       url: 'api/users',

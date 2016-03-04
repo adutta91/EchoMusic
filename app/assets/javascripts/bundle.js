@@ -33462,6 +33462,10 @@
 	var Store = __webpack_require__(237).Store;
 	var Dispatcher = __webpack_require__(253);
 	
+	var SongActions = __webpack_require__(264);
+	
+	var SongUtil = __webpack_require__(265);
+	
 	var _songs = {};
 	var _followedSongs = {};
 	
@@ -33738,7 +33742,7 @@
 	var SessionActions = __webpack_require__(259);
 	var ErrorActions = __webpack_require__(260);
 	
-	SessionUtil = {
+	var SessionUtil = {
 	  createUser: function (user) {
 	    $.ajax({
 	      url: 'api/users',
@@ -33814,7 +33818,7 @@
 	
 	var Dispatcher = __webpack_require__(253);
 	
-	SessionActions = {
+	var SessionActions = {
 	  logInUser: function (user) {
 	    Dispatcher.dispatch({
 	      actionType: 'LOGIN_USER',
@@ -33855,7 +33859,7 @@
 	
 	var Dispatcher = __webpack_require__(253);
 	
-	ErrorActions = {
+	var ErrorActions = {
 	  receiveError: function (errorMessage) {
 	    Dispatcher.dispatch({
 	      actionType: 'RAISE_ERROR',
@@ -33886,7 +33890,7 @@
 	var SessionActions = __webpack_require__(259);
 	var ErrorActions = __webpack_require__(260);
 	
-	ErrorUtil = {
+	var ErrorUtil = {
 	  clearErrors: function () {
 	    ErrorActions.clearErrors();
 	  }
@@ -33971,8 +33975,35 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'followedSongList' },
-	        React.createElement(FollowedSongsIndex, { user: this.state.user })
+	        { className: 'userMidCol' },
+	        React.createElement(
+	          'div',
+	          { className: 'aboutUser' },
+	          React.createElement(
+	            'div',
+	            { className: 'aboutUserTitle' },
+	            'About'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'aboutUserDesc' },
+	            this.state.user.description
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'followGroup' },
+	          React.createElement(
+	            'div',
+	            { className: 'followedListTitle' },
+	            'Following'
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'followedSongList' },
+	            React.createElement(FollowedSongsIndex, { user: this.state.user })
+	          )
+	        )
 	      )
 	    );
 	  }
@@ -34036,7 +34067,7 @@
 	
 	var Dispatcher = __webpack_require__(253);
 	
-	SongActions = {
+	var SongActions = {
 	  uploadSong: function (song) {
 	    Dispatcher.dispatch({
 	      actionType: 'ADD_SONG',
@@ -34108,7 +34139,7 @@
 	var SongActions = __webpack_require__(264);
 	var ErrorActions = __webpack_require__(260);
 	
-	SongUtil = {
+	var SongUtil = {
 	
 	  loadSong: function (songId) {
 	    SongActions.loadSong(songId);
@@ -34709,11 +34740,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'div',
-	        { className: 'followedListTitle' },
-	        'Following'
-	      ),
 	      this.state.songs.map(function (song, index) {
 	        return React.createElement(SongIndexItem, {
 	          followed: true,
@@ -35196,6 +35222,7 @@
 	
 	// UTILS
 	var SongUtil = __webpack_require__(265);
+	var LyricUtil = __webpack_require__(310);
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(275);
@@ -35215,7 +35242,8 @@
 	        artist_name: ""
 	      },
 	      display: true,
-	      followed: false
+	      followed: false,
+	      lyrics: React.createElement('div', null)
 	    };
 	  },
 	
@@ -35250,6 +35278,16 @@
 	    hashHistory.push('/artists/' + this.state.song.artist_id);
 	  },
 	
+	  lyricButton: function () {
+	    LyricUtil.fetchLyrics();
+	  },
+	
+	  lyrics: function () {
+	    return React.createElement('div', {
+	      className: 'lyrics',
+	      onClick: this.lyricButton });
+	  },
+	
 	  followButton: function () {
 	    var button = React.createElement('div', null);
 	    if (this.state.display) {
@@ -35280,7 +35318,8 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        this.followButton()
 	      ),
-	      React.createElement(UserDisplay, { userId: this.state.song.user_id })
+	      React.createElement(UserDisplay, { userId: this.state.song.user_id }),
+	      this.lyrics()
 	    );
 	  }
 	});
@@ -35435,7 +35474,7 @@
 	// ACTIONS
 	var UserActions = __webpack_require__(283);
 	
-	UserUtil = {
+	var UserUtil = {
 	  fetchSingleUser: function (userId) {
 	    $.ajax({
 	      url: 'api/users/' + userId,
@@ -35689,7 +35728,7 @@
 	
 	var Dispatcher = __webpack_require__(253);
 	
-	ArtistActions = {
+	var ArtistActions = {
 	  receiveAllArtists: function (artists) {
 	    Dispatcher.dispatch({
 	      actionType: "RECEIVE_ALL_ARTISTS",
@@ -36285,6 +36324,25 @@
 	  displayName: 'FullApp',
 	
 	
+	  indices: function () {
+	    // if (SessionStore.loggedIn()) {
+	    //   return (
+	    //     <div className="indices">
+	    //       <SongIndex />
+	    //       <ExploreArtistsIndex />
+	    //     </div>
+	    //   );
+	    // } else {
+	    //   return (<div/>);
+	    // }
+	    return React.createElement(
+	      'div',
+	      { className: 'indices' },
+	      React.createElement(SongIndex, null),
+	      React.createElement(ExploreArtistsIndex, null)
+	    );
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -36294,12 +36352,7 @@
 	        { className: 'imageBanner' },
 	        React.createElement(About, null)
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'indices' },
-	        React.createElement(SongIndex, null),
-	        React.createElement(ExploreArtistsIndex, null)
-	      )
+	      this.indices()
 	    );
 	  }
 	});
@@ -37164,6 +37217,56 @@
 	});
 	
 	module.exports = About;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// lyric util
+	//    purpose: action requests regarding lyrics
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// ACTIONS
+	var LyricActions = __webpack_require__(311);
+	
+	var LyricUtil = {
+	  fetchLyrics: function () {
+	    $.ajax({
+	      url: "http://api.cajunlyrics.com/LyricDirectSearch.php?artist=Blind+Pilot&title=Pilot",
+	      method: "GET",
+	      success: function (response) {
+	        debugger;
+	      },
+	      error: function (response) {
+	        debugger;
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = LyricUtil;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all lyric actions
+	//    purpose: dispatch lyric to LyricStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var LyricActions = {
+	  receiveLyrics: function (lyrics) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_LYRICS',
+	      lyrics: lyrics
+	    });
+	  }
+	};
+	
+	module.exports = LyricActions;
 
 /***/ }
 /******/ ]);

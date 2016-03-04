@@ -22,16 +22,32 @@ var ExploreArtistsIndex = require('../artists/exploreArtistsIndex');
 // CLASS DEFINITION ----------------------------------------***
 var FullApp = React.createClass({
 
+  indices: function() {
+    // if (SessionStore.loggedIn()) {
+    //   return (
+    //     <div className="indices">
+    //       <SongIndex />
+    //       <ExploreArtistsIndex />
+    //     </div>
+    //   );
+    // } else {
+    //   return (<div/>);
+    // }
+    return (
+      <div className="indices">
+        <SongIndex />
+        <ExploreArtistsIndex />
+      </div>
+      );
+  },
+
   render: function() {
     return (
       <div className="welcome">
         <div className="imageBanner">
           <About />
         </div>
-        <div className="indices">
-          <SongIndex />
-          <ExploreArtistsIndex />
-        </div>
+        {this.indices()}
       </div>
     );
   }

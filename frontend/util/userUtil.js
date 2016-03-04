@@ -7,7 +7,7 @@ var hashHistory = ReactRouter.hashHistory;
 // ACTIONS
 var UserActions = require('../actions/userActions');
 
-UserUtil = {
+var UserUtil = {
   fetchSingleUser: function(userId) {
     $.ajax({
       url: 'api/users/' + userId,
