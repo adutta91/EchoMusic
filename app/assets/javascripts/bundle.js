@@ -34234,7 +34234,7 @@
 	  },
 	
 	  findPicture: function () {
-	    var pic = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png";
+	    var pic = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456965706/beast.png";
 	    if (this.props.user.image_url) {
 	      pic = this.props.user.image_url;
 	    }
