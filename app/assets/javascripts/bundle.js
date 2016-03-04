@@ -26758,7 +26758,6 @@
 	      SessionStore.__emitChange();
 	      break;
 	    case 'LOGOUT_USER':
-	      console.log('logout');
 	      logout();
 	      SessionStore.__emitChange();
 	      break;
@@ -33728,7 +33727,7 @@
 	      data: user,
 	      success: function (user) {
 	        SessionActions.logInUser(user);
-	        window.location = '/';
+	        hashHistory.push('/');
 	      },
 	      error: function (error) {
 	        ErrorActions.receiveError(error.responseText);
@@ -33757,7 +33756,7 @@
 	      data: user,
 	      success: function (user) {
 	        SessionActions.logInUser(user);
-	        window.location = '/';
+	        hashHistory.push('/');
 	      },
 	      error: function (error) {
 	        ErrorActions.receiveError(error.responseText);
@@ -33775,7 +33774,6 @@
 	      },
 	      error: function (error) {
 	        ErrorActions.receiveError(error.responseText);
-	        window.location = '/';
 	      }
 	    });
 	  },
@@ -33969,6 +33967,7 @@
 	
 	var React = __webpack_require__(1);
 	
+	// HISTORY
 	var ReactRouter = __webpack_require__(179);
 	var hashHistory = ReactRouter.hashHistory;
 	
@@ -36613,6 +36612,11 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
+	var SongStore = __webpack_require__(256);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
 	
 	// UTILS
 	var SessionUtil = __webpack_require__(258);
@@ -36628,8 +36632,10 @@
 	
 	    var user = SessionStore.currentUser();
 	    SessionUtil.resetSession(user);
-	    SongUtil.endSong();
-	    window.location = "/";
+	    if (SongStore.playing()) {
+	      SongUtil.endSong();
+	    }
+	    hashHistory.push('session/new');
 	  },
 	
 	  render: function () {

@@ -16,7 +16,7 @@ SessionUtil = {
       data: user,
       success: function(user) {
         SessionActions.logInUser(user);
-        window.location = '/';
+        hashHistory.push('/');
       },
       error: function(error) {
         ErrorActions.receiveError(error.responseText);
@@ -45,7 +45,7 @@ SessionUtil = {
       data: user,
       success: function(user) {
         SessionActions.logInUser(user);
-        window.location = '/';
+        hashHistory.push('/');
       },
       error: function(error) {
         ErrorActions.receiveError(error.responseText);
@@ -63,7 +63,6 @@ SessionUtil = {
       },
       error: function(error) {
         ErrorActions.receiveError(error.responseText);
-        window.location = '/';
       }
     });
   },

@@ -7,6 +7,11 @@ var React = require('react');
 
 // STORES
 var SessionStore = require('../../stores/SessionStore');
+var SongStore = require('../../stores/songStore');
+
+// HISTORY
+var ReactRouter = require('react-router');
+var hashHistory = ReactRouter.hashHistory;
 
 // UTILS
 var SessionUtil = require('../../util/sessionUtil');
@@ -21,8 +26,10 @@ var Logout = React.createClass({
 
     var user = SessionStore.currentUser();
     SessionUtil.resetSession(user);
-    SongUtil.endSong();
-    window.location = "/";
+    if (SongStore.playing()) {
+      SongUtil.endSong();
+    }
+    hashHistory.push('session/new');
   },
 
   render: function() {
