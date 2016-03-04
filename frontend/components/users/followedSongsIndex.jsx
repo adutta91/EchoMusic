@@ -56,7 +56,11 @@ var FollowedSongIndex = React.createClass({
       <div>
         <div className="followedListTitle">Following</div>
         {this.state.songs.map(function(song, index) {
-          return <SongIndexItem song={song} key={song.id} />
+          return (<SongIndexItem
+                    followed={true}
+                    song={song}
+                    showArtist={true}
+                    key={song.id} />)
         })}
       </div>
     )

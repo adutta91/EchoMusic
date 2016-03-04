@@ -34692,7 +34692,11 @@
 	        'Following'
 	      ),
 	      this.state.songs.map(function (song, index) {
-	        return React.createElement(SongIndexItem, { song: song, key: song.id });
+	        return React.createElement(SongIndexItem, {
+	          followed: true,
+	          song: song,
+	          showArtist: true,
+	          key: song.id });
 	      })
 	    );
 	  }
@@ -34717,6 +34721,9 @@
 	var ReactRouter = __webpack_require__(179);
 	var hashHistory = ReactRouter.hashHistory;
 	
+	// STORES
+	var SongStore = __webpack_require__(256);
+	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(275);
 	var FollowButton = __webpack_require__(276);
@@ -34731,9 +34738,36 @@
 	  },
 	
 	  getInitialState: function () {
+	    // var followed;
+	    // if (this.props.followed) {
+	    //   followed = this.props.followed;
+	    // } else {
+	    //   followed = false;
+	    // }
+	
 	    return {
-	      song: this.props.song
+	      song: this.props.song,
+	      followed: this.props.followed,
+	      showArtist: this.props.showArtist
 	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.songListener = SongStore.addListener(this.updateState);
+	    this.updateState();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.songListener.remove();
+	  },
+	
+	  updateState: function () {
+	    var song = SongStore.findFollowedSong(this.state.song.id);
+	    if (song) {
+	      this.setState({ followed: true });
+	    } else {
+	      this.setState({ followed: false });
+	    }
 	  },
 	
 	  _onClick: function (event) {
@@ -34748,8 +34782,24 @@
 	  },
 	
 	  followButton: function () {
+	    return React.createElement(FollowButton, { songId: this.state.song.id, followed: this.state.followed });
+	  },
 	
-	    React.createElement(FollowButton, { songId: this.state.song.id, followed: true });
+	  artist: function () {
+	    if (this.state.showArtist) {
+	      return React.createElement(
+	        'span',
+	        { onClick: this.artistClick },
+	        '  - ',
+	        React.createElement(
+	          'span',
+	          { className: 'followListArtist' },
+	          this.state.song.artist_name
+	        )
+	      );
+	    } else {
+	      return React.createElement('span', null);
+	    }
 	  },
 	
 	  render: function () {
@@ -34760,16 +34810,7 @@
 	        'span',
 	        { className: 'followListItemInfo' },
 	        this.state.song.title,
-	        React.createElement(
-	          'span',
-	          { onClick: this.artistClick },
-	          '  - ',
-	          React.createElement(
-	            'span',
-	            { className: 'followListArtist' },
-	            this.state.song.artist_name
-	          )
-	        )
+	        this.artist()
 	      ),
 	      React.createElement(
 	        'div',
@@ -35665,6 +35706,7 @@
 	
 	// STORES
 	var SongStore = __webpack_require__(256);
+	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
 	var SongUtil = __webpack_require__(265);
@@ -35686,6 +35728,10 @@
 	
 	  componentDidMount: function () {
 	    this.songListener = SongStore.addListener(this._onChange);
+	
+	    if (SessionStore.currentUser()) {
+	      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+	    }
 	  },
 	
 	  componentWillReceiveProps: function (newProps) {
@@ -35703,7 +35749,15 @@
 	
 	  songs: function () {
 	    return this.state.songs.map(function (song, idx) {
-	      return React.createElement(SongIndexItem, { song: song, key: song.id });
+	      var followed = false;
+	      if (SongStore.findFollowedSong(song.id)) {
+	        followed = true;
+	      }
+	      return React.createElement(SongIndexItem, {
+	        song: song,
+	        showArtist: false,
+	        followed: followed,
+	        key: song.id });
 	    });
 	  },
 	

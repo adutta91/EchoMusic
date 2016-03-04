@@ -9,6 +9,7 @@ var React = require('react');
 
 // STORES
 var SongStore = require('../../stores/songStore');
+var SessionStore = require('../../stores/SessionStore');
 
 // UTILS
 var SongUtil = require('../../util/songUtil');
@@ -28,6 +29,10 @@ var ArtistSongIndex = React.createClass({
 
   componentDidMount: function() {
     this.songListener = SongStore.addListener(this._onChange);
+
+    if(SessionStore.currentUser()){
+      SongUtil.fetchFollowedSongs(SessionStore.currentUser().id);
+    }
   },
 
   componentWillReceiveProps: function(newProps) {
@@ -45,7 +50,15 @@ var ArtistSongIndex = React.createClass({
 
   songs: function() {
     return (this.state.songs.map(function(song, idx) {
-      return <SongIndexItem song={song} key={song.id}/>
+      var followed = false;
+      if (SongStore.findFollowedSong(song.id)) {
+        followed = true;
+      }
+      return (<SongIndexItem
+                song={song}
+                showArtist={false}
+                followed={followed}
+                key={song.id}/>);
     }));
   },
 

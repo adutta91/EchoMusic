@@ -11,6 +11,9 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var hashHistory = ReactRouter.hashHistory;
 
+// STORES
+var SongStore = require('../../stores/songStore');
+
 // REACT COMPONENTS
 var PlayButton = require('../songControls/playButton');
 var FollowButton = require('../songs/followButton');
@@ -23,9 +26,36 @@ var SongIndexItem = React.createClass({
   },
 
   getInitialState: function() {
+    // var followed;
+    // if (this.props.followed) {
+    //   followed = this.props.followed;
+    // } else {
+    //   followed = false;
+    // }
+
     return ({
-      song: this.props.song
+      song: this.props.song,
+      followed: this.props.followed,
+      showArtist: this.props.showArtist
     })
+  },
+
+  componentDidMount: function() {
+    this.songListener = SongStore.addListener(this.updateState);
+    this.updateState();
+  },
+
+  componentWillUnmount: function() {
+    this.songListener.remove();
+  },
+
+  updateState: function() {
+    var song = SongStore.findFollowedSong(this.state.song.id);
+    if (song) {
+      this.setState({followed: true});
+    } else {
+      this.setState({followed: false});
+    }
   },
 
   _onClick: function(event) {
@@ -40,8 +70,21 @@ var SongIndexItem = React.createClass({
   },
 
   followButton: function() {
-    
-    <FollowButton songId={this.state.song.id} followed={true}/>
+    return <FollowButton songId={this.state.song.id} followed={this.state.followed}/>
+  },
+
+  artist: function() {
+    if (this.state.showArtist) {
+      return (
+        <span onClick={this.artistClick}>
+          &nbsp; - <span className="followListArtist" >
+                      {this.state.song.artist_name}
+                   </span>
+        </span>
+      )
+    } else {
+      return <span/>
+    }
   },
 
   render: function() {
@@ -49,9 +92,7 @@ var SongIndexItem = React.createClass({
       <div className="userFollowListItem" onClick={this._onClick}>
         <span className="followListItemInfo">
           {this.state.song.title}
-          <span onClick={this.artistClick}>
-            &nbsp; - <span className="followListArtist" >{this.state.song.artist_name}</span>
-          </span>
+          {this.artist()}
         </span>
         <div className="songManipulators">
           <PlayButton songId={this.state.song.id} />
