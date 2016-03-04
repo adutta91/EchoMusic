@@ -15,6 +15,7 @@ var SessionStore = require('../../stores/SessionStore');
 var ApiUtil = require('../../util/apiUtil');
 
 // REACT COMPONENTS
+var About = require('./about');
 var SongIndex = require('../songs/songIndex');
 var ExploreArtistsIndex = require('../artists/exploreArtistsIndex');
 
@@ -24,7 +25,9 @@ var FullApp = React.createClass({
   render: function() {
     return (
       <div className="welcome">
-        <div className="imageBanner"></div>
+        <div className="imageBanner">
+          <About />
+        </div>
         <div className="indices">
           <SongIndex />
           <ExploreArtistsIndex />

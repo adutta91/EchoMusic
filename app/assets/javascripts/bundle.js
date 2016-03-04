@@ -36276,6 +36276,7 @@
 	var ApiUtil = __webpack_require__(263);
 	
 	// REACT COMPONENTS
+	var About = __webpack_require__(309);
 	var SongIndex = __webpack_require__(296);
 	var ExploreArtistsIndex = __webpack_require__(298);
 	
@@ -36288,7 +36289,11 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome' },
-	      React.createElement('div', { className: 'imageBanner' }),
+	      React.createElement(
+	        'div',
+	        { className: 'imageBanner' },
+	        React.createElement(About, null)
+	      ),
 	      React.createElement(
 	        'div',
 	        { className: 'indices' },
@@ -37119,6 +37124,46 @@
 	});
 	
 	module.exports = ErrorDisplay;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// about info react component
+	//    purpose: to display a welcome message and a short line about the site
+	//
+	//    children: none
+	//    actions: none
+	//    info: welcome message and site info
+	
+	var React = __webpack_require__(1);
+	
+	var About = React.createClass({
+	  displayName: "About",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "about" },
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "h3",
+	          null,
+	          "Welcome!"
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          "Echo is a music sharing app! Explore, share, and follow great music!"
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = About;
 
 /***/ }
 /******/ ]);
