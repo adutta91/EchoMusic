@@ -38,10 +38,6 @@ var style = require('./components/users/userModalStyle');
 // CLASS DEFINITION ----------------------------------------***
 var App = React.createClass({
 
-  contextTypes: {
-    router: React.PropTypes.object.isRequired
-  },
-
   getInitialState: function() {
     return ({
       user: SessionStore.currentUser(),
@@ -103,7 +99,7 @@ var App = React.createClass({
     );
   }
 });
-window.ErrorStore = ErrorStore;
+
 // ROUTES DEFINITION ----------------------------------------***
 var appRoutes = (
   <Route path='/' component={App}>

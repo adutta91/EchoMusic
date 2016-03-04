@@ -1,7 +1,7 @@
 // header react component
 //    purpose: provide navigation throughout the site via buttons
 //
-//    children: Logout, Upload, Profile, Logo
+//    children: Logout, Upload, Profile, Logo, AboutButton
 //    actions: none
 //    info: none
 
@@ -9,10 +9,11 @@
 var React = require('react');
 
 // STORES
-var SessionStore = require('../../stores/SessionStore')
+var SessionStore = require('../../stores/SessionStore');
 
 // REACT COMPONENTS
 var Logo = require('./logo');
+var AboutButton = require('./aboutButton');
 var Logout = require('./logout');
 var UploadSongButton = require('./uploadSongButton');
 var ProfileButton = require('./profileButton');
@@ -58,7 +59,10 @@ var Header = React.createClass({
       <div>
         <div className="appName">echo</div>
         <div className="header">
-          <Logo />
+          <div className="headerLeft">
+            <Logo />
+            <AboutButton />
+          </div>
           {this.showButtons()}
         </div>
       </div>

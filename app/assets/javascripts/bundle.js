@@ -59,22 +59,22 @@
 	// STORES
 	var SessionStore = __webpack_require__(236);
 	var SongStore = __webpack_require__(256);
-	var ErrorStore = __webpack_require__(257);
+	var ErrorStore = __webpack_require__(260);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(258);
-	var ErrorUtil = __webpack_require__(261);
+	var SessionUtil = __webpack_require__(261);
+	var ErrorUtil = __webpack_require__(263);
 	
 	// REACT COMPONENTS
-	var UserProfile = __webpack_require__(262);
+	var UserProfile = __webpack_require__(264);
 	var SongProfile = __webpack_require__(279);
-	var ArtistProfile = __webpack_require__(284);
-	var SongForm = __webpack_require__(289);
-	var LogIn = __webpack_require__(290);
-	var LoggedInApp = __webpack_require__(295);
-	var Header = __webpack_require__(300);
-	var Footer = __webpack_require__(305);
-	var ErrorDisplay = __webpack_require__(308);
+	var ArtistProfile = __webpack_require__(286);
+	var SongForm = __webpack_require__(291);
+	var LogIn = __webpack_require__(292);
+	var LoggedInApp = __webpack_require__(297);
+	var Header = __webpack_require__(303);
+	var Footer = __webpack_require__(309);
+	var ErrorDisplay = __webpack_require__(312);
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
@@ -84,10 +84,6 @@
 	var App = React.createClass({
 	  displayName: 'App',
 	
-	
-	  contextTypes: {
-	    router: React.PropTypes.object.isRequired
-	  },
 	
 	  getInitialState: function () {
 	    return {
@@ -152,7 +148,7 @@
 	    );
 	  }
 	});
-	window.ErrorStore = ErrorStore;
+	
 	// ROUTES DEFINITION ----------------------------------------***
 	var appRoutes = React.createElement(
 	  Route,
@@ -33462,9 +33458,9 @@
 	var Store = __webpack_require__(237).Store;
 	var Dispatcher = __webpack_require__(253);
 	
-	var SongActions = __webpack_require__(264);
+	var SongActions = __webpack_require__(257);
 	
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	var _songs = {};
 	var _followedSongs = {};
@@ -33676,6 +33672,199 @@
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// functions for all song actions
+	//    purpose: dispatch actions to SongStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var SongActions = {
+	  uploadSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'ADD_SONG',
+	      song: song
+	    });
+	  },
+	
+	  receiveSongs: function (songs) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONGS',
+	      songs: songs
+	    });
+	  },
+	
+	  receiveFollowedSongs: function (songs) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_FOLLOWED_SONGS',
+	      songs: songs
+	    });
+	  },
+	
+	  receiveSingleSong: function (song) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_SONG',
+	      song: song
+	    });
+	  },
+	
+	  loadSong: function (songId) {
+	    Dispatcher.dispatch({
+	      actionType: 'LOAD_SONG',
+	      songId: songId
+	    });
+	  },
+	
+	  playSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'PLAY_SONG'
+	    });
+	  },
+	
+	  pauseSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'PAUSE_SONG'
+	    });
+	  },
+	
+	  endSong: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'END_SONG'
+	    });
+	  }
+	
+	};
+	
+	module.exports = SongActions;
+
+/***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// song Util
+	//    purpose: all non-server action requests regarding songs
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// ACTIONS
+	var SongActions = __webpack_require__(257);
+	var ErrorActions = __webpack_require__(259);
+	
+	var SongUtil = {
+	
+	  loadSong: function (songId) {
+	    SongActions.loadSong(songId);
+	  },
+	
+	  pauseSong: function () {
+	    SongActions.pauseSong();
+	  },
+	
+	  endSong: function () {
+	    SongActions.endSong();
+	  },
+	
+	  playSong: function () {
+	    SongActions.playSong();
+	  },
+	
+	  createSong: function (song) {
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'POST',
+	      data: song,
+	      success: function (song) {
+	        SongActions.uploadSong(song);
+	        hashHistory.push('/songs/' + song.id);
+	      },
+	      error: function (error) {
+	        ErrorActions.receiveError(error.responseText);
+	      }
+	    });
+	  },
+	
+	  fetchExploreSongs: function () {
+	    data = { explore: true };
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: data,
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchUserSongs: function (userId) {
+	    data = { explore: false };
+	    $.ajax({
+	      url: 'api/songs',
+	      method: 'GET',
+	      data: data,
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchFollowedSongs: function (userId) {
+	    $.ajax({
+	      url: 'api/users/' + userId + '/followed_songs',
+	      method: 'GET',
+	      success: function (songs) {
+	        SongActions.receiveFollowedSongs(songs);
+	      }
+	    });
+	  },
+	
+	  fetchSingleSong: function (id) {
+	    $.get('api/songs/' + id, {}, function (song) {
+	      SongActions.receiveSingleSong(song);
+	    });
+	  },
+	
+	  fetchArtistSongs: function (artistId) {
+	    $.ajax({
+	      url: 'api/artists/' + artistId + '/songs',
+	      method: 'GET',
+	      success: function (songs) {
+	        SongActions.receiveSongs(songs);
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = SongUtil;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all error actions
+	//    purpose: dispatch error to ErrorStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var ErrorActions = {
+	  receiveError: function (errorMessage) {
+	    Dispatcher.dispatch({
+	      actionType: 'RAISE_ERROR',
+	      errorMessage: errorMessage
+	    });
+	  },
+	
+	  clearErrors: function () {
+	    Dispatcher.dispatch({
+	      actionType: 'CLEAR_ERRORS'
+	    });
+	  }
+	};
+	
+	module.exports = ErrorActions;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// error store
 	//    purpose: store relevant data on errors
 	
@@ -33729,7 +33918,7 @@
 	module.exports = ErrorStore;
 
 /***/ },
-/* 258 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// session util
@@ -33739,8 +33928,8 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var SessionActions = __webpack_require__(259);
-	var ErrorActions = __webpack_require__(260);
+	var SessionActions = __webpack_require__(262);
+	var ErrorActions = __webpack_require__(259);
 	
 	var SessionUtil = {
 	  createUser: function (user) {
@@ -33810,7 +33999,7 @@
 	module.exports = SessionUtil;
 
 /***/ },
-/* 259 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Functions for all session actions
@@ -33851,33 +34040,7 @@
 	module.exports = SessionActions;
 
 /***/ },
-/* 260 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// functions for all error actions
-	//    purpose: dispatch error to ErrorStore
-	
-	var Dispatcher = __webpack_require__(253);
-	
-	var ErrorActions = {
-	  receiveError: function (errorMessage) {
-	    Dispatcher.dispatch({
-	      actionType: 'RAISE_ERROR',
-	      errorMessage: errorMessage
-	    });
-	  },
-	
-	  clearErrors: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'CLEAR_ERRORS'
-	    });
-	  }
-	};
-	
-	module.exports = ErrorActions;
-
-/***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// error util
@@ -33887,8 +34050,8 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var SessionActions = __webpack_require__(259);
-	var ErrorActions = __webpack_require__(260);
+	var SessionActions = __webpack_require__(262);
+	var ErrorActions = __webpack_require__(259);
 	
 	var ErrorUtil = {
 	  clearErrors: function () {
@@ -33899,7 +34062,7 @@
 	module.exports = ErrorUtil;
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user profile component
@@ -33915,7 +34078,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(263);
+	var ApiUtil = __webpack_require__(265);
 	
 	// REACT COMPONENTS
 	var UpdateUserButton = __webpack_require__(266);
@@ -34012,7 +34175,7 @@
 	module.exports = UserProfile;
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// api Util
@@ -34026,10 +34189,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var SongActions = __webpack_require__(264);
+	var SongActions = __webpack_require__(257);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	var ApiUtil = {
 	  createSongFollow: function (songFollow) {
@@ -34057,173 +34220,6 @@
 	};
 	
 	module.exports = ApiUtil;
-
-/***/ },
-/* 264 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// functions for all song actions
-	//    purpose: dispatch actions to SongStore
-	
-	var Dispatcher = __webpack_require__(253);
-	
-	var SongActions = {
-	  uploadSong: function (song) {
-	    Dispatcher.dispatch({
-	      actionType: 'ADD_SONG',
-	      song: song
-	    });
-	  },
-	
-	  receiveSongs: function (songs) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_SONGS',
-	      songs: songs
-	    });
-	  },
-	
-	  receiveFollowedSongs: function (songs) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_FOLLOWED_SONGS',
-	      songs: songs
-	    });
-	  },
-	
-	  receiveSingleSong: function (song) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_SONG',
-	      song: song
-	    });
-	  },
-	
-	  loadSong: function (songId) {
-	    Dispatcher.dispatch({
-	      actionType: 'LOAD_SONG',
-	      songId: songId
-	    });
-	  },
-	
-	  playSong: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'PLAY_SONG'
-	    });
-	  },
-	
-	  pauseSong: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'PAUSE_SONG'
-	    });
-	  },
-	
-	  endSong: function () {
-	    Dispatcher.dispatch({
-	      actionType: 'END_SONG'
-	    });
-	  }
-	
-	};
-	
-	module.exports = SongActions;
-
-/***/ },
-/* 265 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// song Util
-	//    purpose: all non-server action requests regarding songs
-	
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// ACTIONS
-	var SongActions = __webpack_require__(264);
-	var ErrorActions = __webpack_require__(260);
-	
-	var SongUtil = {
-	
-	  loadSong: function (songId) {
-	    SongActions.loadSong(songId);
-	  },
-	
-	  pauseSong: function () {
-	    SongActions.pauseSong();
-	  },
-	
-	  endSong: function () {
-	    SongActions.endSong();
-	  },
-	
-	  playSong: function () {
-	    SongActions.playSong();
-	  },
-	
-	  createSong: function (song) {
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'POST',
-	      data: song,
-	      success: function (song) {
-	        SongActions.uploadSong(song);
-	        hashHistory.push('/songs/' + song.id);
-	      },
-	      error: function (error) {
-	        ErrorActions.receiveError(error.responseText);
-	      }
-	    });
-	  },
-	
-	  fetchExploreSongs: function () {
-	    data = { explore: true };
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'GET',
-	      data: data,
-	      success: function (songs) {
-	        SongActions.receiveSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchUserSongs: function (userId) {
-	    data = { explore: false };
-	    $.ajax({
-	      url: 'api/songs',
-	      method: 'GET',
-	      data: data,
-	      success: function (songs) {
-	        SongActions.receiveSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchFollowedSongs: function (userId) {
-	    $.ajax({
-	      url: 'api/users/' + userId + '/followed_songs',
-	      method: 'GET',
-	      success: function (songs) {
-	        SongActions.receiveFollowedSongs(songs);
-	      }
-	    });
-	  },
-	
-	  fetchSingleSong: function (id) {
-	    $.get('api/songs/' + id, {}, function (song) {
-	      SongActions.receiveSingleSong(song);
-	    });
-	  },
-	
-	  fetchArtistSongs: function (artistId) {
-	    $.ajax({
-	      url: 'api/artists/' + artistId + '/songs',
-	      method: 'GET',
-	      success: function (songs) {
-	        SongActions.receiveSongs(songs);
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = SongUtil;
 
 /***/ },
 /* 266 */
@@ -34355,7 +34351,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(258);
+	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(269);
@@ -34695,7 +34691,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
 	var SongIndexItem = __webpack_require__(274);
@@ -34884,7 +34880,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var PlayButton = React.createClass({
@@ -34976,7 +34972,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(263);
+	var ApiUtil = __webpack_require__(265);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowButton = React.createClass({
@@ -35077,7 +35073,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
 	var UploadedSongIndexItem = __webpack_require__(278);
@@ -35221,13 +35217,13 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
-	var LyricUtil = __webpack_require__(310);
+	var SongUtil = __webpack_require__(258);
+	var LyricUtil = __webpack_require__(280);
 	
 	// REACT COMPONENTS
 	var PlayButton = __webpack_require__(275);
 	var FollowButton = __webpack_require__(276);
-	var UserDisplay = __webpack_require__(280);
+	var UserDisplay = __webpack_require__(282);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
@@ -35330,6 +35326,56 @@
 /* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// lyric util
+	//    purpose: action requests regarding lyrics
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// ACTIONS
+	var LyricActions = __webpack_require__(281);
+	
+	var LyricUtil = {
+	  fetchLyrics: function () {
+	    $.ajax({
+	      url: "http://api.cajunlyrics.com/LyricDirectSearch.php?artist=Blind+Pilot&title=Pilot",
+	      method: "GET",
+	      success: function (response) {
+	        debugger;
+	      },
+	      error: function (response) {
+	        debugger;
+	      }
+	    });
+	  }
+	};
+	
+	module.exports = LyricUtil;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// functions for all lyric actions
+	//    purpose: dispatch lyric to LyricStore
+	
+	var Dispatcher = __webpack_require__(253);
+	
+	var LyricActions = {
+	  receiveLyrics: function (lyrics) {
+	    Dispatcher.dispatch({
+	      actionType: 'RECEIVE_LYRICS',
+	      lyrics: lyrics
+	    });
+	  }
+	};
+	
+	module.exports = LyricActions;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// user display component
 	//    purpose: display info on a specific user
 	//
@@ -35344,10 +35390,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORES
-	var UserStore = __webpack_require__(281);
+	var UserStore = __webpack_require__(283);
 	
 	// UTILS
-	var UserUtil = __webpack_require__(282);
+	var UserUtil = __webpack_require__(284);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserDisplay = React.createClass({
@@ -35409,7 +35455,7 @@
 	module.exports = UserDisplay;
 
 /***/ },
-/* 281 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user store
@@ -35462,7 +35508,7 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 282 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user Util
@@ -35472,7 +35518,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var UserActions = __webpack_require__(283);
+	var UserActions = __webpack_require__(285);
 	
 	var UserUtil = {
 	  fetchSingleUser: function (userId) {
@@ -35489,7 +35535,7 @@
 	module.exports = UserUtil;
 
 /***/ },
-/* 283 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// functions for all user actions
@@ -35509,7 +35555,7 @@
 	module.exports = UserActions;
 
 /***/ },
-/* 284 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist profile component
@@ -35526,13 +35572,13 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORES
-	var ArtistStore = __webpack_require__(285);
+	var ArtistStore = __webpack_require__(287);
 	
 	// UTILS
-	var ArtistUtil = __webpack_require__(286);
+	var ArtistUtil = __webpack_require__(288);
 	
 	// REACT COMPONENTS
-	var ArtistSongIndex = __webpack_require__(288);
+	var ArtistSongIndex = __webpack_require__(290);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistProfile = React.createClass({
@@ -35598,7 +35644,7 @@
 	module.exports = ArtistProfile;
 
 /***/ },
-/* 285 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist store
@@ -35661,7 +35707,7 @@
 	module.exports = ArtistStore;
 
 /***/ },
-/* 286 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist Util
@@ -35671,8 +35717,8 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var ArtistActions = __webpack_require__(287);
-	var ErrorActions = __webpack_require__(260);
+	var ArtistActions = __webpack_require__(289);
+	var ErrorActions = __webpack_require__(259);
 	
 	var ArtistUtil = {
 	  fetchAllArtists: function () {
@@ -35720,7 +35766,7 @@
 	module.exports = ArtistUtil;
 
 /***/ },
-/* 287 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// functions for all artist actions
@@ -35747,7 +35793,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 288 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist song index component
@@ -35764,7 +35810,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
 	var SongIndexItem = __webpack_require__(274);
@@ -35828,7 +35874,7 @@
 	module.exports = ArtistSongIndex;
 
 /***/ },
-/* 289 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song form component
@@ -35846,11 +35892,11 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
-	var ArtistStore = __webpack_require__(285);
+	var ArtistStore = __webpack_require__(287);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
-	var ArtistUtil = __webpack_require__(286);
+	var SongUtil = __webpack_require__(258);
+	var ArtistUtil = __webpack_require__(288);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(269);
@@ -35984,7 +36030,7 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 290 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Login app component
@@ -35995,7 +36041,7 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var UserForms = __webpack_require__(291);
+	var UserForms = __webpack_require__(293);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var LogIn = React.createClass({
@@ -36017,7 +36063,7 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user forms component
@@ -36030,9 +36076,9 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var Tab = __webpack_require__(292);
-	var SignInForm = __webpack_require__(293);
-	var SignUpForm = __webpack_require__(294);
+	var Tab = __webpack_require__(294);
+	var SignInForm = __webpack_require__(295);
+	var SignUpForm = __webpack_require__(296);
 	
 	// POSSIBLE TYPE OF FORMS (CONSTANTS)
 	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
@@ -36097,7 +36143,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// tab component
@@ -36131,7 +36177,7 @@
 	module.exports = Tab;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign-in form component
@@ -36144,7 +36190,7 @@
 	var React = __webpack_require__(1);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(258);
+	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(269);
@@ -36213,7 +36259,7 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 294 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign up form component
@@ -36226,7 +36272,7 @@
 	var React = __webpack_require__(1);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(258);
+	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(269);
@@ -36295,7 +36341,7 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 295 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// full app react component
@@ -36312,12 +36358,12 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTILS
-	var ApiUtil = __webpack_require__(263);
+	var ApiUtil = __webpack_require__(265);
 	
 	// REACT COMPONENTS
-	var About = __webpack_require__(309);
-	var SongIndex = __webpack_require__(296);
-	var ExploreArtistsIndex = __webpack_require__(298);
+	var About = __webpack_require__(298);
+	var SongIndex = __webpack_require__(299);
+	var ExploreArtistsIndex = __webpack_require__(301);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -36360,7 +36406,47 @@
 	module.exports = FullApp;
 
 /***/ },
-/* 296 */
+/* 298 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// about info react component
+	//    purpose: to display a welcome message and a short line about the site
+	//
+	//    children: none
+	//    actions: none
+	//    info: welcome message and site info
+	
+	var React = __webpack_require__(1);
+	
+	var About = React.createClass({
+	  displayName: "About",
+	
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "about" },
+	      React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "h3",
+	          null,
+	          "Welcome!"
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          "Echo is a music sharing app! Explore, share, and follow great music!"
+	        )
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = About;
+
+/***/ },
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index component
@@ -36377,10 +36463,10 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var ExploreIndexItem = __webpack_require__(297);
+	var ExploreIndexItem = __webpack_require__(300);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -36446,7 +36532,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 297 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index item component
@@ -36495,7 +36581,7 @@
 	module.exports = ExploreIndexItem;
 
 /***/ },
-/* 298 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index component
@@ -36508,13 +36594,13 @@
 	var React = __webpack_require__(1);
 	
 	// STORES
-	var ArtistStore = __webpack_require__(285);
+	var ArtistStore = __webpack_require__(287);
 	
 	// UTILS
-	var ArtistUtil = __webpack_require__(286);
+	var ArtistUtil = __webpack_require__(288);
 	
 	// REACT COMPONENTS
-	var ExploreArtistsIndexItem = __webpack_require__(299);
+	var ExploreArtistsIndexItem = __webpack_require__(302);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ExploreArtistsIndex = React.createClass({
@@ -36567,7 +36653,7 @@
 	module.exports = ExploreArtistsIndex;
 
 /***/ },
-/* 299 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index item component
@@ -36609,13 +36695,13 @@
 	module.exports = ExploreArtistsIndexItem;
 
 /***/ },
-/* 300 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// header react component
 	//    purpose: provide navigation throughout the site via buttons
 	//
-	//    children: Logout, Upload, Profile, Logo
+	//    children: Logout, Upload, Profile, Logo, AboutButton
 	//    actions: none
 	//    info: none
 	
@@ -36625,10 +36711,11 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// REACT COMPONENTS
-	var Logo = __webpack_require__(301);
-	var Logout = __webpack_require__(302);
-	var UploadSongButton = __webpack_require__(303);
-	var ProfileButton = __webpack_require__(304);
+	var Logo = __webpack_require__(304);
+	var AboutButton = __webpack_require__(305);
+	var Logout = __webpack_require__(306);
+	var UploadSongButton = __webpack_require__(307);
+	var ProfileButton = __webpack_require__(308);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Header = React.createClass({
@@ -36680,7 +36767,12 @@
 	      React.createElement(
 	        'div',
 	        { className: 'header' },
-	        React.createElement(Logo, null),
+	        React.createElement(
+	          'div',
+	          { className: 'headerLeft' },
+	          React.createElement(Logo, null),
+	          React.createElement(AboutButton, null)
+	        ),
 	        this.showButtons()
 	      )
 	    );
@@ -36690,7 +36782,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 301 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -36732,7 +36824,71 @@
 	module.exports = Logo;
 
 /***/ },
-/* 302 */
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// about button react component
+	//    purpose: open an about modal that displays info about the site
+	//
+	//    children: none
+	//    actions: open modal
+	//    info: modal has info describing the site
+	
+	var React = __webpack_require__(1);
+	
+	// MODAL DEPENDENCIES
+	var Modal = __webpack_require__(159);
+	var style = __webpack_require__(267);
+	
+	var AboutButton = React.createClass({
+	  displayName: 'AboutButton',
+	
+	  getInitialState: function () {
+	    return {
+	      open: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ open: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ open: false });
+	  },
+	
+	  _onClick: function () {
+	    this.openModal();
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1457134370/about_ihbswh.png',
+	        className: 'aboutButton',
+	        onClick: this._onClick }),
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.open,
+	          onRequestClose: this.closeModal,
+	          style: style },
+	        React.createElement(
+	          'div',
+	          null,
+	          'HALLO'
+	        )
+	      )
+	    );
+	  }
+	
+	});
+	
+	module.exports = AboutButton;
+
+/***/ },
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// logout button react component
@@ -36751,8 +36907,8 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(258);
-	var SongUtil = __webpack_require__(265);
+	var SessionUtil = __webpack_require__(261);
+	var SongUtil = __webpack_require__(258);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Logout = React.createClass({
@@ -36784,7 +36940,7 @@
 	module.exports = Logout;
 
 /***/ },
-/* 303 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// upload button react component
@@ -36823,7 +36979,7 @@
 	module.exports = UploadSongButton;
 
 /***/ },
-/* 304 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// profile button react component
@@ -36841,7 +36997,7 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// UTIL
-	var SessionUtil = __webpack_require__(258);
+	var SessionUtil = __webpack_require__(261);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ProfileButton = React.createClass({
@@ -36871,7 +37027,7 @@
 	module.exports = ProfileButton;
 
 /***/ },
-/* 305 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer react component
@@ -36891,8 +37047,8 @@
 	var SongStore = __webpack_require__(256);
 	
 	// REACT COMPONENTS
-	var FooterPlayButton = __webpack_require__(306);
-	var ProgressBar = __webpack_require__(307);
+	var FooterPlayButton = __webpack_require__(310);
+	var ProgressBar = __webpack_require__(311);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
@@ -36990,7 +37146,7 @@
 	module.exports = Footer;
 
 /***/ },
-/* 306 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer play button component
@@ -37006,7 +37162,7 @@
 	var SongStore = __webpack_require__(256);
 	
 	// UTILS
-	var SongUtil = __webpack_require__(265);
+	var SongUtil = __webpack_require__(258);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FooterPlayButton = React.createClass({
@@ -37069,7 +37225,7 @@
 	module.exports = FooterPlayButton;
 
 /***/ },
-/* 307 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// progress bar component
@@ -37132,7 +37288,7 @@
 	module.exports = ProgressBar;
 
 /***/ },
-/* 308 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// edit user profile component
@@ -37177,96 +37333,6 @@
 	});
 	
 	module.exports = ErrorDisplay;
-
-/***/ },
-/* 309 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// about info react component
-	//    purpose: to display a welcome message and a short line about the site
-	//
-	//    children: none
-	//    actions: none
-	//    info: welcome message and site info
-	
-	var React = __webpack_require__(1);
-	
-	var About = React.createClass({
-	  displayName: "About",
-	
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "about" },
-	      React.createElement(
-	        "div",
-	        null,
-	        React.createElement(
-	          "h3",
-	          null,
-	          "Welcome!"
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
-	          "Echo is a music sharing app! Explore, share, and follow great music!"
-	        )
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = About;
-
-/***/ },
-/* 310 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// lyric util
-	//    purpose: action requests regarding lyrics
-	
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// ACTIONS
-	var LyricActions = __webpack_require__(311);
-	
-	var LyricUtil = {
-	  fetchLyrics: function () {
-	    $.ajax({
-	      url: "http://api.cajunlyrics.com/LyricDirectSearch.php?artist=Blind+Pilot&title=Pilot",
-	      method: "GET",
-	      success: function (response) {
-	        debugger;
-	      },
-	      error: function (response) {
-	        debugger;
-	      }
-	    });
-	  }
-	};
-	
-	module.exports = LyricUtil;
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// functions for all lyric actions
-	//    purpose: dispatch lyric to LyricStore
-	
-	var Dispatcher = __webpack_require__(253);
-	
-	var LyricActions = {
-	  receiveLyrics: function (lyrics) {
-	    Dispatcher.dispatch({
-	      actionType: 'RECEIVE_LYRICS',
-	      lyrics: lyrics
-	    });
-	  }
-	};
-	
-	module.exports = LyricActions;
 
 /***/ }
 /******/ ]);
