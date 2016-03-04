@@ -22,10 +22,10 @@ class Api::SongsController < ApplicationController
       @song.artist_id = artist.id
     end
 
-    if @song.save!
+    if @song.save
       render json: @song
     else
-      render :errors, errors: @song.errors.full_messages
+      render :errors, status: 422
     end
   end
 
@@ -34,7 +34,7 @@ class Api::SongsController < ApplicationController
     if @song
       render json: @song
     else
-      render json: @song.errors.full_messages, status: 422
+      render :errors, status: 422
     end
   end
 

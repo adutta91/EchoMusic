@@ -12,14 +12,17 @@ class Api::SessionsController < ApplicationController
       log_in(@user)
       render :show
     else
-      flash.now[:errors] = ["Invalid credentials"]
-      redirect_to root_url
+      render json: "Invalid credentials", status: 422
     end
   end
 
   def destroy
     @user = User.find_by_id(params[:id])
-    log_out(@user)
-    render :new
+    if @user
+      log_out(@user)
+      redirect_to root_url
+    else
+      render json: "User not found", status: 422
+    end
   end
 end

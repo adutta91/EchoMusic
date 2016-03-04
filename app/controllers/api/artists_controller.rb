@@ -2,8 +2,11 @@ class Api::ArtistsController < ApplicationController
 
   def create
     @artist = Artist.new(artist_params)
-    @artist.save!
-    render :show
+    if @artist.save
+      render :show
+    else
+      render :errors, status: 422
+    end
   end
 
   def show
@@ -18,8 +21,11 @@ class Api::ArtistsController < ApplicationController
 
   def update
     @artist = find_artist
-    @artist.update(artist_params)
-    render :show
+    if @artist.update(artist_params)
+      render :show
+    else
+      render :errors, status: 422
+    end
   end
 
   def songs

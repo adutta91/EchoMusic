@@ -6,7 +6,7 @@ var hashHistory = ReactRouter.hashHistory;
 
 // ACTIONS
 var ArtistActions = require('../actions/artistActions');
-
+var ErrorActions = require('../actions/errorActions');
 
 var ArtistUtil = {
   fetchAllArtists: function() {
@@ -15,6 +15,9 @@ var ArtistUtil = {
       method: 'GET',
       success: function(artists) {
         ArtistActions.receiveAllArtists(artists);
+      },
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
       }
     });
   },
@@ -25,6 +28,9 @@ var ArtistUtil = {
       method: 'GET',
       success: function(artist) {
         ArtistActions.receiveSingleArtist(artist);
+      },
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
       }
     })
   },
@@ -36,7 +42,10 @@ var ArtistUtil = {
       data: artist,
       success: function(artist) {
         this.fetchAllArtists();
-      }.bind(this)
+      }.bind(this),
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
+      }
     })
   }
 

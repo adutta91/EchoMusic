@@ -6,6 +6,7 @@ var hashHistory = ReactRouter.hashHistory;
 
 // ACTIONS
 var SessionActions = require('../actions/sessionActions');
+var ErrorActions = require('../actions/errorActions');
 
 SessionUtil = {
   createUser: function(user) {
@@ -17,10 +18,8 @@ SessionUtil = {
         SessionActions.logInUser(user);
         window.location = '/';
       },
-      error: function(user) {
-        window.location = '/';
-        // TODO: errors
-        alert('create user error');
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
       }
     })
   },
@@ -33,8 +32,8 @@ SessionUtil = {
       success: function(user) {
         SessionActions.showUser(user);
       },
-      error: function(user) {
-        alert('user update error');
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
       }
     })
   },
@@ -48,10 +47,8 @@ SessionUtil = {
         SessionActions.logInUser(user);
         window.location = '/';
       },
-      error: function(user) {
-        window.location = '/';
-        // TODO: errors
-        alert('create session error');
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
       }
     });
   },
@@ -63,6 +60,10 @@ SessionUtil = {
       data: {id: user.id},
       success: function(user) {
         SessionActions.logOutUser();
+      },
+      error: function(error) {
+        ErrorActions.receiveError(error.responseText);
+        window.location = '/';
       }
     });
   },

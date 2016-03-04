@@ -21,12 +21,12 @@ class Api::UsersController < ApplicationController
   def create
     @user = User.create(user_params)
     @user.image_url = DEFAULT_IMAGE_URL
-    if @user.save!
+
+    if @user.save
       log_in(@user)
       render :show
     else
-      flash.now[:errors] = @user.errors.full_messages
-      redirect_to root_url
+      render :errors, status: 422
     end
   end
 
@@ -36,8 +36,11 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = find_user
-    @user.update(user_params)
-    render :show
+    if @user.update(user_params)
+      render :show
+    else
+      render :errors, status: 422
+    end
   end
 
   def followed_songs

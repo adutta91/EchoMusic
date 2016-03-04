@@ -6,6 +6,7 @@ var hashHistory = ReactRouter.hashHistory;
 
 // ACTIONS
 var SongActions = require('../actions/songActions');
+var ErrorActions = require('../actions/errorActions');
 
 SongUtil = {
 
@@ -35,8 +36,7 @@ SongUtil = {
         hashHistory.push('/songs/'+ song.id);
       },
       error: function(error) {
-        debugger;
-        alert(error.responseText);
+        ErrorActions.receiveError(error.responseText);
       }
     });
   },
