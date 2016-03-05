@@ -10,21 +10,49 @@ var React = require('react');
 var ReactRouter = require('react-router');
 var hashHistory = ReactRouter.hashHistory;
 
+// REACT COMPONENTS
+var SongForm = require('../songs/songForm');
+
+// MODAL DEPENDENCIES
+var Modal = require('react-modal');
+var style = require('../users/userModalStyle');
+
 // CLASS DEFINITION ----------------------------------------***
 var UploadSongButton = React.createClass({
 
-  handleUploadClicked: function(event) {
+  getInitialState: function() {
+    return ({
+      open: false
+    })
+  },
+
+  openModal: function() {
+    this.setState({open: true});
+  },
+
+  closeModal: function() {
+    this.setState({open: false});
+  },
+
+  _onClick: function(event) {
     event.preventDefault();
-    hashHistory.push('/songs/new');
+    this.openModal();
+    // hashHistory.push('/songs/new');
   },
 
   render: function() {
     return (
       <div className="uploadWrapper">
-      <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png"
-           onClick={this.handleUploadClicked}
-           className="uploadButton"
-           type="submit" />
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png"
+             onClick={this._onClick}
+             className="uploadButton"
+             type="submit" />
+       <Modal
+         isOpen={this.state.open}
+         onRequestClose={this.closeModal}
+         style={style}>
+         <SongForm />
+       </Modal>
      </div>
     );
   }

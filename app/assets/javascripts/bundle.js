@@ -34309,7 +34309,7 @@
 	    left: 0,
 	    right: 0,
 	    bottom: 0,
-	    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+	    backgroundColor: 'rgba(50, 50, 50, 0.75)'
 	  },
 	  content: {
 	    position: 'absolute',
@@ -34324,7 +34324,6 @@
 	    borderRadius: '4px',
 	    outline: 'none',
 	    padding: '20px'
-	
 	  }
 	};
 	
@@ -36865,7 +36864,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1457134370/about_ihbswh.png',
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1457135625/aboutButton_kc2niy.png',
 	        className: 'aboutButton',
 	        onClick: this._onClick }),
 	      React.createElement(
@@ -36877,7 +36876,47 @@
 	        React.createElement(
 	          'div',
 	          null,
-	          'HALLO'
+	          React.createElement(
+	            'h3',
+	            null,
+	            'Welcome to Echo! The music sharing app that smiles back... Explore songs and artists below!'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'p',
+	            null,
+	            'You can navigate the site using the icons along the header:',
+	            React.createElement('br', null),
+	            'The Logo returns you to the the welcome page',
+	            React.createElement('br', null),
+	            'The Profile icon takes you to your profile page, where you can review the songs you are following and have uploaded, as well as edit your profile',
+	            React.createElement('br', null),
+	            'The Music icon will allow you to upload your own songs! Share away!',
+	            React.createElement('br', null),
+	            'The Power icon will log you out.'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'p',
+	            null,
+	            'This website was created using Ruby on Rails and ReactJS - check out the github repo ',
+	            React.createElement(
+	              'a',
+	              { href: 'https://github.com/adutta91/FinalProject' },
+	              'here'
+	            )
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'built by ',
+	            React.createElement(
+	              'a',
+	              { href: 'https://github.com/adutta91' },
+	              'Arjun Dutta'
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -36954,14 +36993,36 @@
 	var ReactRouter = __webpack_require__(179);
 	var hashHistory = ReactRouter.hashHistory;
 	
+	// REACT COMPONENTS
+	var SongForm = __webpack_require__(291);
+	
+	// MODAL DEPENDENCIES
+	var Modal = __webpack_require__(159);
+	var style = __webpack_require__(267);
+	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadSongButton = React.createClass({
 	  displayName: 'UploadSongButton',
 	
 	
-	  handleUploadClicked: function (event) {
+	  getInitialState: function () {
+	    return {
+	      open: false
+	    };
+	  },
+	
+	  openModal: function () {
+	    this.setState({ open: true });
+	  },
+	
+	  closeModal: function () {
+	    this.setState({ open: false });
+	  },
+	
+	  _onClick: function (event) {
 	    event.preventDefault();
-	    hashHistory.push('/songs/new');
+	    this.openModal();
+	    // hashHistory.push('/songs/new');
 	  },
 	
 	  render: function () {
@@ -36969,9 +37030,17 @@
 	      'div',
 	      { className: 'uploadWrapper' },
 	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png',
-	        onClick: this.handleUploadClicked,
+	        onClick: this._onClick,
 	        className: 'uploadButton',
-	        type: 'submit' })
+	        type: 'submit' }),
+	      React.createElement(
+	        Modal,
+	        {
+	          isOpen: this.state.open,
+	          onRequestClose: this.closeModal,
+	          style: style },
+	        React.createElement(SongForm, null)
+	      )
 	    );
 	  }
 	});

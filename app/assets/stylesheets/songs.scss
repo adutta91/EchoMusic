@@ -37,9 +37,8 @@ audio:hover {
   display: flex;
   flex-direction: column;
   align-self: center;
-  margin-top: 100px;
   width: 300px;
-  margin: 100px auto;
+  margin: 20px auto;
 }
 
 .songFormBanner {
@@ -49,7 +48,7 @@ audio:hover {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  padding: 69px 0px 300px 0px;
+  padding: 69px 0px 10px 0px;
 }
 
 .songIndexItem {
