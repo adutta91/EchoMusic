@@ -82,13 +82,13 @@ var AboutButton = React.createClass({
               <div>You can navigate the site using the icons along the header:</div>
               <br/>
               <div className="aboutDescriptions">
-                <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png"
+                <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1457299551/soundwave_k4gfjc.png"
                      className='logo'/>
                 <span className="aboutExplanation">returns you to the the welcome page</span>
               </div>
               <div className="aboutDescriptions">
                 <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png"
-                     className='profileButton'/>
+                     className='aboutProfileButton'/>
                 <span className="aboutExplanation">takes you to your profile page, where you can
                 review the songs you are following and have uploaded, as well as
                 edit your profile</span>
@@ -106,7 +106,7 @@ var AboutButton = React.createClass({
             </div>
             <p>This website was created using Ruby on Rails and ReactJS - check
             out the github repo <a href="https://github.com/adutta91/FinalProject">here</a></p>
-            <p>built by <a href="https://github.com/adutta91">Arjun Dutta</a></p>
+            <p>Built by <a href="https://github.com/adutta91">Arjun Dutta</a></p>
           </div>
          </Modal>
      </div>

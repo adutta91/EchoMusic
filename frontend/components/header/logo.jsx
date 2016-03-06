@@ -23,7 +23,7 @@ var Logo = React.createClass({
   render: function() {
     return (
       <div className="logoWrapper">
-        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png"
+        <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1457299551/soundwave_k4gfjc.png"
              className="logo"
              onClick={this._onClick} />
       </div>

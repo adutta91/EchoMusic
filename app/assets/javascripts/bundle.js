@@ -67,18 +67,18 @@
 	
 	// REACT COMPONENTS
 	var UserProfile = __webpack_require__(264);
-	var SongProfile = __webpack_require__(279);
-	var ArtistProfile = __webpack_require__(286);
-	var SongForm = __webpack_require__(291);
-	var LogIn = __webpack_require__(292);
-	var LoggedInApp = __webpack_require__(297);
-	var Header = __webpack_require__(303);
-	var Footer = __webpack_require__(309);
-	var ErrorDisplay = __webpack_require__(312);
+	var SongProfile = __webpack_require__(278);
+	var ArtistProfile = __webpack_require__(285);
+	var SongForm = __webpack_require__(290);
+	var LogIn = __webpack_require__(291);
+	var LoggedInApp = __webpack_require__(296);
+	var Header = __webpack_require__(302);
+	var Footer = __webpack_require__(308);
+	var ErrorDisplay = __webpack_require__(311);
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
-	var style = __webpack_require__(267);
+	var style = __webpack_require__(312);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var App = React.createClass({
@@ -34082,8 +34082,8 @@
 	
 	// REACT COMPONENTS
 	var UpdateUserButton = __webpack_require__(266);
-	var FollowedSongsIndex = __webpack_require__(273);
-	var UploadedSongsIndex = __webpack_require__(277);
+	var FollowedSongsIndex = __webpack_require__(272);
+	var UploadedSongsIndex = __webpack_require__(276);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserProfile = React.createClass({
@@ -34267,7 +34267,7 @@
 	};
 	
 	// REACT COMPONENTS
-	var UpdateUserForm = __webpack_require__(268);
+	var UpdateUserForm = __webpack_require__(267);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UpdateUserButton = React.createClass({
@@ -34324,41 +34324,6 @@
 
 /***/ },
 /* 267 */
-/***/ function(module, exports) {
-
-	// style specifications for modal form
-	
-	// TODO: (move to appropriate place)
-	
-	style = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(50, 50, 50, 0.75)'
-	  },
-	  content: {
-	    position: 'absolute',
-	    top: '25%',
-	    left: '25%',
-	    right: '25%',
-	    bottom: '25%',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px'
-	  }
-	};
-	
-	module.exports = style;
-
-/***/ },
-/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// edit user profile component
@@ -34381,7 +34346,7 @@
 	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
-	var LinkedStateMixin = __webpack_require__(269);
+	var LinkedStateMixin = __webpack_require__(268);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UpdateUserForm = React.createClass({
@@ -34475,13 +34440,13 @@
 	module.exports = UpdateUserForm;
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(270);
+	module.exports = __webpack_require__(269);
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34498,8 +34463,8 @@
 	
 	'use strict';
 	
-	var ReactLink = __webpack_require__(271);
-	var ReactStateSetters = __webpack_require__(272);
+	var ReactLink = __webpack_require__(270);
+	var ReactStateSetters = __webpack_require__(271);
 	
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -34522,7 +34487,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34596,7 +34561,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports) {
 
 	/**
@@ -34705,7 +34670,7 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// followed songs index component
@@ -34725,7 +34690,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var SongIndexItem = __webpack_require__(274);
+	var SongIndexItem = __webpack_require__(273);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FollowedSongIndex = React.createClass({
@@ -34781,7 +34746,7 @@
 	module.exports = FollowedSongIndex;
 
 /***/ },
-/* 274 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// followed song index item component
@@ -34801,8 +34766,8 @@
 	var SongStore = __webpack_require__(256);
 	
 	// REACT COMPONENTS
-	var PlayButton = __webpack_require__(275);
-	var FollowButton = __webpack_require__(276);
+	var PlayButton = __webpack_require__(274);
+	var FollowButton = __webpack_require__(275);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndexItem = React.createClass({
@@ -34895,7 +34860,7 @@
 	module.exports = SongIndexItem;
 
 /***/ },
-/* 275 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// play button component
@@ -34985,7 +34950,7 @@
 	module.exports = PlayButton;
 
 /***/ },
-/* 276 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// follow button component
@@ -35087,7 +35052,7 @@
 	module.exports = FollowButton;
 
 /***/ },
-/* 277 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// uploaded Songs index component
@@ -35107,7 +35072,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var UploadedSongIndexItem = __webpack_require__(278);
+	var UploadedSongIndexItem = __webpack_require__(277);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadedSongsIndex = React.createClass({
@@ -35164,7 +35129,7 @@
 	module.exports = UploadedSongsIndex;
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// uploaded song index item component
@@ -35181,7 +35146,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// REACT COMPONENTS
-	var PlayButton = __webpack_require__(275);
+	var PlayButton = __webpack_require__(274);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadedSongIndexItem = React.createClass({
@@ -35227,7 +35192,7 @@
 	module.exports = UploadedSongIndexItem;
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song profile component
@@ -35249,12 +35214,12 @@
 	
 	// UTILS
 	var SongUtil = __webpack_require__(258);
-	var LyricUtil = __webpack_require__(280);
+	var LyricUtil = __webpack_require__(279);
 	
 	// REACT COMPONENTS
-	var PlayButton = __webpack_require__(275);
-	var FollowButton = __webpack_require__(276);
-	var UserDisplay = __webpack_require__(282);
+	var PlayButton = __webpack_require__(274);
+	var FollowButton = __webpack_require__(275);
+	var UserDisplay = __webpack_require__(281);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongProfile = React.createClass({
@@ -35354,7 +35319,7 @@
 	module.exports = SongProfile;
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// lyric util
@@ -35364,7 +35329,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var LyricActions = __webpack_require__(281);
+	var LyricActions = __webpack_require__(280);
 	
 	var LyricUtil = {
 	  fetchLyrics: function () {
@@ -35384,7 +35349,7 @@
 	module.exports = LyricUtil;
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// functions for all lyric actions
@@ -35404,7 +35369,7 @@
 	module.exports = LyricActions;
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user display component
@@ -35421,10 +35386,10 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORES
-	var UserStore = __webpack_require__(283);
+	var UserStore = __webpack_require__(282);
 	
 	// UTILS
-	var UserUtil = __webpack_require__(284);
+	var UserUtil = __webpack_require__(283);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UserDisplay = React.createClass({
@@ -35486,7 +35451,7 @@
 	module.exports = UserDisplay;
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user store
@@ -35539,7 +35504,7 @@
 	module.exports = UserStore;
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user Util
@@ -35549,7 +35514,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var UserActions = __webpack_require__(285);
+	var UserActions = __webpack_require__(284);
 	
 	var UserUtil = {
 	  fetchSingleUser: function (userId) {
@@ -35566,7 +35531,7 @@
 	module.exports = UserUtil;
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// functions for all user actions
@@ -35586,7 +35551,7 @@
 	module.exports = UserActions;
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist profile component
@@ -35603,13 +35568,13 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// STORES
-	var ArtistStore = __webpack_require__(287);
+	var ArtistStore = __webpack_require__(286);
 	
 	// UTILS
-	var ArtistUtil = __webpack_require__(288);
+	var ArtistUtil = __webpack_require__(287);
 	
 	// REACT COMPONENTS
-	var ArtistSongIndex = __webpack_require__(290);
+	var ArtistSongIndex = __webpack_require__(289);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistProfile = React.createClass({
@@ -35675,7 +35640,7 @@
 	module.exports = ArtistProfile;
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist store
@@ -35738,7 +35703,7 @@
 	module.exports = ArtistStore;
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist Util
@@ -35748,7 +35713,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// ACTIONS
-	var ArtistActions = __webpack_require__(289);
+	var ArtistActions = __webpack_require__(288);
 	var ErrorActions = __webpack_require__(259);
 	
 	var ArtistUtil = {
@@ -35797,7 +35762,7 @@
 	module.exports = ArtistUtil;
 
 /***/ },
-/* 289 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// functions for all artist actions
@@ -35824,7 +35789,7 @@
 	module.exports = ArtistActions;
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// artist song index component
@@ -35844,7 +35809,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var SongIndexItem = __webpack_require__(274);
+	var SongIndexItem = __webpack_require__(273);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistSongIndex = React.createClass({
@@ -35905,7 +35870,7 @@
 	module.exports = ArtistSongIndex;
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song form component
@@ -35923,14 +35888,14 @@
 	
 	// STORES
 	var SessionStore = __webpack_require__(236);
-	var ArtistStore = __webpack_require__(287);
+	var ArtistStore = __webpack_require__(286);
 	
 	// UTILS
 	var SongUtil = __webpack_require__(258);
-	var ArtistUtil = __webpack_require__(288);
+	var ArtistUtil = __webpack_require__(287);
 	
 	// MIXINS
-	var LinkedStateMixin = __webpack_require__(269);
+	var LinkedStateMixin = __webpack_require__(268);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongForm = React.createClass({
@@ -36016,44 +35981,45 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
-	      { className: 'songFormBanner' },
+	      'form',
+	      { className: 'songForm', onSubmit: this.handleSubmit },
 	      React.createElement(
-	        'form',
-	        { className: 'songForm', onSubmit: this.handleSubmit },
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'title', className: 'songTitleForm' },
-	          'Title: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'title',
-	          valueLink: this.linkState("title") }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'artist_name', className: 'songArtistForm' },
-	          'Artist: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'artist',
-	          valueLink: this.linkState("artist") }),
-	        React.createElement('br', null),
-	        React.createElement(
-	          'label',
-	          { htmlFor: 'album_id', className: 'songAlbumForm' },
-	          'Album: '
-	        ),
-	        React.createElement('br', null),
-	        React.createElement('input', { type: 'text',
-	          id: 'album',
-	          valueLink: this.linkState("album") }),
-	        React.createElement('br', null),
-	        this.uploadDisplay(),
-	        React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
-	      )
+	        'div',
+	        null,
+	        'Upload a Song!'
+	      ),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'title', className: 'songTitleForm' },
+	        'Title: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'text',
+	        id: 'title',
+	        valueLink: this.linkState("title") }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'artist_name', className: 'songArtistForm' },
+	        'Artist: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'text',
+	        id: 'artist',
+	        valueLink: this.linkState("artist") }),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        { htmlFor: 'album_id', className: 'songAlbumForm' },
+	        'Album: '
+	      ),
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'text',
+	        id: 'album',
+	        valueLink: this.linkState("album") }),
+	      React.createElement('br', null),
+	      this.uploadDisplay(),
+	      React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
 	    );
 	  }
 	});
@@ -36061,7 +36027,7 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Login app component
@@ -36072,7 +36038,7 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var UserForms = __webpack_require__(293);
+	var UserForms = __webpack_require__(292);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var LogIn = React.createClass({
@@ -36094,7 +36060,7 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user forms component
@@ -36107,9 +36073,9 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var Tab = __webpack_require__(294);
-	var SignInForm = __webpack_require__(295);
-	var SignUpForm = __webpack_require__(296);
+	var Tab = __webpack_require__(293);
+	var SignInForm = __webpack_require__(294);
+	var SignUpForm = __webpack_require__(295);
 	
 	// POSSIBLE TYPE OF FORMS (CONSTANTS)
 	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
@@ -36174,7 +36140,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// tab component
@@ -36208,7 +36174,7 @@
 	module.exports = Tab;
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign-in form component
@@ -36224,7 +36190,7 @@
 	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
-	var LinkedStateMixin = __webpack_require__(269);
+	var LinkedStateMixin = __webpack_require__(268);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignInForm = React.createClass({
@@ -36290,7 +36256,7 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign up form component
@@ -36306,7 +36272,7 @@
 	var SessionUtil = __webpack_require__(261);
 	
 	// MIXINS
-	var LinkedStateMixin = __webpack_require__(269);
+	var LinkedStateMixin = __webpack_require__(268);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignUpForm = React.createClass({
@@ -36372,7 +36338,7 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// full app react component
@@ -36392,9 +36358,9 @@
 	var ApiUtil = __webpack_require__(265);
 	
 	// REACT COMPONENTS
-	var About = __webpack_require__(298);
-	var SongIndex = __webpack_require__(299);
-	var ExploreArtistsIndex = __webpack_require__(301);
+	var About = __webpack_require__(297);
+	var SongIndex = __webpack_require__(298);
+	var ExploreArtistsIndex = __webpack_require__(300);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -36437,7 +36403,7 @@
 	module.exports = FullApp;
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// about info react component
@@ -36477,7 +36443,7 @@
 	module.exports = About;
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index component
@@ -36497,7 +36463,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var ExploreIndexItem = __webpack_require__(300);
+	var ExploreIndexItem = __webpack_require__(299);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -36563,7 +36529,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index item component
@@ -36612,7 +36578,7 @@
 	module.exports = ExploreIndexItem;
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index component
@@ -36625,13 +36591,13 @@
 	var React = __webpack_require__(1);
 	
 	// STORES
-	var ArtistStore = __webpack_require__(287);
+	var ArtistStore = __webpack_require__(286);
 	
 	// UTILS
-	var ArtistUtil = __webpack_require__(288);
+	var ArtistUtil = __webpack_require__(287);
 	
 	// REACT COMPONENTS
-	var ExploreArtistsIndexItem = __webpack_require__(302);
+	var ExploreArtistsIndexItem = __webpack_require__(301);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ExploreArtistsIndex = React.createClass({
@@ -36684,7 +36650,7 @@
 	module.exports = ExploreArtistsIndex;
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index item component
@@ -36726,7 +36692,7 @@
 	module.exports = ExploreArtistsIndexItem;
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// header react component
@@ -36742,11 +36708,11 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// REACT COMPONENTS
-	var Logo = __webpack_require__(304);
-	var AboutButton = __webpack_require__(305);
-	var Logout = __webpack_require__(306);
-	var UploadSongButton = __webpack_require__(307);
-	var ProfileButton = __webpack_require__(308);
+	var Logo = __webpack_require__(303);
+	var AboutButton = __webpack_require__(304);
+	var Logout = __webpack_require__(305);
+	var UploadSongButton = __webpack_require__(306);
+	var ProfileButton = __webpack_require__(307);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Header = React.createClass({
@@ -36813,7 +36779,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -36844,7 +36810,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'logoWrapper' },
-	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png',
+	      React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1457299551/soundwave_k4gfjc.png',
 	        className: 'logo',
 	        onClick: this._onClick })
 	    );
@@ -36855,7 +36821,7 @@
 	module.exports = Logo;
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// about button react component
@@ -36968,7 +36934,7 @@
 	            React.createElement(
 	              'div',
 	              { className: 'aboutDescriptions' },
-	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png',
+	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1457299551/soundwave_k4gfjc.png',
 	                className: 'logo' }),
 	              React.createElement(
 	                'span',
@@ -36980,7 +36946,7 @@
 	              'div',
 	              { className: 'aboutDescriptions' },
 	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png',
-	                className: 'profileButton' }),
+	                className: 'aboutProfileButton' }),
 	              React.createElement(
 	                'span',
 	                { className: 'aboutExplanation' },
@@ -37023,7 +36989,7 @@
 	          React.createElement(
 	            'p',
 	            null,
-	            'built by ',
+	            'Built by ',
 	            React.createElement(
 	              'a',
 	              { href: 'https://github.com/adutta91' },
@@ -37040,7 +37006,7 @@
 	module.exports = AboutButton;
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// logout button react component
@@ -37092,7 +37058,7 @@
 	module.exports = Logout;
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// upload button react component
@@ -37107,11 +37073,40 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// REACT COMPONENTS
-	var SongForm = __webpack_require__(291);
+	var SongForm = __webpack_require__(290);
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
-	var style = __webpack_require__(267);
+	
+	var customStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    display: 'flex',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0,0,0,0.6)'
+	  },
+	  content: {
+	    position: 'static',
+	    display: 'flex',
+	    justifyContent: 'space-around',
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '15px',
+	    border: '3px solid black',
+	    outline: 'none',
+	    marginTop: '50px',
+	    height: '500px',
+	    width: '500px'
+	  }
+	};
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var UploadSongButton = React.createClass({
@@ -37151,7 +37146,7 @@
 	        {
 	          isOpen: this.state.open,
 	          onRequestClose: this.closeModal,
-	          style: style },
+	          style: customStyle },
 	        React.createElement(SongForm, null)
 	      )
 	    );
@@ -37161,7 +37156,7 @@
 	module.exports = UploadSongButton;
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// profile button react component
@@ -37209,7 +37204,7 @@
 	module.exports = ProfileButton;
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer react component
@@ -37229,8 +37224,8 @@
 	var SongStore = __webpack_require__(256);
 	
 	// REACT COMPONENTS
-	var FooterPlayButton = __webpack_require__(310);
-	var ProgressBar = __webpack_require__(311);
+	var FooterPlayButton = __webpack_require__(309);
+	var ProgressBar = __webpack_require__(310);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
@@ -37328,7 +37323,7 @@
 	module.exports = Footer;
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer play button component
@@ -37407,7 +37402,7 @@
 	module.exports = FooterPlayButton;
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// progress bar component
@@ -37470,7 +37465,7 @@
 	module.exports = ProgressBar;
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// edit user profile component
@@ -37515,6 +37510,41 @@
 	});
 	
 	module.exports = ErrorDisplay;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports) {
+
+	// style specifications for modal form
+	
+	// TODO: (move to appropriate place)
+	
+	style = {
+	  overlay: {
+	    position: 'fixed',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(50, 50, 50, 0.75)'
+	  },
+	  content: {
+	    position: 'absolute',
+	    top: '25%',
+	    left: '25%',
+	    right: '25%',
+	    bottom: '25%',
+	    border: '1px solid #ccc',
+	    background: '#fff',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '4px',
+	    outline: 'none',
+	    padding: '20px'
+	  }
+	};
+	
+	module.exports = style;
 
 /***/ }
 /******/ ]);

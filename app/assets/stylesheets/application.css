@@ -15,7 +15,7 @@
  */
 
  html {
-   font-family: Quattrocento Sans;
+   font-family: Poiret One;
    background-color: white;
    color: white;
    height: 100%;
@@ -23,7 +23,7 @@
  }
 
  input[type=submit] {
-   font-family: Quattrocento Sans;
+   font-family: Poiret One;
    font-weight: bold;
    padding:10px 15px;
    border:0 none;
@@ -36,7 +36,7 @@
 
  input[type=text] {
    width: 100%;
-   font-family: Quattrocento Sans;
+   font-family: Poiret One;
    font-size: 16px;
    padding: 10px 0;
  }
@@ -62,7 +62,7 @@
  }
 
  a {
-   color: yellow;
+   color: #3D7899;
  }
 
 
@@ -89,8 +89,7 @@
   position: fixed;
   width: 100%;
   text-align: center;
-  /*font-family: 'Kaushan Script', cursive;*/
-  font-family: Courgette;
+  font-family: Poiret One;
   font-size: 36px;
   color: white;
   top: 10px;
@@ -211,6 +210,7 @@
   background-size: cover;
   height: 30px;
   width: 30px;
+  margin-top: 3px;
   padding: 2px;
   text-align: center;
   border-radius: 50%;
@@ -222,6 +222,18 @@
   opacity: .8;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+}
+
+.aboutProfileButton {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 30px;
+  width: 30px;
+  padding: 2px;
+  text-align: center;
+  border-radius: 50%;
 }
 
 .aboutButton {
@@ -245,8 +257,8 @@
 }
 
 .logo {
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   text-align: center;
 }
 
