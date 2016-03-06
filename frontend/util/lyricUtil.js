@@ -10,12 +10,12 @@ var LyricActions = require('../actions/lyricActions');
 var LyricUtil = {
   fetchLyrics: function() {
     $.ajax({
-      url: "http://api.cajunlyrics.com/LyricDirectSearch.php?artist=Blind+Pilot&title=Pilot",
+      url: "",
       method: "GET",
       success: function(response) {
         debugger;
       },
-      error: function(response) {
+      error: function(error) {
         debugger;
       }
     });

@@ -9,7 +9,35 @@ var React = require('react');
 
 // MODAL DEPENDENCIES
 var Modal = require('react-modal');
-var style = require('./userModalStyle');
+var customStyle = {
+  overlay : {
+    position          : 'fixed',
+    display           : 'flex',
+    justifyContent    : 'center',
+    alignItems        : 'center',
+    top               : 0,
+    left              : 0,
+    right             : 0,
+    bottom            : 0,
+    backgroundColor   : 'rgba(0,0,0,0.6)'
+  },
+  content : {
+    position                   : 'static',
+    display                    : 'flex',
+    justifyContent             : 'space-around',
+    alignItems                 : 'center',
+    flexDirection              : 'column',
+    background                 : 'linear-gradient(to bottom right, #000000, #FF5B00)',
+    overflow                   : 'auto',
+    WebkitOverflowScrolling    : 'touch',
+    borderRadius               : '15px',
+    border                     : '3px solid black',
+    outline                    : 'none',
+    marginTop                  : '50px',
+    height: '300px',
+    width: '500px'
+  }
+};
 
 // REACT COMPONENTS
 var UpdateUserForm = require('./updateUserForm');
@@ -49,7 +77,7 @@ var UpdateUserButton = React.createClass({
           <Modal
             isOpen={this.state.open}
             onRequestClose={this.closeModal}
-            style={style}>
+            style={customStyle}>
 
             <UpdateUserForm modalCallback={this.closeModal}/>
           </Modal>

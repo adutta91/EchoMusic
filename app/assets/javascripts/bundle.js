@@ -34236,7 +34236,35 @@
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
-	var style = __webpack_require__(267);
+	var customStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    display: 'flex',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0,0,0,0.6)'
+	  },
+	  content: {
+	    position: 'static',
+	    display: 'flex',
+	    justifyContent: 'space-around',
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '15px',
+	    border: '3px solid black',
+	    outline: 'none',
+	    marginTop: '50px',
+	    height: '300px',
+	    width: '500px'
+	  }
+	};
 	
 	// REACT COMPONENTS
 	var UpdateUserForm = __webpack_require__(268);
@@ -34283,7 +34311,7 @@
 	          {
 	            isOpen: this.state.open,
 	            onRequestClose: this.closeModal,
-	            style: style },
+	            style: customStyle },
 	          React.createElement(UpdateUserForm, { modalCallback: this.closeModal })
 	        )
 	      )
@@ -34420,7 +34448,7 @@
 	      React.createElement(
 	        'h2',
 	        null,
-	        'I am a user form. Fear me.'
+	        'Update your info!'
 	      ),
 	      React.createElement(
 	        'label',
@@ -34433,7 +34461,11 @@
 	        { htmlFor: 'desc' },
 	        'About'
 	      ),
-	      React.createElement('input', { id: 'desc', type: 'text', valueLink: this.linkState("desc") }),
+	      React.createElement(
+	        'textarea',
+	        { id: 'desc', wrap: 'hard', cols: '6', rows: '1', valueLink: this.linkState("desc") },
+	        this.state.desc
+	      ),
 	      this.uploadDisplay(),
 	      React.createElement('input', { className: 'updateFormButton', type: 'submit', value: 'Update!' })
 	    );
@@ -35337,12 +35369,12 @@
 	var LyricUtil = {
 	  fetchLyrics: function () {
 	    $.ajax({
-	      url: "http://api.cajunlyrics.com/LyricDirectSearch.php?artist=Blind+Pilot&title=Pilot",
+	      url: "",
 	      method: "GET",
 	      success: function (response) {
 	        debugger;
 	      },
-	      error: function (response) {
+	      error: function (error) {
 	        debugger;
 	      }
 	    });
@@ -36837,7 +36869,36 @@
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
-	var style = __webpack_require__(267);
+	
+	var customStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    display: 'flex',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0,0,0,0.6)'
+	  },
+	  content: {
+	    position: 'static',
+	    display: 'flex',
+	    justifyContent: 'space-around',
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '15px',
+	    border: '3px solid black',
+	    outline: 'none',
+	    marginTop: '50px',
+	    height: '500px',
+	    width: '500px'
+	  }
+	};
 	
 	var AboutButton = React.createClass({
 	  displayName: 'AboutButton',
@@ -36872,31 +36933,83 @@
 	        {
 	          isOpen: this.state.open,
 	          onRequestClose: this.closeModal,
-	          style: style },
+	          style: customStyle },
 	        React.createElement(
 	          'div',
 	          null,
 	          React.createElement(
-	            'h3',
-	            null,
-	            'Welcome to Echo! The music sharing app that smiles back... Explore songs and artists below!'
+	            'div',
+	            { className: 'aboutHeaderWrapper' },
+	            React.createElement(
+	              'h3',
+	              { className: 'aboutHeader' },
+	              React.createElement(
+	                'div',
+	                { className: 'aboutTitle' },
+	                'Welcome to Echo!'
+	              ),
+	              React.createElement(
+	                'div',
+	                null,
+	                'The music sharing app that smiles back... Explore songs and artists below!'
+	              )
+	            )
 	          ),
 	          React.createElement('br', null),
 	          React.createElement(
-	            'p',
+	            'div',
 	            null,
-	            'You can navigate the site using the icons along the header:',
+	            React.createElement(
+	              'div',
+	              null,
+	              'You can navigate the site using the icons along the header:'
+	            ),
 	            React.createElement('br', null),
-	            'The Logo returns you to the the welcome page',
-	            React.createElement('br', null),
-	            'The Profile icon takes you to your profile page, where you can review the songs you are following and have uploaded, as well as edit your profile',
-	            React.createElement('br', null),
-	            'The Music icon will allow you to upload your own songs! Share away!',
-	            React.createElement('br', null),
-	            'The Power icon will log you out.'
+	            React.createElement(
+	              'div',
+	              { className: 'aboutDescriptions' },
+	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456985184/logo.png',
+	                className: 'logo' }),
+	              React.createElement(
+	                'span',
+	                { className: 'aboutExplanation' },
+	                'returns you to the the welcome page'
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'aboutDescriptions' },
+	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456856776/ProfileImage.png',
+	                className: 'profileButton' }),
+	              React.createElement(
+	                'span',
+	                { className: 'aboutExplanation' },
+	                'takes you to your profile page, where you can review the songs you are following and have uploaded, as well as edit your profile'
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'aboutDescriptions' },
+	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456983040/add%20music.png',
+	                className: 'uploadButton' }),
+	              React.createElement(
+	                'span',
+	                { className: 'aboutExplanation' },
+	                'will allow you to upload your own songs! Share away!'
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'aboutDescriptions' },
+	              React.createElement('img', { src: 'http://res.cloudinary.com/dzyfczxnr/image/upload/v1456984021/logout.png',
+	                className: 'logoutButton' }),
+	              React.createElement(
+	                'span',
+	                { className: 'aboutExplanation' },
+	                'will log you out.'
+	              )
+	            )
 	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
 	          React.createElement(
 	            'p',
 	            null,

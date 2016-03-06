@@ -75,13 +75,13 @@ var UpdateUserForm = React.createClass({
   render: function() {
     return (
       <form className="updateUserForm" onSubmit={this.handleSubmit}>
-        <h2>I am a user form. Fear me.</h2>
+        <h2>Update your info!</h2>
 
         <label htmlFor="username">Username</label>
         <input id="username" type="text" valueLink={this.linkState("username")} />
 
         <label htmlFor="desc">About</label>
-        <input id="desc" type="text" valueLink={this.linkState("desc")} />
+        <textarea id="desc" wrap='hard' cols='6' rows='1' valueLink={this.linkState("desc")}>{this.state.desc}</textarea>
 
         {this.uploadDisplay()}
 
