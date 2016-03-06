@@ -34254,7 +34254,7 @@
 	    justifyContent: 'space-around',
 	    alignItems: 'center',
 	    flexDirection: 'column',
-	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    background: 'linear-gradient(to bottom right, #592000, #FF5B00)',
 	    overflow: 'auto',
 	    WebkitOverflowScrolling: 'touch',
 	    borderRadius: '15px',
@@ -35987,7 +35987,7 @@
 	      { className: 'songForm', onSubmit: this.handleSubmit },
 	      React.createElement(
 	        'h2',
-	        null,
+	        { className: 'aboutHeader' },
 	        'Upload a Song!'
 	      ),
 	      React.createElement(
@@ -36874,7 +36874,7 @@
 	    justifyContent: 'space-around',
 	    alignItems: 'center',
 	    flexDirection: 'column',
-	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    background: 'linear-gradient(to bottom right, #592000, #FF5B00)',
 	    overflow: 'auto',
 	    WebkitOverflowScrolling: 'touch',
 	    borderRadius: '15px',
@@ -37116,14 +37116,14 @@
 	    justifyContent: 'space-around',
 	    alignItems: 'center',
 	    flexDirection: 'column',
-	    background: 'linear-gradient(to bottom right, #000000, #FF5B00)',
+	    background: 'linear-gradient(to bottom right, #592000, #FF5B00)',
 	    overflow: 'auto',
 	    WebkitOverflowScrolling: 'touch',
 	    borderRadius: '15px',
 	    border: '3px solid black',
 	    outline: 'none',
 	    marginTop: '50px',
-	    height: '600px',
+	    height: '550px',
 	    width: '500px'
 	  }
 	};

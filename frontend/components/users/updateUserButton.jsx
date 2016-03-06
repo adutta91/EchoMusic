@@ -27,7 +27,7 @@ var customStyle = {
     justifyContent             : 'space-around',
     alignItems                 : 'center',
     flexDirection              : 'column',
-    background                 : 'linear-gradient(to bottom right, #000000, #FF5B00)',
+    background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
     overflow                   : 'auto',
     WebkitOverflowScrolling    : 'touch',
     borderRadius               : '15px',

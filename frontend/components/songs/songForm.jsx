@@ -101,7 +101,7 @@ var SongForm = React.createClass({
   render: function() {
     return (
       <form className="songForm" onSubmit={this.handleSubmit}>
-        <h2>Upload a Song!</h2>
+        <h2 className="aboutHeader">Upload a Song!</h2>
 
         <label htmlFor="title" className="songTitleForm">Title: </label>
         <br/>
