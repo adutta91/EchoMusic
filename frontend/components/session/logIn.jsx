@@ -1,7 +1,7 @@
 // Login app component
 //    purpose: display sign in and sign up forms for new visitors
 //
-//    children: UserForms
+//    children: UserForms, GuestLogin
 
 var React = require('react');
 

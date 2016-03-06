@@ -34364,16 +34364,12 @@
 	  },
 	
 	  imageUpload: function () {
-	    var callback = this.uploadResult;
-	
-	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
+	    cloudinary.openUploadWidget(window.cloudinaryOptions, this.uploadResult);
+	    this.setState({ imageUploaded: true });
 	  },
 	
 	  uploadResult: function (error, results) {
-	    if (results) {
-	      this.state.imageUrl = results[0].url;
-	      this.setState({ imageUploaded: true });
-	    }
+	    this.state.imageUrl = results[0].url;
 	  },
 	
 	  uploadDisplay: function () {
@@ -34421,6 +34417,7 @@
 	        'Username'
 	      ),
 	      React.createElement('input', { id: 'username', type: 'text', valueLink: this.linkState("username") }),
+	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
 	        { htmlFor: 'desc' },
@@ -34431,7 +34428,14 @@
 	        { id: 'desc', wrap: 'hard', cols: '6', rows: '1', valueLink: this.linkState("desc") },
 	        this.state.desc
 	      ),
+	      React.createElement('br', null),
+	      React.createElement(
+	        'label',
+	        null,
+	        'Profile Image'
+	      ),
 	      this.uploadDisplay(),
+	      React.createElement('br', null),
 	      React.createElement('input', { className: 'updateFormButton', type: 'submit', value: 'Update!' })
 	    );
 	  }
@@ -35915,9 +35919,7 @@
 	  },
 	
 	  audioUpload: function () {
-	    var callback = this.uploadResult;
-	
-	    cloudinary.openUploadWidget(window.cloudinaryOptions, callback);
+	    cloudinary.openUploadWidget(window.cloudinaryOptions, this.uploadResult);
 	    this.setState({ audioUploaded: true });
 	  },
 	
@@ -35984,7 +35986,7 @@
 	      'form',
 	      { className: 'songForm', onSubmit: this.handleSubmit },
 	      React.createElement(
-	        'div',
+	        'h2',
 	        null,
 	        'Upload a Song!'
 	      ),
@@ -36033,7 +36035,7 @@
 	// Login app component
 	//    purpose: display sign in and sign up forms for new visitors
 	//
-	//    children: UserForms
+	//    children: UserForms, GuestLogin
 	
 	var React = __webpack_require__(1);
 	
@@ -36180,7 +36182,7 @@
 	// sign-in form component
 	//    purpose: receive data from the user and start a login request
 	//
-	//    children: none
+	//    children: GuestLogin
 	//    actions: receive data to send to server
 	//    info: none
 	
@@ -36191,6 +36193,9 @@
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(268);
+	
+	// REACT COMPONENTS
+	var GuestLogin = __webpack_require__(313);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignInForm = React.createClass({
@@ -36248,7 +36253,13 @@
 	      React.createElement('input', {
 	        className: 'submitButton',
 	        type: 'submit',
-	        value: 'Sign In!' })
+	        value: 'Sign In!' }),
+	      React.createElement(
+	        'div',
+	        null,
+	        '- or -'
+	      ),
+	      React.createElement(GuestLogin, null)
 	    );
 	  }
 	});
@@ -36262,7 +36273,7 @@
 	// sign up form component
 	//    purpose: receive data to create a new user and session
 	//
-	//    children: none
+	//    children: GuestLogin
 	//    actions: receive data to send to server
 	//    info: none
 	
@@ -36273,6 +36284,9 @@
 	
 	// MIXINS
 	var LinkedStateMixin = __webpack_require__(268);
+	
+	// REACT COMPONENTS
+	var GuestLogin = __webpack_require__(313);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignUpForm = React.createClass({
@@ -36330,7 +36344,13 @@
 	      React.createElement('input', {
 	        className: 'submitButton',
 	        type: 'submit',
-	        value: 'Sign Up!' })
+	        value: 'Sign Up!' }),
+	      React.createElement(
+	        'div',
+	        null,
+	        '- or -'
+	      ),
+	      React.createElement(GuestLogin, null)
 	    );
 	  }
 	});
@@ -37103,7 +37123,7 @@
 	    border: '3px solid black',
 	    outline: 'none',
 	    marginTop: '50px',
-	    height: '500px',
+	    height: '600px',
 	    width: '500px'
 	  }
 	};
@@ -37545,6 +37565,125 @@
 	};
 	
 	module.exports = style;
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// guest login component
+	//    purpose: sign in the user with a guest account
+	//
+	//    children: none
+	//    actions: login
+	//    info: none
+	
+	var React = __webpack_require__(1);
+	
+	// UTILS
+	var SessionUtil = __webpack_require__(314);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var GuestLogin = React.createClass({
+	  displayName: 'GuestLogin',
+	
+	
+	  _onClick: function () {
+	    var user = { user: { username: "guest", password: "password" } };
+	    SessionUtil.createSession(user);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'guestLogin',
+	        onClick: this._onClick },
+	      'Login as Guest!'
+	    );
+	  }
+	});
+	
+	module.exports = GuestLogin;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// session util
+	//    purpose: all non-server action requests regarding the session
+	
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// ACTIONS
+	var SessionActions = __webpack_require__(262);
+	var ErrorActions = __webpack_require__(259);
+	
+	var SessionUtil = {
+	  createUser: function (user) {
+	    $.ajax({
+	      url: 'api/users',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.logInUser(user);
+	        hashHistory.push('/');
+	      },
+	      error: function (error) {
+	        ErrorActions.receiveError(error.responseText);
+	      }
+	    });
+	  },
+	
+	  updateUser: function (user) {
+	    $.ajax({
+	      url: 'api/users/' + user.user.id,
+	      method: 'PATCH',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.showUser(user);
+	      },
+	      error: function (error) {
+	        ErrorActions.receiveError(error.responseText);
+	      }
+	    });
+	  },
+	
+	  createSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'POST',
+	      data: user,
+	      success: function (user) {
+	        SessionActions.logInUser(user);
+	        hashHistory.push('/');
+	      },
+	      error: function (error) {
+	        ErrorActions.receiveError(error.responseText);
+	      }
+	    });
+	  },
+	
+	  resetSession: function (user) {
+	    $.ajax({
+	      url: 'api/session',
+	      method: 'DELETE',
+	      data: { id: user.id },
+	      success: function (user) {
+	        SessionActions.logOutUser();
+	      },
+	      error: function (error) {
+	        ErrorActions.receiveError(error.responseText);
+	      }
+	    });
+	  },
+	
+	  refreshSession: function (user) {
+	    SessionActions.refreshSession(user);
+	  }
+	
+	};
+	
+	module.exports = SessionUtil;
 
 /***/ }
 /******/ ]);

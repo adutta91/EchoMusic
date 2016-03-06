@@ -18,11 +18,12 @@ user = User.new
 user.username = "guest"
 user.password = "password"
 user.description = "This is a guest account - explore away!
-\nYou can see the songs you have followed below, and the ones you have uploaded
-to the left. Navigat the site using the icons along the header. Some of the
+You can see the songs you have followed below, and the ones you have uploaded
+to the left. Navigate the site using the icons along the header. Some of the
 actions available to you are: edit your profile (click on your profile picture),
 upload songs (click on the music icon), explore music (click on the logo), and
 logout (click the power icon). Enjoy and happy listening!!"
+user.image_url = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1457302131/nvbylyo0ifkbiywdhlkq.png"
 user.save!
 
 user = User.new

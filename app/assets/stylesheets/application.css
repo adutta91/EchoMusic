@@ -31,7 +31,7 @@
    -webkit-border-radius: 5px;
    border-radius: 5px;
    border: 1px solid black;
-   margin-bottom: 0px;
+   margin-bottom: 15px;
  }
 
  input[type=text] {
@@ -169,7 +169,6 @@
 .logoutWrapper {
   height: 40px;
   width: 40px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,6 +176,7 @@
 }
 
 .logoutWrapper:hover {
+  border-radius: 50%;
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(149, 32, 0, .75);
   box-shadow: 0px 0px 5px 5px rgba(149, 32, 0, .75);
@@ -191,6 +191,7 @@
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(20, 204, 96, .75);
   box-shadow: 0px 0px 5px 5px rgba(20, 204, 96, .75);
+  border-radius: 50%;
 }
 
 .uploadWrapper {
@@ -199,7 +200,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
   transition: all .5s ease 0s;
 }
 
@@ -213,11 +213,11 @@
   margin-top: 3px;
   padding: 2px;
   text-align: center;
-  border-radius: 50%;
   transition: all .5s ease 0s;
 }
 
 .profileButton:hover {
+  border-radius: 50%;
   cursor: pointer;
   opacity: .8;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
@@ -237,13 +237,13 @@
 }
 
 .aboutButton {
-  border-radius: 50%;
   transition: all .5s ease 0s;
   width: 40px;
   height: 40px;
 }
 
 .aboutButton:hover {
+  border-radius: 50%;
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
@@ -271,10 +271,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
 }
 
 .logoWrapper:hover {
+  border-radius: 50%;
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, .75);
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, .75);

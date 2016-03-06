@@ -1,7 +1,7 @@
 // sign-in form component
 //    purpose: receive data from the user and start a login request
 //
-//    children: none
+//    children: GuestLogin
 //    actions: receive data to send to server
 //    info: none
 
@@ -13,6 +13,9 @@ var SessionUtil = require('../../util/sessionUtil');
 
 // MIXINS
 var LinkedStateMixin = require('react-addons-linked-state-mixin');
+
+// REACT COMPONENTS
+var GuestLogin = require('./guestLogin');
 
 // CLASS DEFINITION ----------------------------------------***
 var SignInForm = React.createClass({
@@ -62,6 +65,8 @@ var SignInForm = React.createClass({
           className="submitButton"
           type="submit"
           value="Sign In!" />
+        <div>- or -</div>
+        <GuestLogin />
 
       </form>
     )

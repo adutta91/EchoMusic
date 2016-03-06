@@ -41,7 +41,7 @@ var customStyle = {
     border                     : '3px solid black',
     outline                    : 'none',
     marginTop                  : '50px',
-    height: '500px',
+    height: '600px',
     width: '500px'
   }
 };
