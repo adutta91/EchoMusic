@@ -35275,7 +35275,9 @@
 	  },
 	
 	  lyricButton: function () {
-	    LyricUtil.fetchLyrics();
+	    var title = this.state.song.title;
+	    var artist = this.state.song.artist_name;
+	    LyricUtil.fetchLyrics(title, artist);
 	  },
 	
 	  lyrics: function () {
@@ -35314,8 +35316,7 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        this.followButton()
 	      ),
-	      React.createElement(UserDisplay, { userId: this.state.song.user_id }),
-	      this.lyrics()
+	      React.createElement(UserDisplay, { userId: this.state.song.user_id })
 	    );
 	  }
 	});
@@ -35336,17 +35337,20 @@
 	var LyricActions = __webpack_require__(280);
 	
 	var LyricUtil = {
-	  fetchLyrics: function () {
+	  fetchLyrics: function (title, artist) {
+	    var url = "//api.musixmatch.com/ws/1.1/track.search?q_track=" + encodeURIComponent(title) + "&q_artist=" + encodeURIComponent(artist) + "&f_has_lyrics=1&apikey=8c4924ad5f648d753cca3bad07385b38";
+	
 	    $.ajax({
-	      url: "",
-	      method: "GET",
-	      success: function (response) {
-	        debugger;
-	      },
-	      error: function (error) {
+	      url: url,
+	      dataType: 'JSONP',
+	      jsonpCallback: 'myCallback',
+	      error: function (response) {
 	        debugger;
 	      }
 	    });
+	    var myCallback = function (response) {
+	      debugger;
+	    };
 	  }
 	};
 	
@@ -36388,16 +36392,6 @@
 	
 	
 	  indices: function () {
-	    // if (SessionStore.loggedIn()) {
-	    //   return (
-	    //     <div className="indices">
-	    //       <SongIndex />
-	    //       <ExploreArtistsIndex />
-	    //     </div>
-	    //   );
-	    // } else {
-	    //   return (<div/>);
-	    // }
 	    return React.createElement(
 	      'div',
 	      { className: 'indices' },
@@ -36453,7 +36447,7 @@
 	        React.createElement(
 	          "p",
 	          null,
-	          "Echo is a music sharing app! Explore, share, and follow great music!"
+	          " Explore, share, and follow great music! "
 	        )
 	      )
 	    );
@@ -36535,7 +36529,7 @@
 	      React.createElement(
 	        'span',
 	        null,
-	        'Songs'
+	        'Explore Songs'
 	      ),
 	      React.createElement(
 	        'div',
@@ -36656,7 +36650,7 @@
 	      React.createElement(
 	        'span',
 	        null,
-	        'Artists'
+	        'Explore Artists'
 	      ),
 	      React.createElement(
 	        'div',
@@ -36933,11 +36927,6 @@
 	                'div',
 	                { className: 'aboutTitle' },
 	                'Welcome to Echo!'
-	              ),
-	              React.createElement(
-	                'div',
-	                null,
-	                'The music sharing app that smiles back... Explore songs and artists below!'
 	              )
 	            )
 	          ),

@@ -73,8 +73,6 @@ var AboutButton = React.createClass({
             <div className="aboutHeaderWrapper">
             <h3 className="aboutHeader">
               <div className="aboutTitle">Welcome to Echo!</div>
-              <div>The music sharing app that smiles back... Explore
-              songs and artists below!</div>
             </h3>
             </div>
             <br/>

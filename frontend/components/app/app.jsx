@@ -23,16 +23,6 @@ var ExploreArtistsIndex = require('../artists/exploreArtistsIndex');
 var FullApp = React.createClass({
 
   indices: function() {
-    // if (SessionStore.loggedIn()) {
-    //   return (
-    //     <div className="indices">
-    //       <SongIndex />
-    //       <ExploreArtistsIndex />
-    //     </div>
-    //   );
-    // } else {
-    //   return (<div/>);
-    // }
     return (
       <div className="indices">
         <SongIndex />

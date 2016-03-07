@@ -72,7 +72,9 @@ var SongProfile = React.createClass({
   },
 
   lyricButton: function() {
-    LyricUtil.fetchLyrics();
+    var title = this.state.song.title;
+    var artist = this.state.song.artist_name
+    LyricUtil.fetchLyrics(title, artist);
   },
 
   lyrics: function() {
@@ -109,7 +111,7 @@ var SongProfile = React.createClass({
           { this.followButton() }
         </div>
         <UserDisplay userId={this.state.song.user_id}/>
-        {this.lyrics()}
+
       </div>
     );
   }

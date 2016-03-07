@@ -13,9 +13,7 @@ var About = React.createClass({
       <div className="about">
         <div>
           <h3>Welcome!</h3>
-          <p>
-            Echo is a music sharing app! Explore, share, and follow great music!
-          </p>
+          <p> Explore, share, and follow great music! </p>
         </div>
       </div>
     )
