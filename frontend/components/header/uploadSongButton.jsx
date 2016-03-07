@@ -66,7 +66,6 @@ var UploadSongButton = React.createClass({
   _onClick: function(event) {
     event.preventDefault();
     this.openModal();
-    // hashHistory.push('/songs/new');
   },
 
   render: function() {
@@ -80,7 +79,7 @@ var UploadSongButton = React.createClass({
          isOpen={this.state.open}
          onRequestClose={this.closeModal}
          style={customStyle}>
-         <SongForm />
+         <SongForm modalCallback={this.closeModal} />
        </Modal>
      </div>
     );

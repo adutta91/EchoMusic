@@ -63,8 +63,8 @@ var UpdateUserForm = React.createClass({
       description: this.state.desc,
       image_url: this.state.imageUrl
     }};
-    SessionUtil.updateUser(user);
     this.props.modalCallback();
+    SessionUtil.updateUser(user);
     hashHistory.push('/users/' + SessionStore.currentUser().id);
   },
 

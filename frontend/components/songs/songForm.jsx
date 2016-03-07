@@ -59,9 +59,8 @@ var SongForm = React.createClass({
       user_id: SessionStore.currentUser().id,
       artist_id: artistId
     }};
-
+    this.props.modalCallback();
     SongUtil.createSong(song);
-    // this.context.router.push('/users/' + SessionStore.currentUser().id);
   },
 
   findArtist: function() {

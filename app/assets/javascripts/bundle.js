@@ -34430,8 +34430,8 @@
 	        description: this.state.desc,
 	        image_url: this.state.imageUrl
 	      } };
-	    SessionUtil.updateUser(user);
 	    this.props.modalCallback();
+	    SessionUtil.updateUser(user);
 	    hashHistory.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
@@ -35977,9 +35977,8 @@
 	        user_id: SessionStore.currentUser().id,
 	        artist_id: artistId
 	      } };
-	
+	    this.props.modalCallback();
 	    SongUtil.createSong(song);
-	    // this.context.router.push('/users/' + SessionStore.currentUser().id);
 	  },
 	
 	  findArtist: function () {
@@ -37210,7 +37209,6 @@
 	  _onClick: function (event) {
 	    event.preventDefault();
 	    this.openModal();
-	    // hashHistory.push('/songs/new');
 	  },
 	
 	  render: function () {
@@ -37227,7 +37225,7 @@
 	          isOpen: this.state.open,
 	          onRequestClose: this.closeModal,
 	          style: customStyle },
-	        React.createElement(SongForm, null)
+	        React.createElement(SongForm, { modalCallback: this.closeModal })
 	      )
 	    );
 	  }
