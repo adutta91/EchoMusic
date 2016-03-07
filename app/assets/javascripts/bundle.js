@@ -71,14 +71,42 @@
 	var ArtistProfile = __webpack_require__(285);
 	var SongForm = __webpack_require__(290);
 	var LogIn = __webpack_require__(291);
-	var LoggedInApp = __webpack_require__(296);
-	var Header = __webpack_require__(302);
-	var Footer = __webpack_require__(308);
-	var ErrorDisplay = __webpack_require__(311);
+	var LoggedInApp = __webpack_require__(297);
+	var Header = __webpack_require__(303);
+	var Footer = __webpack_require__(309);
+	var ErrorDisplay = __webpack_require__(312);
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(159);
-	var style = __webpack_require__(312);
+	var customStyle = {
+	  overlay: {
+	    position: 'fixed',
+	    display: 'flex',
+	    justifyContent: 'center',
+	    alignItems: 'center',
+	    top: 0,
+	    left: 0,
+	    right: 0,
+	    bottom: 0,
+	    backgroundColor: 'rgba(0,0,0,0.6)'
+	  },
+	  content: {
+	    position: 'static',
+	    display: 'flex',
+	    justifyContent: 'space-around',
+	    alignItems: 'center',
+	    flexDirection: 'column',
+	    background: 'linear-gradient(to bottom right, #592000, #FF5B00)',
+	    overflow: 'auto',
+	    WebkitOverflowScrolling: 'touch',
+	    borderRadius: '15px',
+	    border: '3px solid black',
+	    outline: 'none',
+	    marginTop: '50px',
+	    height: '200px',
+	    width: '500px'
+	  }
+	};
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var App = React.createClass({
@@ -140,7 +168,7 @@
 	        {
 	          isOpen: this.state.modalOpen,
 	          onRequestClose: this.closeModal,
-	          style: style },
+	          style: customStyle },
 	        React.createElement(ErrorDisplay, { errors: ErrorStore.all() })
 	      ),
 	      this.props.children,
@@ -33906,9 +33934,14 @@
 	
 	var addError = function (message) {
 	  var messages = JSON.parse(message);
-	  messages.forEach(function (msg) {
-	    _errors.push(msg['message']);
-	  });
+	  if (messages.length) {
+	    messages.forEach(function (msg) {
+	      _errors.push(msg['message']);
+	    });
+	  } else {
+	    debugger;
+	    _errors.push(messages['message']);
+	  }
 	};
 	
 	var clearErrors = function () {
@@ -34261,7 +34294,7 @@
 	    border: '3px solid black',
 	    outline: 'none',
 	    marginTop: '50px',
-	    height: '300px',
+	    height: '400px',
 	    width: '500px'
 	  }
 	};
@@ -36081,7 +36114,7 @@
 	// REACT COMPONENTS
 	var Tab = __webpack_require__(293);
 	var SignInForm = __webpack_require__(294);
-	var SignUpForm = __webpack_require__(295);
+	var SignUpForm = __webpack_require__(296);
 	
 	// POSSIBLE TYPE OF FORMS (CONSTANTS)
 	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
@@ -36199,7 +36232,7 @@
 	var LinkedStateMixin = __webpack_require__(268);
 	
 	// REACT COMPONENTS
-	var GuestLogin = __webpack_require__(313);
+	var GuestLogin = __webpack_require__(295);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignInForm = React.createClass({
@@ -36274,6 +36307,44 @@
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// guest login component
+	//    purpose: sign in the user with a guest account
+	//
+	//    children: none
+	//    actions: login
+	//    info: none
+	
+	var React = __webpack_require__(1);
+	
+	// UTILS
+	var SessionUtil = __webpack_require__(261);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var GuestLogin = React.createClass({
+	  displayName: 'GuestLogin',
+	
+	
+	  _onClick: function () {
+	    var user = { user: { username: "guest", password: "password" } };
+	    SessionUtil.createSession(user);
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'guestLogin',
+	        onClick: this._onClick },
+	      'Login as Guest!'
+	    );
+	  }
+	});
+	
+	module.exports = GuestLogin;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// sign up form component
 	//    purpose: receive data to create a new user and session
 	//
@@ -36290,7 +36361,7 @@
 	var LinkedStateMixin = __webpack_require__(268);
 	
 	// REACT COMPONENTS
-	var GuestLogin = __webpack_require__(313);
+	var GuestLogin = __webpack_require__(295);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignUpForm = React.createClass({
@@ -36362,7 +36433,7 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// full app react component
@@ -36382,9 +36453,9 @@
 	var ApiUtil = __webpack_require__(265);
 	
 	// REACT COMPONENTS
-	var About = __webpack_require__(297);
-	var SongIndex = __webpack_require__(298);
-	var ExploreArtistsIndex = __webpack_require__(300);
+	var About = __webpack_require__(298);
+	var SongIndex = __webpack_require__(299);
+	var ExploreArtistsIndex = __webpack_require__(301);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -36417,7 +36488,7 @@
 	module.exports = FullApp;
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// about info react component
@@ -36457,7 +36528,7 @@
 	module.exports = About;
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index component
@@ -36477,7 +36548,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var ExploreIndexItem = __webpack_require__(299);
+	var ExploreIndexItem = __webpack_require__(300);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -36543,7 +36614,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index item component
@@ -36592,7 +36663,7 @@
 	module.exports = ExploreIndexItem;
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index component
@@ -36611,7 +36682,7 @@
 	var ArtistUtil = __webpack_require__(287);
 	
 	// REACT COMPONENTS
-	var ExploreArtistsIndexItem = __webpack_require__(301);
+	var ExploreArtistsIndexItem = __webpack_require__(302);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ExploreArtistsIndex = React.createClass({
@@ -36664,7 +36735,7 @@
 	module.exports = ExploreArtistsIndex;
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// explore artists index item component
@@ -36706,7 +36777,7 @@
 	module.exports = ExploreArtistsIndexItem;
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// header react component
@@ -36722,11 +36793,11 @@
 	var SessionStore = __webpack_require__(236);
 	
 	// REACT COMPONENTS
-	var Logo = __webpack_require__(303);
-	var AboutButton = __webpack_require__(304);
-	var Logout = __webpack_require__(305);
-	var UploadSongButton = __webpack_require__(306);
-	var ProfileButton = __webpack_require__(307);
+	var Logo = __webpack_require__(304);
+	var AboutButton = __webpack_require__(305);
+	var Logout = __webpack_require__(306);
+	var UploadSongButton = __webpack_require__(307);
+	var ProfileButton = __webpack_require__(308);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Header = React.createClass({
@@ -36793,7 +36864,7 @@
 	module.exports = Header;
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -36835,7 +36906,7 @@
 	module.exports = Logo;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// about button react component
@@ -37015,7 +37086,7 @@
 	module.exports = AboutButton;
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// logout button react component
@@ -37067,7 +37138,7 @@
 	module.exports = Logout;
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// upload button react component
@@ -37165,7 +37236,7 @@
 	module.exports = UploadSongButton;
 
 /***/ },
-/* 307 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// profile button react component
@@ -37213,7 +37284,7 @@
 	module.exports = ProfileButton;
 
 /***/ },
-/* 308 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer react component
@@ -37233,8 +37304,8 @@
 	var SongStore = __webpack_require__(256);
 	
 	// REACT COMPONENTS
-	var FooterPlayButton = __webpack_require__(309);
-	var ProgressBar = __webpack_require__(310);
+	var FooterPlayButton = __webpack_require__(310);
+	var ProgressBar = __webpack_require__(311);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var Footer = React.createClass({
@@ -37332,7 +37403,7 @@
 	module.exports = Footer;
 
 /***/ },
-/* 309 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// footer play button component
@@ -37411,7 +37482,7 @@
 	module.exports = FooterPlayButton;
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// progress bar component
@@ -37474,7 +37545,7 @@
 	module.exports = ProgressBar;
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// edit user profile component
@@ -37488,7 +37559,7 @@
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ErrorDisplay = React.createClass({
-	  displayName: 'ErrorDisplay',
+	  displayName: "ErrorDisplay",
 	
 	
 	  getInitialState: function () {
@@ -37500,8 +37571,8 @@
 	  listErrors: function () {
 	    return this.state.errors.map(function (error, idx) {
 	      return React.createElement(
-	        'li',
-	        { key: idx },
+	        "li",
+	        { className: "error", key: idx },
 	        error
 	      );
 	    });
@@ -37509,89 +37580,16 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
-	      null,
-	      ' ',
+	      "ul",
+	      { className: "errorList" },
+	      " ",
 	      this.listErrors(),
-	      ' '
+	      " "
 	    );
 	  }
 	});
 	
 	module.exports = ErrorDisplay;
-
-/***/ },
-/* 312 */
-/***/ function(module, exports) {
-
-	// style specifications for modal form
-	
-	// TODO: (move to appropriate place)
-	
-	style = {
-	  overlay: {
-	    position: 'fixed',
-	    top: 0,
-	    left: 0,
-	    right: 0,
-	    bottom: 0,
-	    backgroundColor: 'rgba(50, 50, 50, 0.75)'
-	  },
-	  content: {
-	    position: 'absolute',
-	    top: '25%',
-	    left: '25%',
-	    right: '25%',
-	    bottom: '25%',
-	    border: '1px solid #ccc',
-	    background: '#fff',
-	    overflow: 'auto',
-	    WebkitOverflowScrolling: 'touch',
-	    borderRadius: '4px',
-	    outline: 'none',
-	    padding: '20px'
-	  }
-	};
-	
-	module.exports = style;
-
-/***/ },
-/* 313 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// guest login component
-	//    purpose: sign in the user with a guest account
-	//
-	//    children: none
-	//    actions: login
-	//    info: none
-	
-	var React = __webpack_require__(1);
-	
-	// UTILS
-	var SessionUtil = __webpack_require__(261);
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var GuestLogin = React.createClass({
-	  displayName: 'GuestLogin',
-	
-	
-	  _onClick: function () {
-	    var user = { user: { username: "guest", password: "password" } };
-	    SessionUtil.createSession(user);
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'guestLogin',
-	        onClick: this._onClick },
-	      'Login as Guest!'
-	    );
-	  }
-	});
-	
-	module.exports = GuestLogin;
 
 /***/ }
 /******/ ]);

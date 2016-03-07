@@ -39,9 +39,14 @@ ErrorStore.areErrors = function() {
 
 var addError = function(message) {
   var messages = JSON.parse(message);
-  messages.forEach(function(msg) {
-    _errors.push(msg['message']);
-  });
+  if (messages.length) {
+    messages.forEach(function(msg) {
+      _errors.push(msg['message']);
+    });
+  } else {
+    debugger;
+    _errors.push(messages['message']);
+  }
 };
 
 var clearErrors = function() {

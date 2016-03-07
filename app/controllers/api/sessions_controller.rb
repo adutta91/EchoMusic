@@ -12,7 +12,7 @@ class Api::SessionsController < ApplicationController
       log_in(@user)
       render :show
     else
-      render json: "Invalid credentials", status: 422
+      render json: {message: "Invalid credentials"}, status: 422
     end
   end
 
@@ -23,7 +23,7 @@ class Api::SessionsController < ApplicationController
       log_out(@user)
       render :show
     else
-      render json: "User not found", status: 422
+      render json: {message: "User not found"}, status: 422
     end
   end
 end

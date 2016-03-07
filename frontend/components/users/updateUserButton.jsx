@@ -34,7 +34,7 @@ var customStyle = {
     border                     : '3px solid black',
     outline                    : 'none',
     marginTop                  : '50px',
-    height: '300px',
+    height: '400px',
     width: '500px'
   }
 };

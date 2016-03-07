@@ -18,13 +18,13 @@ var ErrorDisplay = React.createClass({
 
   listErrors: function() {
     return this.state.errors.map(function(error, idx) {
-      return (<li key={idx}>{error}</li>)
+      return (<li className="error" key={idx}>{error}</li>)
     });
   },
 
   render: function() {
     return (
-      <div> {this.listErrors()} </div>
+      <ul className="errorList"> {this.listErrors()} </ul>
     );
   }
 });
