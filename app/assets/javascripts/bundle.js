@@ -37569,7 +37569,7 @@
 	var React = __webpack_require__(1);
 	
 	// UTILS
-	var SessionUtil = __webpack_require__(314);
+	var SessionUtil = __webpack_require__(261);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var GuestLogin = React.createClass({
@@ -37592,87 +37592,6 @@
 	});
 	
 	module.exports = GuestLogin;
-
-/***/ },
-/* 314 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// session util
-	//    purpose: all non-server action requests regarding the session
-	
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// ACTIONS
-	var SessionActions = __webpack_require__(262);
-	var ErrorActions = __webpack_require__(259);
-	
-	var SessionUtil = {
-	  createUser: function (user) {
-	    $.ajax({
-	      url: 'api/users',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.logInUser(user);
-	        hashHistory.push('/');
-	      },
-	      error: function (error) {
-	        ErrorActions.receiveError(error.responseText);
-	      }
-	    });
-	  },
-	
-	  updateUser: function (user) {
-	    $.ajax({
-	      url: 'api/users/' + user.user.id,
-	      method: 'PATCH',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.showUser(user);
-	      },
-	      error: function (error) {
-	        ErrorActions.receiveError(error.responseText);
-	      }
-	    });
-	  },
-	
-	  createSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'POST',
-	      data: user,
-	      success: function (user) {
-	        SessionActions.logInUser(user);
-	        hashHistory.push('/');
-	      },
-	      error: function (error) {
-	        ErrorActions.receiveError(error.responseText);
-	      }
-	    });
-	  },
-	
-	  resetSession: function (user) {
-	    $.ajax({
-	      url: 'api/session',
-	      method: 'DELETE',
-	      data: { id: user.id },
-	      success: function (user) {
-	        SessionActions.logOutUser();
-	      },
-	      error: function (error) {
-	        ErrorActions.receiveError(error.responseText);
-	      }
-	    });
-	  },
-	
-	  refreshSession: function (user) {
-	    SessionActions.refreshSession(user);
-	  }
-	
-	};
-	
-	module.exports = SessionUtil;
 
 /***/ }
 /******/ ]);

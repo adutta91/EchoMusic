@@ -8,7 +8,7 @@
 var React = require('react');
 
 // UTILS
-var SessionUtil = require('../../util/SessionUtil');
+var SessionUtil = require('../../util/sessionUtil');
 
 // CLASS DEFINITION ----------------------------------------***
 var GuestLogin = React.createClass({
