@@ -10,7 +10,7 @@
 user = User.new
 user.username = "adutta"
 user.password = "password"
-user.image_url = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1456878559/arfxlgnwtqdi1rsakzmr.png"
+user.image_url = "http://res.cloudinary.com/dzyfczxnr/image/upload/v1457302131/nvbylyo0ifkbiywdhlkq.png"
 user.description = "I am cool"
 user.save!
 
