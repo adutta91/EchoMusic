@@ -1,7 +1,9 @@
 #Echo
 
-Echo is a React.js and RoR music sharing site. Users can upload and listen to
-music that has been uploaded onto the site. 
+Echo is a music sharing site built on React.js and Ruby on Rails. Users can
+upload and listen to music that has been uploaded onto the site. Users can login,
+navigate the site using the header nav-bar, explore songs, add songs to their
+followed list, upload songs, and edit their user profile.
 
 View it live at http://echomusic.tech
 
@@ -13,3 +15,10 @@ View it live at http://echomusic.tech
 * Users can follow and upload songs, which are stored and displayed on the user page
 * Uses custom Rails routes
 * Custom css styling
+
+##Todos / Future features
+* Song/Artist Search
+* Add a current-playing queue
+* Create and add playlistst
+* View other user's profiles
+* Display song lyrics
