@@ -43,7 +43,7 @@ var contentStyle = {
   background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
   overflow                   : 'auto',
   WebkitOverflowScrolling    : 'touch',
-  borderRadius               : '15px',
+  borderRadius               : '5px',
   border                     : '3px solid black',
   outline                    : 'none',
   marginTop                  : '50px',
