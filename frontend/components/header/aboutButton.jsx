@@ -8,36 +8,23 @@
 var React = require('react');
 
 // MODAL DEPENDENCIES
-var Modal = require('react-modal');
+var Modal = require('boron/WaveModal');
 
-var customStyle = {
-  overlay : {
-    position          : 'fixed',
-    display           : 'flex',
-    justifyContent    : 'center',
-    alignItems        : 'center',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(0,0,0,0.6)'
-  },
-  content : {
-    position                   : 'static',
-    display                    : 'flex',
-    justifyContent             : 'space-around',
-    alignItems                 : 'center',
-    flexDirection              : 'column',
-    background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '15px',
-    border                     : '3px solid black',
-    outline                    : 'none',
-    marginTop                  : '50px',
-    height: '500px',
-    width: '500px'
-  }
+var contentStyle = {
+  position                   : 'static',
+  display                    : 'flex',
+  justifyContent             : 'space-around',
+  alignItems                 : 'center',
+  flexDirection              : 'column',
+  background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
+  overflow                   : 'auto',
+  WebkitOverflowScrolling    : 'touch',
+  borderRadius               : '15px',
+  border                     : '3px solid black',
+  outline                    : 'none',
+  marginTop                  : '50px',
+  height: '500px',
+  width: '500px'
 };
 
 var AboutButton = React.createClass({
@@ -47,16 +34,18 @@ var AboutButton = React.createClass({
     });
   },
 
-  openModal: function() {
-    this.setState({open: true});
+  showModal: function() {
+    this.refs.modal.show();
+    this.setState({open: true})
   },
 
-  closeModal: function() {
+  hideModal: function() {
+    this.refs.modal.hide();
     this.setState({open: false});
   },
 
   _onClick: function() {
-    this.openModal();
+    this.showModal();
   },
 
   render: function() {
@@ -65,11 +54,8 @@ var AboutButton = React.createClass({
         <img src="http://res.cloudinary.com/dzyfczxnr/image/upload/v1457135625/aboutButton_kc2niy.png"
              className="aboutButton"
              onClick={this._onClick} />
-        <Modal
-          isOpen={this.state.open}
-          onRequestClose={this.closeModal}
-          style={customStyle}>
-          <div>
+        <Modal ref="modal" contentStyle={contentStyle}>
+          <div className="aboutModal">
             <div className="aboutHeaderWrapper">
             <h3 className="aboutHeader">
               <div className="aboutTitle">Welcome to Echo!</div>

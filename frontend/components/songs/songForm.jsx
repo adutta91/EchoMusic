@@ -100,29 +100,29 @@ var SongForm = React.createClass({
   render: function() {
     return (
       <form className="songForm" onSubmit={this.handleSubmit}>
-        <h2 className="aboutHeader">Upload a Song!</h2>
+        <h4 className="aboutHeader">Upload a Song!</h4>
+        <div className="songFormEntries">
+          <label htmlFor="title" className="songFormTitle">Title: </label>
+          <br/>
+          <input type="text"
+                 id="title"
+                 valueLink={this.linkState("title")}/>
+          <br/>
 
-        <label htmlFor="title" className="songTitleForm">Title: </label>
-        <br/>
-        <input type="text"
-               id="title"
-               valueLink={this.linkState("title")}/>
-        <br/>
+          <label htmlFor="artist_name" className="songFormTitle">Artist: </label>
+          <br/>
+          <input type="text"
+                 id="artist"
+                 valueLink={this.linkState("artist")}/>
+          <br/>
 
-        <label htmlFor="artist_name" className="songArtistForm">Artist: </label>
-        <br/>
-        <input type="text"
-               id="artist"
-               valueLink={this.linkState("artist")}/>
-        <br/>
-
-        <label htmlFor="album_id" className="songAlbumForm">Album: </label>
-        <br/>
-        <input type="text"
-               id="album"
-               valueLink={this.linkState("album")}/>
-        <br/>
-
+          <label htmlFor="album_id" className="songFormTitle">Album: </label>
+          <br/>
+          <input type="text"
+                 id="album"
+                 valueLink={this.linkState("album")}/>
+          <br/>
+        </div>
         {this.uploadDisplay()}
 
         <input className="uploadFormButton" type="submit" value="Upload!"/>

@@ -44,7 +44,6 @@ var addError = function(message) {
       _errors.push(msg['message']);
     });
   } else {
-    debugger;
     _errors.push(messages['message']);
   }
 };

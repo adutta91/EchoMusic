@@ -8,35 +8,23 @@
 var React = require('react');
 
 // MODAL DEPENDENCIES
-var Modal = require('react-modal');
-var customStyle = {
-  overlay : {
-    position          : 'fixed',
-    display           : 'flex',
-    justifyContent    : 'center',
-    alignItems        : 'center',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(0,0,0,0.6)'
-  },
-  content : {
-    position                   : 'static',
-    display                    : 'flex',
-    justifyContent             : 'space-around',
-    alignItems                 : 'center',
-    flexDirection              : 'column',
-    background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '15px',
-    border                     : '3px solid black',
-    outline                    : 'none',
-    marginTop                  : '50px',
-    height: '400px',
-    width: '500px'
-  }
+var Modal = require('boron/WaveModal');
+
+var contentStyle = {
+  position                   : 'static',
+  display                    : 'flex',
+  justifyContent             : 'space-between',
+  alignItems                 : 'center',
+  flexDirection              : 'column',
+  background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
+  overflow                   : 'auto',
+  WebkitOverflowScrolling    : 'touch',
+  borderRadius               : '15px',
+  border                     : '3px solid black',
+  outline                    : 'none',
+  marginTop                  : '50px',
+  height: '600px',
+  width: '500px'
 };
 
 // REACT COMPONENTS
@@ -51,11 +39,13 @@ var UpdateUserButton = React.createClass({
     })
   },
 
-  openModal: function() {
+  showModal: function() {
+    this.refs.modal.show();
     this.setState({open: true});
   },
 
-  closeModal: function() {
+  hideModal: function() {
+    this.refs.modal.hide();
     this.setState({open: false });
   },
 
@@ -73,13 +63,9 @@ var UpdateUserButton = React.createClass({
         <div className="updateUserButton">
           <img className="profilePic"
                src={this.findPicture()}
-               onClick={this.openModal}/>
-          <Modal
-            isOpen={this.state.open}
-            onRequestClose={this.closeModal}
-            style={customStyle}>
-
-            <UpdateUserForm modalCallback={this.closeModal}/>
+               onClick={this.showModal}/>
+          <Modal ref="modal" contentStyle={contentStyle}>
+            <UpdateUserForm modalCallback={this.hideModal}/>
           </Modal>
         </div>
       </div>

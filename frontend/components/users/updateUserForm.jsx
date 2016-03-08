@@ -76,12 +76,15 @@ var UpdateUserForm = React.createClass({
         <label htmlFor="username">Username</label>
         <input id="username" type="text" valueLink={this.linkState("username")} />
         <br/>
-        <label htmlFor="desc">About</label>
-        <textarea id="desc" wrap='hard' cols='6' rows='1' valueLink={this.linkState("desc")}>{this.state.desc}</textarea>
+        <div className="userAboutWrapper">
+          <label htmlFor="desc">About</label>
+          <textarea id="desc" wrap='hard' cols='6' rows='1' valueLink={this.linkState("desc")}>{this.state.desc}</textarea>
+        </div>
         <br/>
         <label>Profile Image</label>
         {this.uploadDisplay()}
         <br/>
+
         <input className="updateFormButton" type="submit" value="Update!"/>
 
       </form>

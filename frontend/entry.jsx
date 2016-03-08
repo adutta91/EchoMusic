@@ -31,59 +31,45 @@ var Footer = require('./components/footer/footer');
 var ErrorDisplay = require('./components/errors/errorDisplay');
 
 // MODAL DEPENDENCIES
-var Modal = require('react-modal');
-var customStyle = {
-  overlay : {
-    position          : 'fixed',
-    display           : 'flex',
-    justifyContent    : 'center',
-    alignItems        : 'center',
-    top               : 0,
-    left              : 0,
-    right             : 0,
-    bottom            : 0,
-    backgroundColor   : 'rgba(0,0,0,0.6)'
-  },
-  content : {
-    position                   : 'static',
-    display                    : 'flex',
-    justifyContent             : 'space-around',
-    alignItems                 : 'center',
-    flexDirection              : 'column',
-    background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
-    overflow                   : 'auto',
-    WebkitOverflowScrolling    : 'touch',
-    borderRadius               : '15px',
-    border                     : '3px solid black',
-    outline                    : 'none',
-    marginTop                  : '50px',
-    height: '200px',
-    width: '500px'
-  }
-};
+var Modal = require('boron/WaveModal');
+var Modal2 = require('react-modal');
 
+var contentStyle = {
+  position                   : 'static',
+  display                    : 'flex',
+  justifyContent             : 'space-around',
+  alignItems                 : 'center',
+  flexDirection              : 'column',
+  background                 : 'linear-gradient(to bottom right, #592000, #FF5B00)',
+  overflow                   : 'auto',
+  WebkitOverflowScrolling    : 'touch',
+  borderRadius               : '15px',
+  border                     : '3px solid black',
+  outline                    : 'none',
+  marginTop                  : '50px',
+  height: '200px',
+  width: '500px'
+};
 
 // CLASS DEFINITION ----------------------------------------***
 var App = React.createClass({
 
   getInitialState: function() {
     return ({
-      user: SessionStore.currentUser(),
-      modalOpen: false
+      errors: ErrorStore.all()
     });
   },
 
-  openModal: function() {
-    this.setState({modalOpen: true});
+  showModal: function() {
+    this.refs.modal.show();
   },
 
-  closeModal: function() {
-    this.setState({modalOpen: false });
+  hideModal: function() {
+    this.refs.modal.hide()
     ErrorStore.clear();
   },
 
   checkForLogIn: function() {
-
     var user = localStorage.getItem('loggedInUser')
     if (user === null) {
       hashHistory.push('/session/new');
@@ -97,7 +83,7 @@ var App = React.createClass({
     this.errorListener = ErrorStore.addListener(this.handleError);
 
     if (ErrorStore.areErrors()) {
-      this.openModal();
+      this.showModal();
     } else {
       this.checkForLogIn();
     }
@@ -108,18 +94,17 @@ var App = React.createClass({
   },
 
   handleError: function() {
-    this.openModal();
+    this.setState({errors: ErrorStore.all()})
+    this.showModal();
   },
 
   render: function() {
     return (
       <div className="content">
         <Header />
-        <Modal
-          isOpen={this.state.modalOpen}
-          onRequestClose={this.closeModal}
-          style={customStyle}>
-          <ErrorDisplay errors={ErrorStore.all()}/>
+        <Modal ref="modal" contentStyle={contentStyle}>
+          <ErrorDisplay errors={this.state.errors}/>
+          <button className="closeButton" onClick={this.hideModal}>Ok</button>
         </Modal>
         {this.props.children}
         <Footer />
@@ -144,7 +129,7 @@ var appRoutes = (
 // Load onto document
 document.addEventListener("DOMContentLoaded", function() {
   var root = document.querySelector("#root");
-  Modal.setAppElement('#root');
+  Modal2.setAppElement('#root');
 
   ReactDOM.render(<Router history={hashHistory}>{appRoutes}</Router>, root);
 
