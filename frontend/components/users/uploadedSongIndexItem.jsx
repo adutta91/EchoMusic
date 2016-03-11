@@ -41,7 +41,9 @@ var UploadedSongIndexItem = React.createClass({
           {this.state.song.title}
         </div>
         <div onClick={this.artistClick} className="uploadListArtist" >{this.state.song.artist_name}</div>
-        <PlayButton songId={this.state.song.id} />
+        <div className="playButtonWrapper">
+          <PlayButton songId={this.state.song.id} />
+        </div>
       </div>
     )
   }

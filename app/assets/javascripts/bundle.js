@@ -35659,7 +35659,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'playButtonWrapper' },
+	      null,
 	      this.button()
 	    );
 	  }
@@ -35902,7 +35902,11 @@
 	        { onClick: this.artistClick, className: 'uploadListArtist' },
 	        this.state.song.artist_name
 	      ),
-	      React.createElement(PlayButton, { songId: this.state.song.id })
+	      React.createElement(
+	        'div',
+	        { className: 'playButtonWrapper' },
+	        React.createElement(PlayButton, { songId: this.state.song.id })
+	      )
 	    );
 	  }
 	});
