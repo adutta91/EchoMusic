@@ -80,7 +80,7 @@ var PlayButton = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="playButtonWrapper">
         {this.button()}
       </div>
     );

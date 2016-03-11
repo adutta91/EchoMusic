@@ -35659,7 +35659,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'playButtonWrapper' },
 	      this.button()
 	    );
 	  }

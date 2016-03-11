@@ -173,7 +173,7 @@
 .userFollowListItem {
   display: flex;
   font-size: 20px;
-  opacity: .4;
+  opacity: .8;
   justify-content: space-between;
   align-items: center;
   border: 1px solid black;
@@ -198,8 +198,9 @@
   height: 300px;
 }
 
+
 .userSongListItem {
-  opacity: .4;
+  opacity: .8;
   font-size: 20px;
   overflow-x: hidden;
   width: 100px;
@@ -225,6 +226,27 @@
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
 }
 
+.uploadListArtist {
+  display: none;
+}
+
+.playButtonWrapper {
+  display: none;
+}
+
+.songListItemInfo {
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.songListItemInfo:hover + .uploadListArtist {
+  display: none;
+}
+
+.songListItemInfo:hover + .playButtonWrapper {
+  display: none;
+}
 
 .followButton {
   height: 40px;
