@@ -12,7 +12,7 @@ var LyricUtil = {
     var url = (
       "//api.musixmatch.com/ws/1.1/track.search?q_track=" +
       encodeURIComponent(title) + "&q_artist=" + encodeURIComponent(artist) +
-      "&f_has_lyrics=1&apikey=8c4924ad5f648d753cca3bad07385b38"
+      "&f_has_lyrics=1&apikey=" + window.musixMatchKey
     );
 
     $.ajax({

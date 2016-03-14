@@ -51,16 +51,6 @@ audio:hover {
   margin: 20px auto;
 }
 
-.songFormBanner {
-  width: 100%;
-  background: url("https://images.unsplash.com/photo-1420161900862-9a86fa1f5c79?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=ca5701e0f1e03876b6bd3477a2390f7f") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  padding: 69px 0px 10px 0px;
-}
-
 .songIndexItem {
   opacity: 0.8;
   width: 100px;
@@ -141,7 +131,7 @@ audio:hover {
 .songProfile {
   width: 100%;
   height: 600px;
-  background: url("https://images.unsplash.com/5/unsplash-kitsune-4.jpg?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=d229e68d587bc1201d35e234804d4006") no-repeat center center fixed;
+  background: url("http://res.cloudinary.com/dzyfczxnr/image/upload/v1457979662/song_bg_h2c5qw.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
