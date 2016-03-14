@@ -126,9 +126,15 @@ audio:hover {
   background-color: #14CC60;
   margin-top: 15px;
   width: 100%;
+  color: black;
+  height: 40px;
+  font-size: 20px;
+  font-family: Poiret One;
+  border-radius: 5px;
 }
 
 .uploadFormButton:hover {
+  cursor: pointer;
   background-color: #12B756;
 }
 

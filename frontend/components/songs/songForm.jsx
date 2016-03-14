@@ -39,11 +39,11 @@ var SongForm = React.createClass({
 
   audioUpload: function() {
     cloudinary.openUploadWidget(window.cloudinaryOptions, this.uploadResult);
-    this.setState( { audioUploaded: true } );
   },
 
   uploadResult: function(error, results) {
     this.state.audioUrl = results[0].url;
+    this.setState( { audioUploaded: true } );
   },
 
   handleSubmit: function(event) {
@@ -100,7 +100,7 @@ var SongForm = React.createClass({
 
   render: function() {
     return (
-      <form className="songForm" onSubmit={this.handleSubmit}>
+      <div className="songForm">
         <h4 className="aboutHeader">Upload a Song!</h4>
         <div className="songFormEntries">
           <label htmlFor="title" className="songFormTitle">Title: </label>
@@ -126,9 +126,9 @@ var SongForm = React.createClass({
         </div>
         {this.uploadDisplay()}
 
-        <input className="uploadFormButton" type="submit" value="Upload!"/>
+        <button className="uploadFormButton" onClick={this.handleSubmit}>Upload</button>
 
-      </form>
+      </div>
     );
   }
 });

@@ -36642,11 +36642,11 @@
 	
 	  audioUpload: function () {
 	    cloudinary.openUploadWidget(window.cloudinaryOptions, this.uploadResult);
-	    this.setState({ audioUploaded: true });
 	  },
 	
 	  uploadResult: function (error, results) {
 	    this.state.audioUrl = results[0].url;
+	    this.setState({ audioUploaded: true });
 	  },
 	
 	  handleSubmit: function (event) {
@@ -36705,8 +36705,8 @@
 	
 	  render: function () {
 	    return React.createElement(
-	      'form',
-	      { className: 'songForm', onSubmit: this.handleSubmit },
+	      'div',
+	      { className: 'songForm' },
 	      React.createElement(
 	        'h4',
 	        { className: 'aboutHeader' },
@@ -36747,7 +36747,11 @@
 	        React.createElement('br', null)
 	      ),
 	      this.uploadDisplay(),
-	      React.createElement('input', { className: 'uploadFormButton', type: 'submit', value: 'Upload!' })
+	      React.createElement(
+	        'button',
+	        { className: 'uploadFormButton', onClick: this.handleSubmit },
+	        'Upload'
+	      )
 	    );
 	  }
 	});
