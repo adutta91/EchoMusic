@@ -94,9 +94,9 @@
   color: white;
   top: 10px;
   margin: 0 auto;
-  z-index: 3;
   pointer-events: none;
   transition: all 1s ease 0s;
+  z-index: 3;
 }
 
 .closeButton {
