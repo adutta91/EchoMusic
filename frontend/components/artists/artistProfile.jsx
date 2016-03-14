@@ -19,6 +19,7 @@ var ArtistUtil = require('../../util/artistUtil');
 
 // REACT COMPONENTS
 var ArtistSongIndex = require('./artistSongsIndex');
+var ExploreArtistsIndex = require('./exploreArtistsIndex');
 
 // CLASS DEFINITION ----------------------------------------***
 var ArtistProfile = React.createClass({
@@ -80,6 +81,7 @@ var ArtistProfile = React.createClass({
         <div className="artistContent">
           {this.profilePic()}
           <ArtistSongIndex artist={this.state.artist}/>
+          <ExploreArtistsIndex />
         </div>
       </div>
     );

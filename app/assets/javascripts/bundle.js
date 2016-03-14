@@ -69,9 +69,9 @@
 	var UserProfile = __webpack_require__(264);
 	var SongProfile = __webpack_require__(287);
 	var ArtistProfile = __webpack_require__(294);
-	var SongForm = __webpack_require__(299);
-	var LogIn = __webpack_require__(300);
-	var LoggedInApp = __webpack_require__(306);
+	var SongForm = __webpack_require__(301);
+	var LogIn = __webpack_require__(302);
+	var LoggedInApp = __webpack_require__(308);
 	var Header = __webpack_require__(312);
 	var Footer = __webpack_require__(318);
 	var ErrorDisplay = __webpack_require__(321);
@@ -36301,6 +36301,7 @@
 	
 	// REACT COMPONENTS
 	var ArtistSongIndex = __webpack_require__(298);
+	var ExploreArtistsIndex = __webpack_require__(299);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var ArtistProfile = React.createClass({
@@ -36372,7 +36373,8 @@
 	        'div',
 	        { className: 'artistContent' },
 	        this.profilePic(),
-	        React.createElement(ArtistSongIndex, { artist: this.state.artist })
+	        React.createElement(ArtistSongIndex, { artist: this.state.artist }),
+	        React.createElement(ExploreArtistsIndex, null)
 	      )
 	    );
 	  }
@@ -36614,6 +36616,122 @@
 /* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// explore artists index component
+	//    purpose: display artists
+	//
+	//    children: ExploreArtistIndexItem
+	//    actions: none
+	//    info: list of artists
+	
+	var React = __webpack_require__(1);
+	
+	// STORES
+	var ArtistStore = __webpack_require__(295);
+	
+	// UTILS
+	var ArtistUtil = __webpack_require__(296);
+	
+	// REACT COMPONENTS
+	var ExploreArtistsIndexItem = __webpack_require__(300);
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ExploreArtistsIndex = React.createClass({
+	  displayName: 'ExploreArtistsIndex',
+	
+	
+	  getInitialState: function () {
+	    return {
+	      artists: []
+	    };
+	  },
+	
+	  componentDidMount: function () {
+	    this.artistListener = ArtistStore.addListener(this.updateArtists);
+	    ArtistUtil.fetchAllArtists();
+	  },
+	
+	  componentWillUnmount: function () {
+	    this.artistListener.remove();
+	  },
+	
+	  updateArtists: function () {
+	    this.setState({ artists: ArtistStore.all() });
+	  },
+	
+	  artists: function () {
+	    return this.state.artists.map(function (artist) {
+	      return React.createElement(ExploreArtistsIndexItem, { artist: artist, key: artist.id });
+	    });
+	  },
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'exploreArtistTitle' },
+	      React.createElement(
+	        'span',
+	        { className: 'exploreIndexTitle' },
+	        'Explore Artists'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'exploreIndex' },
+	        this.artists()
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ExploreArtistsIndex;
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// explore artists index item component
+	//    purpose: display artist
+	//
+	//    children: none
+	//    actions: redirect to artist page on click
+	//    info: artist name
+	
+	var React = __webpack_require__(1);
+	
+	// HISTORY
+	var ReactRouter = __webpack_require__(179);
+	var hashHistory = ReactRouter.hashHistory;
+	
+	// CLASS DEFINITION ----------------------------------------***
+	var ExploreArtistsIndexItem = React.createClass({
+	  displayName: 'ExploreArtistsIndexItem',
+	
+	
+	  artistClick: function (event) {
+	    event.preventDefault();
+	    hashHistory.push('artists/' + this.props.artist.id);
+	  },
+	
+	  render: function () {
+	
+	    return React.createElement(
+	      'div',
+	      { className: 'exploreArtistItem', onClick: this.artistClick },
+	      React.createElement('img', { src: this.props.artist.image_url, className: 'songPic' }),
+	      React.createElement(
+	        'div',
+	        { className: 'exploreItemLabel' },
+	        this.props.artist.name
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = ExploreArtistsIndexItem;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// song form component
 	//    purpose: to receive data to create a new song
 	//
@@ -36774,7 +36892,7 @@
 	module.exports = SongForm;
 
 /***/ },
-/* 300 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Login app component
@@ -36785,7 +36903,7 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var UserForms = __webpack_require__(301);
+	var UserForms = __webpack_require__(303);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var LogIn = React.createClass({
@@ -36807,7 +36925,7 @@
 	module.exports = LogIn;
 
 /***/ },
-/* 301 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// user forms component
@@ -36820,9 +36938,9 @@
 	var React = __webpack_require__(1);
 	
 	// REACT COMPONENTS
-	var Tab = __webpack_require__(302);
-	var SignInForm = __webpack_require__(303);
-	var SignUpForm = __webpack_require__(305);
+	var Tab = __webpack_require__(304);
+	var SignInForm = __webpack_require__(305);
+	var SignUpForm = __webpack_require__(307);
 	
 	// POSSIBLE TYPE OF FORMS (CONSTANTS)
 	var TABS = [{ type: "Sign In", form: React.createElement(SignInForm, null) }, { type: "Sign Up", form: React.createElement(SignUpForm, null) }];
@@ -36887,7 +37005,7 @@
 	module.exports = UserForms;
 
 /***/ },
-/* 302 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// tab component
@@ -36921,7 +37039,7 @@
 	module.exports = Tab;
 
 /***/ },
-/* 303 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign-in form component
@@ -36940,7 +37058,7 @@
 	var LinkedStateMixin = __webpack_require__(277);
 	
 	// REACT COMPONENTS
-	var GuestLogin = __webpack_require__(304);
+	var GuestLogin = __webpack_require__(306);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignInForm = React.createClass({
@@ -37012,7 +37130,7 @@
 	module.exports = SignInForm;
 
 /***/ },
-/* 304 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// guest login component
@@ -37050,7 +37168,7 @@
 	module.exports = GuestLogin;
 
 /***/ },
-/* 305 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// sign up form component
@@ -37069,7 +37187,7 @@
 	var LinkedStateMixin = __webpack_require__(277);
 	
 	// REACT COMPONENTS
-	var GuestLogin = __webpack_require__(304);
+	var GuestLogin = __webpack_require__(306);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SignUpForm = React.createClass({
@@ -37141,7 +37259,7 @@
 	module.exports = SignUpForm;
 
 /***/ },
-/* 306 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// full app react component
@@ -37161,9 +37279,9 @@
 	var ApiUtil = __webpack_require__(265);
 	
 	// REACT COMPONENTS
-	var About = __webpack_require__(307);
-	var SongIndex = __webpack_require__(308);
-	var ExploreArtistsIndex = __webpack_require__(310);
+	var About = __webpack_require__(309);
+	var SongIndex = __webpack_require__(310);
+	var ExploreArtistsIndex = __webpack_require__(299);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var FullApp = React.createClass({
@@ -37196,7 +37314,7 @@
 	module.exports = FullApp;
 
 /***/ },
-/* 307 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// about info react component
@@ -37236,7 +37354,7 @@
 	module.exports = About;
 
 /***/ },
-/* 308 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index component
@@ -37256,7 +37374,7 @@
 	var SongUtil = __webpack_require__(258);
 	
 	// REACT COMPONENTS
-	var ExploreIndexItem = __webpack_require__(309);
+	var ExploreIndexItem = __webpack_require__(311);
 	
 	// CLASS DEFINITION ----------------------------------------***
 	var SongIndex = React.createClass({
@@ -37322,7 +37440,7 @@
 	module.exports = SongIndex;
 
 /***/ },
-/* 309 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// song index item component
@@ -37371,122 +37489,6 @@
 	});
 	
 	module.exports = ExploreIndexItem;
-
-/***/ },
-/* 310 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// explore artists index component
-	//    purpose: display artists
-	//
-	//    children: ExploreArtistIndexItem
-	//    actions: none
-	//    info: list of artists
-	
-	var React = __webpack_require__(1);
-	
-	// STORES
-	var ArtistStore = __webpack_require__(295);
-	
-	// UTILS
-	var ArtistUtil = __webpack_require__(296);
-	
-	// REACT COMPONENTS
-	var ExploreArtistsIndexItem = __webpack_require__(311);
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var ExploreArtistsIndex = React.createClass({
-	  displayName: 'ExploreArtistsIndex',
-	
-	
-	  getInitialState: function () {
-	    return {
-	      artists: []
-	    };
-	  },
-	
-	  componentDidMount: function () {
-	    this.artistListener = ArtistStore.addListener(this.updateArtists);
-	    ArtistUtil.fetchAllArtists();
-	  },
-	
-	  componentWillUnmount: function () {
-	    this.artistListener.remove();
-	  },
-	
-	  updateArtists: function () {
-	    this.setState({ artists: ArtistStore.all() });
-	  },
-	
-	  artists: function () {
-	    return this.state.artists.map(function (artist) {
-	      return React.createElement(ExploreArtistsIndexItem, { artist: artist, key: artist.id });
-	    });
-	  },
-	
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'exploreArtistTitle' },
-	      React.createElement(
-	        'span',
-	        { className: 'exploreIndexTitle' },
-	        'Explore Artists'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'exploreIndex' },
-	        this.artists()
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ExploreArtistsIndex;
-
-/***/ },
-/* 311 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// explore artists index item component
-	//    purpose: display artist
-	//
-	//    children: none
-	//    actions: redirect to artist page on click
-	//    info: artist name
-	
-	var React = __webpack_require__(1);
-	
-	// HISTORY
-	var ReactRouter = __webpack_require__(179);
-	var hashHistory = ReactRouter.hashHistory;
-	
-	// CLASS DEFINITION ----------------------------------------***
-	var ExploreArtistsIndexItem = React.createClass({
-	  displayName: 'ExploreArtistsIndexItem',
-	
-	
-	  artistClick: function (event) {
-	    event.preventDefault();
-	    hashHistory.push('artists/' + this.props.artist.id);
-	  },
-	
-	  render: function () {
-	
-	    return React.createElement(
-	      'div',
-	      { className: 'exploreArtistItem', onClick: this.artistClick },
-	      React.createElement('img', { src: this.props.artist.image_url, className: 'songPic' }),
-	      React.createElement(
-	        'div',
-	        { className: 'exploreItemLabel' },
-	        this.props.artist.name
-	      )
-	    );
-	  }
-	});
-	
-	module.exports = ExploreArtistsIndexItem;
 
 /***/ },
 /* 312 */
@@ -37851,7 +37853,7 @@
 	var hashHistory = ReactRouter.hashHistory;
 	
 	// REACT COMPONENTS
-	var SongForm = __webpack_require__(299);
+	var SongForm = __webpack_require__(301);
 	
 	// MODAL DEPENDENCIES
 	var Modal = __webpack_require__(267);
