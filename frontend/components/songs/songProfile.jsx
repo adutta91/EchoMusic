@@ -96,6 +96,16 @@ var SongProfile = React.createClass({
     return button;
   },
 
+  songPic: function() {
+    if (this.state.song.image_url) {
+      return (
+        <div className="songPicWrapper">
+          <img className="songProfilePic" src={this.state.song.image_url} />
+        </div>
+      )
+    }
+  },
+
   render: function() {
     return (
       <div className="songProfile">
@@ -111,7 +121,9 @@ var SongProfile = React.createClass({
           { this.followButton() }
         </div>
         <UserDisplay userId={this.state.song.user_id}/>
-
+        <div className="songContent">
+          {this.songPic()}
+        </div>
       </div>
     );
   }

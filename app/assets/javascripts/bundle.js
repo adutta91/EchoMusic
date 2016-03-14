@@ -36013,6 +36013,16 @@
 	    return button;
 	  },
 	
+	  songPic: function () {
+	    if (this.state.song.image_url) {
+	      return React.createElement(
+	        'div',
+	        { className: 'songPicWrapper' },
+	        React.createElement('img', { className: 'songProfilePic', src: this.state.song.image_url })
+	      );
+	    }
+	  },
+	
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -36034,7 +36044,12 @@
 	        React.createElement(PlayButton, { songId: this.props.params.id }),
 	        this.followButton()
 	      ),
-	      React.createElement(UserDisplay, { userId: this.state.song.user_id })
+	      React.createElement(UserDisplay, { userId: this.state.song.user_id }),
+	      React.createElement(
+	        'div',
+	        { className: 'songContent' },
+	        this.songPic()
+	      )
 	    );
 	  }
 	});

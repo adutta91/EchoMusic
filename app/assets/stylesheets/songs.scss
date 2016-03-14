@@ -146,3 +146,17 @@ audio:hover {
   border-radius: 15px;
   margin: 50px auto;
 }
+
+.songPicWrapper {
+  display: flex;
+  align-self: baseline;
+}
+
+.songProfilePic {
+  width: 300px;
+  height: 300px;
+  -moz-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 3px 3px rgba(0, 0, 0, 0.5);
+  margin: 50px auto;
+}
