@@ -29,8 +29,25 @@
 
 .artistSongIndex {
   width: 500px;
-  margin: 0 auto;
   height: 500px;
   overflow: scroll;
   overflow-x: hidden;
+}
+
+.artistPicWrapper {
+  margin-left: 50px;
+  display: flex;
+  align-self: baseline;
+}
+
+.artistContent {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.artistPic {
+  margin-top: 50px;
+  width: 300px;
+  height: 300px;
 }

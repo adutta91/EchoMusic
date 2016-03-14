@@ -36341,6 +36341,16 @@
 	    }
 	  },
 	
+	  profilePic: function () {
+	    if (this.state.artist.image_url) {
+	      return React.createElement(
+	        'div',
+	        { className: 'artistPicWrapper' },
+	        React.createElement('img', { className: 'artistPic', src: this.state.artist.image_url })
+	      );
+	    }
+	  },
+	
 	  _onChange: function () {
 	    this.getStateFromStore();
 	  },
@@ -36358,7 +36368,12 @@
 	          this.state.artist.name
 	        )
 	      ),
-	      React.createElement(ArtistSongIndex, { artist: this.state.artist })
+	      React.createElement(
+	        'div',
+	        { className: 'artistContent' },
+	        this.profilePic(),
+	        React.createElement(ArtistSongIndex, { artist: this.state.artist })
+	      )
 	    );
 	  }
 	});

@@ -57,6 +57,16 @@ var ArtistProfile = React.createClass({
     }
   },
 
+  profilePic: function() {
+    if (this.state.artist.image_url) {
+      return (
+        <div className="artistPicWrapper">
+          <img className="artistPic" src={this.state.artist.image_url} />
+        </div>
+      )
+    }
+  },
+
   _onChange: function() {
     this.getStateFromStore();
   },
@@ -67,7 +77,10 @@ var ArtistProfile = React.createClass({
         <div className="artistDisplay">
           <span className="artistTitleDisplay">{this.state.artist.name}</span>
         </div>
-        <ArtistSongIndex artist={this.state.artist}/>
+        <div className="artistContent">
+          {this.profilePic()}
+          <ArtistSongIndex artist={this.state.artist}/>
+        </div>
       </div>
     );
   }
