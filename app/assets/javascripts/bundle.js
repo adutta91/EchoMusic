@@ -37453,12 +37453,14 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      { className: 'exploreArtistItem', onClick: this.artistClick },
+	      React.createElement('img', { src: this.props.artist.image_url, className: 'songPic' }),
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'exploreItemLabel' },
 	        this.props.artist.name
 	      )
 	    );

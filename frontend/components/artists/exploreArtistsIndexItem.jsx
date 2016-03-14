@@ -20,9 +20,11 @@ var ExploreArtistsIndexItem = React.createClass({
   },
 
   render: function() {
+
     return (
       <div className="exploreArtistItem" onClick={this.artistClick}>
-        <div>{this.props.artist.name}</div>
+        <img src={this.props.artist.image_url} className="songPic"/>
+        <div className="exploreItemLabel">{this.props.artist.name}</div>
       </div>
     )
   }
