@@ -35,12 +35,12 @@ var FullApp = React.createClass({
     return (
       <div className="welcome">
         <div className="imageBanner">
-          <About />
+          {this.indices()}
         </div>
-        {this.indices()}
       </div>
     );
   }
 });
 
+// <About />
 module.exports = FullApp;

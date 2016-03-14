@@ -26,9 +26,11 @@ var ExploreIndexItem = React.createClass({
   },
 
   render: function() {
+
     return (
       <div onClick={this._onClick} className="songIndexItem">
-        <div>{this.state.song.title}</div>
+        <img src={this.state.song.image_url} className="songPic"/>
+        <div className="exploreItemLabel">{this.state.song.title}</div>
       </div>
     );
   }

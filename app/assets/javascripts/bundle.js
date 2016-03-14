@@ -36660,7 +36660,8 @@
 	        audio_url: this.state.audioUrl,
 	        album_id: this.state.album,
 	        user_id: SessionStore.currentUser().id,
-	        artist_id: artistId
+	        artist_id: artistId,
+	        image_url: "http://res.cloudinary.com/dzyfczxnr/image/upload/v1457663216/music_note_rsr0gk.jpg"
 	      } };
 	    this.props.modalCallback();
 	    SongUtil.createSong(song);
@@ -37166,13 +37167,13 @@
 	      React.createElement(
 	        'div',
 	        { className: 'imageBanner' },
-	        React.createElement(About, null)
-	      ),
-	      this.indices()
+	        this.indices()
+	      )
 	    );
 	  }
 	});
 	
+	// <About />
 	module.exports = FullApp;
 
 /***/ },
@@ -37287,7 +37288,7 @@
 	      { className: 'exploreSongTitle' },
 	      React.createElement(
 	        'span',
-	        null,
+	        { className: 'exploreIndexTitle' },
 	        'Explore Songs'
 	      ),
 	      React.createElement(
@@ -37335,12 +37336,14 @@
 	  },
 	
 	  render: function () {
+	
 	    return React.createElement(
 	      'div',
 	      { onClick: this._onClick, className: 'songIndexItem' },
+	      React.createElement('img', { src: this.state.song.image_url, className: 'songPic' }),
 	      React.createElement(
 	        'div',
-	        null,
+	        { className: 'exploreItemLabel' },
 	        this.state.song.title
 	      )
 	    );
@@ -37408,7 +37411,7 @@
 	      { className: 'exploreArtistTitle' },
 	      React.createElement(
 	        'span',
-	        null,
+	        { className: 'exploreIndexTitle' },
 	        'Explore Artists'
 	      ),
 	      React.createElement(

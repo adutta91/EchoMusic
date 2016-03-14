@@ -64,19 +64,25 @@ audio:hover {
 .songIndexItem {
   opacity: 0.8;
   width: 100px;
-  height: 50px;
-  line-height: 50px;
+  height: 150px;
+  line-height: 25px;
   background: linear-gradient(to bottom right, #592000, #3D7899);
   margin: 10px;
   border-radius: 5px;
-  -moz-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
-  -webkit-box-shadow: 1px 2px 3px rgba(0,0,0,.5);
-  box-shadow: 1px 2px 3px rgba(0,0,0,.5);
+  -moz-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
   text-overflow: ellipsis;
   transition: all 1s ease 0s;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 20px 0 20px;
 }
 
 .songIndexItem:hover {
@@ -84,6 +90,11 @@ audio:hover {
   cursor: pointer;
   -webkit-box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
   box-shadow: 0px 0px 5px 5px rgba(255, 255, 255, .75);
+}
+
+.songPic {
+  width: 100px;
+  height: 100px;
 }
 
 .indexTitle {

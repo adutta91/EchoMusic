@@ -57,7 +57,8 @@ var SongForm = React.createClass({
       audio_url: this.state.audioUrl,
       album_id: this.state.album,
       user_id: SessionStore.currentUser().id,
-      artist_id: artistId
+      artist_id: artistId,
+      image_url: "http://res.cloudinary.com/dzyfczxnr/image/upload/v1457663216/music_note_rsr0gk.jpg"
     }};
     this.props.modalCallback();
     SongUtil.createSong(song);
