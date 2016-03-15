@@ -37495,8 +37495,12 @@
 	      React.createElement('img', { src: this.state.song.image_url, className: 'songPic' }),
 	      React.createElement(
 	        'div',
-	        { className: 'exploreItemLabel' },
-	        this.state.song.title
+	        { className: 'exploreItemContainer' },
+	        React.createElement(
+	          'div',
+	          { className: 'exploreItemLabel' },
+	          this.state.song.title
+	        )
 	      )
 	    );
 	  }
