@@ -37316,15 +37316,13 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'welcome' },
-	      React.createElement(
-	        'div',
-	        { className: 'imageBanner' },
-	        this.indices()
-	      )
+	      this.indices()
 	    );
 	  }
 	});
 	
+	// <div className="imageBanner">
+	// </div>
 	// <About />
 	module.exports = FullApp;
 

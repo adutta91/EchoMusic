@@ -34,13 +34,13 @@ var FullApp = React.createClass({
   render: function() {
     return (
       <div className="welcome">
-        <div className="imageBanner">
-          {this.indices()}
-        </div>
+        {this.indices()}
       </div>
     );
   }
 });
 
+// <div className="imageBanner">
+// </div>
 // <About />
 module.exports = FullApp;

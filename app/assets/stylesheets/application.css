@@ -329,8 +329,6 @@
 
 .exploreIndex {
   display: flex;
-  width: 700px;
-  height: 300px;
   flex-wrap: wrap;
   justify-content: center;
   overflow: scroll;
