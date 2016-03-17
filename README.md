@@ -8,9 +8,9 @@ followed list, upload songs, and edit their user profile.
 View it live at http://echomusic.tech
 
 ##Features include:
-* Handrolled authentication and session management
-* Stores user, song and artist info
 * Single-page app that displays artist info, song info and user profile
+* Stores user, song and artist info
+* Handrolled authentication and session management
 * Songs continue to play as the user navigates the site
 * Users can follow and upload songs, which are stored and displayed on the user page
 * Uses custom Rails routes
