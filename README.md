@@ -16,6 +16,9 @@ View it live at http://echomusic.tech
 * Uses custom Rails routes
 * Custom css styling
 
+##ScreenShots:
+
+
 ##Todos / Future features
 * Song/Artist Search
 * Add a current-playing queue
