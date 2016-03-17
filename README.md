@@ -17,8 +17,13 @@ View it live at http://echomusic.tech
 * Custom css styling
 
 ##ScreenShots:
+###Explore Music
 ![explore-page]
+
+###View Artists
 ![artist-page]
+
+###Manage Profile
 ![profile-page]
 
 [explore-page]: ./app/assets/images/explore_page.png
