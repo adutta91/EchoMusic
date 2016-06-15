@@ -73,7 +73,6 @@ var SongForm = React.createClass({
     } else if (artistName === "") {
       result = 0;
     } else {
-      // TODO: create artist, which then updates the song...
       ArtistUtil.createArtist(
         {
           artist: {

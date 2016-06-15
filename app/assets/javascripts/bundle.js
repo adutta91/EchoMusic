@@ -33484,6 +33484,7 @@
 	var _followedSongs = {};
 	
 	var _currentSong = null;
+	
 	var _audio = new Audio();
 	
 	var _playing = false;
@@ -36824,7 +36825,6 @@
 	    } else if (artistName === "") {
 	      result = 0;
 	    } else {
-	      // TODO: create artist, which then updates the song...
 	      ArtistUtil.createArtist({
 	        artist: {
 	          name: artistName

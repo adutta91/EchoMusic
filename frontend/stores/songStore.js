@@ -13,6 +13,7 @@ var _songs = {};
 var _followedSongs = {};
 
 var _currentSong = null;
+
 var _audio = new Audio();
 
 var _playing = false;
