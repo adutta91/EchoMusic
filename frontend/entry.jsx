@@ -31,7 +31,7 @@ var Footer = require('./components/footer/footer');
 var ErrorDisplay = require('./components/errors/errorDisplay');
 
 // MODAL DEPENDENCIES
-var Modal = require('boron/WaveModal');
+var Modal = require('boron/OutlineModal');
 var Modal2 = require('react-modal');
 
 var contentStyle = {

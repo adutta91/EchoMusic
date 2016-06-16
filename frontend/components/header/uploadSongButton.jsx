@@ -14,7 +14,7 @@ var hashHistory = ReactRouter.hashHistory;
 var SongForm = require('../songs/songForm');
 
 // MODAL DEPENDENCIES
-var Modal = require('boron/WaveModal');
+var Modal = require('boron/OutlineModal');
 
 var contentStyle = {
   position                   : 'static',

@@ -8,7 +8,7 @@
 var React = require('react');
 
 // MODAL DEPENDENCIES
-var Modal = require('boron/WaveModal');
+var Modal = require('boron/OutlineModal');
 
 var contentStyle = {
   position                   : 'static',
