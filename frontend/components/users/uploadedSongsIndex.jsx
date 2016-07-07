@@ -38,7 +38,7 @@ var UploadedSongsIndex = React.createClass({
     this.setState( { user: SessionStore.currentUser() });
   },
 
-  componentDidMount: function() {
+  componentDidMount: function() { 
     this.songListener = SongStore.addListener(this._onSongChange);
     SongUtil.fetchUserSongs(this.state.user.id);
 

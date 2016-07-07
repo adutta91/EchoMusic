@@ -41,7 +41,7 @@ var SongIndex = React.createClass({
 
   getSongs: function() {
     var list = <div>No more songs to explore...</div>
-    if (this.state.songs.length > 0){
+    if (this.state.songs.length > 0) {
       var songs = this.state.songs;
       if (songs.length > 20) {
         songs = songs.slice(0, 20);

@@ -100,20 +100,8 @@ audio:hover {
   overflow: hidden;    /* Required to make ellipsis work */
   text-overflow: ellipsis;
 
-  /* Starting transition */
-  left: 0%;
-  width: 100%;
-
-  /* Tweak 'till your heart's content */
-  -webkit-transition: left 3s, width 3s;
-  -moz-transition: left 3s, width 3s;
-  transition: left 3s, width 3s;
 }
 
-.exploreItemLabel:hover {
-  left: -100%;
-  width: 200%;
-}
 
 .songPic {
   width: 100px;

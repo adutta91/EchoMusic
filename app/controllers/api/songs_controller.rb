@@ -23,7 +23,7 @@ class Api::SongsController < ApplicationController
     end
 
     if @song.save
-      render json: @song
+      render json: @song 
     else
       render :errors, status: 422
     end

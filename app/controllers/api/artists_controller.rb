@@ -22,7 +22,7 @@ class Api::ArtistsController < ApplicationController
     else
       render :errors, status: 422
     end
-  end
+  end 
 
   def songs
     @artist = find_artist

@@ -62,7 +62,7 @@ var SongUtil = {
       success: function(songs) {
         SongActions.receiveSongs(songs);
       }
-    })
+    });
   },
 
   fetchFollowedSongs: function(userId) {
